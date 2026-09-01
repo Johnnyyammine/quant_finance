@@ -1,0 +1,2758 @@
+{
+  "generatedAt": "2026-09-01T21:13:10.251Z",
+  "version": 1,
+  "vocab": {
+    "difficulty": [
+      {
+        "id": "foundational",
+        "label": "Foundational",
+        "rank": 1
+      },
+      {
+        "id": "intermediate",
+        "label": "Intermediate",
+        "rank": 2
+      },
+      {
+        "id": "advanced",
+        "label": "Advanced",
+        "rank": 3
+      },
+      {
+        "id": "research",
+        "label": "Research",
+        "rank": 4
+      }
+    ],
+    "status": [
+      {
+        "id": "not-started",
+        "label": "Not started",
+        "weight": 0
+      },
+      {
+        "id": "learning",
+        "label": "Learning",
+        "weight": 0.35
+      },
+      {
+        "id": "learned",
+        "label": "Learned",
+        "weight": 0.75
+      },
+      {
+        "id": "mastered",
+        "label": "Mastered",
+        "weight": 1
+      }
+    ],
+    "sections": [
+      {
+        "id": "intuition",
+        "label": "Intuition"
+      },
+      {
+        "id": "formulation",
+        "label": "Mathematical Formulation"
+      },
+      {
+        "id": "derivation",
+        "label": "Derivation"
+      },
+      {
+        "id": "assumptions",
+        "label": "Assumptions & Edge Cases"
+      },
+      {
+        "id": "example",
+        "label": "Worked Example"
+      },
+      {
+        "id": "quant-application",
+        "label": "Why It Matters in Quant Finance"
+      },
+      {
+        "id": "trading-application",
+        "label": "Trading & Research Application"
+      },
+      {
+        "id": "implementation",
+        "label": "Implementation Notes"
+      },
+      {
+        "id": "mistakes",
+        "label": "Common Mistakes"
+      },
+      {
+        "id": "revision",
+        "label": "30-Second Revision"
+      }
+    ]
+  },
+  "subjects": [
+    {
+      "id": "probability",
+      "name": "Probability",
+      "description": "Sample spaces, random variables, conditioning, limit theorems — the language every other topic is written in.",
+      "icon": "P",
+      "color": "#4f8fd6",
+      "group": "mathematics",
+      "order": 10,
+      "path": "subjects/probability.html",
+      "conceptCount": 3,
+      "progress": 0.48333333333333334,
+      "interviewMax": 5
+    },
+    {
+      "id": "statistics",
+      "name": "Statistics",
+      "description": "Estimation, inference, hypothesis testing and the sampling error that makes backtests lie.",
+      "icon": "S",
+      "color": "#4f8fd6",
+      "group": "mathematics",
+      "order": 20,
+      "path": "subjects/statistics.html",
+      "conceptCount": 3,
+      "progress": 0.48333333333333334,
+      "interviewMax": 5
+    },
+    {
+      "id": "linear-algebra",
+      "name": "Linear Algebra",
+      "description": "Vector spaces, decompositions and eigenstructure — covariance matrices, PCA and risk models all live here.",
+      "icon": "A",
+      "color": "#4f8fd6",
+      "group": "mathematics",
+      "order": 30,
+      "path": "subjects/linear-algebra.html",
+      "conceptCount": 0,
+      "progress": 0,
+      "interviewMax": 0
+    },
+    {
+      "id": "calculus",
+      "name": "Calculus",
+      "description": "Differentiation, integration, Taylor expansion and multivariate analysis, including the Greeks.",
+      "icon": "d",
+      "color": "#4f8fd6",
+      "group": "mathematics",
+      "order": 40,
+      "path": "subjects/calculus.html",
+      "conceptCount": 0,
+      "progress": 0,
+      "interviewMax": 0
+    },
+    {
+      "id": "optimization",
+      "name": "Optimization",
+      "description": "Convexity, Lagrangians, KKT conditions and numerical solvers behind every portfolio allocation.",
+      "icon": "O",
+      "color": "#4f8fd6",
+      "group": "mathematics",
+      "order": 50,
+      "path": "subjects/optimization.html",
+      "conceptCount": 0,
+      "progress": 0,
+      "interviewMax": 0
+    },
+    {
+      "id": "numerical-methods",
+      "name": "Numerical Methods",
+      "description": "Finite differences, quadrature, root finding, linear solvers and floating-point pitfalls.",
+      "icon": "N",
+      "color": "#4f8fd6",
+      "group": "mathematics",
+      "order": 60,
+      "path": "subjects/numerical-methods.html",
+      "conceptCount": 0,
+      "progress": 0,
+      "interviewMax": 0
+    },
+    {
+      "id": "stochastic-processes",
+      "name": "Stochastic Processes",
+      "description": "Random walks, Markov chains, martingales, Brownian motion and Itô calculus.",
+      "icon": "W",
+      "color": "#7a63c9",
+      "group": "modelling",
+      "order": 110,
+      "path": "subjects/stochastic-processes.html",
+      "conceptCount": 2,
+      "progress": 0.175,
+      "interviewMax": 4
+    },
+    {
+      "id": "time-series",
+      "name": "Time Series",
+      "description": "Stationarity, ARMA, GARCH, cointegration and forecasting financial data that refuses to be i.i.d.",
+      "icon": "T",
+      "color": "#7a63c9",
+      "group": "modelling",
+      "order": 120,
+      "path": "subjects/time-series.html",
+      "conceptCount": 0,
+      "progress": 0,
+      "interviewMax": 0
+    },
+    {
+      "id": "econometrics",
+      "name": "Econometrics",
+      "description": "Regression under real-world violations: endogeneity, heteroskedasticity, panel data, causal inference.",
+      "icon": "E",
+      "color": "#7a63c9",
+      "group": "modelling",
+      "order": 130,
+      "path": "subjects/econometrics.html",
+      "conceptCount": 0,
+      "progress": 0,
+      "interviewMax": 0
+    },
+    {
+      "id": "statistical-learning",
+      "name": "Statistical Learning",
+      "description": "Bias–variance, regularisation, cross-validation, trees and neural nets applied to low signal-to-noise data.",
+      "icon": "M",
+      "color": "#7a63c9",
+      "group": "modelling",
+      "order": 140,
+      "path": "subjects/statistical-learning.html",
+      "conceptCount": 0,
+      "progress": 0,
+      "interviewMax": 0
+    },
+    {
+      "id": "quantitative-trading",
+      "name": "Quantitative Trading",
+      "description": "Strategy archetypes, edge, capacity, turnover and the economics of a trading business.",
+      "icon": "Q",
+      "color": "#2f9e79",
+      "group": "strategy",
+      "order": 210,
+      "path": "subjects/quantitative-trading.html",
+      "conceptCount": 0,
+      "progress": 0,
+      "interviewMax": 0
+    },
+    {
+      "id": "alpha-research",
+      "name": "Alpha Research",
+      "description": "Signal construction, feature engineering, orthogonalisation and honest evaluation of predictive power.",
+      "icon": "a",
+      "color": "#2f9e79",
+      "group": "strategy",
+      "order": 220,
+      "path": "subjects/alpha-research.html",
+      "conceptCount": 0,
+      "progress": 0,
+      "interviewMax": 0
+    },
+    {
+      "id": "factor-models",
+      "name": "Factor Models",
+      "description": "CAPM, Fama–French, statistical factors, risk decomposition and factor crowding.",
+      "icon": "F",
+      "color": "#2f9e79",
+      "group": "strategy",
+      "order": 230,
+      "path": "subjects/factor-models.html",
+      "conceptCount": 0,
+      "progress": 0,
+      "interviewMax": 0
+    },
+    {
+      "id": "portfolio-construction",
+      "name": "Portfolio Construction",
+      "description": "Mean–variance, Black–Litterman, risk parity, constraints, transaction costs and Kelly sizing.",
+      "icon": "C",
+      "color": "#2f9e79",
+      "group": "strategy",
+      "order": 240,
+      "path": "subjects/portfolio-construction.html",
+      "conceptCount": 2,
+      "progress": 0.35,
+      "interviewMax": 5
+    },
+    {
+      "id": "risk-management",
+      "name": "Risk Management",
+      "description": "VaR, expected shortfall, stress testing, drawdown control and the limits of historical risk.",
+      "icon": "R",
+      "color": "#2f9e79",
+      "group": "strategy",
+      "order": 250,
+      "path": "subjects/risk-management.html",
+      "conceptCount": 0,
+      "progress": 0,
+      "interviewMax": 0
+    },
+    {
+      "id": "backtesting",
+      "name": "Backtesting",
+      "description": "Point-in-time data, look-ahead bias, multiple testing, deflated Sharpe and walk-forward validation.",
+      "icon": "K",
+      "color": "#2f9e79",
+      "group": "strategy",
+      "order": 260,
+      "path": "subjects/backtesting.html",
+      "conceptCount": 0,
+      "progress": 0,
+      "interviewMax": 0
+    },
+    {
+      "id": "alternative-data",
+      "name": "Alternative Data",
+      "description": "Satellite, card, web and text data: sourcing, cleaning, entity mapping, decay and legal constraints.",
+      "icon": "Z",
+      "color": "#2f9e79",
+      "group": "strategy",
+      "order": 270,
+      "path": "subjects/alternative-data.html",
+      "conceptCount": 0,
+      "progress": 0,
+      "interviewMax": 0
+    },
+    {
+      "id": "derivatives",
+      "name": "Derivatives",
+      "description": "Forwards, futures, swaps, replication, no-arbitrage pricing and risk-neutral valuation.",
+      "icon": "D",
+      "color": "#c07f3e",
+      "group": "markets",
+      "order": 310,
+      "path": "subjects/derivatives.html",
+      "conceptCount": 0,
+      "progress": 0,
+      "interviewMax": 0
+    },
+    {
+      "id": "options",
+      "name": "Options",
+      "description": "Black–Scholes, the Greeks, implied volatility surfaces, exotics and volatility trading.",
+      "icon": "G",
+      "color": "#c07f3e",
+      "group": "markets",
+      "order": 320,
+      "path": "subjects/options.html",
+      "conceptCount": 0,
+      "progress": 0,
+      "interviewMax": 0
+    },
+    {
+      "id": "fixed-income",
+      "name": "Fixed Income",
+      "description": "Yield curves, duration, convexity, bootstrapping, credit spreads and rates models.",
+      "icon": "B",
+      "color": "#c07f3e",
+      "group": "markets",
+      "order": 330,
+      "path": "subjects/fixed-income.html",
+      "conceptCount": 0,
+      "progress": 0,
+      "interviewMax": 0
+    },
+    {
+      "id": "market-microstructure",
+      "name": "Market Microstructure",
+      "description": "Order books, spreads, adverse selection, price impact, market making and queue position.",
+      "icon": "u",
+      "color": "#c07f3e",
+      "group": "markets",
+      "order": 340,
+      "path": "subjects/market-microstructure.html",
+      "conceptCount": 0,
+      "progress": 0,
+      "interviewMax": 0
+    },
+    {
+      "id": "execution",
+      "name": "Execution",
+      "description": "Implementation shortfall, VWAP/TWAP, optimal scheduling, slippage and transaction cost analysis.",
+      "icon": "X",
+      "color": "#c07f3e",
+      "group": "markets",
+      "order": 350,
+      "path": "subjects/execution.html",
+      "conceptCount": 0,
+      "progress": 0,
+      "interviewMax": 0
+    },
+    {
+      "id": "programming",
+      "name": "Programming & Algorithms",
+      "description": "Data structures, complexity, vectorised numerics, testing and research code that survives contact with production.",
+      "icon": "I",
+      "color": "#b0556b",
+      "group": "craft",
+      "order": 410,
+      "path": "subjects/programming.html",
+      "conceptCount": 0,
+      "progress": 0,
+      "interviewMax": 0
+    },
+    {
+      "id": "mental-math",
+      "name": "Mental Math & Brainteasers",
+      "description": "Fast arithmetic, estimation, expected-value puzzles and the classic trading-floor brainteasers.",
+      "icon": "x",
+      "color": "#b0556b",
+      "group": "craft",
+      "order": 420,
+      "path": "subjects/mental-math.html",
+      "conceptCount": 0,
+      "progress": 0,
+      "interviewMax": 0
+    }
+  ],
+  "tracks": [
+    {
+      "id": "quant-research",
+      "name": "Quant Researcher",
+      "description": "Statistical depth first. Expect probability, inference, time series and honest evaluation of signals — plus a whiteboard derivation or two.",
+      "subjects": [
+        "probability",
+        "statistics",
+        "linear-algebra",
+        "time-series",
+        "econometrics",
+        "statistical-learning",
+        "alpha-research",
+        "factor-models",
+        "backtesting",
+        "stochastic-processes"
+      ],
+      "tags": [],
+      "minRelevance": 3,
+      "order": 10,
+      "conceptIds": [
+        "bayes-theorem",
+        "conditional-probability",
+        "covariance-and-correlation",
+        "expectation",
+        "linear-regression",
+        "sharpe-ratio",
+        "variance",
+        "brownian-motion",
+        "martingales"
+      ],
+      "progress": 0.4
+    },
+    {
+      "id": "quant-trader",
+      "name": "Quant Trader",
+      "description": "Speed, expected value and market intuition. Mental math, probability puzzles, microstructure and risk under pressure.",
+      "subjects": [
+        "probability",
+        "mental-math",
+        "market-microstructure",
+        "quantitative-trading",
+        "risk-management",
+        "options",
+        "execution"
+      ],
+      "tags": [],
+      "minRelevance": 3,
+      "order": 20,
+      "conceptIds": [
+        "bayes-theorem",
+        "conditional-probability",
+        "expectation",
+        "sharpe-ratio"
+      ],
+      "progress": 0.44999999999999996
+    },
+    {
+      "id": "quant-developer",
+      "name": "Quant Developer",
+      "description": "Engineering rigour applied to numerical finance: data structures, complexity, numerics, backtest infrastructure and correctness.",
+      "subjects": [
+        "programming",
+        "numerical-methods",
+        "backtesting",
+        "execution",
+        "derivatives",
+        "linear-algebra"
+      ],
+      "tags": [],
+      "minRelevance": 2,
+      "order": 30,
+      "conceptIds": [],
+      "progress": 0
+    },
+    {
+      "id": "stat-arb",
+      "name": "Statistical Arbitrage",
+      "description": "Cross-sectional and relative-value equity strategies: cointegration, mean reversion, factor neutrality, costs and capacity.",
+      "subjects": [
+        "time-series",
+        "factor-models",
+        "alpha-research",
+        "portfolio-construction",
+        "execution",
+        "statistics"
+      ],
+      "tags": [
+        "mean-reversion",
+        "cointegration",
+        "cross-sectional"
+      ],
+      "minRelevance": 3,
+      "order": 40,
+      "conceptIds": [
+        "covariance-and-correlation",
+        "kelly-criterion",
+        "linear-regression",
+        "sharpe-ratio",
+        "variance"
+      ],
+      "progress": 0.43
+    },
+    {
+      "id": "market-making",
+      "name": "Market Making",
+      "description": "Quoting, inventory risk, adverse selection, queue dynamics and the Avellaneda–Stoikov school of thought.",
+      "subjects": [
+        "market-microstructure",
+        "execution",
+        "probability",
+        "stochastic-processes",
+        "risk-management",
+        "options"
+      ],
+      "tags": [],
+      "minRelevance": 3,
+      "order": 50,
+      "conceptIds": [
+        "bayes-theorem",
+        "conditional-probability",
+        "expectation",
+        "brownian-motion",
+        "martingales"
+      ],
+      "progress": 0.36
+    },
+    {
+      "id": "systematic-macro",
+      "name": "Systematic Macro",
+      "description": "Cross-asset trend, carry and value; rates and FX mechanics; regime awareness and drawdown management at low breadth.",
+      "subjects": [
+        "time-series",
+        "fixed-income",
+        "econometrics",
+        "risk-management",
+        "portfolio-construction",
+        "quantitative-trading"
+      ],
+      "tags": [],
+      "minRelevance": 3,
+      "order": 60,
+      "conceptIds": [
+        "kelly-criterion",
+        "sharpe-ratio"
+      ],
+      "progress": 0.35
+    },
+    {
+      "id": "equity-long-short",
+      "name": "Equity Long/Short Quant",
+      "description": "Fundamental-meets-systematic: factor exposure, alpha capture, hedging, alternative data and portfolio construction under constraints.",
+      "subjects": [
+        "factor-models",
+        "alpha-research",
+        "portfolio-construction",
+        "alternative-data",
+        "statistics",
+        "risk-management"
+      ],
+      "tags": [],
+      "minRelevance": 3,
+      "order": 70,
+      "conceptIds": [
+        "covariance-and-correlation",
+        "kelly-criterion",
+        "linear-regression",
+        "sharpe-ratio",
+        "variance"
+      ],
+      "progress": 0.43
+    },
+    {
+      "id": "derivatives-desk",
+      "name": "Derivatives & Volatility",
+      "description": "Pricing, hedging and the volatility surface: Itô calculus, Black–Scholes and its failures, Greeks, and vol as an asset class.",
+      "subjects": [
+        "derivatives",
+        "options",
+        "stochastic-processes",
+        "numerical-methods",
+        "calculus"
+      ],
+      "tags": [],
+      "minRelevance": 3,
+      "order": 80,
+      "conceptIds": [
+        "brownian-motion",
+        "martingales"
+      ],
+      "progress": 0.175
+    }
+  ],
+  "tags": [
+    {
+      "id": "risk",
+      "count": 4
+    },
+    {
+      "id": "pricing",
+      "count": 3
+    },
+    {
+      "id": "probability",
+      "count": 3
+    },
+    {
+      "id": "statistics",
+      "count": 3
+    },
+    {
+      "id": "bayes",
+      "count": 2
+    },
+    {
+      "id": "conditioning",
+      "count": 2
+    },
+    {
+      "id": "estimation",
+      "count": 2
+    },
+    {
+      "id": "moments",
+      "count": 2
+    },
+    {
+      "id": "stochastic-processes",
+      "count": 2
+    },
+    {
+      "id": "allocation",
+      "count": 1
+    },
+    {
+      "id": "backtesting",
+      "count": 1
+    },
+    {
+      "id": "base-rates",
+      "count": 1
+    },
+    {
+      "id": "compounding",
+      "count": 1
+    },
+    {
+      "id": "dependence",
+      "count": 1
+    },
+    {
+      "id": "diffusion",
+      "count": 1
+    },
+    {
+      "id": "dispersion",
+      "count": 1
+    },
+    {
+      "id": "diversification",
+      "count": 1
+    },
+    {
+      "id": "econometrics",
+      "count": 1
+    },
+    {
+      "id": "efficiency",
+      "count": 1
+    },
+    {
+      "id": "factor-models",
+      "count": 1
+    },
+    {
+      "id": "growth",
+      "count": 1
+    },
+    {
+      "id": "inference",
+      "count": 1
+    },
+    {
+      "id": "information",
+      "count": 1
+    },
+    {
+      "id": "leverage",
+      "count": 1
+    },
+    {
+      "id": "linear-algebra",
+      "count": 1
+    },
+    {
+      "id": "linearity",
+      "count": 1
+    },
+    {
+      "id": "no-arbitrage",
+      "count": 1
+    },
+    {
+      "id": "ols",
+      "count": 1
+    },
+    {
+      "id": "performance",
+      "count": 1
+    },
+    {
+      "id": "portfolio",
+      "count": 1
+    },
+    {
+      "id": "quadratic-variation",
+      "count": 1
+    },
+    {
+      "id": "sizing",
+      "count": 1
+    },
+    {
+      "id": "updating",
+      "count": 1
+    },
+    {
+      "id": "volatility",
+      "count": 1
+    },
+    {
+      "id": "wiener-process",
+      "count": 1
+    }
+  ],
+  "edges": [
+    {
+      "from": "conditional-probability",
+      "to": "bayes-theorem",
+      "type": "prerequisite"
+    },
+    {
+      "from": "bayes-theorem",
+      "to": "expectation",
+      "type": "related"
+    },
+    {
+      "from": "bayes-theorem",
+      "to": "conditional-probability",
+      "type": "related"
+    },
+    {
+      "from": "bayes-theorem",
+      "to": "linear-regression",
+      "type": "related"
+    },
+    {
+      "from": "martingales",
+      "to": "brownian-motion",
+      "type": "prerequisite"
+    },
+    {
+      "from": "variance",
+      "to": "brownian-motion",
+      "type": "prerequisite"
+    },
+    {
+      "from": "brownian-motion",
+      "to": "expectation",
+      "type": "related"
+    },
+    {
+      "from": "brownian-motion",
+      "to": "kelly-criterion",
+      "type": "related"
+    },
+    {
+      "from": "brownian-motion",
+      "to": "martingales",
+      "type": "related"
+    },
+    {
+      "from": "brownian-motion",
+      "to": "sharpe-ratio",
+      "type": "related"
+    },
+    {
+      "from": "conditional-probability",
+      "to": "expectation",
+      "type": "related"
+    },
+    {
+      "from": "conditional-probability",
+      "to": "martingales",
+      "type": "related"
+    },
+    {
+      "from": "conditional-probability",
+      "to": "linear-regression",
+      "type": "related"
+    },
+    {
+      "from": "variance",
+      "to": "covariance-and-correlation",
+      "type": "prerequisite"
+    },
+    {
+      "from": "expectation",
+      "to": "covariance-and-correlation",
+      "type": "prerequisite"
+    },
+    {
+      "from": "covariance-and-correlation",
+      "to": "linear-regression",
+      "type": "related"
+    },
+    {
+      "from": "covariance-and-correlation",
+      "to": "sharpe-ratio",
+      "type": "related"
+    },
+    {
+      "from": "covariance-and-correlation",
+      "to": "kelly-criterion",
+      "type": "related"
+    },
+    {
+      "from": "covariance-and-correlation",
+      "to": "variance",
+      "type": "related"
+    },
+    {
+      "from": "expectation",
+      "to": "variance",
+      "type": "related"
+    },
+    {
+      "from": "expectation",
+      "to": "linear-regression",
+      "type": "related"
+    },
+    {
+      "from": "expectation",
+      "to": "kelly-criterion",
+      "type": "prerequisite"
+    },
+    {
+      "from": "variance",
+      "to": "kelly-criterion",
+      "type": "prerequisite"
+    },
+    {
+      "from": "kelly-criterion",
+      "to": "sharpe-ratio",
+      "type": "related"
+    },
+    {
+      "from": "covariance-and-correlation",
+      "to": "linear-regression",
+      "type": "prerequisite"
+    },
+    {
+      "from": "variance",
+      "to": "linear-regression",
+      "type": "prerequisite"
+    },
+    {
+      "from": "linear-regression",
+      "to": "sharpe-ratio",
+      "type": "related"
+    },
+    {
+      "from": "expectation",
+      "to": "martingales",
+      "type": "prerequisite"
+    },
+    {
+      "from": "conditional-probability",
+      "to": "martingales",
+      "type": "prerequisite"
+    },
+    {
+      "from": "variance",
+      "to": "sharpe-ratio",
+      "type": "prerequisite"
+    },
+    {
+      "from": "expectation",
+      "to": "sharpe-ratio",
+      "type": "prerequisite"
+    },
+    {
+      "from": "sharpe-ratio",
+      "to": "variance",
+      "type": "related"
+    },
+    {
+      "from": "expectation",
+      "to": "variance",
+      "type": "prerequisite"
+    }
+  ],
+  "concepts": [
+    {
+      "id": "bayes-theorem",
+      "title": "Bayes' Theorem",
+      "subject": "probability",
+      "summary": "The rule for inverting a conditional probability — turning \"how likely is this evidence if the hypothesis is true\" into \"how likely is the hypothesis given the evidence\".",
+      "difficulty": "foundational",
+      "interviewRelevance": 5,
+      "status": "learning",
+      "tags": [
+        "probability",
+        "bayes",
+        "inference",
+        "base-rates",
+        "updating"
+      ],
+      "prerequisites": [
+        "conditional-probability"
+      ],
+      "related": [
+        "expectation",
+        "conditional-probability",
+        "linear-regression"
+      ],
+      "builtOn": [],
+      "tracks": [],
+      "path": "concepts/bayes-theorem.html",
+      "estimatedMinutes": 13,
+      "wordCount": 1119,
+      "updated": "2026-01-14",
+      "modules": [
+        "bayes-explorer"
+      ],
+      "sections": [
+        {
+          "id": "intuition",
+          "label": "Intuition"
+        },
+        {
+          "id": "mathematical-formulation",
+          "label": "Mathematical Formulation"
+        },
+        {
+          "id": "derivation",
+          "label": "Derivation"
+        },
+        {
+          "id": "assumptions-edge-cases",
+          "label": "Assumptions & Edge Cases"
+        },
+        {
+          "id": "worked-example",
+          "label": "Worked Example"
+        },
+        {
+          "id": "why-it-matters-in-quant-finance",
+          "label": "Why It Matters in Quant Finance"
+        },
+        {
+          "id": "trading-research-application",
+          "label": "Trading & Research Application"
+        },
+        {
+          "id": "implementation-notes",
+          "label": "Implementation Notes"
+        },
+        {
+          "id": "common-mistakes",
+          "label": "Common Mistakes"
+        },
+        {
+          "id": "30-second-revision",
+          "label": "30-Second Revision"
+        }
+      ],
+      "formulas": [
+        {
+          "id": "bayes-theorem",
+          "name": "Bayes' theorem",
+          "latex": "\\P(H \\mid E) = \\frac{\\P(E \\mid H)\\,\\P(H)}{\\P(E)}",
+          "usedIn": [
+            "Alpha Research",
+            "Risk",
+            "Credit",
+            "Microstructure"
+          ]
+        },
+        {
+          "id": "bayes-theorem-expanded",
+          "name": "Bayes' theorem, expanded",
+          "latex": "\\P(H \\mid E) = \\frac{\\P(E \\mid H)\\,\\P(H)}{\\P(E\\mid H)\\P(H) + \\P(E \\mid \\neg H)\\,\\P(\\neg H)}",
+          "usedIn": [
+            "Statistics",
+            "Classification"
+          ]
+        },
+        {
+          "id": "log-odds-update",
+          "name": "Log-odds update",
+          "latex": "\\operatorname{logit}\\P(H\\mid E) = \\operatorname{logit}\\P(H) + \\ln \\frac{\\P(E\\mid H)}{\\P(E\\mid\\neg H)}",
+          "usedIn": [
+            "Machine Learning",
+            "Signal Combination"
+          ]
+        }
+      ],
+      "questions": [
+        {
+          "id": "bayes-theorem-q1",
+          "question": "A test for a disease affecting 1 in 1,000 people is 99% accurate in both directions. You test positive. What is the probability you have the disease?",
+          "difficulty": "foundational",
+          "tags": [
+            "base-rate",
+            "classic"
+          ],
+          "concept": "bayes-theorem",
+          "subject": "probability",
+          "hasAnswer": true,
+          "path": "concepts/bayes-theorem.html#q-bayes-theorem-q1"
+        },
+        {
+          "id": "bayes-theorem-q2",
+          "question": "Your model flags 200 stocks a month as \"will beat earnings\". It is right 65% of the time. Base rate of beats is 55%. Is the model useful?",
+          "difficulty": "intermediate",
+          "tags": [
+            "signal-evaluation",
+            "lift"
+          ],
+          "concept": "bayes-theorem",
+          "subject": "probability",
+          "hasAnswer": true,
+          "path": "concepts/bayes-theorem.html#q-bayes-theorem-q2"
+        },
+        {
+          "id": "bayes-theorem-q3",
+          "question": "Two coins: one fair, one two-headed. You pick one at random and flip 3 heads in a row. Probability it is the two-headed coin?",
+          "difficulty": "intermediate",
+          "tags": [
+            "likelihood-ratio",
+            "classic"
+          ],
+          "concept": "bayes-theorem",
+          "subject": "probability",
+          "hasAnswer": true,
+          "path": "concepts/bayes-theorem.html#q-bayes-theorem-q3"
+        },
+        {
+          "id": "bayes-theorem-q4",
+          "question": "A strategy shows a Sharpe of 2.0 over 3 years. You know 90% of proposed strategies are worthless and backtests of worthless strategies produce Sharpe ≥ 2 about 5% of the time. What do you believe?",
+          "difficulty": "advanced",
+          "tags": [
+            "multiple-testing",
+            "backtesting",
+            "research-process"
+          ],
+          "concept": "bayes-theorem",
+          "subject": "probability",
+          "hasAnswer": true,
+          "path": "concepts/bayes-theorem.html#q-bayes-theorem-q4"
+        }
+      ]
+    },
+    {
+      "id": "brownian-motion",
+      "title": "Brownian Motion",
+      "subject": "stochastic-processes",
+      "summary": "The continuous-time limit of a random walk — Gaussian, independent increments scaling with √t, nowhere differentiable, and the driving noise underneath essentially every continuous-time model in finance.",
+      "difficulty": "advanced",
+      "interviewRelevance": 4,
+      "status": "not-started",
+      "tags": [
+        "stochastic-processes",
+        "wiener-process",
+        "diffusion",
+        "pricing",
+        "quadratic-variation"
+      ],
+      "prerequisites": [
+        "martingales",
+        "variance"
+      ],
+      "related": [
+        "expectation",
+        "kelly-criterion",
+        "martingales",
+        "sharpe-ratio"
+      ],
+      "builtOn": [],
+      "tracks": [],
+      "path": "concepts/brownian-motion.html",
+      "estimatedMinutes": 16,
+      "wordCount": 1621,
+      "updated": "2026-01-14",
+      "modules": [
+        "random-walk"
+      ],
+      "sections": [
+        {
+          "id": "intuition",
+          "label": "Intuition"
+        },
+        {
+          "id": "mathematical-formulation",
+          "label": "Mathematical Formulation"
+        },
+        {
+          "id": "derivation",
+          "label": "Derivation"
+        },
+        {
+          "id": "assumptions-edge-cases",
+          "label": "Assumptions & Edge Cases"
+        },
+        {
+          "id": "worked-example",
+          "label": "Worked Example"
+        },
+        {
+          "id": "why-it-matters-in-quant-finance",
+          "label": "Why It Matters in Quant Finance"
+        },
+        {
+          "id": "trading-research-application",
+          "label": "Trading & Research Application"
+        },
+        {
+          "id": "implementation-notes",
+          "label": "Implementation Notes"
+        },
+        {
+          "id": "common-mistakes",
+          "label": "Common Mistakes"
+        },
+        {
+          "id": "30-second-revision",
+          "label": "30-Second Revision"
+        }
+      ],
+      "formulas": [
+        {
+          "id": "increment-distribution",
+          "name": "Increment distribution",
+          "latex": "W_t - W_s \\sim N(0,\\, t-s), \\qquad \\Cov(W_s, W_t) = \\min(s,t)",
+          "usedIn": [
+            "Derivatives",
+            "Simulation",
+            "Risk"
+          ]
+        },
+        {
+          "id": "quadratic-variation",
+          "name": "Quadratic variation",
+          "latex": "\\langle W \\rangle_T = \\lim_{\\|\\Pi\\|\\to 0} \\sum_{i} (W_{t_{i+1}} - W_{t_i})^2 = T\n\\quad\\Longrightarrow\\quad (\\d W_t)^2 = \\d t",
+          "usedIn": [
+            "Itô Calculus",
+            "Volatility Trading"
+          ]
+        },
+        {
+          "id": "its-lemma-one-dimension",
+          "name": "Itô's lemma (one dimension)",
+          "latex": "\\d f(t, W_t) = \\left(\\frac{\\partial f}{\\partial t} + \\frac{1}{2}\\frac{\\partial^2 f}{\\partial x^2}\\right)\\d t\n+ \\frac{\\partial f}{\\partial x}\\,\\d W_t",
+          "usedIn": [
+            "Options",
+            "Derivatives",
+            "Hedging"
+          ]
+        },
+        {
+          "id": "geometric-brownian-motion",
+          "name": "Geometric Brownian motion",
+          "latex": "\\d S_t = \\mu S_t\\,\\d t + \\sigma S_t\\,\\d W_t\n\\quad\\Longrightarrow\\quad\nS_t = S_0 \\exp\\!\\left[\\left(\\mu - \\tfrac{\\sigma^2}{2}\\right)t + \\sigma W_t\\right]",
+          "usedIn": [
+            "Options",
+            "Equity Modelling"
+          ]
+        }
+      ],
+      "questions": [
+        {
+          "id": "brownian-motion-q1",
+          "question": "Why does Brownian motion scale as √t rather than t?",
+          "difficulty": "intermediate",
+          "tags": [
+            "scaling",
+            "variance"
+          ],
+          "concept": "brownian-motion",
+          "subject": "stochastic-processes",
+          "hasAnswer": true,
+          "path": "concepts/brownian-motion.html#q-brownian-motion-q1"
+        },
+        {
+          "id": "brownian-motion-q2",
+          "question": "What is E[W_s W_t]?",
+          "difficulty": "intermediate",
+          "tags": [
+            "covariance",
+            "core"
+          ],
+          "concept": "brownian-motion",
+          "subject": "stochastic-processes",
+          "hasAnswer": true,
+          "path": "concepts/brownian-motion.html#q-brownian-motion-q2"
+        },
+        {
+          "id": "brownian-motion-q3",
+          "question": "Brownian motion is continuous but nowhere differentiable. What does that mean for a hedger?",
+          "difficulty": "advanced",
+          "tags": [
+            "quadratic-variation",
+            "hedging",
+            "gamma"
+          ],
+          "concept": "brownian-motion",
+          "subject": "stochastic-processes",
+          "hasAnswer": true,
+          "path": "concepts/brownian-motion.html#q-brownian-motion-q3"
+        },
+        {
+          "id": "brownian-motion-q4",
+          "question": "What is the quadratic variation of Brownian motion over [0,T], and why is it the key fact in stochastic calculus?",
+          "difficulty": "advanced",
+          "tags": [
+            "quadratic-variation",
+            "ito"
+          ],
+          "concept": "brownian-motion",
+          "subject": "stochastic-processes",
+          "hasAnswer": true,
+          "path": "concepts/brownian-motion.html#q-brownian-motion-q4"
+        },
+        {
+          "id": "brownian-motion-q5",
+          "question": "A stock follows GBM with μ = 10%, σ = 30%. What is the probability it is above its starting price in one year?",
+          "difficulty": "advanced",
+          "tags": [
+            "gbm",
+            "lognormal",
+            "drift"
+          ],
+          "concept": "brownian-motion",
+          "subject": "stochastic-processes",
+          "hasAnswer": true,
+          "path": "concepts/brownian-motion.html#q-brownian-motion-q5"
+        }
+      ]
+    },
+    {
+      "id": "conditional-probability",
+      "title": "Conditional Probability",
+      "subject": "probability",
+      "summary": "The probability of an event once you restrict attention to the states of the world where another event has occurred — the formal machinery for \"given what I now know\".",
+      "difficulty": "foundational",
+      "interviewRelevance": 5,
+      "status": "learning",
+      "tags": [
+        "probability",
+        "conditioning",
+        "information",
+        "bayes"
+      ],
+      "prerequisites": [],
+      "related": [
+        "bayes-theorem",
+        "expectation",
+        "martingales",
+        "linear-regression"
+      ],
+      "builtOn": [
+        "bayes-theorem",
+        "martingales"
+      ],
+      "tracks": [],
+      "path": "concepts/conditional-probability.html",
+      "estimatedMinutes": 11,
+      "wordCount": 1104,
+      "updated": "2026-01-14",
+      "modules": [],
+      "sections": [
+        {
+          "id": "intuition",
+          "label": "Intuition"
+        },
+        {
+          "id": "mathematical-formulation",
+          "label": "Mathematical Formulation"
+        },
+        {
+          "id": "derivation",
+          "label": "Derivation"
+        },
+        {
+          "id": "assumptions-edge-cases",
+          "label": "Assumptions & Edge Cases"
+        },
+        {
+          "id": "worked-example",
+          "label": "Worked Example"
+        },
+        {
+          "id": "why-it-matters-in-quant-finance",
+          "label": "Why It Matters in Quant Finance"
+        },
+        {
+          "id": "trading-research-application",
+          "label": "Trading & Research Application"
+        },
+        {
+          "id": "common-mistakes",
+          "label": "Common Mistakes"
+        },
+        {
+          "id": "30-second-revision",
+          "label": "30-Second Revision"
+        }
+      ],
+      "formulas": [
+        {
+          "id": "conditional-probability",
+          "name": "Conditional probability",
+          "latex": "\\P(A \\mid B) = \\frac{\\P(A \\cap B)}{\\P(B)}, \\qquad \\P(B) > 0",
+          "usedIn": [
+            "Probability",
+            "Risk",
+            "Microstructure"
+          ]
+        },
+        {
+          "id": "chain-rule",
+          "name": "Chain rule",
+          "latex": "\\P(A_1 \\cap \\cdots \\cap A_n) = \\P(A_1)\\,\\P(A_2\\mid A_1)\\,\\P(A_3 \\mid A_1\\cap A_2)\\cdots \\P(A_n \\mid A_1 \\cap \\cdots \\cap A_{n-1})",
+          "usedIn": [
+            "Probability",
+            "Time Series",
+            "Machine Learning"
+          ]
+        },
+        {
+          "id": "law-of-total-probability",
+          "name": "Law of total probability",
+          "latex": "\\P(A) = \\sum_{i} \\P(A \\mid B_i)\\, \\P(B_i) \\quad \\text{for a partition } \\{B_i\\}",
+          "usedIn": [
+            "Risk",
+            "Scenario Analysis",
+            "Credit"
+          ]
+        },
+        {
+          "id": "tower-property-law-of-iterated-expectations",
+          "name": "Tower property (law of iterated expectations)",
+          "latex": "\\E\\big[\\,\\E[X \\mid \\mathcal{G}]\\,\\big] = \\E[X]",
+          "usedIn": [
+            "Derivatives",
+            "Martingales",
+            "Alpha Research"
+          ]
+        }
+      ],
+      "questions": [
+        {
+          "id": "conditional-probability-q1",
+          "question": "A family has two children. At least one is a boy. What is the probability both are boys?",
+          "difficulty": "intermediate",
+          "tags": [
+            "brainteaser",
+            "conditioning"
+          ],
+          "concept": "conditional-probability",
+          "subject": "probability",
+          "hasAnswer": true,
+          "path": "concepts/conditional-probability.html#q-conditional-probability-q1"
+        },
+        {
+          "id": "conditional-probability-q2",
+          "question": "Three prisoners; one will be pardoned. A asks the guard to name a prisoner other than himself who will be executed. The guard says B. Has A's survival probability improved?",
+          "difficulty": "advanced",
+          "tags": [
+            "brainteaser",
+            "monty-hall"
+          ],
+          "concept": "conditional-probability",
+          "subject": "probability",
+          "hasAnswer": true,
+          "path": "concepts/conditional-probability.html#q-conditional-probability-q2"
+        },
+        {
+          "id": "conditional-probability-q3",
+          "question": "P(A) = 0.6, P(B) = 0.5, P(A ∪ B) = 0.8. Are A and B independent?",
+          "difficulty": "foundational",
+          "tags": [
+            "independence"
+          ],
+          "concept": "conditional-probability",
+          "subject": "probability",
+          "hasAnswer": true,
+          "path": "concepts/conditional-probability.html#q-conditional-probability-q3"
+        },
+        {
+          "id": "conditional-probability-q4",
+          "question": "In a market-making context, why is P(informed trader | my quote was hit) larger than P(informed trader)?",
+          "difficulty": "advanced",
+          "tags": [
+            "microstructure",
+            "adverse-selection"
+          ],
+          "concept": "conditional-probability",
+          "subject": "probability",
+          "hasAnswer": true,
+          "path": "concepts/conditional-probability.html#q-conditional-probability-q4"
+        }
+      ]
+    },
+    {
+      "id": "covariance-and-correlation",
+      "title": "Covariance & Correlation",
+      "subject": "statistics",
+      "summary": "Covariance measures how two variables move together in raw units; correlation normalises it to [-1, 1] — together they determine whether combining two positions reduces risk or concentrates it.",
+      "difficulty": "foundational",
+      "interviewRelevance": 5,
+      "status": "learning",
+      "tags": [
+        "statistics",
+        "dependence",
+        "risk",
+        "diversification",
+        "linear-algebra"
+      ],
+      "prerequisites": [
+        "variance",
+        "expectation"
+      ],
+      "related": [
+        "linear-regression",
+        "sharpe-ratio",
+        "kelly-criterion",
+        "variance"
+      ],
+      "builtOn": [
+        "linear-regression"
+      ],
+      "tracks": [],
+      "path": "concepts/covariance-and-correlation.html",
+      "estimatedMinutes": 14,
+      "wordCount": 1233,
+      "updated": "2026-01-14",
+      "modules": [],
+      "sections": [
+        {
+          "id": "intuition",
+          "label": "Intuition"
+        },
+        {
+          "id": "mathematical-formulation",
+          "label": "Mathematical Formulation"
+        },
+        {
+          "id": "derivation",
+          "label": "Derivation"
+        },
+        {
+          "id": "assumptions-edge-cases",
+          "label": "Assumptions & Edge Cases"
+        },
+        {
+          "id": "worked-example",
+          "label": "Worked Example"
+        },
+        {
+          "id": "why-it-matters-in-quant-finance",
+          "label": "Why It Matters in Quant Finance"
+        },
+        {
+          "id": "trading-research-application",
+          "label": "Trading & Research Application"
+        },
+        {
+          "id": "implementation-notes",
+          "label": "Implementation Notes"
+        },
+        {
+          "id": "common-mistakes",
+          "label": "Common Mistakes"
+        },
+        {
+          "id": "30-second-revision",
+          "label": "30-Second Revision"
+        }
+      ],
+      "formulas": [
+        {
+          "id": "covariance",
+          "name": "Covariance",
+          "latex": "\\Cov(X,Y) = \\E\\big[(X-\\E X)(Y - \\E Y)\\big] = \\E[XY] - \\E[X]\\E[Y]",
+          "usedIn": [
+            "Risk",
+            "Portfolio Construction",
+            "Factor Models"
+          ]
+        },
+        {
+          "id": "correlation",
+          "name": "Correlation",
+          "latex": "\\rho_{XY} = \\frac{\\Cov(X,Y)}{\\sigma_X \\sigma_Y} \\in [-1, 1]",
+          "usedIn": [
+            "Risk",
+            "Statistics",
+            "Pairs Trading"
+          ]
+        },
+        {
+          "id": "bilinearity",
+          "name": "Bilinearity",
+          "latex": "\\Cov\\!\\left(\\sum_i a_i X_i, \\; \\sum_j b_j Y_j\\right) = \\sum_i \\sum_j a_i b_j \\,\\Cov(X_i, Y_j)",
+          "usedIn": [
+            "Portfolio Construction",
+            "Hedging"
+          ]
+        },
+        {
+          "id": "portfolio-variance-in-matrix-form",
+          "name": "Portfolio variance in matrix form",
+          "latex": "\\sigma_p^2 = \\mathbf{w}^\\top \\Sigma\\, \\mathbf{w}, \\qquad\n\\Sigma = \\operatorname{diag}(\\boldsymbol\\sigma)\\, \\mathbf{P} \\operatorname{diag}(\\boldsymbol\\sigma)",
+          "usedIn": [
+            "Portfolio Construction",
+            "Risk Management"
+          ]
+        }
+      ],
+      "questions": [
+        {
+          "id": "covariance-and-correlation-q1",
+          "question": "Correlation is zero. Are the variables independent?",
+          "difficulty": "foundational",
+          "tags": [
+            "independence",
+            "non-linearity"
+          ],
+          "concept": "covariance-and-correlation",
+          "subject": "statistics",
+          "hasAnswer": true,
+          "path": "concepts/covariance-and-correlation.html#q-covariance-and-correlation-q1"
+        },
+        {
+          "id": "covariance-and-correlation-q2",
+          "question": "Can three assets have pairwise correlation −0.9?",
+          "difficulty": "advanced",
+          "tags": [
+            "positive-semidefinite",
+            "correlation-matrix"
+          ],
+          "concept": "covariance-and-correlation",
+          "subject": "statistics",
+          "hasAnswer": true,
+          "path": "concepts/covariance-and-correlation.html#q-covariance-and-correlation-q2"
+        },
+        {
+          "id": "covariance-and-correlation-q3",
+          "question": "A portfolio is 60% stocks (σ=18%), 40% bonds (σ=6%), correlation −0.2. What is the portfolio volatility?",
+          "difficulty": "foundational",
+          "tags": [
+            "portfolio",
+            "arithmetic"
+          ],
+          "concept": "covariance-and-correlation",
+          "subject": "statistics",
+          "hasAnswer": true,
+          "path": "concepts/covariance-and-correlation.html#q-covariance-and-correlation-q3"
+        },
+        {
+          "id": "covariance-and-correlation-q4",
+          "question": "You estimate a 500×500 covariance matrix from 2 years of daily data. What goes wrong?",
+          "difficulty": "advanced",
+          "tags": [
+            "estimation",
+            "curse-of-dimensionality",
+            "pca"
+          ],
+          "concept": "covariance-and-correlation",
+          "subject": "statistics",
+          "hasAnswer": true,
+          "path": "concepts/covariance-and-correlation.html#q-covariance-and-correlation-q4"
+        },
+        {
+          "id": "covariance-and-correlation-q5",
+          "question": "Correlations rise in a crisis. Why, and what does it do to your risk model?",
+          "difficulty": "advanced",
+          "tags": [
+            "tail-dependence",
+            "regime",
+            "risk"
+          ],
+          "concept": "covariance-and-correlation",
+          "subject": "statistics",
+          "hasAnswer": true,
+          "path": "concepts/covariance-and-correlation.html#q-covariance-and-correlation-q5"
+        }
+      ]
+    },
+    {
+      "id": "expectation",
+      "title": "Expectation",
+      "subject": "probability",
+      "summary": "The probability-weighted average of a random variable — the number a long-run average converges to, and the object almost every pricing and sizing argument is really about.",
+      "difficulty": "foundational",
+      "interviewRelevance": 5,
+      "status": "learned",
+      "tags": [
+        "probability",
+        "moments",
+        "pricing",
+        "linearity"
+      ],
+      "prerequisites": [],
+      "related": [
+        "variance",
+        "conditional-probability",
+        "linear-regression",
+        "bayes-theorem",
+        "brownian-motion"
+      ],
+      "builtOn": [
+        "covariance-and-correlation",
+        "kelly-criterion",
+        "martingales",
+        "sharpe-ratio",
+        "variance"
+      ],
+      "tracks": [],
+      "path": "concepts/expectation.html",
+      "estimatedMinutes": 12,
+      "wordCount": 1240,
+      "updated": "2026-01-14",
+      "modules": [],
+      "sections": [
+        {
+          "id": "intuition",
+          "label": "Intuition"
+        },
+        {
+          "id": "mathematical-formulation",
+          "label": "Mathematical Formulation"
+        },
+        {
+          "id": "derivation",
+          "label": "Derivation"
+        },
+        {
+          "id": "assumptions-edge-cases",
+          "label": "Assumptions & Edge Cases"
+        },
+        {
+          "id": "worked-example",
+          "label": "Worked Example"
+        },
+        {
+          "id": "why-it-matters-in-quant-finance",
+          "label": "Why It Matters in Quant Finance"
+        },
+        {
+          "id": "trading-research-application",
+          "label": "Trading & Research Application"
+        },
+        {
+          "id": "implementation-notes",
+          "label": "Implementation Notes"
+        },
+        {
+          "id": "common-mistakes",
+          "label": "Common Mistakes"
+        },
+        {
+          "id": "30-second-revision",
+          "label": "30-Second Revision"
+        }
+      ],
+      "formulas": [
+        {
+          "id": "expectation-discrete",
+          "name": "Expectation (discrete)",
+          "latex": "\\E[X] = \\sum_i x_i \\, p_i",
+          "usedIn": [
+            "Probability",
+            "Pricing",
+            "Risk"
+          ]
+        },
+        {
+          "id": "expectation-continuous",
+          "name": "Expectation (continuous)",
+          "latex": "\\E[X] = \\int_{-\\infty}^{\\infty} x \\, f(x)\\, \\d x",
+          "usedIn": [
+            "Probability",
+            "Derivatives"
+          ]
+        },
+        {
+          "id": "linearity-of-expectation",
+          "name": "Linearity of expectation",
+          "latex": "\\E\\!\\left[\\sum_{i=1}^{n} a_i X_i\\right] = \\sum_{i=1}^{n} a_i\\, \\E[X_i]",
+          "usedIn": [
+            "Portfolio Theory",
+            "Combinatorics",
+            "Risk"
+          ]
+        },
+        {
+          "id": "risk-neutral-pricing",
+          "name": "Risk-neutral pricing",
+          "latex": "V_0 = \\E^{\\Q}\\!\\left[e^{-\\int_0^T r_s\\,\\d s}\\, H\\right]",
+          "usedIn": [
+            "Derivatives",
+            "Options",
+            "Fixed Income"
+          ]
+        },
+        {
+          "id": "jensens-inequality",
+          "name": "Jensen's inequality",
+          "latex": "g \\text{ convex} \\implies \\E[g(X)] \\ge g(\\E[X])",
+          "usedIn": [
+            "Portfolio Construction",
+            "Position Sizing"
+          ]
+        }
+      ],
+      "questions": [
+        {
+          "id": "expectation-q1",
+          "question": "A fair die is rolled. You may either take the roll's value in dollars, or pay $1 to re-roll once. What is the value of the game played optimally?",
+          "difficulty": "intermediate",
+          "tags": [
+            "brainteaser",
+            "optimal-stopping"
+          ],
+          "concept": "expectation",
+          "subject": "probability",
+          "hasAnswer": true,
+          "path": "concepts/expectation.html#q-expectation-q1"
+        },
+        {
+          "id": "expectation-q2",
+          "question": "X and Y are dependent. Is E[XY] = E[X]E[Y]?",
+          "difficulty": "foundational",
+          "tags": [
+            "linearity",
+            "independence"
+          ],
+          "concept": "expectation",
+          "subject": "probability",
+          "hasAnswer": true,
+          "path": "concepts/expectation.html#q-expectation-q2"
+        },
+        {
+          "id": "expectation-q3",
+          "question": "You flip a fair coin until you see two heads in a row. What is the expected number of flips?",
+          "difficulty": "intermediate",
+          "tags": [
+            "brainteaser",
+            "markov-chain"
+          ],
+          "concept": "expectation",
+          "subject": "probability",
+          "hasAnswer": true,
+          "path": "concepts/expectation.html#q-expectation-q3"
+        },
+        {
+          "id": "expectation-q4",
+          "question": "A stock is at 100. It moves up 10% or down 10% each day with equal probability. What is the expected price after 2 days, and the expected log price?",
+          "difficulty": "intermediate",
+          "tags": [
+            "jensen",
+            "compounding"
+          ],
+          "concept": "expectation",
+          "subject": "probability",
+          "hasAnswer": true,
+          "path": "concepts/expectation.html#q-expectation-q4"
+        }
+      ]
+    },
+    {
+      "id": "kelly-criterion",
+      "title": "Kelly Criterion",
+      "subject": "portfolio-construction",
+      "summary": "The bet size that maximises the long-run growth rate of wealth — obtained by maximising expected log wealth rather than expected wealth, because capital compounds multiplicatively.",
+      "difficulty": "intermediate",
+      "interviewRelevance": 5,
+      "status": "learning",
+      "tags": [
+        "sizing",
+        "leverage",
+        "compounding",
+        "growth",
+        "risk"
+      ],
+      "prerequisites": [
+        "expectation",
+        "variance"
+      ],
+      "related": [
+        "sharpe-ratio",
+        "brownian-motion",
+        "covariance-and-correlation"
+      ],
+      "builtOn": [],
+      "tracks": [],
+      "path": "concepts/kelly-criterion.html",
+      "estimatedMinutes": 14,
+      "wordCount": 1570,
+      "updated": "2026-01-14",
+      "modules": [],
+      "sections": [
+        {
+          "id": "intuition",
+          "label": "Intuition"
+        },
+        {
+          "id": "mathematical-formulation",
+          "label": "Mathematical Formulation"
+        },
+        {
+          "id": "derivation",
+          "label": "Derivation"
+        },
+        {
+          "id": "assumptions-edge-cases",
+          "label": "Assumptions & Edge Cases"
+        },
+        {
+          "id": "worked-example",
+          "label": "Worked Example"
+        },
+        {
+          "id": "why-it-matters-in-quant-finance",
+          "label": "Why It Matters in Quant Finance"
+        },
+        {
+          "id": "trading-research-application",
+          "label": "Trading & Research Application"
+        },
+        {
+          "id": "implementation-notes",
+          "label": "Implementation Notes"
+        },
+        {
+          "id": "common-mistakes",
+          "label": "Common Mistakes"
+        },
+        {
+          "id": "30-second-revision",
+          "label": "30-Second Revision"
+        }
+      ],
+      "formulas": [
+        {
+          "id": "kelly-fraction-discrete-bet",
+          "name": "Kelly fraction (discrete bet)",
+          "latex": "f^\\star = \\frac{pb - q}{b}",
+          "usedIn": [
+            "Position Sizing",
+            "Betting",
+            "Risk"
+          ]
+        },
+        {
+          "id": "kelly-fraction-continuous",
+          "name": "Kelly fraction (continuous)",
+          "latex": "f^\\star = \\frac{\\mu}{\\sigma^2}",
+          "usedIn": [
+            "Portfolio Construction",
+            "Leverage"
+          ]
+        },
+        {
+          "id": "optimal-growth-rate",
+          "name": "Optimal growth rate",
+          "latex": "g(f^\\star) = \\frac{\\mu^2}{2\\sigma^2} = \\frac{SR^2}{2}",
+          "usedIn": [
+            "Portfolio Construction",
+            "Performance"
+          ]
+        },
+        {
+          "id": "multivariate-kelly",
+          "name": "Multivariate Kelly",
+          "latex": "\\mathbf{f}^\\star = \\Sigma^{-1}\\boldsymbol{\\mu}",
+          "usedIn": [
+            "Portfolio Construction",
+            "Allocation"
+          ]
+        },
+        {
+          "id": "growth-at-a-fraction-of-kelly",
+          "name": "Growth at a fraction of Kelly",
+          "latex": "g(k f^\\star) = k(2-k)\\, g(f^\\star)",
+          "usedIn": [
+            "Position Sizing",
+            "Risk Management"
+          ]
+        }
+      ],
+      "questions": [
+        {
+          "id": "kelly-criterion-q1",
+          "question": "A bet doubles your money with probability ½ and loses 60% with probability ½. Expected return per round is +20%. Should you bet everything every round?",
+          "difficulty": "intermediate",
+          "tags": [
+            "classic",
+            "compounding",
+            "ruin"
+          ],
+          "concept": "kelly-criterion",
+          "subject": "portfolio-construction",
+          "hasAnswer": true,
+          "path": "concepts/kelly-criterion.html#q-kelly-criterion-q1"
+        },
+        {
+          "id": "kelly-criterion-q2",
+          "question": "Derive the Kelly fraction for a bet paying b-to-1 with win probability p.",
+          "difficulty": "intermediate",
+          "tags": [
+            "derivation",
+            "core"
+          ],
+          "concept": "kelly-criterion",
+          "subject": "portfolio-construction",
+          "hasAnswer": true,
+          "path": "concepts/kelly-criterion.html#q-kelly-criterion-q2"
+        },
+        {
+          "id": "kelly-criterion-q3",
+          "question": "Why does almost everyone trade a fraction of Kelly rather than full Kelly?",
+          "difficulty": "advanced",
+          "tags": [
+            "practice",
+            "estimation-error",
+            "drawdown"
+          ],
+          "concept": "kelly-criterion",
+          "subject": "portfolio-construction",
+          "hasAnswer": true,
+          "path": "concepts/kelly-criterion.html#q-kelly-criterion-q3"
+        },
+        {
+          "id": "kelly-criterion-q4",
+          "question": "What happens at exactly twice the Kelly fraction?",
+          "difficulty": "advanced",
+          "tags": [
+            "growth-rate",
+            "leverage"
+          ],
+          "concept": "kelly-criterion",
+          "subject": "portfolio-construction",
+          "hasAnswer": true,
+          "path": "concepts/kelly-criterion.html#q-kelly-criterion-q4"
+        },
+        {
+          "id": "kelly-criterion-q5",
+          "question": "Kelly for continuous returns — state the fraction and the resulting growth rate.",
+          "difficulty": "advanced",
+          "tags": [
+            "continuous",
+            "sharpe",
+            "gbm"
+          ],
+          "concept": "kelly-criterion",
+          "subject": "portfolio-construction",
+          "hasAnswer": true,
+          "path": "concepts/kelly-criterion.html#q-kelly-criterion-q5"
+        },
+        {
+          "id": "kelly-criterion-q6",
+          "question": "You have two uncorrelated strategies, each with its own Kelly fraction. Can you run both at full Kelly?",
+          "difficulty": "research",
+          "tags": [
+            "portfolio",
+            "correlation"
+          ],
+          "concept": "kelly-criterion",
+          "subject": "portfolio-construction",
+          "hasAnswer": true,
+          "path": "concepts/kelly-criterion.html#q-kelly-criterion-q6"
+        }
+      ]
+    },
+    {
+      "id": "linear-regression",
+      "title": "Linear Regression",
+      "subject": "statistics",
+      "summary": "The projection of a target onto the span of its predictors — the estimator behind every beta, factor loading and hedge ratio in finance, and the one whose assumptions market data violates most reliably.",
+      "difficulty": "intermediate",
+      "interviewRelevance": 5,
+      "status": "learning",
+      "tags": [
+        "statistics",
+        "econometrics",
+        "ols",
+        "factor-models",
+        "estimation"
+      ],
+      "prerequisites": [
+        "covariance-and-correlation",
+        "variance"
+      ],
+      "related": [
+        "expectation",
+        "sharpe-ratio",
+        "bayes-theorem",
+        "conditional-probability",
+        "covariance-and-correlation"
+      ],
+      "builtOn": [],
+      "tracks": [],
+      "path": "concepts/linear-regression.html",
+      "estimatedMinutes": 16,
+      "wordCount": 1369,
+      "updated": "2026-01-14",
+      "modules": [
+        "regression-lab"
+      ],
+      "sections": [
+        {
+          "id": "intuition",
+          "label": "Intuition"
+        },
+        {
+          "id": "mathematical-formulation",
+          "label": "Mathematical Formulation"
+        },
+        {
+          "id": "derivation",
+          "label": "Derivation"
+        },
+        {
+          "id": "assumptions-edge-cases",
+          "label": "Assumptions & Edge Cases"
+        },
+        {
+          "id": "worked-example",
+          "label": "Worked Example"
+        },
+        {
+          "id": "why-it-matters-in-quant-finance",
+          "label": "Why It Matters in Quant Finance"
+        },
+        {
+          "id": "trading-research-application",
+          "label": "Trading & Research Application"
+        },
+        {
+          "id": "implementation-notes",
+          "label": "Implementation Notes"
+        },
+        {
+          "id": "common-mistakes",
+          "label": "Common Mistakes"
+        },
+        {
+          "id": "30-second-revision",
+          "label": "30-Second Revision"
+        }
+      ],
+      "formulas": [
+        {
+          "id": "ols-estimator",
+          "name": "OLS estimator",
+          "latex": "\\hat{\\boldsymbol\\beta} = (X^\\top X)^{-1} X^\\top \\mathbf{y}",
+          "usedIn": [
+            "Factor Models",
+            "Hedging",
+            "Econometrics"
+          ]
+        },
+        {
+          "id": "simple-regression-slope",
+          "name": "Simple regression slope",
+          "latex": "\\hat\\beta = \\frac{\\Cov(X,Y)}{\\Var(X)} = \\rho_{XY}\\,\\frac{\\sigma_Y}{\\sigma_X}",
+          "usedIn": [
+            "Hedging",
+            "Beta Estimation"
+          ]
+        },
+        {
+          "id": "coefficient-covariance",
+          "name": "Coefficient covariance",
+          "latex": "\\Var(\\hat{\\boldsymbol\\beta}) = \\sigma^2 (X^\\top X)^{-1}",
+          "usedIn": [
+            "Inference",
+            "Significance Testing"
+          ]
+        },
+        {
+          "id": "coefficient-of-determination",
+          "name": "Coefficient of determination",
+          "latex": "R^2 = 1 - \\frac{\\text{SS}_{\\text{res}}}{\\text{SS}_{\\text{tot}}}, \\qquad\n\\bar R^2 = 1 - (1-R^2)\\frac{n-1}{n-k-1}",
+          "usedIn": [
+            "Model Evaluation"
+          ]
+        }
+      ],
+      "questions": [
+        {
+          "id": "linear-regression-q1",
+          "question": "Derive the OLS estimator for simple regression and state what it equals in terms of covariance.",
+          "difficulty": "foundational",
+          "tags": [
+            "derivation",
+            "core"
+          ],
+          "concept": "linear-regression",
+          "subject": "statistics",
+          "hasAnswer": true,
+          "path": "concepts/linear-regression.html#q-linear-regression-q1"
+        },
+        {
+          "id": "linear-regression-q2",
+          "question": "What breaks if the residuals are autocorrelated? Is OLS still usable?",
+          "difficulty": "intermediate",
+          "tags": [
+            "inference",
+            "standard-errors",
+            "gauss-markov"
+          ],
+          "concept": "linear-regression",
+          "subject": "statistics",
+          "hasAnswer": true,
+          "path": "concepts/linear-regression.html#q-linear-regression-q2"
+        },
+        {
+          "id": "linear-regression-q3",
+          "question": "You regress stock returns on 50 candidate factors with 10 years of monthly data. What is wrong?",
+          "difficulty": "advanced",
+          "tags": [
+            "overfitting",
+            "multiple-testing",
+            "degrees-of-freedom"
+          ],
+          "concept": "linear-regression",
+          "subject": "statistics",
+          "hasAnswer": true,
+          "path": "concepts/linear-regression.html#q-linear-regression-q3"
+        },
+        {
+          "id": "linear-regression-q4",
+          "question": "Your regression of returns on a signal gives beta = 0.03 with t-stat 2.1 and R² of 0.4%. Is this tradeable?",
+          "difficulty": "advanced",
+          "tags": [
+            "alpha-research",
+            "economic-significance"
+          ],
+          "concept": "linear-regression",
+          "subject": "statistics",
+          "hasAnswer": true,
+          "path": "concepts/linear-regression.html#q-linear-regression-q4"
+        },
+        {
+          "id": "linear-regression-q5",
+          "question": "What is the difference between a time-series and a cross-sectional regression in asset pricing?",
+          "difficulty": "advanced",
+          "tags": [
+            "factor-models",
+            "fama-macbeth"
+          ],
+          "concept": "linear-regression",
+          "subject": "statistics",
+          "hasAnswer": true,
+          "path": "concepts/linear-regression.html#q-linear-regression-q5"
+        }
+      ]
+    },
+    {
+      "id": "martingales",
+      "title": "Martingales",
+      "subject": "stochastic-processes",
+      "summary": "A process whose best forecast of its own future value is its present value — the formal statement of \"no predictable edge\", and the object that makes arbitrage-free pricing work.",
+      "difficulty": "advanced",
+      "interviewRelevance": 4,
+      "status": "learning",
+      "tags": [
+        "stochastic-processes",
+        "conditioning",
+        "pricing",
+        "no-arbitrage",
+        "efficiency"
+      ],
+      "prerequisites": [
+        "expectation",
+        "conditional-probability"
+      ],
+      "related": [
+        "brownian-motion",
+        "conditional-probability"
+      ],
+      "builtOn": [
+        "brownian-motion"
+      ],
+      "tracks": [],
+      "path": "concepts/martingales.html",
+      "estimatedMinutes": 15,
+      "wordCount": 1556,
+      "updated": "2026-01-14",
+      "modules": [],
+      "sections": [
+        {
+          "id": "intuition",
+          "label": "Intuition"
+        },
+        {
+          "id": "mathematical-formulation",
+          "label": "Mathematical Formulation"
+        },
+        {
+          "id": "derivation",
+          "label": "Derivation"
+        },
+        {
+          "id": "assumptions-edge-cases",
+          "label": "Assumptions & Edge Cases"
+        },
+        {
+          "id": "worked-example",
+          "label": "Worked Example"
+        },
+        {
+          "id": "why-it-matters-in-quant-finance",
+          "label": "Why It Matters in Quant Finance"
+        },
+        {
+          "id": "trading-research-application",
+          "label": "Trading & Research Application"
+        },
+        {
+          "id": "common-mistakes",
+          "label": "Common Mistakes"
+        },
+        {
+          "id": "30-second-revision",
+          "label": "30-Second Revision"
+        }
+      ],
+      "formulas": [
+        {
+          "id": "martingale-property",
+          "name": "Martingale property",
+          "latex": "\\E\\big[X_{t+1} \\,\\big|\\, \\mathcal{F}_t\\big] = X_t \\quad \\text{for all } t",
+          "usedIn": [
+            "Derivatives",
+            "Pricing",
+            "Efficiency"
+          ]
+        },
+        {
+          "id": "optional-stopping-theorem",
+          "name": "Optional stopping theorem",
+          "latex": "\\E[X_\\tau] = \\E[X_0] \\quad \\text{for a suitable stopping time } \\tau",
+          "usedIn": [
+            "Barrier Options",
+            "Gambler's Ruin",
+            "Risk of Ruin"
+          ]
+        },
+        {
+          "id": "martingale-convergence-theorem",
+          "name": "Martingale convergence theorem",
+          "latex": "\\sup_t \\E[|X_t|] < \\infty \\implies X_t \\to X_\\infty \\text{ almost surely}",
+          "usedIn": [
+            "Estimation",
+            "Bayesian Updating"
+          ]
+        }
+      ],
+      "questions": [
+        {
+          "id": "martingales-q1",
+          "question": "A gambler bets on fair coin flips, doubling after every loss (martingale strategy). Expected profit is +$1 per sequence. Why is this not free money?",
+          "difficulty": "intermediate",
+          "tags": [
+            "optional-stopping",
+            "classic",
+            "risk-of-ruin"
+          ],
+          "concept": "martingales",
+          "subject": "stochastic-processes",
+          "hasAnswer": true,
+          "path": "concepts/martingales.html#q-martingales-q1"
+        },
+        {
+          "id": "martingales-q2",
+          "question": "Is a stock price a martingale?",
+          "difficulty": "intermediate",
+          "tags": [
+            "risk-neutral",
+            "efficiency",
+            "measure-change"
+          ],
+          "concept": "martingales",
+          "subject": "stochastic-processes",
+          "hasAnswer": true,
+          "path": "concepts/martingales.html#q-martingales-q2"
+        },
+        {
+          "id": "martingales-q3",
+          "question": "X is a martingale. Is X² a martingale?",
+          "difficulty": "advanced",
+          "tags": [
+            "jensen",
+            "submartingale"
+          ],
+          "concept": "martingales",
+          "subject": "stochastic-processes",
+          "hasAnswer": true,
+          "path": "concepts/martingales.html#q-martingales-q3"
+        },
+        {
+          "id": "martingales-q4",
+          "question": "Prove that a martingale has constant unconditional expectation.",
+          "difficulty": "foundational",
+          "tags": [
+            "tower-property"
+          ],
+          "concept": "martingales",
+          "subject": "stochastic-processes",
+          "hasAnswer": true,
+          "path": "concepts/martingales.html#q-martingales-q4"
+        },
+        {
+          "id": "martingales-q5",
+          "question": "Your strategy's cumulative P&L looks like a martingale in-sample. Is that good or bad?",
+          "difficulty": "advanced",
+          "tags": [
+            "alpha",
+            "research-process"
+          ],
+          "concept": "martingales",
+          "subject": "stochastic-processes",
+          "hasAnswer": true,
+          "path": "concepts/martingales.html#q-martingales-q5"
+        }
+      ]
+    },
+    {
+      "id": "sharpe-ratio",
+      "title": "Sharpe Ratio",
+      "subject": "portfolio-construction",
+      "summary": "Excess return per unit of volatility — the industry's default measure of risk-adjusted performance, and an estimator noisy and gameable enough that knowing its failure modes matters more than knowing its formula.",
+      "difficulty": "intermediate",
+      "interviewRelevance": 5,
+      "status": "learning",
+      "tags": [
+        "performance",
+        "risk",
+        "portfolio",
+        "estimation",
+        "backtesting",
+        "allocation"
+      ],
+      "prerequisites": [
+        "variance",
+        "expectation"
+      ],
+      "related": [
+        "covariance-and-correlation",
+        "linear-regression",
+        "brownian-motion",
+        "kelly-criterion",
+        "variance"
+      ],
+      "builtOn": [],
+      "tracks": [
+        "quant-research",
+        "quant-trader",
+        "stat-arb",
+        "equity-long-short",
+        "systematic-macro"
+      ],
+      "path": "concepts/sharpe-ratio.html",
+      "estimatedMinutes": 18,
+      "wordCount": 1678,
+      "updated": "2026-01-14",
+      "modules": [],
+      "sections": [
+        {
+          "id": "intuition",
+          "label": "Intuition"
+        },
+        {
+          "id": "mathematical-formulation",
+          "label": "Mathematical Formulation"
+        },
+        {
+          "id": "derivation",
+          "label": "Derivation"
+        },
+        {
+          "id": "assumptions-edge-cases",
+          "label": "Assumptions & Edge Cases"
+        },
+        {
+          "id": "worked-example",
+          "label": "Worked Example"
+        },
+        {
+          "id": "why-it-matters-in-quant-finance",
+          "label": "Why It Matters in Quant Finance"
+        },
+        {
+          "id": "trading-research-application",
+          "label": "Trading & Research Application"
+        },
+        {
+          "id": "implementation-notes",
+          "label": "Implementation Notes"
+        },
+        {
+          "id": "common-mistakes",
+          "label": "Common Mistakes"
+        },
+        {
+          "id": "30-second-revision",
+          "label": "30-Second Revision"
+        }
+      ],
+      "formulas": [
+        {
+          "id": "sharpe-ratio",
+          "name": "Sharpe ratio",
+          "latex": "SR = \\frac{\\E[R_p] - r_f}{\\sigma(R_p - r_f)}",
+          "usedIn": [
+            "Performance",
+            "Allocation",
+            "Risk"
+          ]
+        },
+        {
+          "id": "annualisation",
+          "name": "Annualisation",
+          "latex": "SR_{\\text{annual}} = SR_{\\text{period}} \\times \\sqrt{k}",
+          "usedIn": [
+            "Reporting",
+            "Comparison"
+          ]
+        },
+        {
+          "id": "standard-error-of-an-estimated-sharpe-lo-2002",
+          "name": "Standard error of an estimated Sharpe (Lo, 2002)",
+          "latex": "\\operatorname{SE}(\\widehat{SR}) \\approx \\sqrt{\\frac{1 + \\tfrac12 SR^2}{T}}",
+          "usedIn": [
+            "Backtesting",
+            "Due Diligence"
+          ]
+        },
+        {
+          "id": "non-normal-standard-error",
+          "name": "Non-normal standard error",
+          "latex": "\\operatorname{SE}(\\widehat{SR}) \\approx \\sqrt{\\frac{1 - \\gamma_3 SR + \\frac{\\gamma_4-1}{4}SR^2}{T}}",
+          "usedIn": [
+            "Due Diligence",
+            "Hedge Fund Analysis"
+          ]
+        },
+        {
+          "id": "fundamental-law-of-active-management",
+          "name": "Fundamental law of active management",
+          "latex": "IR \\approx IC \\times \\sqrt{\\text{breadth}}",
+          "usedIn": [
+            "Alpha Research",
+            "Capacity Planning"
+          ]
+        }
+      ],
+      "questions": [
+        {
+          "id": "sharpe-ratio-q1",
+          "question": "A strategy reports Sharpe 2.0 over 1 year of daily data. How confident should you be that the true Sharpe is above 1?",
+          "difficulty": "advanced",
+          "tags": [
+            "sampling-error",
+            "estimation",
+            "backtesting"
+          ],
+          "concept": "sharpe-ratio",
+          "subject": "portfolio-construction",
+          "hasAnswer": true,
+          "path": "concepts/sharpe-ratio.html#q-sharpe-ratio-q1"
+        },
+        {
+          "id": "sharpe-ratio-q2",
+          "question": "How do you annualise a monthly Sharpe ratio, and when is that wrong?",
+          "difficulty": "intermediate",
+          "tags": [
+            "annualisation",
+            "autocorrelation"
+          ],
+          "concept": "sharpe-ratio",
+          "subject": "portfolio-construction",
+          "hasAnswer": true,
+          "path": "concepts/sharpe-ratio.html#q-sharpe-ratio-q2"
+        },
+        {
+          "id": "sharpe-ratio-q3",
+          "question": "Name five ways to inflate a Sharpe ratio without adding any skill.",
+          "difficulty": "advanced",
+          "tags": [
+            "gaming",
+            "due-diligence",
+            "red-flags"
+          ],
+          "concept": "sharpe-ratio",
+          "subject": "portfolio-construction",
+          "hasAnswer": true,
+          "path": "concepts/sharpe-ratio.html#q-sharpe-ratio-q3"
+        },
+        {
+          "id": "sharpe-ratio-q4",
+          "question": "Two strategies: A has Sharpe 1.5, B has Sharpe 0.8. Which do you allocate to?",
+          "difficulty": "intermediate",
+          "tags": [
+            "portfolio-construction",
+            "correlation"
+          ],
+          "concept": "sharpe-ratio",
+          "subject": "portfolio-construction",
+          "hasAnswer": true,
+          "path": "concepts/sharpe-ratio.html#q-sharpe-ratio-q4"
+        },
+        {
+          "id": "sharpe-ratio-q5",
+          "question": "Why do hedge funds quote the information ratio rather than the Sharpe ratio?",
+          "difficulty": "intermediate",
+          "tags": [
+            "benchmark",
+            "alpha"
+          ],
+          "concept": "sharpe-ratio",
+          "subject": "portfolio-construction",
+          "hasAnswer": true,
+          "path": "concepts/sharpe-ratio.html#q-sharpe-ratio-q5"
+        },
+        {
+          "id": "sharpe-ratio-q6",
+          "question": "Your backtest of 500 strategy variants produced a best Sharpe of 2.5. What is the honest expected out-of-sample Sharpe?",
+          "difficulty": "research",
+          "tags": [
+            "multiple-testing",
+            "deflated-sharpe",
+            "backtesting"
+          ],
+          "concept": "sharpe-ratio",
+          "subject": "portfolio-construction",
+          "hasAnswer": true,
+          "path": "concepts/sharpe-ratio.html#q-sharpe-ratio-q6"
+        }
+      ]
+    },
+    {
+      "id": "variance",
+      "title": "Variance",
+      "subject": "statistics",
+      "summary": "The expected squared deviation from the mean — the second moment that turns a return forecast into a position size, and the quantity that does not add when you combine assets.",
+      "difficulty": "foundational",
+      "interviewRelevance": 5,
+      "status": "learned",
+      "tags": [
+        "statistics",
+        "moments",
+        "risk",
+        "volatility",
+        "dispersion"
+      ],
+      "prerequisites": [
+        "expectation"
+      ],
+      "related": [
+        "covariance-and-correlation",
+        "sharpe-ratio",
+        "expectation"
+      ],
+      "builtOn": [
+        "brownian-motion",
+        "covariance-and-correlation",
+        "kelly-criterion",
+        "linear-regression",
+        "sharpe-ratio"
+      ],
+      "tracks": [],
+      "path": "concepts/variance.html",
+      "estimatedMinutes": 13,
+      "wordCount": 1117,
+      "updated": "2026-01-14",
+      "modules": [
+        "distribution-explorer"
+      ],
+      "sections": [
+        {
+          "id": "intuition",
+          "label": "Intuition"
+        },
+        {
+          "id": "mathematical-formulation",
+          "label": "Mathematical Formulation"
+        },
+        {
+          "id": "derivation",
+          "label": "Derivation"
+        },
+        {
+          "id": "assumptions-edge-cases",
+          "label": "Assumptions & Edge Cases"
+        },
+        {
+          "id": "worked-example",
+          "label": "Worked Example"
+        },
+        {
+          "id": "why-it-matters-in-quant-finance",
+          "label": "Why It Matters in Quant Finance"
+        },
+        {
+          "id": "trading-research-application",
+          "label": "Trading & Research Application"
+        },
+        {
+          "id": "implementation-notes",
+          "label": "Implementation Notes"
+        },
+        {
+          "id": "common-mistakes",
+          "label": "Common Mistakes"
+        },
+        {
+          "id": "30-second-revision",
+          "label": "30-Second Revision"
+        }
+      ],
+      "formulas": [
+        {
+          "id": "variance",
+          "name": "Variance",
+          "latex": "\\Var(X) = \\E\\big[(X - \\E[X])^2\\big] = \\E[X^2] - \\E[X]^2",
+          "usedIn": [
+            "Risk",
+            "Statistics",
+            "Portfolio Theory"
+          ]
+        },
+        {
+          "id": "affine-scaling",
+          "name": "Affine scaling",
+          "latex": "\\Var(aX + b) = a^2 \\Var(X)",
+          "usedIn": [
+            "Leverage",
+            "Risk Scaling"
+          ]
+        },
+        {
+          "id": "variance-of-a-sum",
+          "name": "Variance of a sum",
+          "latex": "\\Var\\!\\left(\\sum_i w_i X_i\\right) = \\sum_i \\sum_j w_i w_j \\Cov(X_i, X_j) = \\mathbf{w}^\\top \\Sigma \\,\\mathbf{w}",
+          "usedIn": [
+            "Portfolio Construction",
+            "Risk Management"
+          ]
+        },
+        {
+          "id": "sample-variance",
+          "name": "Sample variance",
+          "latex": "s^2 = \\frac{1}{n-1}\\sum_{i=1}^{n} (X_i - \\bar X)^2",
+          "usedIn": [
+            "Statistics",
+            "Estimation"
+          ]
+        }
+      ],
+      "questions": [
+        {
+          "id": "variance-q1",
+          "question": "Why divide by n−1 rather than n in the sample variance?",
+          "difficulty": "foundational",
+          "tags": [
+            "estimation",
+            "bias"
+          ],
+          "concept": "variance",
+          "subject": "statistics",
+          "hasAnswer": true,
+          "path": "concepts/variance.html#q-variance-q1"
+        },
+        {
+          "id": "variance-q2",
+          "question": "A portfolio holds n equally weighted assets, each with volatility σ, pairwise correlation ρ. What is the portfolio variance as n → ∞?",
+          "difficulty": "intermediate",
+          "tags": [
+            "diversification",
+            "portfolio"
+          ],
+          "concept": "variance",
+          "subject": "statistics",
+          "hasAnswer": true,
+          "path": "concepts/variance.html#q-variance-q2"
+        },
+        {
+          "id": "variance-q3",
+          "question": "Var(X) = 4, Var(Y) = 9. What are the possible values of Var(X + Y)?",
+          "difficulty": "intermediate",
+          "tags": [
+            "correlation-bounds"
+          ],
+          "concept": "variance",
+          "subject": "statistics",
+          "hasAnswer": true,
+          "path": "concepts/variance.html#q-variance-q3"
+        },
+        {
+          "id": "variance-q4",
+          "question": "Your strategy's daily returns have volatility 1%. What is annual volatility, and when is that calculation wrong?",
+          "difficulty": "intermediate",
+          "tags": [
+            "annualisation",
+            "autocorrelation"
+          ],
+          "concept": "variance",
+          "subject": "statistics",
+          "hasAnswer": true,
+          "path": "concepts/variance.html#q-variance-q4"
+        },
+        {
+          "id": "variance-q5",
+          "question": "You observe 20 daily returns with sample volatility 1.2%. How precise is that estimate?",
+          "difficulty": "advanced",
+          "tags": [
+            "sampling-error",
+            "estimation"
+          ],
+          "concept": "variance",
+          "subject": "statistics",
+          "hasAnswer": true,
+          "path": "concepts/variance.html#q-variance-q5"
+        }
+      ]
+    }
+  ],
+  "stats": {
+    "concepts": 10,
+    "subjects": 24,
+    "formulas": 41,
+    "questions": 49,
+    "words": 13607,
+    "progress": 0.395
+  }
+}

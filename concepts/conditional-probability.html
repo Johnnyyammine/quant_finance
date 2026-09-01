@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en" data-page="concept">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Conditional Probability · Quant Knowledge Base</title>
+<meta name="description" content="The probability of an event once you restrict attention to the states of the world where another event has occurred — the formal machinery for &quot;given what I now know&quot;.">
+<link rel="icon" href="../assets/icons/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/vendor/katex/katex.min.css">
+<link rel="stylesheet" href="../assets/css/app.css">
+<link rel="stylesheet" href="../assets/css/views.css">
+
+</head>
+<body class="kb-body kb-body--concept">
+<header class="kb-topbar">
+  <a class="kb-brand" href="../index.html" title="Home (H)">
+    <span class="kb-brand-mark">QF</span><span class="kb-brand-text">Quant Knowledge Base</span>
+  </a>
+  <nav class="kb-crumbs" aria-label="Breadcrumb"><ol><li><a href="../index.html">Dashboard</a></li><li class="kb-crumb-sep" aria-hidden="true">/</li><li><a href="../subjects/probability.html">Probability</a></li><li class="kb-crumb-sep" aria-hidden="true">/</li><li><span aria-current="page">Conditional Probability</span></li></ol></nav>
+  <div class="kb-topbar-actions">
+    <button class="kb-searchbtn" type="button" data-kb-open-search>
+      <span>Search concepts, formulas, questions</span><kbd>/</kbd>
+    </button>
+    <nav class="kb-toplinks" aria-label="Sections">
+      <a href="../index.html" data-nav="home">Dashboard</a>
+      <a href="../graph.html" data-nav="graph">Graph</a>
+      <a href="../interview.html" data-nav="interview">Interview</a>
+      <a href="../library.html" data-nav="library">Library</a>
+    </nav>
+    <button class="kb-iconbtn" type="button" data-kb-theme title="Toggle theme (T)" aria-label="Toggle theme">◑</button>
+    <button class="kb-iconbtn" type="button" data-kb-help title="Keyboard shortcuts (?)" aria-label="Keyboard shortcuts">?</button>
+  </div>
+</header>
+<main class="kb-main kb-main--concept" data-concept-id="conditional-probability">
+  <article class="kb-article">
+    <header class="kb-concept-head">
+      <div class="kb-concept-eyebrow">
+        <a class="kb-subject-chip" href="../subjects/probability.html" style="--subject-color:#4f8fd6">
+          <span class="kb-subject-mark">P</span>Probability</a>
+        <span class="kb-pill kb-pill--foundational">Foundational</span>
+        <span class="kb-stars" title="Interview relevance 5 of 5" aria-label="Interview relevance 5 of 5"><span class="kb-stars-on">★★★★★</span><span class="kb-stars-off"></span></span>
+        <span class="kb-meta-dot">·</span>
+        <span class="kb-readtime">11 min</span>
+      </div>
+      <h1 class="kb-concept-title">Conditional Probability</h1>
+      <p class="kb-concept-summary">The probability of an event once you restrict attention to the states of the world where another event has occurred — the formal machinery for &quot;given what I now know&quot;.</p>
+      <div class="kb-concept-controls">
+        <label class="kb-statusctl">Status
+          <select data-kb-status="conditional-probability" data-default="learning">
+            <option value="not-started">Not started</option><option value="learning" selected>Learning</option><option value="learned">Learned</option><option value="mastered">Mastered</option>
+          </select>
+        </label>
+        <button class="kb-btn kb-btn--ghost" type="button" data-kb-bookmark="conditional-probability">☆ Bookmark</button>
+        <button class="kb-btn kb-btn--ghost" type="button" data-kb-flashcards>Revision card</button>
+        <a class="kb-btn kb-btn--ghost" href="../graph.html?focus=conditional-probability">Show in graph</a>
+      </div>
+      <ul class="kb-taglist"><li><a class="kb-tag" href="../library.html?tag=probability">#probability</a></li><li><a class="kb-tag" href="../library.html?tag=conditioning">#conditioning</a></li><li><a class="kb-tag" href="../library.html?tag=information">#information</a></li><li><a class="kb-tag" href="../library.html?tag=bayes">#bayes</a></li></ul>
+    </header>
+
+    <div class="kb-content"><h2 id="intuition" class="kb-h kb-h2"><a class="kb-anchor" href="#intuition" aria-label="Link to this section">#</a>Intuition</h2>
+<p>Conditioning is <em>shrinking the sample space</em>. Before you know anything, the universe of possible
+outcomes is  <span class="math-inline">\(\Omega\)</span> . Learning that  <span class="math-inline">\(B\)</span>  occurred throws away every outcome outside  <span class="math-inline">\(B\)</span>  and
+renormalises what remains so the probabilities still sum to one.</p>
+<p>That renormalisation — dividing by  <span class="math-inline">\(\P(B)\)</span>  — is where all the counter-intuitive results come from.
+The numerator only counts outcomes in both  <span class="math-inline">\(A\)</span>  and  <span class="math-inline">\(B\)</span> ; the denominator has shrunk. Whether
+ <span class="math-inline">\(\P(A\mid B)\)</span>  is larger or smaller than  <span class="math-inline">\(\P(A)\)</span>  depends entirely on whether  <span class="math-inline">\(B\)</span>  eliminated
+relatively more non- <span class="math-inline">\(A\)</span>  outcomes than  <span class="math-inline">\(A\)</span>  outcomes.</p>
+<aside class="kb-callout kb-callout--insight"><div class="kb-callout-title">Insight</div><div class="kb-callout-body"><p>The hardest part of a conditioning problem is almost never the arithmetic. It is stating precisely
+<em>what event you are conditioning on</em> — and in particular, what process generated the information.
+&quot;A boy exists in this family&quot; and &quot;the child I met is a boy&quot; are different events with different
+answers.</p></div></aside>
+<h2 id="mathematical-formulation" class="kb-h kb-h2"><a class="kb-anchor" href="#mathematical-formulation" aria-label="Link to this section">#</a>Mathematical Formulation</h2>
+<figure class="kb-formula" id="conditional-probability" data-formula="conditional-probability"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">Conditional probability</span><button class="kb-formula-copy" type="button" data-latex="\P(A \mid B) = \frac{\P(A \cap B)}{\P(B)}, \qquad \P(B) &gt; 0" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[\P(A \mid B) = \frac{\P(A \cap B)}{\P(B)}, \qquad \P(B) &gt; 0\]</span> </div><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">Probability</span><span class="kb-chip">Risk</span><span class="kb-chip">Microstructure</span></footer></figure>
+<p>Rearranged, this is the <strong>multiplication rule</strong>, which is usually the more useful direction:</p>
+<figure class="kb-formula" id="chain-rule" data-formula="chain-rule"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">Chain rule</span><button class="kb-formula-copy" type="button" data-latex="\P(A_1 \cap \cdots \cap A_n) = \P(A_1)\,\P(A_2\mid A_1)\,\P(A_3 \mid A_1\cap A_2)\cdots \P(A_n \mid A_1 \cap \cdots \cap A_{n-1})" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[\P(A_1 \cap \cdots \cap A_n) = \P(A_1)\,\P(A_2\mid A_1)\,\P(A_3 \mid A_1\cap A_2)\cdots \P(A_n \mid A_1 \cap \cdots \cap A_{n-1})\]</span> </div><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">Probability</span><span class="kb-chip">Time Series</span><span class="kb-chip">Machine Learning</span></footer></figure>
+<p><strong>Independence</strong> is the special case where conditioning changes nothing:</p>
+<span class="math-display">\[A \perp B \iff \P(A\mid B) = \P(A) \iff \P(A\cap B) = \P(A)\P(B)\]</span>
+<p>And the decomposition that makes conditioning a computational tool:</p>
+<figure class="kb-formula" id="law-of-total-probability" data-formula="law-of-total-probability"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">Law of total probability</span><button class="kb-formula-copy" type="button" data-latex="\P(A) = \sum_{i} \P(A \mid B_i)\, \P(B_i) \quad \text{for a partition } \{B_i\}" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[\P(A) = \sum_{i} \P(A \mid B_i)\, \P(B_i) \quad \text{for a partition } \{B_i\}\]</span> </div><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">Risk</span><span class="kb-chip">Scenario Analysis</span><span class="kb-chip">Credit</span></footer></figure>
+<p>Its expectation analogue, the <strong>tower property</strong>, is the single most-used identity in stochastic
+finance:</p>
+<figure class="kb-formula" id="tower-property-law-of-iterated-expectations" data-formula="tower-property-law-of-iterated-expectations"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">Tower property (law of iterated expectations)</span><button class="kb-formula-copy" type="button" data-latex="\E\big[\,\E[X \mid \mathcal{G}]\,\big] = \E[X]" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[\E\big[\,\E[X \mid \mathcal{G}]\,\big] = \E[X]\]</span> </div><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">Derivatives</span><span class="kb-chip">Martingales</span><span class="kb-chip">Alpha Research</span></footer></figure>
+<h2 id="derivation" class="kb-h kb-h2"><a class="kb-anchor" href="#derivation" aria-label="Link to this section">#</a>Derivation</h2>
+<details class="kb-derivation"><summary>Why the definition must divide by P(B)</summary><div class="kb-derivation-body"><p>Conditional probability should be a genuine probability measure on the restricted space: it must be
+non-negative, and  <span class="math-inline">\(\P(\Omega \mid B)\)</span>  must equal 1.</p>
+<p>Define an unnormalised measure  <span class="math-inline">\(\mu(A) = \P(A\cap B)\)</span> . It is non-negative and additive, but
+ <span class="math-inline">\(\mu(\Omega) = \P(B) \ne 1\)</span> . Dividing through by  <span class="math-inline">\(\P(B)\)</span>  is the unique rescaling that restores
+total mass one while preserving relative likelihoods within  <span class="math-inline">\(B\)</span> . Any other normalisation would
+either break additivity or distort ratios of outcomes inside  <span class="math-inline">\(B\)</span>  — neither of which we want, since
+learning  <span class="math-inline">\(B\)</span>  occurred should tell us nothing new about the <em>relative</em> odds of outcomes within  <span class="math-inline">\(B\)</span> .</p></div></details>
+<details class="kb-derivation"><summary>Tower property in one line</summary><div class="kb-derivation-body"><p>Partition on the conditioning variable  <span class="math-inline">\(Y\)</span> :</p>
+<span class="math-display">\[\E\big[\E[X\mid Y]\big] = \sum_y \E[X \mid Y=y]\,\P(Y=y)
+= \sum_y \sum_x x\,\P(X=x\mid Y=y)\P(Y=y) = \sum_x x \,\P(X=x) = \E[X]\]</span>
+<p>Interpretation: *your best forecast today of your best forecast tomorrow is your best forecast
+today.* If it were not, you would already have updated. This is exactly the <a class="kb-link" href="martingales.html" data-concept="martingales">martingale</a>
+property, and it is why a price that is a conditional expectation cannot be predictably improved on.</p></div></details>
+<h2 id="assumptions-edge-cases" class="kb-h kb-h2"><a class="kb-anchor" href="#assumptions-edge-cases" aria-label="Link to this section">#</a>Assumptions &amp; Edge Cases</h2>
+<aside class="kb-callout kb-callout--assumption"><div class="kb-callout-title">Assumptions</div><div class="kb-callout-body"><ul class="kb-list"><li><span class="math-inline">\(\P(B) &gt; 0\)</span>  is required. Conditioning on probability-zero events (a continuous variable taking an
+exact value) needs the measure-theoretic construction  <span class="math-inline">\(\E[X\mid\mathcal{G}]\)</span> , and naive limits give
+the Borel–Kolmogorov paradox: different limiting procedures give different answers.</li>
+<li>Independence is <strong>not</strong> transitive, and pairwise independence does not imply mutual independence.</li>
+<li>Conditional independence given  <span class="math-inline">\(C\)</span>  neither implies nor is implied by unconditional independence.
+Two stocks can be independent given the market factor while being strongly correlated
+unconditionally — the entire premise of a <a class="kb-link" href="linear-regression.html" data-concept="linear-regression">factor model</a>.</li></ul></div></aside>
+<h2 id="worked-example" class="kb-h kb-h2"><a class="kb-anchor" href="#worked-example" aria-label="Link to this section">#</a>Worked Example</h2>
+<p>A signal flags 8% of stock-days as &quot;buy&quot;. Over the sample, 12% of all stock-days are followed by a</p>
+<blockquote><p>2% move up. Among flagged days, 21% are followed by such a move.</p></blockquote>
+<span class="math-display">\[\P(\text{up} \mid \text{flag}) = 0.21, \qquad \P(\text{up}) = 0.12\]</span>
+<p>The <strong>lift</strong> is  <span class="math-inline">\(0.21/0.12 = 1.75\times\)</span> . Now check the other direction with the multiplication rule:</p>
+<span class="math-display">\[\P(\text{flag}\mid \text{up}) = \frac{\P(\text{up}\mid\text{flag})\P(\text{flag})}{\P(\text{up})}
+= \frac{0.21 \times 0.08}{0.12} = 0.14\]</span>
+<p>So the signal catches only 14% of the big up-moves. <strong>Precision 21%, recall 14%.</strong> Both numbers
+matter and they answer different questions: precision determines whether a trade is worth taking,
+recall determines whether the strategy has enough capacity to matter. A signal with 90% precision
+and 0.1% recall is a fine trade and a useless business.</p>
+<h2 id="why-it-matters-in-quant-finance" class="kb-h kb-h2"><a class="kb-anchor" href="#why-it-matters-in-quant-finance" aria-label="Link to this section">#</a>Why It Matters in Quant Finance</h2>
+<p>Nearly every quantity a quant estimates is a conditional expectation in disguise:</p>
+<div class="kb-table-wrap"><table class="kb-table"><thead><tr><th>Object</th><th>What it really is</th></tr></thead><tbody><tr><td>Alpha forecast</td><td><span class="math-inline">\(\E[r_{t+1} \mid \mathcal{F}_t]\)</span></td></tr>
+<tr><td>Beta / factor loading</td><td><span class="math-inline">\(\E[r_i \mid r_f]\)</span> , linear approximation</td></tr>
+<tr><td>Option price</td><td><span class="math-inline">\(\E^{\Q}[\,\text{payoff} \mid \mathcal{F}_t\,]\)</span>  discounted</td></tr>
+<tr><td>Conditional VaR</td><td>quantile of  <span class="math-inline">\(r \mid\)</span>  regime</td></tr>
+<tr><td>Default probability</td><td><span class="math-inline">\(\P(\text{default} \mid \text{covariates}, \text{horizon})\)</span></td></tr></tbody></table></div>
+<p>The information set  <span class="math-inline">\(\mathcal{F}_t\)</span>  in each row is the thing that must be defined honestly. A
+backtest that uses restated fundamentals is computing  <span class="math-inline">\(\E[r_{t+1}\mid\mathcal{F}_T]\)</span>  with  <span class="math-inline">\(T &gt; t\)</span>  —
+a conditional expectation on information that did not exist. Look-ahead bias is not sloppiness about
+data; it is conditioning on the wrong sigma-algebra.</p>
+<h2 id="trading-research-application" class="kb-h kb-h2"><a class="kb-anchor" href="#trading-research-application" aria-label="Link to this section">#</a>Trading &amp; Research Application</h2>
+<aside class="kb-callout kb-callout--desk"><div class="kb-callout-title">On the desk</div><div class="kb-callout-body"><p><strong>Adverse selection is a conditioning statement.</strong> As a market maker your unconditional view might
+be that 5% of flow is informed. But conditional on <em>your quote being lifted</em>, that share is much
+higher — informed traders trade exactly when your quote is wrong. The spread you quote must price
+ <span class="math-inline">\(\P(\text{informed}\mid\text{filled})\)</span> , not  <span class="math-inline">\(\P(\text{informed})\)</span> .</p>
+<p><strong>Regime conditioning.</strong> A strategy&#39;s Sharpe estimated over 2012–2019 is
+ <span class="math-inline">\(\E[\text{Sharpe}\mid\text{low-vol regime, falling rates}]\)</span> . Presenting it as unconditional is the
+most common failure in a research meeting. The honest version quotes the number and the
+conditioning set together.</p>
+<p><strong>Signal decay.</strong>  <span class="math-inline">\(\P(\text{profitable}\mid\text{signal fired } h \text{ hours ago})\)</span>  falls with  <span class="math-inline">\(h\)</span> .
+Measuring that curve tells you the urgency of execution, which is the input to the
+<a class="kb-link" href="linear-regression.html" data-concept="linear-regression">impact-vs-alpha</a> trade-off.</p></div></aside>
+<h2 id="common-mistakes" class="kb-h kb-h2"><a class="kb-anchor" href="#common-mistakes" aria-label="Link to this section">#</a>Common Mistakes</h2>
+<aside class="kb-callout kb-callout--pitfall"><div class="kb-callout-title">Common pitfall</div><div class="kb-callout-body"><ul class="kb-list"><li><strong>Confusing  <span class="math-inline">\(\P(A\mid B)\)</span>  with  <span class="math-inline">\(\P(B\mid A)\)</span> </strong> — the prosecutor&#39;s fallacy. $\P(\text{evidence}\mid
+\text{guilty})$ is not  <span class="math-inline">\(\P(\text{guilty}\mid\text{evidence})\)</span> ; the ratio between them is the base
+rate, and it is usually the dominant term. See <a class="kb-link" href="bayes-theorem.html" data-concept="bayes-theorem">Bayes&#39; Theorem</a>.</li>
+<li><strong>Ignoring the information-generating process.</strong> Two-children, Monty Hall and the prisoners
+problem all hinge on <em>how</em> you learned the fact, not the fact itself.</li>
+<li><strong>Treating conditional independence as unconditional.</strong> Assets independent given the market factor
+are still correlated in the raw data.</li>
+<li><strong>Conditioning on the future.</strong> Survivorship bias, restated data and in-sample feature selection
+are all instances of conditioning on information not available at decision time.</li>
+<li><strong>Forgetting  <span class="math-inline">\(\P(B)&gt;0\)</span> .</strong> Continuous conditioning needs the measure-theoretic definition.</li></ul></div></aside>
+<h2 id="30-second-revision" class="kb-h kb-h2"><a class="kb-anchor" href="#30-second-revision" aria-label="Link to this section">#</a>30-Second Revision</h2>
+<ul class="kb-list"><li><span class="math-inline">\(\P(A\mid B) = \P(A\cap B)/\P(B)\)</span>  — shrink the sample space, renormalise.</li>
+<li>Independence  <span class="math-inline">\(\iff \P(A\cap B)=\P(A)\P(B) \iff\)</span>  conditioning changes nothing.</li>
+<li>Total probability:  <span class="math-inline">\(\P(A)=\sum_i \P(A\mid B_i)\P(B_i)\)</span> ; tower:  <span class="math-inline">\(\E[\E[X\mid\mathcal G]] = \E[X]\)</span> .</li>
+<li><span class="math-inline">\(\P(A\mid B) \ne \P(B\mid A)\)</span> ; the bridge between them is the base rate (<a class="kb-link" href="bayes-theorem.html" data-concept="bayes-theorem">Bayes&#39; Theorem</a>).</li>
+<li>The hard part is naming the conditioning event, including how the information arrived.</li>
+<li>Every alpha, beta, price and risk number is a conditional expectation — state the information set.</li></ul></div>
+    <section class="kb-section" id="key-formulas">
+        <h2 class="kb-h kb-h2"><a class="kb-anchor" href="#key-formulas" aria-label="Link to this section">#</a>Key Formulas</h2>
+        <div class="kb-formula-recap">
+          <a class="kb-formula-recap-item" href="#conditional-probability">
+            <span class="kb-formula-recap-name">Conditional probability</span>
+            <span class="math-display">\[\P(A \mid B) = \frac{\P(A \cap B)}{\P(B)}, \qquad \P(B) &gt; 0\]</span>
+          </a>
+          <a class="kb-formula-recap-item" href="#chain-rule">
+            <span class="kb-formula-recap-name">Chain rule</span>
+            <span class="math-display">\[\P(A_1 \cap \cdots \cap A_n) = \P(A_1)\,\P(A_2\mid A_1)\,\P(A_3 \mid A_1\cap A_2)\cdots \P(A_n \mid A_1 \cap \cdots \cap A_{n-1})\]</span>
+          </a>
+          <a class="kb-formula-recap-item" href="#law-of-total-probability">
+            <span class="kb-formula-recap-name">Law of total probability</span>
+            <span class="math-display">\[\P(A) = \sum_{i} \P(A \mid B_i)\, \P(B_i) \quad \text{for a partition } \{B_i\}\]</span>
+          </a>
+          <a class="kb-formula-recap-item" href="#tower-property-law-of-iterated-expectations">
+            <span class="kb-formula-recap-name">Tower property (law of iterated expectations)</span>
+            <span class="math-display">\[\E\big[\,\E[X \mid \mathcal{G}]\,\big] = \E[X]\]</span>
+          </a></div>
+      </section>
+    <section class="kb-section" id="interview-questions">
+        <h2 class="kb-h kb-h2"><a class="kb-anchor" href="#interview-questions" aria-label="Link to this section">#</a>Interview Questions</h2>
+        <ol class="kb-questions">
+          <li class="kb-question" id="q-conditional-probability-q1" data-difficulty="intermediate">
+            <div class="kb-question-head">
+              <span class="kb-question-text">A family has two children. At least one is a boy. What is the probability both are boys?</span>
+              <span class="kb-tagline">Intermediate · brainteaser · conditioning</span>
+            </div>
+            <details class="kb-hint"><summary>Hint</summary><div><p>Write out the sample space explicitly before doing any arithmetic.</p></div></details>
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>Sample space  <span class="math-inline">\(\{BB, BG, GB, GG\}\)</span> , each with probability  <span class="math-inline">\(1/4\)</span> . Conditioning on
+&quot;at least one boy&quot; removes  <span class="math-inline">\(GG\)</span> , leaving three equally likely outcomes of which one is  <span class="math-inline">\(BB\)</span> :</p>
+<span class="math-display">\[\P(BB \mid \text{at least one } B) = \frac{1/4}{3/4} = \frac{1}{3}\]</span>
+<p><strong>The follow-up that separates candidates:</strong> if instead you *meet one of the children and he
+is a boy*, the answer is  <span class="math-inline">\(1/2\)</span> . The two questions condition on different events. The first
+conditions on a property of the family; the second on a property of a randomly selected child,
+which double-weights  <span class="math-inline">\(BB\)</span>  (either child could have been the one you met).
+The lesson generalises: the answer depends on the *sampling mechanism that generated the
+information*, not just on the information&#39;s content. This is the same reasoning error behind
+survivorship bias in backtests.</p></div></details>
+          </li>
+          <li class="kb-question" id="q-conditional-probability-q2" data-difficulty="advanced">
+            <div class="kb-question-head">
+              <span class="kb-question-text">Three prisoners; one will be pardoned. A asks the guard to name a prisoner other than himself who will be executed. The guard says B. Has A&#39;s survival probability improved?</span>
+              <span class="kb-tagline">Advanced · brainteaser · monty-hall</span>
+            </div>
+            <details class="kb-hint"><summary>Hint</summary><div><p>Condition on the guard&#39;s <em>protocol</em>, not just on the statement.</p></div></details>
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>No — A stays at  <span class="math-inline">\(1/3\)</span> ; <strong>C rises to  <span class="math-inline">\(2/3\)</span> </strong>. This is Monty Hall in disguise.
+Let the guard name B. If A is pardoned ( <span class="math-inline">\(p=1/3\)</span> ) the guard picks B or C at random, so
+ <span class="math-inline">\(\P(\text{says B} \mid A) = 1/2\)</span> . If C is pardoned ( <span class="math-inline">\(p=1/3\)</span> ) the guard <em>must</em> say B, so
+ <span class="math-inline">\(\P(\text{says B}\mid C)=1\)</span> . If B is pardoned the guard cannot say B.</p>
+<span class="math-display">\[\P(A \mid \text{says B}) = \frac{\tfrac13 \cdot \tfrac12}{\tfrac13\cdot\tfrac12 + \tfrac13 \cdot 1} = \frac{1/6}{1/2} = \frac13\]</span>
+<p>The information is asymmetric because the guard&#39;s <em>protocol</em> constrains what he can say.
+Change the protocol (a guard who names a random non-pardoned prisoner including possibly A)
+and the answer changes.</p></div></details>
+          </li>
+          <li class="kb-question" id="q-conditional-probability-q3" data-difficulty="foundational">
+            <div class="kb-question-head">
+              <span class="kb-question-text">P(A) = 0.6, P(B) = 0.5, P(A ∪ B) = 0.8. Are A and B independent?</span>
+              <span class="kb-tagline">Foundational · independence</span>
+            </div>
+            
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p> <span class="math-inline">\(\P(A\cap B) = 0.6 + 0.5 - 0.8 = 0.3\)</span> . Independence requires
+ <span class="math-inline">\(\P(A)\P(B) = 0.30\)</span> . They match, so <strong>yes, independent</strong>.
+Then  <span class="math-inline">\(\P(A\mid B) = 0.3/0.5 = 0.6 = \P(A)\)</span>  — conditioning tells you nothing, which is what
+independence <em>means</em>.</p></div></details>
+          </li>
+          <li class="kb-question" id="q-conditional-probability-q4" data-difficulty="advanced">
+            <div class="kb-question-head">
+              <span class="kb-question-text">In a market-making context, why is P(informed trader | my quote was hit) larger than P(informed trader)?</span>
+              <span class="kb-tagline">Advanced · microstructure · adverse-selection</span>
+            </div>
+            
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>Because informed traders hit quotes selectively — precisely when the quote is stale relative
+to their information. The event &quot;my quote was hit&quot; is <em>positively correlated</em> with the event
+&quot;someone knows something I don&#39;t&quot;.</p>
+<span class="math-display">\[\P(I \mid \text{hit}) = \frac{\P(\text{hit}\mid I)\,\P(I)}{\P(\text{hit})} &gt; \P(I)
+\quad\text{because}\quad \P(\text{hit}\mid I) &gt; \P(\text{hit}\mid \neg I)\]</span>
+<p>This is <strong>adverse selection</strong>, and it is the whole reason bid–ask spreads exist. The spread
+is compensation for the fact that your realised counterparty mix is worse than the population
+mix. Any market maker who prices off unconditional probabilities is systematically picked off.</p></div></details>
+          </li></ol>
+      </section>
+
+    <section class="kb-section" id="connections">
+      <h2 class="kb-h kb-h2"><a class="kb-anchor" href="#connections" aria-label="Link to this section">#</a>Connections</h2>
+      <div class="kb-connections">
+        
+        <section class="kb-relgroup"><h3>Builds towards</h3><p class="kb-relnote">Concepts that depend on this one.</p><ul class="kb-rellist"><li><a href="../concepts/bayes-theorem.html" class="kb-relitem">
+          <span class="kb-relitem-title">Bayes&#39; Theorem</span>
+          <span class="kb-relitem-meta">Probability · Foundational</span>
+          <span class="kb-relitem-sum">The rule for inverting a conditional probability — turning &quot;how likely is this evidence if the hypothesis is true&quot; into &quot;how likely is the hypothesis given the evidence&quot;.</span>
+        </a></li><li><a href="../concepts/martingales.html" class="kb-relitem">
+          <span class="kb-relitem-title">Martingales</span>
+          <span class="kb-relitem-meta">Stochastic Processes · Advanced</span>
+          <span class="kb-relitem-sum">A process whose best forecast of its own future value is its present value — the formal statement of &quot;no predictable edge&quot;, and the object that makes arbitrage-free pricing work.</span>
+        </a></li></ul></section>
+        <section class="kb-relgroup"><h3>Related</h3><ul class="kb-rellist"><li><a href="../concepts/bayes-theorem.html" class="kb-relitem">
+          <span class="kb-relitem-title">Bayes&#39; Theorem</span>
+          <span class="kb-relitem-meta">Probability · Foundational</span>
+          <span class="kb-relitem-sum">The rule for inverting a conditional probability — turning &quot;how likely is this evidence if the hypothesis is true&quot; into &quot;how likely is the hypothesis given the evidence&quot;.</span>
+        </a></li><li><a href="../concepts/expectation.html" class="kb-relitem">
+          <span class="kb-relitem-title">Expectation</span>
+          <span class="kb-relitem-meta">Probability · Foundational</span>
+          <span class="kb-relitem-sum">The probability-weighted average of a random variable — the number a long-run average converges to, and the object almost every pricing and sizing argument is really about.</span>
+        </a></li><li><a href="../concepts/martingales.html" class="kb-relitem">
+          <span class="kb-relitem-title">Martingales</span>
+          <span class="kb-relitem-meta">Stochastic Processes · Advanced</span>
+          <span class="kb-relitem-sum">A process whose best forecast of its own future value is its present value — the formal statement of &quot;no predictable edge&quot;, and the object that makes arbitrage-free pricing work.</span>
+        </a></li><li><a href="../concepts/linear-regression.html" class="kb-relitem">
+          <span class="kb-relitem-title">Linear Regression</span>
+          <span class="kb-relitem-meta">Statistics · Intermediate</span>
+          <span class="kb-relitem-sum">The projection of a target onto the span of its predictors — the estimator behind every beta, factor loading and hedge ratio in finance, and the one whose assumptions market data violates most reliably.</span>
+        </a></li></ul></section>
+        
+      </div>
+      
+    </section>
+
+    <nav class="kb-prevnext" aria-label="Concept navigation">
+    <span></span>
+    <a class="kb-prevnext-item kb-prevnext-up" href="../subjects/probability.html">
+      <span class="kb-prevnext-label">Subject</span><span>Probability</span></a>
+    <a class="kb-prevnext-item kb-prevnext-next" href="../concepts/expectation.html" rel="next">
+      <span class="kb-prevnext-label">Next →</span><span>Expectation</span></a>
+  </nav>
+    <footer class="kb-source-note">
+      Source: <code>content/concepts/conditional-probability.md</code> · updated 2026-01-14
+      · edit the markdown and run <code>npm run build</code>.
+    </footer>
+  </article>
+
+  <aside class="kb-sidebar">
+    <nav class="kb-toc" aria-label="On this page"><h3>On this page</h3><ol><li><a href="#intuition">Intuition</a></li><li><a href="#mathematical-formulation">Mathematical Formulation</a></li><li><a href="#derivation">Derivation</a></li><li><a href="#assumptions-edge-cases">Assumptions &amp; Edge Cases</a></li><li><a href="#worked-example">Worked Example</a></li><li><a href="#why-it-matters-in-quant-finance">Why It Matters in Quant Finance</a></li><li><a href="#trading-research-application">Trading &amp; Research Application</a></li><li><a href="#common-mistakes">Common Mistakes</a></li><li><a href="#30-second-revision">30-Second Revision</a></li><li><a href="#key-formulas">Key Formulas</a></li><li><a href="#interview-questions">Interview Questions</a></li><li><a href="#connections">Connections</a></li></ol></nav>
+    <section class="kb-side-card" id="side-formulas"><h3>Key formulas</h3><ul class="kb-side-formulas"><li><a href="#conditional-probability">Conditional probability</a></li><li><a href="#chain-rule">Chain rule</a></li><li><a href="#law-of-total-probability">Law of total probability</a></li><li><a href="#tower-property-law-of-iterated-expectations">Tower property (law of iterated expectations)</a></li></ul></section>
+    <section class="kb-side-card">
+      <h3>Metadata</h3>
+      <dl class="kb-meta">
+        <dt>Subject</dt><dd><a href="../subjects/probability.html">Probability</a></dd>
+        <dt>Difficulty</dt><dd>Foundational</dd>
+        <dt>Interview</dt><dd><span class="kb-stars" title="Interview relevance 5 of 5" aria-label="Interview relevance 5 of 5"><span class="kb-stars-on">★★★★★</span><span class="kb-stars-off"></span></span></dd>
+        <dt>Status</dt><dd data-kb-status-label="conditional-probability">Learning</dd>
+        <dt>Prereqs</dt><dd>—</dd>
+        <dt>Formulas</dt><dd>4</dd>
+        <dt>Questions</dt><dd>4</dd>
+      </dl>
+    </section>
+    <section class="kb-side-card kb-side-minimap">
+      <h3>Neighbourhood</h3>
+      <canvas data-kb-minimap="conditional-probability" width="260" height="200" aria-label="Local knowledge graph"></canvas>
+      <a class="kb-side-more" href="../graph.html?focus=conditional-probability">Open full graph →</a>
+    </section>
+  </aside>
+</main>
+<script src="../data/kb.data.js"></script>
+<script src="../data/search.index.js"></script>
+<script src="../assets/js/kb-core.js"></script>
+<script src="../assets/js/kb-ui.js"></script>
+<script src="../assets/vendor/katex/katex.min.js" defer></script>
+<script src="../assets/vendor/katex/auto-render.min.js" defer></script>
+<script src="../assets/js/math.js" defer></script>
+<script src="../assets/js/concept.js" defer></script>
+</body>
+</html>

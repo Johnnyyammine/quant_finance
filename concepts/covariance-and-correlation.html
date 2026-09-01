@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en" data-page="concept">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Covariance &amp; Correlation · Quant Knowledge Base</title>
+<meta name="description" content="Covariance measures how two variables move together in raw units; correlation normalises it to [-1, 1] — together they determine whether combining two positions reduces risk or concentrates it.">
+<link rel="icon" href="../assets/icons/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/vendor/katex/katex.min.css">
+<link rel="stylesheet" href="../assets/css/app.css">
+<link rel="stylesheet" href="../assets/css/views.css">
+
+</head>
+<body class="kb-body kb-body--concept">
+<header class="kb-topbar">
+  <a class="kb-brand" href="../index.html" title="Home (H)">
+    <span class="kb-brand-mark">QF</span><span class="kb-brand-text">Quant Knowledge Base</span>
+  </a>
+  <nav class="kb-crumbs" aria-label="Breadcrumb"><ol><li><a href="../index.html">Dashboard</a></li><li class="kb-crumb-sep" aria-hidden="true">/</li><li><a href="../subjects/statistics.html">Statistics</a></li><li class="kb-crumb-sep" aria-hidden="true">/</li><li><span aria-current="page">Covariance &amp; Correlation</span></li></ol></nav>
+  <div class="kb-topbar-actions">
+    <button class="kb-searchbtn" type="button" data-kb-open-search>
+      <span>Search concepts, formulas, questions</span><kbd>/</kbd>
+    </button>
+    <nav class="kb-toplinks" aria-label="Sections">
+      <a href="../index.html" data-nav="home">Dashboard</a>
+      <a href="../graph.html" data-nav="graph">Graph</a>
+      <a href="../interview.html" data-nav="interview">Interview</a>
+      <a href="../library.html" data-nav="library">Library</a>
+    </nav>
+    <button class="kb-iconbtn" type="button" data-kb-theme title="Toggle theme (T)" aria-label="Toggle theme">◑</button>
+    <button class="kb-iconbtn" type="button" data-kb-help title="Keyboard shortcuts (?)" aria-label="Keyboard shortcuts">?</button>
+  </div>
+</header>
+<main class="kb-main kb-main--concept" data-concept-id="covariance-and-correlation">
+  <article class="kb-article">
+    <header class="kb-concept-head">
+      <div class="kb-concept-eyebrow">
+        <a class="kb-subject-chip" href="../subjects/statistics.html" style="--subject-color:#4f8fd6">
+          <span class="kb-subject-mark">S</span>Statistics</a>
+        <span class="kb-pill kb-pill--foundational">Foundational</span>
+        <span class="kb-stars" title="Interview relevance 5 of 5" aria-label="Interview relevance 5 of 5"><span class="kb-stars-on">★★★★★</span><span class="kb-stars-off"></span></span>
+        <span class="kb-meta-dot">·</span>
+        <span class="kb-readtime">14 min</span>
+      </div>
+      <h1 class="kb-concept-title">Covariance &amp; Correlation</h1>
+      <p class="kb-concept-summary">Covariance measures how two variables move together in raw units; correlation normalises it to [-1, 1] — together they determine whether combining two positions reduces risk or concentrates it.</p>
+      <div class="kb-concept-controls">
+        <label class="kb-statusctl">Status
+          <select data-kb-status="covariance-and-correlation" data-default="learning">
+            <option value="not-started">Not started</option><option value="learning" selected>Learning</option><option value="learned">Learned</option><option value="mastered">Mastered</option>
+          </select>
+        </label>
+        <button class="kb-btn kb-btn--ghost" type="button" data-kb-bookmark="covariance-and-correlation">☆ Bookmark</button>
+        <button class="kb-btn kb-btn--ghost" type="button" data-kb-flashcards>Revision card</button>
+        <a class="kb-btn kb-btn--ghost" href="../graph.html?focus=covariance-and-correlation">Show in graph</a>
+      </div>
+      <ul class="kb-taglist"><li><a class="kb-tag" href="../library.html?tag=statistics">#statistics</a></li><li><a class="kb-tag" href="../library.html?tag=dependence">#dependence</a></li><li><a class="kb-tag" href="../library.html?tag=risk">#risk</a></li><li><a class="kb-tag" href="../library.html?tag=diversification">#diversification</a></li><li><a class="kb-tag" href="../library.html?tag=linear-algebra">#linear-algebra</a></li></ul>
+    </header>
+
+    <div class="kb-content"><h2 id="intuition" class="kb-h kb-h2"><a class="kb-anchor" href="#intuition" aria-label="Link to this section">#</a>Intuition</h2>
+<p>Covariance asks: when  <span class="math-inline">\(X\)</span>  is above its mean, is  <span class="math-inline">\(Y\)</span>  typically above or below its own? Multiply the
+two deviations and average. Same-side pairs contribute positively, opposite-side pairs negatively.
+If the two are unrelated, the products cancel and the average is zero.</p>
+<p>The problem with covariance is that its units are the product of the two variables&#39; units, which
+makes the number uninterpretable on its own. Correlation fixes this by dividing by both standard
+deviations, producing a unit-free number in  <span class="math-inline">\([-1,1]\)</span>  that answers &quot;how much of the co-movement is
+possible co-movement&quot;.</p>
+<aside class="kb-callout kb-callout--insight"><div class="kb-callout-title">Insight</div><div class="kb-callout-body"><p>Geometric picture: treat demeaned data as vectors in  <span class="math-inline">\(\R^n\)</span> . Then covariance is an inner product,
+standard deviation is a norm, and <strong>correlation is the cosine of the angle between them</strong>. Every
+correlation fact follows:  <span class="math-inline">\(|\rho|\le1\)</span>  is Cauchy–Schwarz;  <span class="math-inline">\(\rho=\pm1\)</span>  means collinear;  <span class="math-inline">\(\rho=0\)</span> 
+means orthogonal; and the triangle inequality is why three assets cannot all be strongly negatively
+correlated.</p></div></aside>
+<h2 id="mathematical-formulation" class="kb-h kb-h2"><a class="kb-anchor" href="#mathematical-formulation" aria-label="Link to this section">#</a>Mathematical Formulation</h2>
+<figure class="kb-formula" id="covariance" data-formula="covariance"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">Covariance</span><button class="kb-formula-copy" type="button" data-latex="\Cov(X,Y) = \E\big[(X-\E X)(Y - \E Y)\big] = \E[XY] - \E[X]\E[Y]" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[\Cov(X,Y) = \E\big[(X-\E X)(Y - \E Y)\big] = \E[XY] - \E[X]\E[Y]\]</span> </div><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">Risk</span><span class="kb-chip">Portfolio Construction</span><span class="kb-chip">Factor Models</span></footer></figure>
+<figure class="kb-formula" id="correlation" data-formula="correlation"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">Correlation</span><button class="kb-formula-copy" type="button" data-latex="\rho_{XY} = \frac{\Cov(X,Y)}{\sigma_X \sigma_Y} \in [-1, 1]" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[\rho_{XY} = \frac{\Cov(X,Y)}{\sigma_X \sigma_Y} \in [-1, 1]\]</span> </div><p class="kb-formula-note">Unit-free, bounded, and the cosine of the angle between demeaned data vectors.</p><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">Risk</span><span class="kb-chip">Statistics</span><span class="kb-chip">Pairs Trading</span></footer></figure>
+<p>Bilinearity — the workhorse for portfolio algebra:</p>
+<figure class="kb-formula" id="bilinearity" data-formula="bilinearity"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">Bilinearity</span><button class="kb-formula-copy" type="button" data-latex="\Cov\!\left(\sum_i a_i X_i, \; \sum_j b_j Y_j\right) = \sum_i \sum_j a_i b_j \,\Cov(X_i, Y_j)" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[\Cov\!\left(\sum_i a_i X_i, \; \sum_j b_j Y_j\right) = \sum_i \sum_j a_i b_j \,\Cov(X_i, Y_j)\]</span> </div><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">Portfolio Construction</span><span class="kb-chip">Hedging</span></footer></figure>
+<p>For a portfolio with weights  <span class="math-inline">\(\mathbf w\)</span>  and covariance matrix  <span class="math-inline">\(\Sigma\)</span> :</p>
+<figure class="kb-formula" id="portfolio-variance-in-matrix-form" data-formula="portfolio-variance-in-matrix-form"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">Portfolio variance in matrix form</span><button class="kb-formula-copy" type="button" data-latex="\sigma_p^2 = \mathbf{w}^\top \Sigma\, \mathbf{w}, \qquad
+\Sigma = \operatorname{diag}(\boldsymbol\sigma)\, \mathbf{P} \operatorname{diag}(\boldsymbol\sigma)" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[\sigma_p^2 = \mathbf{w}^\top \Sigma\, \mathbf{w}, \qquad
+\Sigma = \operatorname{diag}(\boldsymbol\sigma)\, \mathbf{P} \operatorname{diag}(\boldsymbol\sigma)\]</span> </div><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">Portfolio Construction</span><span class="kb-chip">Risk Management</span></footer></figure>
+<p>where  <span class="math-inline">\(\mathbf P\)</span>  is the correlation matrix.  <span class="math-inline">\(\Sigma\)</span>  must be <strong>positive semi-definite</strong> — this is
+not a technicality but a no-arbitrage-like constraint: a negative  <span class="math-inline">\(\mathbf w^\top\Sigma\mathbf w\)</span> 
+would be a portfolio with negative variance.</p>
+<h2 id="derivation" class="kb-h kb-h2"><a class="kb-anchor" href="#derivation" aria-label="Link to this section">#</a>Derivation</h2>
+<details class="kb-derivation"><summary>Cauchy–Schwarz gives |ρ| ≤ 1</summary><div class="kb-derivation-body"><p>For any  <span class="math-inline">\(t \in \R\)</span> , variance is non-negative:</p>
+<span class="math-display">\[0 \le \Var(X - tY) = \Var(X) - 2t\Cov(X,Y) + t^2\Var(Y)\]</span>
+<p>This quadratic in  <span class="math-inline">\(t\)</span>  is non-negative everywhere, so its discriminant is non-positive:</p>
+<span class="math-display">\[4\Cov(X,Y)^2 - 4\Var(X)\Var(Y) \le 0 \implies \Cov(X,Y)^2 \le \sigma_X^2\sigma_Y^2\]</span>
+<p>Dividing gives  <span class="math-inline">\(|\rho| \le 1\)</span> , with equality exactly when  <span class="math-inline">\(X - tY\)</span>  has zero variance — i.e. when
+the variables are affinely related. The minimising  <span class="math-inline">\(t^\star = \Cov(X,Y)/\Var(Y)\)</span>  is precisely the
+OLS regression slope, which is why  <span class="math-inline">\(\rho\)</span>  and the beta of a <a class="kb-link" href="linear-regression.html" data-concept="linear-regression">Linear Regression</a> are the same
+object up to scaling.</p></div></details>
+<details class="kb-derivation"><summary>Why correlation cannot be arbitrary across three assets</summary><div class="kb-derivation-body"><p> <span class="math-inline">\(\mathbf P\)</span>  must be PSD, so all eigenvalues are  <span class="math-inline">\(\ge 0\)</span> . For the equicorrelation matrix
+ <span class="math-inline">\(\mathbf P = (1-\rho)I + \rho \mathbf{1}\mathbf{1}^\top\)</span> , the eigenvector  <span class="math-inline">\(\mathbf 1\)</span>  gives
+eigenvalue  <span class="math-inline">\(1+(n-1)\rho\)</span>  and the  <span class="math-inline">\((n-1)\)</span> -dimensional orthogonal complement gives  <span class="math-inline">\(1-\rho\)</span> .
+Non-negativity of the first requires</p>
+<span class="math-display">\[\rho \ge -\frac{1}{n-1}\]</span>
+<p>For  <span class="math-inline">\(n=2\)</span> :  <span class="math-inline">\(\rho \ge -1\)</span>  (no constraint beyond the usual). For  <span class="math-inline">\(n=3\)</span> :  <span class="math-inline">\(\rho \ge -0.5\)</span> .
+For large  <span class="math-inline">\(n\)</span> :  <span class="math-inline">\(\rho \ge 0\)</span>  approximately — <strong>a large universe cannot be broadly negatively
+correlated</strong>, which is the structural reason equity long/short books carry residual market beta
+unless it is explicitly hedged.</p></div></details>
+<h2 id="assumptions-edge-cases" class="kb-h kb-h2"><a class="kb-anchor" href="#assumptions-edge-cases" aria-label="Link to this section">#</a>Assumptions &amp; Edge Cases</h2>
+<aside class="kb-callout kb-callout--assumption"><div class="kb-callout-title">Assumptions</div><div class="kb-callout-body"><ul class="kb-list"><li><strong>Linearity.</strong>  <span class="math-inline">\(\rho\)</span>  sees only linear dependence. Non-monotone relationships (options payoffs,
+volatility exposure) are invisible to it.</li>
+<li><strong>Stationarity.</strong> Correlation is estimated as if constant; it is not. Regime dependence is the
+rule, not the exception.</li>
+<li><strong>Finite second moments.</strong> Undefined for infinite-variance distributions.</li>
+<li><strong>Outlier sensitivity.</strong> Pearson correlation is driven by extremes; a single day can move a
+one-year estimate materially. Spearman (rank) and Kendall&#39;s tau are robust alternatives.</li>
+<li><strong>PSD requirement.</strong> Pairwise estimation from unequal samples routinely violates it.</li></ul></div></aside>
+<aside class="kb-callout kb-callout--warning"><div class="kb-callout-title">Warning</div><div class="kb-callout-body"><p><strong>Correlation is not causation, and it is not even dependence.</strong> Two distinct failures:
+ <span class="math-inline">\(\rho = 0\)</span>  with total dependence ( <span class="math-inline">\(Y=X^2\)</span> ), and  <span class="math-inline">\(\rho = 0.9\)</span>  with no causal link (both driven by a
+third factor). In cross-sectional equity research the third factor is usually sector or size, and
+&quot;discovering&quot; it as an alpha signal is the most common rookie result.</p></div></aside>
+<h2 id="worked-example" class="kb-h kb-h2"><a class="kb-anchor" href="#worked-example" aria-label="Link to this section">#</a>Worked Example</h2>
+<p>Two strategies, each with 10% annual volatility and expected return 6%. Consider combining them
+50/50 at various correlations:</p>
+<div class="kb-table-wrap"><table class="kb-table"><thead><tr><th><span class="math-inline">\(\rho\)</span></th><th><span class="math-inline">\(\sigma_p\)</span></th><th>Sharpe (rf = 0)</th><th>Diversification benefit</th></tr></thead><tbody><tr><td><span class="math-inline">\(+1.0\)</span></td><td>10.0%</td><td>0.60</td><td>none</td></tr>
+<tr><td><span class="math-inline">\(+0.5\)</span></td><td>8.66%</td><td>0.69</td><td>134 bp</td></tr>
+<tr><td><span class="math-inline">\(0.0\)</span></td><td>7.07%</td><td>0.85</td><td>293 bp</td></tr>
+<tr><td><span class="math-inline">\(-0.5\)</span></td><td>5.00%</td><td>1.20</td><td>500 bp</td></tr>
+<tr><td><span class="math-inline">\(-1.0\)</span></td><td>0.0%</td><td>∞</td><td>perfect hedge</td></tr></tbody></table></div>
+<span class="math-display">\[\sigma_p = \sqrt{0.25(0.01) + 0.25(0.01) + 2(0.25)\rho(0.01)} = 0.10\sqrt{\tfrac{1+\rho}{2}}\]</span>
+<p>Expected return is  <span class="math-inline">\(6\%\)</span>  regardless of  <span class="math-inline">\(\rho\)</span>  — combining does not change the mean. <strong>All the value
+of diversification is in the second moment.</strong> Moving correlation from  <span class="math-inline">\(+0.5\)</span>  to  <span class="math-inline">\(0\)</span>  raises Sharpe by
+23% for free, which is why an uncorrelated strategy with a mediocre standalone Sharpe is often worth
+more to a multi-strategy fund than a better but correlated one.</p>
+<h2 id="why-it-matters-in-quant-finance" class="kb-h kb-h2"><a class="kb-anchor" href="#why-it-matters-in-quant-finance" aria-label="Link to this section">#</a>Why It Matters in Quant Finance</h2>
+<ul class="kb-list"><li><strong>Portfolio construction.</strong>  <span class="math-inline">\(\Sigma\)</span>  <em>is</em> the risk model. Every optimiser, risk-parity scheme and
+hedge ratio is a statement about covariance.</li>
+<li><strong>Factor models.</strong>  <span class="math-inline">\(\Sigma = B\Omega B^\top + D\)</span>  decomposes covariance into common factor exposure
+and idiosyncratic risk, reducing  <span class="math-inline">\(O(N^2)\)</span>  parameters to  <span class="math-inline">\(O(NK)\)</span> . This structural reduction is the
+only reason large-universe risk models work.</li>
+<li><strong>PCA and statistical factors.</strong> The eigenvectors of  <span class="math-inline">\(\Sigma\)</span>  are the principal components; the
+first one is almost always &quot;the market&quot;, and the eigenvalue spectrum tells you how many real
+factors there are versus noise (Marchenko–Pastur).</li>
+<li><strong>Pairs trading and relative value.</strong> The entire premise is that a pair&#39;s correlation (or better,
+cointegration) is stable enough to trade the residual.</li>
+<li><strong>Hedging.</strong> The minimum-variance hedge ratio is  <span class="math-inline">\(h^\star = \Cov(S, F)/\Var(F)\)</span>  — a regression
+beta, not a correlation.</li></ul>
+<h2 id="trading-research-application" class="kb-h kb-h2"><a class="kb-anchor" href="#trading-research-application" aria-label="Link to this section">#</a>Trading &amp; Research Application</h2>
+<aside class="kb-callout kb-callout--desk"><div class="kb-callout-title">On the desk</div><div class="kb-callout-body"><p><strong>Correlation is a regime variable, and it moves against you.</strong> The historical stock–bond
+correlation was reliably negative from 2000–2020 and turned positive in 2022, which broke risk
+parity&#39;s central assumption inside a single year. Any leverage decision that treats a historical
+correlation as a constant is taking an unhedged position in that correlation.</p>
+<p><strong>The estimation problem is the real problem.</strong> For  <span class="math-inline">\(N\)</span>  assets you estimate  <span class="math-inline">\(N(N+1)/2\)</span>  parameters
+from  <span class="math-inline">\(T\)</span>  observations, and mean–variance optimisation inverts the result — loading hardest on the
+smallest, noisiest eigenvalues. Shrinkage (Ledoit–Wolf), factor structure and eigenvalue clipping
+are not refinements; without them the optimiser is unusable.</p>
+<p><strong>Measure what you actually care about.</strong> Downside correlation and exceedance correlation
+(correlation conditional on both assets moving beyond a threshold) are usually much higher than
+full-sample correlation. Report both, and size to the stressed one.</p></div></aside>
+<h2 id="implementation-notes" class="kb-h kb-h2"><a class="kb-anchor" href="#implementation-notes" aria-label="Link to this section">#</a>Implementation Notes</h2>
+<figure class="kb-code" data-lang="python"><pre><code class="language-python">import numpy as np
+
+def shrink_covariance(returns: np.ndarray, intensity: float = 0.2) -&gt; np.ndarray:
+    &quot;&quot;&quot;Ledoit-Wolf-style shrinkage towards a constant-correlation target.
+    Trades a little bias for a large reduction in estimation variance --
+    almost always a good trade when the matrix will be inverted.&quot;&quot;&quot;
+    S = np.cov(returns, rowvar=False)
+    sd = np.sqrt(np.diag(S))
+    corr = S / np.outer(sd, sd)
+    n = corr.shape[0]
+    rho_bar = (corr.sum() - n) / (n * (n - 1))       # average off-diagonal
+    target_corr = np.full_like(corr, rho_bar)
+    np.fill_diagonal(target_corr, 1.0)
+    target = target_corr * np.outer(sd, sd)
+    return (1 - intensity) * S + intensity * target
+
+def nearest_psd(A: np.ndarray) -&gt; np.ndarray:
+    &quot;&quot;&quot;Clip negative eigenvalues. Pairwise-estimated correlation matrices are
+    routinely non-PSD; an optimiser fed one will return nonsense.&quot;&quot;&quot;
+    vals, vecs = np.linalg.eigh((A + A.T) / 2)
+    return vecs @ np.diag(np.clip(vals, 1e-10, None)) @ vecs.T</code></pre></figure>
+<h2 id="common-mistakes" class="kb-h kb-h2"><a class="kb-anchor" href="#common-mistakes" aria-label="Link to this section">#</a>Common Mistakes</h2>
+<aside class="kb-callout kb-callout--pitfall"><div class="kb-callout-title">Common pitfall</div><div class="kb-callout-body"><ul class="kb-list"><li><strong>Reading  <span class="math-inline">\(\rho=0\)</span>  as independence.</strong> It rules out linear dependence only. The exception is joint
+normality — an assumption, not a fact.</li>
+<li><strong>Using correlation where covariance is needed.</strong> The hedge ratio is  <span class="math-inline">\(\Cov(S,F)/\Var(F)\)</span> ;
+using  <span class="math-inline">\(\rho\)</span>  ignores the volatility ratio and gives the wrong size.</li>
+<li><strong>Assuming correlation is stable.</strong> It is regime-dependent and rises in crises, precisely when
+the diversification it justified is most needed.</li>
+<li><strong>Estimating a big matrix from short data</strong> and inverting it. Guaranteed to error-maximise.</li>
+<li><strong>Ignoring the PSD constraint</strong> when building correlation matrices by hand or from unequal samples.</li>
+<li><strong>Confusing correlation with beta.</strong>  <span class="math-inline">\(\beta = \rho\,\sigma_Y/\sigma_X\)</span> ; they coincide only when
+the volatilities are equal.</li></ul></div></aside>
+<h2 id="30-second-revision" class="kb-h kb-h2"><a class="kb-anchor" href="#30-second-revision" aria-label="Link to this section">#</a>30-Second Revision</h2>
+<ul class="kb-list"><li><span class="math-inline">\(\Cov(X,Y) = \E[XY]-\E X\E Y\)</span> ;  <span class="math-inline">\(\rho = \Cov/(\sigma_X\sigma_Y) \in [-1,1]\)</span>  — a cosine.</li>
+<li><span class="math-inline">\(|\rho|\le1\)</span>  is Cauchy–Schwarz, proved from  <span class="math-inline">\(\Var(X-tY)\ge0\)</span> .</li>
+<li><span class="math-inline">\(\rho = 0 \nRightarrow\)</span>  independence (unless jointly normal).  <span class="math-inline">\(Y=X^2\)</span>  is the counterexample.</li>
+<li><span class="math-inline">\(\sigma_p^2 = \mathbf w^\top\Sigma\mathbf w\)</span> ;  <span class="math-inline">\(\Sigma\)</span>  must be PSD, which caps how negative
+equicorrelation can be at  <span class="math-inline">\(-1/(n-1)\)</span> .</li>
+<li>Estimating  <span class="math-inline">\(N(N+1)/2\)</span>  parameters from  <span class="math-inline">\(T\)</span>  points fails for  <span class="math-inline">\(T \approx N\)</span> ; use factors or shrinkage.</li>
+<li>Correlations rise in crises — the diversification you priced in calm markets is not there in a sell-off.</li></ul></div>
+    <section class="kb-section" id="key-formulas">
+        <h2 class="kb-h kb-h2"><a class="kb-anchor" href="#key-formulas" aria-label="Link to this section">#</a>Key Formulas</h2>
+        <div class="kb-formula-recap">
+          <a class="kb-formula-recap-item" href="#covariance">
+            <span class="kb-formula-recap-name">Covariance</span>
+            <span class="math-display">\[\Cov(X,Y) = \E\big[(X-\E X)(Y - \E Y)\big] = \E[XY] - \E[X]\E[Y]\]</span>
+          </a>
+          <a class="kb-formula-recap-item" href="#correlation">
+            <span class="kb-formula-recap-name">Correlation</span>
+            <span class="math-display">\[\rho_{XY} = \frac{\Cov(X,Y)}{\sigma_X \sigma_Y} \in [-1, 1]\]</span>
+          </a>
+          <a class="kb-formula-recap-item" href="#bilinearity">
+            <span class="kb-formula-recap-name">Bilinearity</span>
+            <span class="math-display">\[\Cov\!\left(\sum_i a_i X_i, \; \sum_j b_j Y_j\right) = \sum_i \sum_j a_i b_j \,\Cov(X_i, Y_j)\]</span>
+          </a>
+          <a class="kb-formula-recap-item" href="#portfolio-variance-in-matrix-form">
+            <span class="kb-formula-recap-name">Portfolio variance in matrix form</span>
+            <span class="math-display">\[\sigma_p^2 = \mathbf{w}^\top \Sigma\, \mathbf{w}, \qquad
+\Sigma = \operatorname{diag}(\boldsymbol\sigma)\, \mathbf{P} \operatorname{diag}(\boldsymbol\sigma)\]</span>
+          </a></div>
+      </section>
+    <section class="kb-section" id="interview-questions">
+        <h2 class="kb-h kb-h2"><a class="kb-anchor" href="#interview-questions" aria-label="Link to this section">#</a>Interview Questions</h2>
+        <ol class="kb-questions">
+          <li class="kb-question" id="q-covariance-and-correlation-q1" data-difficulty="foundational">
+            <div class="kb-question-head">
+              <span class="kb-question-text">Correlation is zero. Are the variables independent?</span>
+              <span class="kb-tagline">Foundational · independence · non-linearity</span>
+            </div>
+            <details class="kb-hint"><summary>Hint</summary><div><p>Construct a counterexample with a symmetric relationship.</p></div></details>
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>No. Correlation measures <strong>linear</strong> dependence only. Take  <span class="math-inline">\(X \sim N(0,1)\)</span>  and  <span class="math-inline">\(Y = X^2\)</span> :</p>
+<span class="math-display">\[\Cov(X, X^2) = \E[X^3] - \E[X]\E[X^2] = 0 - 0 = 0\]</span>
+<p>yet  <span class="math-inline">\(Y\)</span>  is a deterministic function of  <span class="math-inline">\(X\)</span> . Independence implies zero correlation; the
+converse fails.
+<strong>The finance version:</strong> a long straddle has near-zero correlation to the underlying but is
+completely dependent on it. Any risk system that measures exposure by correlation alone will
+report an options book as market-neutral while it is anything but. The exception:
+for <em>jointly normal</em> variables, zero correlation does imply independence — which is exactly
+why the normality assumption is so seductive and so dangerous.</p></div></details>
+          </li>
+          <li class="kb-question" id="q-covariance-and-correlation-q2" data-difficulty="advanced">
+            <div class="kb-question-head">
+              <span class="kb-question-text">Can three assets have pairwise correlation −0.9?</span>
+              <span class="kb-tagline">Advanced · positive-semidefinite · correlation-matrix</span>
+            </div>
+            <details class="kb-hint"><summary>Hint</summary><div><p>The correlation matrix must be positive semi-definite.</p></div></details>
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>No. For an equicorrelated  <span class="math-inline">\(n \times n\)</span>  matrix the eigenvalues are  <span class="math-inline">\(1+(n-1)\rho\)</span>  (once) and
+ <span class="math-inline">\(1-\rho\)</span>  ( <span class="math-inline">\(n-1\)</span>  times). Positive semi-definiteness requires  <span class="math-inline">\(1 + (n-1)\rho \ge 0\)</span> , i.e.</p>
+<span class="math-display">\[\rho \ge -\frac{1}{n-1}\]</span>
+<p>For  <span class="math-inline">\(n=3\)</span>  the floor is  <span class="math-inline">\(-0.5\)</span> , so  <span class="math-inline">\(-0.9\)</span>  is impossible. Intuitively: if A hedges B and B
+hedges C, then A and C must move <em>together</em>. You cannot have everything hedging everything.
+This matters practically — correlation matrices estimated pairwise from unequal samples are
+frequently non-PSD, which makes an optimiser return nonsense or fail outright. Nearest-PSD
+projection or shrinkage is a routine production step, not an edge case.</p></div></details>
+          </li>
+          <li class="kb-question" id="q-covariance-and-correlation-q3" data-difficulty="foundational">
+            <div class="kb-question-head">
+              <span class="kb-question-text">A portfolio is 60% stocks (σ=18%), 40% bonds (σ=6%), correlation −0.2. What is the portfolio volatility?</span>
+              <span class="kb-tagline">Foundational · portfolio · arithmetic</span>
+            </div>
+            
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><span class="math-display">\[\sigma_p^2 = (0.6)^2(0.18)^2 + (0.4)^2(0.06)^2 + 2(0.6)(0.4)(-0.2)(0.18)(0.06)\]</span>
+<span class="math-display">\[= 0.011664 + 0.000576 - 0.001037 = 0.011203\]</span>
+<span class="math-display">\[\sigma_p = 10.58\%\]</span>
+<p>The weighted average of the volatilities would be  <span class="math-inline">\(0.6(18)+0.4(6) = 12.0\%\)</span> . Diversification
+saved 142 bp of volatility — and the negative correlation contributed only about 50 bp of
+that. Most of the benefit comes simply from the bond&#39;s low standalone volatility, a point
+that is often missed.</p></div></details>
+          </li>
+          <li class="kb-question" id="q-covariance-and-correlation-q4" data-difficulty="advanced">
+            <div class="kb-question-head">
+              <span class="kb-question-text">You estimate a 500×500 covariance matrix from 2 years of daily data. What goes wrong?</span>
+              <span class="kb-tagline">Advanced · estimation · curse-of-dimensionality · pca</span>
+            </div>
+            
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>You have  <span class="math-inline">\(T = 504\)</span>  observations and  <span class="math-inline">\(N(N+1)/2 = 125{,}250\)</span>  parameters. The sample covariance
+matrix is <strong>singular</strong> whenever  <span class="math-inline">\(T &lt; N\)</span>  and severely ill-conditioned when  <span class="math-inline">\(T \approx N\)</span> .
+Here  <span class="math-inline">\(T \approx N\)</span> , so the smallest eigenvalues are essentially noise.
+Why it matters: mean–variance optimisation inverts  <span class="math-inline">\(\Sigma\)</span> , so it loads maximally on the
+smallest eigenvalues — the ones that are pure estimation error. The optimiser reliably
+produces enormous offsetting positions in whatever pair happened to look most correlated by
+chance. This is why Markowitz &quot;error maximises&quot;.
+<strong>Fixes:</strong> factor models (impose structure,  <span class="math-inline">\(\Sigma = B\Omega B^\top + D\)</span> ), Ledoit–Wolf
+shrinkage towards a structured target, random-matrix-theory eigenvalue clipping, or simply
+constraining the optimiser. In practice most funds use all four.</p></div></details>
+          </li>
+          <li class="kb-question" id="q-covariance-and-correlation-q5" data-difficulty="advanced">
+            <div class="kb-question-head">
+              <span class="kb-question-text">Correlations rise in a crisis. Why, and what does it do to your risk model?</span>
+              <span class="kb-tagline">Advanced · tail-dependence · regime · risk</span>
+            </div>
+            
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>Mechanically, in a sell-off a single common factor (deleveraging, liquidity demand,
+risk-off flow) dominates the return variance, so the idiosyncratic share shrinks and measured
+correlation rises towards 1.
+Consequences: the diversification floor  <span class="math-inline">\(\rho\sigma^2\)</span>  rises just as  <span class="math-inline">\(\sigma\)</span>  itself is
+rising, so portfolio variance increases <em>superlinearly</em> exactly when you can least afford it.
+A Gaussian copula risk model — which has zero tail dependence by construction — will
+systematically understate joint tail losses. This is not a subtle modelling point; it is what
+made 2008 CDO models fail.
+Practical responses: stress correlations to 1 in scenario analysis, use tail-dependent copulas
+(t, Clayton), measure exceedance correlation, and never let a diversification benefit
+computed in calm markets set the leverage limit.</p></div></details>
+          </li></ol>
+      </section>
+
+    <section class="kb-section" id="connections">
+      <h2 class="kb-h kb-h2"><a class="kb-anchor" href="#connections" aria-label="Link to this section">#</a>Connections</h2>
+      <div class="kb-connections">
+        <section class="kb-relgroup"><h3>Prerequisites</h3><p class="kb-relnote">Understand these first.</p><ul class="kb-rellist"><li><a href="../concepts/variance.html" class="kb-relitem">
+          <span class="kb-relitem-title">Variance</span>
+          <span class="kb-relitem-meta">Statistics · Foundational</span>
+          <span class="kb-relitem-sum">The expected squared deviation from the mean — the second moment that turns a return forecast into a position size, and the quantity that does not add when you combine assets.</span>
+        </a></li><li><a href="../concepts/expectation.html" class="kb-relitem">
+          <span class="kb-relitem-title">Expectation</span>
+          <span class="kb-relitem-meta">Probability · Foundational</span>
+          <span class="kb-relitem-sum">The probability-weighted average of a random variable — the number a long-run average converges to, and the object almost every pricing and sizing argument is really about.</span>
+        </a></li></ul></section>
+        <section class="kb-relgroup"><h3>Builds towards</h3><p class="kb-relnote">Concepts that depend on this one.</p><ul class="kb-rellist"><li><a href="../concepts/linear-regression.html" class="kb-relitem">
+          <span class="kb-relitem-title">Linear Regression</span>
+          <span class="kb-relitem-meta">Statistics · Intermediate</span>
+          <span class="kb-relitem-sum">The projection of a target onto the span of its predictors — the estimator behind every beta, factor loading and hedge ratio in finance, and the one whose assumptions market data violates most reliably.</span>
+        </a></li></ul></section>
+        <section class="kb-relgroup"><h3>Related</h3><ul class="kb-rellist"><li><a href="../concepts/linear-regression.html" class="kb-relitem">
+          <span class="kb-relitem-title">Linear Regression</span>
+          <span class="kb-relitem-meta">Statistics · Intermediate</span>
+          <span class="kb-relitem-sum">The projection of a target onto the span of its predictors — the estimator behind every beta, factor loading and hedge ratio in finance, and the one whose assumptions market data violates most reliably.</span>
+        </a></li><li><a href="../concepts/sharpe-ratio.html" class="kb-relitem">
+          <span class="kb-relitem-title">Sharpe Ratio</span>
+          <span class="kb-relitem-meta">Portfolio Construction · Intermediate</span>
+          <span class="kb-relitem-sum">Excess return per unit of volatility — the industry&#39;s default measure of risk-adjusted performance, and an estimator noisy and gameable enough that knowing its failure modes matters more than knowing its formula.</span>
+        </a></li><li><a href="../concepts/kelly-criterion.html" class="kb-relitem">
+          <span class="kb-relitem-title">Kelly Criterion</span>
+          <span class="kb-relitem-meta">Portfolio Construction · Intermediate</span>
+          <span class="kb-relitem-sum">The bet size that maximises the long-run growth rate of wealth — obtained by maximising expected log wealth rather than expected wealth, because capital compounds multiplicatively.</span>
+        </a></li><li><a href="../concepts/variance.html" class="kb-relitem">
+          <span class="kb-relitem-title">Variance</span>
+          <span class="kb-relitem-meta">Statistics · Foundational</span>
+          <span class="kb-relitem-sum">The expected squared deviation from the mean — the second moment that turns a return forecast into a position size, and the quantity that does not add when you combine assets.</span>
+        </a></li></ul></section>
+        
+      </div>
+      
+    </section>
+
+    <nav class="kb-prevnext" aria-label="Concept navigation">
+    <a class="kb-prevnext-item kb-prevnext-prev" href="../concepts/variance.html" rel="prev">
+      <span class="kb-prevnext-label">← Previous</span><span>Variance</span></a>
+    <a class="kb-prevnext-item kb-prevnext-up" href="../subjects/statistics.html">
+      <span class="kb-prevnext-label">Subject</span><span>Statistics</span></a>
+    <a class="kb-prevnext-item kb-prevnext-next" href="../concepts/linear-regression.html" rel="next">
+      <span class="kb-prevnext-label">Next →</span><span>Linear Regression</span></a>
+  </nav>
+    <footer class="kb-source-note">
+      Source: <code>content/concepts/covariance-and-correlation.md</code> · updated 2026-01-14
+      · edit the markdown and run <code>npm run build</code>.
+    </footer>
+  </article>
+
+  <aside class="kb-sidebar">
+    <nav class="kb-toc" aria-label="On this page"><h3>On this page</h3><ol><li><a href="#intuition">Intuition</a></li><li><a href="#mathematical-formulation">Mathematical Formulation</a></li><li><a href="#derivation">Derivation</a></li><li><a href="#assumptions-edge-cases">Assumptions &amp; Edge Cases</a></li><li><a href="#worked-example">Worked Example</a></li><li><a href="#why-it-matters-in-quant-finance">Why It Matters in Quant Finance</a></li><li><a href="#trading-research-application">Trading &amp; Research Application</a></li><li><a href="#implementation-notes">Implementation Notes</a></li><li><a href="#common-mistakes">Common Mistakes</a></li><li><a href="#30-second-revision">30-Second Revision</a></li><li><a href="#key-formulas">Key Formulas</a></li><li><a href="#interview-questions">Interview Questions</a></li><li><a href="#connections">Connections</a></li></ol></nav>
+    <section class="kb-side-card" id="side-formulas"><h3>Key formulas</h3><ul class="kb-side-formulas"><li><a href="#covariance">Covariance</a></li><li><a href="#correlation">Correlation</a></li><li><a href="#bilinearity">Bilinearity</a></li><li><a href="#portfolio-variance-in-matrix-form">Portfolio variance in matrix form</a></li></ul></section>
+    <section class="kb-side-card">
+      <h3>Metadata</h3>
+      <dl class="kb-meta">
+        <dt>Subject</dt><dd><a href="../subjects/statistics.html">Statistics</a></dd>
+        <dt>Difficulty</dt><dd>Foundational</dd>
+        <dt>Interview</dt><dd><span class="kb-stars" title="Interview relevance 5 of 5" aria-label="Interview relevance 5 of 5"><span class="kb-stars-on">★★★★★</span><span class="kb-stars-off"></span></span></dd>
+        <dt>Status</dt><dd data-kb-status-label="covariance-and-correlation">Learning</dd>
+        <dt>Prereqs</dt><dd>2</dd>
+        <dt>Formulas</dt><dd>4</dd>
+        <dt>Questions</dt><dd>5</dd>
+      </dl>
+    </section>
+    <section class="kb-side-card kb-side-minimap">
+      <h3>Neighbourhood</h3>
+      <canvas data-kb-minimap="covariance-and-correlation" width="260" height="200" aria-label="Local knowledge graph"></canvas>
+      <a class="kb-side-more" href="../graph.html?focus=covariance-and-correlation">Open full graph →</a>
+    </section>
+  </aside>
+</main>
+<script src="../data/kb.data.js"></script>
+<script src="../data/search.index.js"></script>
+<script src="../assets/js/kb-core.js"></script>
+<script src="../assets/js/kb-ui.js"></script>
+<script src="../assets/vendor/katex/katex.min.js" defer></script>
+<script src="../assets/vendor/katex/auto-render.min.js" defer></script>
+<script src="../assets/js/math.js" defer></script>
+<script src="../assets/js/concept.js" defer></script>
+</body>
+</html>

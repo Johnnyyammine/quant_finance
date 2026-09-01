@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en" data-page="subject">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Statistics · Quant Knowledge Base</title>
+<meta name="description" content="Estimation, inference, hypothesis testing and the sampling error that makes backtests lie.">
+<link rel="icon" href="../assets/icons/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/vendor/katex/katex.min.css">
+<link rel="stylesheet" href="../assets/css/app.css">
+<link rel="stylesheet" href="../assets/css/views.css">
+
+</head>
+<body class="kb-body kb-body--subject">
+<header class="kb-topbar">
+  <a class="kb-brand" href="../index.html" title="Home (H)">
+    <span class="kb-brand-mark">QF</span><span class="kb-brand-text">Quant Knowledge Base</span>
+  </a>
+  <nav class="kb-crumbs" aria-label="Breadcrumb"><ol><li><a href="../index.html">Dashboard</a></li><li class="kb-crumb-sep" aria-hidden="true">/</li><li><span aria-current="page">Statistics</span></li></ol></nav>
+  <div class="kb-topbar-actions">
+    <button class="kb-searchbtn" type="button" data-kb-open-search>
+      <span>Search concepts, formulas, questions</span><kbd>/</kbd>
+    </button>
+    <nav class="kb-toplinks" aria-label="Sections">
+      <a href="../index.html" data-nav="home">Dashboard</a>
+      <a href="../graph.html" data-nav="graph">Graph</a>
+      <a href="../interview.html" data-nav="interview">Interview</a>
+      <a href="../library.html" data-nav="library">Library</a>
+    </nav>
+    <button class="kb-iconbtn" type="button" data-kb-theme title="Toggle theme (T)" aria-label="Toggle theme">◑</button>
+    <button class="kb-iconbtn" type="button" data-kb-help title="Keyboard shortcuts (?)" aria-label="Keyboard shortcuts">?</button>
+  </div>
+</header>
+<main class="kb-main kb-main--subject" data-subject-id="statistics">
+  <div class="kb-subject-wrap">
+    <header class="kb-subject-head" style="--subject-color:#4f8fd6">
+      <div class="kb-subject-mark kb-subject-mark--lg">S</div>
+      <div>
+        <h1>Statistics</h1>
+        <p class="kb-subject-desc">Estimation, inference, hypothesis testing and the sampling error that makes backtests lie.</p>
+        <div class="kb-subject-stats">
+          <span><strong>3</strong> concepts</span>
+          <span><strong>12</strong> formulas</span>
+          <span><strong>15</strong> questions</span>
+          <span class="kb-subject-progress" data-kb-subject-progress="statistics">
+            <span class="kb-bar"><span class="kb-bar-fill" style="width:48%"></span></span>
+            <span class="kb-bar-num">48%</span>
+          </span>
+        </div>
+      </div>
+    </header>
+
+    <div class="kb-filterbar" data-kb-filters>
+      <input class="kb-filter-input" type="search" placeholder="Filter concepts in this subject…" data-kb-filter-text>
+      <select data-kb-filter="difficulty"><option value="">All difficulty</option><option value="foundational">Foundational</option><option value="intermediate">Intermediate</option><option value="advanced">Advanced</option><option value="research">Research</option></select>
+      <select data-kb-filter="status"><option value="">All status</option><option value="not-started">Not started</option><option value="learning">Learning</option><option value="learned">Learned</option><option value="mastered">Mastered</option></select>
+      <select data-kb-filter="relevance"><option value="">Any relevance</option><option value="5">★★★★★ and up</option><option value="4">★★★★ and up</option><option value="3">★★★ and up</option><option value="2">★★ and up</option><option value="1">★ and up</option></select>
+      <span class="kb-filter-count" data-kb-filter-count></span>
+    </div>
+
+    <ol class="kb-conceptlist">
+    <li class="kb-conceptrow" data-difficulty="foundational" data-status="learned"
+        data-relevance="5" data-tags="statistics moments risk volatility dispersion" data-id="variance">
+      <a class="kb-conceptrow-link" href="../concepts/variance.html">
+        <span class="kb-conceptrow-main">
+          <span class="kb-conceptrow-title">Variance</span>
+          <span class="kb-conceptrow-sum">The expected squared deviation from the mean — the second moment that turns a return forecast into a position size, and the quantity that does not add when you combine assets.</span>
+        </span>
+        <span class="kb-conceptrow-meta">
+          <span class="kb-pill kb-pill--foundational">Foundational</span>
+          <span class="kb-stars" title="Interview relevance 5 of 5" aria-label="Interview relevance 5 of 5"><span class="kb-stars-on">★★★★★</span><span class="kb-stars-off"></span></span>
+          <span class="kb-statusdot" data-kb-status-dot="variance" data-status="learned"
+                title="Learned"></span>
+        </span>
+      </a>
+    </li>
+    <li class="kb-conceptrow" data-difficulty="foundational" data-status="learning"
+        data-relevance="5" data-tags="statistics dependence risk diversification linear-algebra" data-id="covariance-and-correlation">
+      <a class="kb-conceptrow-link" href="../concepts/covariance-and-correlation.html">
+        <span class="kb-conceptrow-main">
+          <span class="kb-conceptrow-title">Covariance &amp; Correlation</span>
+          <span class="kb-conceptrow-sum">Covariance measures how two variables move together in raw units; correlation normalises it to [-1, 1] — together they determine whether combining two positions reduces risk or concentrates it.</span>
+        </span>
+        <span class="kb-conceptrow-meta">
+          <span class="kb-pill kb-pill--foundational">Foundational</span>
+          <span class="kb-stars" title="Interview relevance 5 of 5" aria-label="Interview relevance 5 of 5"><span class="kb-stars-on">★★★★★</span><span class="kb-stars-off"></span></span>
+          <span class="kb-statusdot" data-kb-status-dot="covariance-and-correlation" data-status="learning"
+                title="Learning"></span>
+        </span>
+      </a>
+    </li>
+    <li class="kb-conceptrow" data-difficulty="intermediate" data-status="learning"
+        data-relevance="5" data-tags="statistics econometrics ols factor-models estimation" data-id="linear-regression">
+      <a class="kb-conceptrow-link" href="../concepts/linear-regression.html">
+        <span class="kb-conceptrow-main">
+          <span class="kb-conceptrow-title">Linear Regression</span>
+          <span class="kb-conceptrow-sum">The projection of a target onto the span of its predictors — the estimator behind every beta, factor loading and hedge ratio in finance, and the one whose assumptions market data violates most reliably.</span>
+        </span>
+        <span class="kb-conceptrow-meta">
+          <span class="kb-pill kb-pill--intermediate">Intermediate</span>
+          <span class="kb-stars" title="Interview relevance 5 of 5" aria-label="Interview relevance 5 of 5"><span class="kb-stars-on">★★★★★</span><span class="kb-stars-off"></span></span>
+          <span class="kb-statusdot" data-kb-status-dot="linear-regression" data-status="learning"
+                title="Learning"></span>
+        </span>
+      </a>
+    </li></ol>
+
+    <section class="kb-subject-graph">
+      <h2>Concept map</h2>
+      <canvas data-kb-subject-graph="statistics" height="360" aria-label="Concept map for Statistics"></canvas>
+    </section>
+  </div>
+</main>
+<script src="../data/kb.data.js"></script>
+<script src="../data/search.index.js"></script>
+<script src="../assets/js/kb-core.js"></script>
+<script src="../assets/js/kb-ui.js"></script>
+<script src="../assets/vendor/katex/katex.min.js" defer></script>
+<script src="../assets/vendor/katex/auto-render.min.js" defer></script>
+<script src="../assets/js/math.js" defer></script>
+<script src="../assets/js/subject.js" defer></script>
+</body>
+</html>

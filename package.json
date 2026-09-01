@@ -1,0 +1,19 @@
+{
+  "name": "quant-finance-knowledge-base",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A local-first, interactive quantitative-finance knowledge base for hedge-fund quant interview preparation.",
+  "license": "MIT",
+  "engines": { "node": ">=16" },
+  "scripts": {
+    "build": "node tools/build.js",
+    "watch": "node tools/build.js --watch",
+    "new": "node tools/new-concept.js",
+    "check": "node tools/check.js",
+    "serve": "node tools/serve.js",
+    "test": "node tools/test.js"
+  },
+  "comment": "No dependencies, by design. Everything runs on Node built-ins so the repository works offline forever.",
+  "dependencies": {},
+  "devDependencies": {}
+}

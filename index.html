@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" data-page="home">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quant Knowledge Base</title>
+<meta name="description" content="A local-first interactive knowledge base for quantitative finance interview preparation.">
+<link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/vendor/katex/katex.min.css">
+<link rel="stylesheet" href="assets/css/app.css">
+<link rel="stylesheet" href="assets/css/views.css">
+</head>
+<body class="kb-body kb-body--home">
+
+<header class="kb-topbar">
+  <a class="kb-brand" href="index.html" title="Home (H)">
+    <span class="kb-brand-mark">QF</span><span class="kb-brand-text">Quant Knowledge Base</span>
+  </a>
+  <nav class="kb-crumbs" aria-label="Breadcrumb"><ol><li><span aria-current="page">Dashboard</span></li></ol></nav>
+  <div class="kb-topbar-actions">
+    <button class="kb-searchbtn" type="button" data-kb-open-search>
+      <span>Search concepts, formulas, questions</span><kbd>/</kbd>
+    </button>
+    <nav class="kb-toplinks" aria-label="Sections">
+      <a href="index.html" data-nav="home">Dashboard</a>
+      <a href="graph.html" data-nav="graph">Graph</a>
+      <a href="interview.html" data-nav="interview">Interview</a>
+      <a href="library.html" data-nav="library">Library</a>
+    </nav>
+    <button class="kb-iconbtn" type="button" data-kb-theme title="Toggle theme (T)" aria-label="Toggle theme">◑</button>
+    <button class="kb-iconbtn" type="button" data-kb-help title="Keyboard shortcuts (?)" aria-label="Keyboard shortcuts">?</button>
+  </div>
+</header>
+
+<main class="kb-main">
+
+  <section class="kb-hero">
+    <div>
+      <h1>Quant finance, mapped.</h1>
+      <p class="kb-hero-sub">
+        Every concept is one markdown file. The dashboard, search index, knowledge graph,
+        interview bank and progress tracking are all derived from those files at build time —
+        so adding the thousandth concept costs exactly what the first one did.
+      </p>
+      <div class="kb-hero-actions">
+        <button class="kb-btn kb-btn--primary" type="button" data-kb-open-search>Search everything <kbd>/</kbd></button>
+        <a class="kb-btn" href="interview.html">Interview mode <kbd>I</kbd></a>
+        <a class="kb-btn" href="graph.html">Knowledge graph <kbd>G</kbd></a>
+        <a class="kb-btn kb-btn--ghost" href="library.html">Browse all <kbd>L</kbd></a>
+      </div>
+      <div class="kb-kpis" data-kb-kpis style="margin-top:22px"></div>
+    </div>
+
+    <div class="kb-progress-panel">
+      <h2>Coverage</h2>
+      <p class="kb-panel-sub">Weighted by learning status. Click a row to open the subject.</p>
+      <div class="kb-progress-rows" data-kb-progress></div>
+    </div>
+  </section>
+
+  <div class="kb-section-head">
+    <h2>Continue</h2>
+    <span class="kb-section-note">Highest interview value, least covered.</span>
+  </div>
+  <div class="kb-cram" data-kb-continue></div>
+
+  <div class="kb-section-head">
+    <h2>Subjects</h2>
+    <span class="kb-section-note">Grouped by domain. Empty subjects are placeholders waiting for content.</span>
+  </div>
+  <div data-kb-subjects></div>
+
+  <div class="kb-section-head">
+    <h2>Tags</h2>
+    <span class="kb-section-note">Cross-cutting themes, derived from concept frontmatter.</span>
+  </div>
+  <div class="kb-facet-tags" data-kb-tags></div>
+
+  <footer style="margin-top:56px;padding-top:18px;border-top:1px solid var(--line);
+                 font-size:11.5px;color:var(--ink-faint);display:flex;gap:16px;flex-wrap:wrap">
+    <span data-kb-generated></span>
+    <span>Add a concept: <code>npm run new -- "Title" --subject probability</code></span>
+    <span>Rebuild: <code>npm run build</code></span>
+    <span><button class="kb-btn kb-btn--ghost" type="button" data-kb-help>Keyboard shortcuts</button></span>
+  </footer>
+</main>
+
+<script src="data/kb.data.js"></script>
+<script src="data/search.index.js"></script>
+<script src="assets/js/kb-core.js"></script>
+<script src="assets/js/kb-ui.js"></script>
+<script src="assets/vendor/katex/katex.min.js" defer></script>
+<script src="assets/vendor/katex/auto-render.min.js" defer></script>
+<script src="assets/js/math.js" defer></script>
+<script src="assets/js/dashboard.js" defer></script>
+</body>
+</html>

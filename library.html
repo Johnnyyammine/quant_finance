@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" data-page="library">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Library · Quant Knowledge Base</title>
+<link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/vendor/katex/katex.min.css">
+<link rel="stylesheet" href="assets/css/app.css">
+<link rel="stylesheet" href="assets/css/views.css">
+</head>
+<body class="kb-body ">
+
+<header class="kb-topbar">
+  <a class="kb-brand" href="index.html" title="Home (H)">
+    <span class="kb-brand-mark">QF</span><span class="kb-brand-text">Quant Knowledge Base</span>
+  </a>
+  <nav class="kb-crumbs" aria-label="Breadcrumb"><ol>
+    <li><a href="index.html">Dashboard</a></li>
+    <li class="kb-crumb-sep" aria-hidden="true">/</li>
+    <li><span aria-current="page">Library</span></li>
+  </ol></nav>
+  <div class="kb-topbar-actions">
+    <button class="kb-searchbtn" type="button" data-kb-open-search>
+      <span>Search concepts, formulas, questions</span><kbd>/</kbd>
+    </button>
+    <nav class="kb-toplinks" aria-label="Sections">
+      <a href="index.html" data-nav="home">Dashboard</a>
+      <a href="graph.html" data-nav="graph">Graph</a>
+      <a href="interview.html" data-nav="interview">Interview</a>
+      <a href="library.html" data-nav="library">Library</a>
+    </nav>
+    <button class="kb-iconbtn" type="button" data-kb-theme title="Toggle theme (T)" aria-label="Toggle theme">◑</button>
+    <button class="kb-iconbtn" type="button" data-kb-help title="Keyboard shortcuts (?)" aria-label="Keyboard shortcuts">?</button>
+  </div>
+</header>
+<main class="kb-main">
+  <div class="kb-section-head" style="margin-top:0">
+    <h2>Library</h2>
+    <span class="kb-section-note">Every concept, filtered any way you like. Filters are reflected in the URL, so a view is shareable and bookmarkable.</span>
+  </div>
+
+  <div class="kb-library">
+    <aside class="kb-facets" data-kb-facets></aside>
+
+    <div>
+      <div class="kb-resultbar">
+        <input class="kb-filter-input" type="search" placeholder="Filter by name, summary, tag or formula…"
+               data-kb-library-search style="min-width:280px;flex:1">
+        <span class="kb-count" data-kb-count></span>
+        <button class="kb-btn kb-btn--ghost" type="button" data-kb-clear>Clear filters</button>
+      </div>
+      <table class="kb-table-concepts" data-kb-table></table>
+    </div>
+  </div>
+</main>
+<script src="data/kb.data.js"></script>
+<script src="data/search.index.js"></script>
+<script src="assets/js/kb-core.js"></script>
+<script src="assets/js/kb-ui.js"></script>
+<script src="assets/vendor/katex/katex.min.js" defer></script>
+<script src="assets/vendor/katex/auto-render.min.js" defer></script>
+<script src="assets/js/math.js" defer></script>
+<script src="assets/js/library.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en" data-page="concept">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Variance · Quant Knowledge Base</title>
+<meta name="description" content="The expected squared deviation from the mean — the second moment that turns a return forecast into a position size, and the quantity that does not add when you combine assets.">
+<link rel="icon" href="../assets/icons/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/vendor/katex/katex.min.css">
+<link rel="stylesheet" href="../assets/css/app.css">
+<link rel="stylesheet" href="../assets/css/views.css">
+
+</head>
+<body class="kb-body kb-body--concept">
+<header class="kb-topbar">
+  <a class="kb-brand" href="../index.html" title="Home (H)">
+    <span class="kb-brand-mark">QF</span><span class="kb-brand-text">Quant Knowledge Base</span>
+  </a>
+  <nav class="kb-crumbs" aria-label="Breadcrumb"><ol><li><a href="../index.html">Dashboard</a></li><li class="kb-crumb-sep" aria-hidden="true">/</li><li><a href="../subjects/statistics.html">Statistics</a></li><li class="kb-crumb-sep" aria-hidden="true">/</li><li><span aria-current="page">Variance</span></li></ol></nav>
+  <div class="kb-topbar-actions">
+    <button class="kb-searchbtn" type="button" data-kb-open-search>
+      <span>Search concepts, formulas, questions</span><kbd>/</kbd>
+    </button>
+    <nav class="kb-toplinks" aria-label="Sections">
+      <a href="../index.html" data-nav="home">Dashboard</a>
+      <a href="../graph.html" data-nav="graph">Graph</a>
+      <a href="../interview.html" data-nav="interview">Interview</a>
+      <a href="../library.html" data-nav="library">Library</a>
+    </nav>
+    <button class="kb-iconbtn" type="button" data-kb-theme title="Toggle theme (T)" aria-label="Toggle theme">◑</button>
+    <button class="kb-iconbtn" type="button" data-kb-help title="Keyboard shortcuts (?)" aria-label="Keyboard shortcuts">?</button>
+  </div>
+</header>
+<main class="kb-main kb-main--concept" data-concept-id="variance">
+  <article class="kb-article">
+    <header class="kb-concept-head">
+      <div class="kb-concept-eyebrow">
+        <a class="kb-subject-chip" href="../subjects/statistics.html" style="--subject-color:#4f8fd6">
+          <span class="kb-subject-mark">S</span>Statistics</a>
+        <span class="kb-pill kb-pill--foundational">Foundational</span>
+        <span class="kb-stars" title="Interview relevance 5 of 5" aria-label="Interview relevance 5 of 5"><span class="kb-stars-on">★★★★★</span><span class="kb-stars-off"></span></span>
+        <span class="kb-meta-dot">·</span>
+        <span class="kb-readtime">13 min</span>
+      </div>
+      <h1 class="kb-concept-title">Variance</h1>
+      <p class="kb-concept-summary">The expected squared deviation from the mean — the second moment that turns a return forecast into a position size, and the quantity that does not add when you combine assets.</p>
+      <div class="kb-concept-controls">
+        <label class="kb-statusctl">Status
+          <select data-kb-status="variance" data-default="learned">
+            <option value="not-started">Not started</option><option value="learning">Learning</option><option value="learned" selected>Learned</option><option value="mastered">Mastered</option>
+          </select>
+        </label>
+        <button class="kb-btn kb-btn--ghost" type="button" data-kb-bookmark="variance">☆ Bookmark</button>
+        <button class="kb-btn kb-btn--ghost" type="button" data-kb-flashcards>Revision card</button>
+        <a class="kb-btn kb-btn--ghost" href="../graph.html?focus=variance">Show in graph</a>
+      </div>
+      <ul class="kb-taglist"><li><a class="kb-tag" href="../library.html?tag=statistics">#statistics</a></li><li><a class="kb-tag" href="../library.html?tag=moments">#moments</a></li><li><a class="kb-tag" href="../library.html?tag=risk">#risk</a></li><li><a class="kb-tag" href="../library.html?tag=volatility">#volatility</a></li><li><a class="kb-tag" href="../library.html?tag=dispersion">#dispersion</a></li></ul>
+    </header>
+
+    <div class="kb-content"><h2 id="intuition" class="kb-h kb-h2"><a class="kb-anchor" href="#intuition" aria-label="Link to this section">#</a>Intuition</h2>
+<p>Variance is the average squared distance from the centre. Squaring — rather than taking absolute
+values — is not arbitrary: it makes variance the unique dispersion measure that <strong>adds</strong> across
+independent sources, which is the property that makes portfolio mathematics tractable at all.</p>
+<p>Two consequences follow immediately from the squaring. First, variance is in squared units, so we
+usually quote its root, the <strong>standard deviation</strong> (in finance, the <em>volatility</em>). Second, large
+deviations are weighted quadratically — a single 10σ day contributes as much as a hundred 1σ days.
+For fat-tailed financial returns that means the sample variance is dominated by a handful of
+observations, and is therefore far noisier than its formula suggests.</p>
+<aside class="kb-callout kb-callout--insight"><div class="kb-callout-title">Insight</div><div class="kb-callout-body"><p>The one identity to have automatic:  <span class="math-inline">\(\Var(X) = \E[X^2] - \E[X]^2\)</span> . It converts almost every variance
+question into two expectations, and it makes the non-negativity of variance equivalent to
+ <span class="math-inline">\(\E[X^2] \ge \E[X]^2\)</span>  — which is Jensen&#39;s inequality for the convex function  <span class="math-inline">\(x^2\)</span> .</p></div></aside>
+<h2 id="mathematical-formulation" class="kb-h kb-h2"><a class="kb-anchor" href="#mathematical-formulation" aria-label="Link to this section">#</a>Mathematical Formulation</h2>
+<figure class="kb-formula" id="variance" data-formula="variance"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">Variance</span><button class="kb-formula-copy" type="button" data-latex="\Var(X) = \E\big[(X - \E[X])^2\big] = \E[X^2] - \E[X]^2" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[\Var(X) = \E\big[(X - \E[X])^2\big] = \E[X^2] - \E[X]^2\]</span> </div><p class="kb-formula-note">The computational form on the right is how you actually evaluate it.</p><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">Risk</span><span class="kb-chip">Statistics</span><span class="kb-chip">Portfolio Theory</span></footer></figure>
+<p>The behaviour under affine transformation — note that a constant shift does nothing:</p>
+<figure class="kb-formula" id="affine-scaling" data-formula="affine-scaling"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">Affine scaling</span><button class="kb-formula-copy" type="button" data-latex="\Var(aX + b) = a^2 \Var(X)" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[\Var(aX + b) = a^2 \Var(X)\]</span> </div><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">Leverage</span><span class="kb-chip">Risk Scaling</span></footer></figure>
+<p>And the identity that governs every portfolio:</p>
+<figure class="kb-formula" id="variance-of-a-sum" data-formula="variance-of-a-sum"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">Variance of a sum</span><button class="kb-formula-copy" type="button" data-latex="\Var\!\left(\sum_i w_i X_i\right) = \sum_i \sum_j w_i w_j \Cov(X_i, X_j) = \mathbf{w}^\top \Sigma \,\mathbf{w}" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[\Var\!\left(\sum_i w_i X_i\right) = \sum_i \sum_j w_i w_j \Cov(X_i, X_j) = \mathbf{w}^\top \Sigma \,\mathbf{w}\]</span> </div><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">Portfolio Construction</span><span class="kb-chip">Risk Management</span></footer></figure>
+<p>The unbiased sample estimator:</p>
+<figure class="kb-formula" id="sample-variance" data-formula="sample-variance"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">Sample variance</span><button class="kb-formula-copy" type="button" data-latex="s^2 = \frac{1}{n-1}\sum_{i=1}^{n} (X_i - \bar X)^2" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[s^2 = \frac{1}{n-1}\sum_{i=1}^{n} (X_i - \bar X)^2\]</span> </div><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">Statistics</span><span class="kb-chip">Estimation</span></footer></figure>
+<h2 id="derivation" class="kb-h kb-h2"><a class="kb-anchor" href="#derivation" aria-label="Link to this section">#</a>Derivation</h2>
+<details class="kb-derivation"><summary>The computational form</summary><div class="kb-derivation-body"><span class="math-display">\[\Var(X) = \E[(X-\mu)^2] = \E[X^2 - 2\mu X + \mu^2]
+= \E[X^2] - 2\mu\E[X] + \mu^2 = \E[X^2] - \mu^2\]</span>
+<p>using linearity of <a class="kb-link" href="expectation.html" data-concept="expectation">Expectation</a> and  <span class="math-inline">\(\E[X]=\mu\)</span> . Note this is numerically dangerous: when
+ <span class="math-inline">\(\E[X^2]\)</span>  and  <span class="math-inline">\(\E[X]^2\)</span>  are close (small variance, large mean — exactly the case for price levels
+rather than returns), you subtract two nearly equal large numbers and lose precision catastrophically.
+Use Welford&#39;s online algorithm in production code.</p></div></details>
+<details class="kb-derivation"><summary>Why the sample variance divides by n−1</summary><div class="kb-derivation-body"><span class="math-display">\[\sum_i (X_i - \bar X)^2 = \sum_i (X_i - \mu)^2 - n(\bar X - \mu)^2\]</span>
+<p>Taking expectations, and using  <span class="math-inline">\(\Var(\bar X) = \sigma^2/n\)</span> :</p>
+<span class="math-display">\[\E\left[\sum_i (X_i-\bar X)^2\right] = n\sigma^2 - n\cdot\frac{\sigma^2}{n} = (n-1)\sigma^2\]</span>
+<p>So dividing by  <span class="math-inline">\(n-1\)</span>  gives  <span class="math-inline">\(\E[s^2]=\sigma^2\)</span> . The subtracted term is exactly the variance of the
+estimated mean — one degree of freedom consumed by estimating  <span class="math-inline">\(\bar X\)</span>  from the same sample.</p></div></details>
+<details class="kb-derivation"><summary>The diversification limit</summary><div class="kb-derivation-body"><p>For  <span class="math-inline">\(n\)</span>  equally weighted assets with common variance  <span class="math-inline">\(\sigma^2\)</span>  and common pairwise correlation
+ <span class="math-inline">\(\rho\)</span> , there are  <span class="math-inline">\(n\)</span>  diagonal terms and  <span class="math-inline">\(n(n-1)\)</span>  off-diagonal terms, each weighted  <span class="math-inline">\(1/n^2\)</span> :</p>
+<span class="math-display">\[\Var(R_p) = \frac{1}{n^2}\left[n\sigma^2 + n(n-1)\rho\sigma^2\right]
+= \frac{\sigma^2}{n} + \frac{n-1}{n}\rho\sigma^2 \;\longrightarrow\; \rho\sigma^2\]</span>
+<p>The first term is diversifiable (idiosyncratic) risk; the second is the systematic floor.</p></div></details>
+<h2 id="assumptions-edge-cases" class="kb-h kb-h2"><a class="kb-anchor" href="#assumptions-edge-cases" aria-label="Link to this section">#</a>Assumptions &amp; Edge Cases</h2>
+<aside class="kb-callout kb-callout--assumption"><div class="kb-callout-title">Assumptions</div><div class="kb-callout-body"><ul class="kb-list"><li><strong>Variance may not exist.</strong> Distributions with tail index  <span class="math-inline">\(\alpha \le 2\)</span>  have infinite variance.
+Equity returns are usually estimated around  <span class="math-inline">\(\alpha \approx 3\)</span> – <span class="math-inline">\(5\)</span> : finite, but close enough to
+the boundary that estimates converge slowly and are dominated by extremes.</li>
+<li><strong>Variance is symmetric.</strong> It penalises upside and downside identically, which is not what an
+investor cares about. Semi-variance, downside deviation and expected shortfall exist for this
+reason.</li>
+<li><strong> <span class="math-inline">\(\sqrt{T}\)</span>  scaling requires i.i.d.</strong> Autocorrelation, volatility clustering and stale pricing
+all break it, and all three are present in real data.</li>
+<li><strong>Unbiasedness does not transfer through  <span class="math-inline">\(\sqrt{\cdot}\)</span> </strong>:  <span class="math-inline">\(s^2\)</span>  unbiased for  <span class="math-inline">\(\sigma^2\)</span>  does not
+make  <span class="math-inline">\(s\)</span>  unbiased for  <span class="math-inline">\(\sigma\)</span> .</li></ul></div></aside>
+<h2 id="worked-example" class="kb-h kb-h2"><a class="kb-anchor" href="#worked-example" aria-label="Link to this section">#</a>Worked Example</h2>
+<p>Daily returns over five days:  <span class="math-inline">\(+1.2\%, -0.4\%, +0.8\%, -1.6\%, +0.5\%\)</span> .</p>
+<p>Mean:  <span class="math-inline">\(\bar r = (1.2 - 0.4 + 0.8 - 1.6 + 0.5)/5 = 0.5/5 = 0.10\%\)</span> .</p>
+<p>Squared deviations (in %²):
+ <span class="math-inline">\((1.1)^2 = 1.21\)</span> ,  <span class="math-inline">\((-0.5)^2 = 0.25\)</span> ,  <span class="math-inline">\((0.7)^2 = 0.49\)</span> ,  <span class="math-inline">\((-1.7)^2 = 2.89\)</span> ,  <span class="math-inline">\((0.4)^2 = 0.16\)</span> .
+Sum  <span class="math-inline">\(= 5.00\)</span> .</p>
+<span class="math-display">\[s^2 = \frac{5.00}{4} = 1.25 \;(\%^2), \qquad s = 1.118\%\]</span>
+<p>Annualised:  <span class="math-inline">\(1.118\% \times \sqrt{252} = 17.7\%\)</span> .</p>
+<aside class="kb-callout kb-callout--warning"><div class="kb-callout-title">Warning</div><div class="kb-callout-body"><p>That 17.7% carries a relative standard error of about  <span class="math-inline">\(1/\sqrt{2\times4} = 35\%\)</span>  — the true annual
+volatility is plausibly anywhere from 11% to 24%. <strong>Five observations is not an estimate, it is an
+anecdote.</strong> Quoting it to three significant figures, as done above, is exactly the false precision
+an interviewer is testing for.</p></div></aside>
+<h2 id="why-it-matters-in-quant-finance" class="kb-h kb-h2"><a class="kb-anchor" href="#why-it-matters-in-quant-finance" aria-label="Link to this section">#</a>Why It Matters in Quant Finance</h2>
+<p>Variance is the denominator of nearly every decision:</p>
+<ul class="kb-list"><li><strong>Position sizing.</strong> Volatility targeting sets  <span class="math-inline">\(w_i \propto 1/\sigma_i\)</span>  so each position
+contributes comparable risk. Doing this well accounts for more of a systematic fund&#39;s Sharpe than
+most people&#39;s alpha does.</li>
+<li><strong>Portfolio optimisation.</strong> Markowitz minimises  <span class="math-inline">\(\mathbf w^\top \Sigma \mathbf w\)</span>  subject to a
+return target. The whole apparatus is variance.</li>
+<li><strong>Option pricing.</strong> Black–Scholes prices <em>variance</em>, not direction —  <span class="math-inline">\(\sigma^2 T\)</span>  is the only
+place uncertainty enters, and implied volatility is the market&#39;s variance forecast.</li>
+<li><strong>Performance measurement.</strong> The <a class="kb-link" href="sharpe-ratio.html" data-concept="sharpe-ratio">Sharpe Ratio</a> is a mean divided by a standard deviation, so
+every criticism of variance is a criticism of Sharpe.</li></ul>
+<div class="kb-module" data-module="distribution-explorer" data-config="{&quot;dist&quot;:&quot;exponential&quot;,&quot;n&quot;:30,&quot;reps&quot;:4000}"><div class="kb-module-shell"><div class="kb-module-loading">Loading interactive module &ldquo;distribution-explorer&rdquo;&hellip;</div></div></div>
+<h2 id="trading-research-application" class="kb-h kb-h2"><a class="kb-anchor" href="#trading-research-application" aria-label="Link to this section">#</a>Trading &amp; Research Application</h2>
+<aside class="kb-callout kb-callout--desk"><div class="kb-callout-title">On the desk</div><div class="kb-callout-body"><p><strong>Risk does not add; it combines.</strong> A PM who says &quot;these two books are each 8% vol so together we
+are at 16%&quot; has made the defining error. If correlation is 0.3, the combined vol is
+ <span class="math-inline">\(\sqrt{0.08^2+0.08^2+2(0.3)(0.08)(0.08)} = 12.9\%\)</span> , not 16%. The gap between 12.9% and 16% is the
+firm&#39;s entire diversification benefit, and it is what the risk system exists to measure.</p>
+<p><strong>Volatility is more forecastable than return.</strong> Vol is persistent (clustering, GARCH), so
+yesterday&#39;s vol predicts today&#39;s. Return is close to unforecastable. This asymmetry is why risk
+models are trusted with short estimation windows while expected-return models are shrunk hard
+towards zero.</p>
+<p><strong>Beware suppressed variance.</strong> Illiquid or model-marked assets show artificially low measured
+variance because prices are stale, not stable. A credit book showing 4% vol and a Sharpe of 3 is
+usually reporting a smoothing artefact; unsmoothing the returns (Getmansky–Lo–Makarov) typically
+halves the Sharpe.</p></div></aside>
+<h2 id="implementation-notes" class="kb-h kb-h2"><a class="kb-anchor" href="#implementation-notes" aria-label="Link to this section">#</a>Implementation Notes</h2>
+<figure class="kb-code" data-lang="python"><pre><code class="language-python">import numpy as np
+
+def welford(xs):
+    &quot;&quot;&quot;Numerically stable one-pass variance. Prefer this to E[X²]−E[X]²,
+    which catastrophically cancels when the mean dominates the spread.&quot;&quot;&quot;
+    n = 0
+    mean = m2 = 0.0
+    for x in xs:
+        n += 1
+        delta = x - mean
+        mean += delta / n
+        m2 += delta * (x - mean)
+    return m2 / (n - 1) if n &gt; 1 else float(&quot;nan&quot;)
+
+def ewma_var(returns, halflife=32):
+    &quot;&quot;&quot;Exponentially weighted variance: what risk systems actually use,
+    because it responds to regime changes instead of averaging over them.&quot;&quot;&quot;
+    lam = 0.5 ** (1.0 / halflife)
+    weights = lam ** np.arange(len(returns))[::-1]
+    weights /= weights.sum()
+    return float(np.sum(weights * (returns - np.average(returns, weights=weights)) ** 2))</code></pre></figure>
+<h2 id="common-mistakes" class="kb-h kb-h2"><a class="kb-anchor" href="#common-mistakes" aria-label="Link to this section">#</a>Common Mistakes</h2>
+<aside class="kb-callout kb-callout--pitfall"><div class="kb-callout-title">Common pitfall</div><div class="kb-callout-body"><ul class="kb-list"><li><strong>Adding volatilities.</strong> Variances add (with covariance terms); standard deviations do not.</li>
+<li><strong>Annualising by  <span class="math-inline">\(\sqrt{252}\)</span>  unconditionally</strong>, ignoring autocorrelation and clustering.</li>
+<li><strong>Treating variance as risk.</strong> It is a symmetric measure of dispersion. Investors care about
+drawdown and left-tail loss, which variance captures only under normality.</li>
+<li><strong>Trusting short-window estimates.</strong> Relative standard error is  <span class="math-inline">\(\approx 1/\sqrt{2(n-1)}\)</span> .</li>
+<li><strong>Using  <span class="math-inline">\(\E[X^2]-\E[X]^2\)</span>  on price levels</strong>, where floating-point cancellation destroys the answer.</li>
+<li><strong>Forgetting that a constant shift changes nothing</strong>:  <span class="math-inline">\(\Var(X + b) = \Var(X)\)</span> .</li></ul></div></aside>
+<h2 id="30-second-revision" class="kb-h kb-h2"><a class="kb-anchor" href="#30-second-revision" aria-label="Link to this section">#</a>30-Second Revision</h2>
+<ul class="kb-list"><li><span class="math-inline">\(\Var(X) = \E[X^2] - \E[X]^2\)</span> ;  <span class="math-inline">\(\Var(aX+b) = a^2\Var(X)\)</span> .</li>
+<li><span class="math-inline">\(\Var(X+Y) = \Var(X)+\Var(Y)+2\Cov(X,Y)\)</span>  — the cross term is the whole of portfolio theory.</li>
+<li>Sample variance divides by  <span class="math-inline">\(n-1\)</span> : one degree of freedom goes to estimating the mean.</li>
+<li>Equal-weight diversification floor:  <span class="math-inline">\(\Var \to \rho\sigma^2\)</span> . Correlated risk never diversifies.</li>
+<li>Relative SE of  <span class="math-inline">\(\hat\sigma \approx 1/\sqrt{2(n-1)}\)</span>  — 20 observations gives ±16%.</li>
+<li><span class="math-inline">\(\sqrt{T}\)</span>  annualisation assumes i.i.d.; autocorrelation and smoothing break it in both directions.</li></ul></div>
+    <section class="kb-section" id="key-formulas">
+        <h2 class="kb-h kb-h2"><a class="kb-anchor" href="#key-formulas" aria-label="Link to this section">#</a>Key Formulas</h2>
+        <div class="kb-formula-recap">
+          <a class="kb-formula-recap-item" href="#variance">
+            <span class="kb-formula-recap-name">Variance</span>
+            <span class="math-display">\[\Var(X) = \E\big[(X - \E[X])^2\big] = \E[X^2] - \E[X]^2\]</span>
+          </a>
+          <a class="kb-formula-recap-item" href="#affine-scaling">
+            <span class="kb-formula-recap-name">Affine scaling</span>
+            <span class="math-display">\[\Var(aX + b) = a^2 \Var(X)\]</span>
+          </a>
+          <a class="kb-formula-recap-item" href="#variance-of-a-sum">
+            <span class="kb-formula-recap-name">Variance of a sum</span>
+            <span class="math-display">\[\Var\!\left(\sum_i w_i X_i\right) = \sum_i \sum_j w_i w_j \Cov(X_i, X_j) = \mathbf{w}^\top \Sigma \,\mathbf{w}\]</span>
+          </a>
+          <a class="kb-formula-recap-item" href="#sample-variance">
+            <span class="kb-formula-recap-name">Sample variance</span>
+            <span class="math-display">\[s^2 = \frac{1}{n-1}\sum_{i=1}^{n} (X_i - \bar X)^2\]</span>
+          </a></div>
+      </section>
+    <section class="kb-section" id="interview-questions">
+        <h2 class="kb-h kb-h2"><a class="kb-anchor" href="#interview-questions" aria-label="Link to this section">#</a>Interview Questions</h2>
+        <ol class="kb-questions">
+          <li class="kb-question" id="q-variance-q1" data-difficulty="foundational">
+            <div class="kb-question-head">
+              <span class="kb-question-text">Why divide by n−1 rather than n in the sample variance?</span>
+              <span class="kb-tagline">Foundational · estimation · bias</span>
+            </div>
+            <details class="kb-hint"><summary>Hint</summary><div><p>The sample mean is itself estimated from the same data.</p></div></details>
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>Because deviations are measured from the <em>sample</em> mean  <span class="math-inline">\(\bar X\)</span> , which is chosen to minimise
+ <span class="math-inline">\(\sum (X_i - c)^2\)</span> . The residuals are therefore systematically too small, and dividing by  <span class="math-inline">\(n\)</span> 
+would underestimate  <span class="math-inline">\(\sigma^2\)</span>  by a factor  <span class="math-inline">\((n-1)/n\)</span> .
+Formally, the  <span class="math-inline">\(n\)</span>  residuals satisfy one linear constraint  <span class="math-inline">\(\sum (X_i - \bar X) = 0\)</span> , so only
+ <span class="math-inline">\(n-1\)</span>  of them are free. Dividing by the degrees of freedom restores unbiasedness:
+ <span class="math-inline">\(\E[s^2] = \sigma^2\)</span> .
+<strong>Worth adding:</strong>  <span class="math-inline">\(s\)</span>  is still a biased estimate of  <span class="math-inline">\(\sigma\)</span>  even though  <span class="math-inline">\(s^2\)</span>  is unbiased for
+ <span class="math-inline">\(\sigma^2\)</span>  — because  <span class="math-inline">\(\sqrt{\cdot}\)</span>  is concave, Jensen&#39;s inequality gives  <span class="math-inline">\(\E[s] &lt; \sigma\)</span> .
+Unbiasedness does not survive non-linear transformation.</p></div></details>
+          </li>
+          <li class="kb-question" id="q-variance-q2" data-difficulty="intermediate">
+            <div class="kb-question-head">
+              <span class="kb-question-text">A portfolio holds n equally weighted assets, each with volatility σ, pairwise correlation ρ. What is the portfolio variance as n → ∞?</span>
+              <span class="kb-tagline">Intermediate · diversification · portfolio</span>
+            </div>
+            <details class="kb-hint"><summary>Hint</summary><div><p>Separate the diagonal from the off-diagonal terms.</p></div></details>
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><span class="math-display">\[\Var(R_p) = \frac{\sigma^2}{n} + \frac{n-1}{n}\rho\sigma^2 \;\xrightarrow{n\to\infty}\; \rho\sigma^2\]</span>
+<p>Idiosyncratic risk diversifies away at rate  <span class="math-inline">\(1/n\)</span> ; <strong>correlated risk does not diversify at all</strong>.
+With  <span class="math-inline">\(\rho = 0.3\)</span>  and  <span class="math-inline">\(\sigma=25\%\)</span> , the floor is  <span class="math-inline">\(\sigma_p = 25\%\sqrt{0.3} \approx 13.7\%\)</span> ,
+no matter how many names you own.
+This is the quantitative content of &quot;diversification is the only free lunch, and it is a small
+lunch&quot;. It also explains why crisis periods feel so violent:  <span class="math-inline">\(\rho \to 1\)</span>  and the floor rises to
+the full single-asset volatility.</p></div></details>
+          </li>
+          <li class="kb-question" id="q-variance-q3" data-difficulty="intermediate">
+            <div class="kb-question-head">
+              <span class="kb-question-text">Var(X) = 4, Var(Y) = 9. What are the possible values of Var(X + Y)?</span>
+              <span class="kb-tagline">Intermediate · correlation-bounds</span>
+            </div>
+            
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p> <span class="math-inline">\(\Var(X+Y) = 4 + 9 + 2\rho \cdot 2 \cdot 3 = 13 + 12\rho\)</span>  with  <span class="math-inline">\(\rho \in [-1,1]\)</span> , so the range is
+ <span class="math-inline">\([1, 25]\)</span> .
+The endpoints are the perfectly hedged case ( <span class="math-inline">\(\rho=-1\)</span> ,  <span class="math-inline">\(\sigma_p = |3-2| = 1\)</span> ) and the fully
+concentrated case ( <span class="math-inline">\(\rho=1\)</span> ,  <span class="math-inline">\(\sigma_p = 3+2=5\)</span> ). Note the answer is a <em>range</em>: variance of a
+sum is not determined by the marginals, which is precisely why correlation estimation is where
+portfolio risk models live or die.</p></div></details>
+          </li>
+          <li class="kb-question" id="q-variance-q4" data-difficulty="intermediate">
+            <div class="kb-question-head">
+              <span class="kb-question-text">Your strategy&#39;s daily returns have volatility 1%. What is annual volatility, and when is that calculation wrong?</span>
+              <span class="kb-tagline">Intermediate · annualisation · autocorrelation</span>
+            </div>
+            
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>Naively  <span class="math-inline">\(1\% \times \sqrt{252} \approx 15.9\%\)</span> .
+The  <span class="math-inline">\(\sqrt{T}\)</span>  rule assumes <strong>i.i.d. returns</strong>. It fails when:</p>
+<ul class="kb-list"><li><strong>Returns are autocorrelated.</strong> With AR(1) coefficient  <span class="math-inline">\(\rho_1\)</span> , the correct multiplier is
+approximately  <span class="math-inline">\(\sqrt{T\,\frac{1+\rho_1}{1-\rho_1}}\)</span> . Trend strategies have  <span class="math-inline">\(\rho_1 &gt; 0\)</span>  so true
+annual vol is <em>higher</em>; mean-reversion strategies have  <span class="math-inline">\(\rho_1 &lt; 0\)</span>  so it is <em>lower</em>.</li>
+<li><strong>Volatility clusters</strong> (GARCH). The unconditional number understates risk in stressed regimes.</li>
+<li><strong>Returns are illiquid or smoothed</strong> (credit, private assets). Stale marks suppress measured
+daily vol and inflate the apparent Sharpe — the classic Sharpe-inflation trick.</li></ul></div></details>
+          </li>
+          <li class="kb-question" id="q-variance-q5" data-difficulty="advanced">
+            <div class="kb-question-head">
+              <span class="kb-question-text">You observe 20 daily returns with sample volatility 1.2%. How precise is that estimate?</span>
+              <span class="kb-tagline">Advanced · sampling-error · estimation</span>
+            </div>
+            
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>For normal data the relative standard error of  <span class="math-inline">\(\hat\sigma\)</span>  is approximately
+ <span class="math-inline">\(1/\sqrt{2(n-1)}\)</span> . With  <span class="math-inline">\(n=20\)</span>  that is  <span class="math-inline">\(\approx 16\%\)</span>  — so 1.2% ± 0.19% at one standard error,
+and roughly  <span class="math-inline">\([0.85\%, 1.55\%]\)</span>  at two.
+<strong>Volatility needs far less data than mean return, but far more than people assume.</strong> For
+comparison, estimating a mean return to comparable relative precision takes decades. That
+asymmetry is why risk models are estimated from short windows and expected returns are not.</p></div></details>
+          </li></ol>
+      </section>
+
+    <section class="kb-section" id="connections">
+      <h2 class="kb-h kb-h2"><a class="kb-anchor" href="#connections" aria-label="Link to this section">#</a>Connections</h2>
+      <div class="kb-connections">
+        <section class="kb-relgroup"><h3>Prerequisites</h3><p class="kb-relnote">Understand these first.</p><ul class="kb-rellist"><li><a href="../concepts/expectation.html" class="kb-relitem">
+          <span class="kb-relitem-title">Expectation</span>
+          <span class="kb-relitem-meta">Probability · Foundational</span>
+          <span class="kb-relitem-sum">The probability-weighted average of a random variable — the number a long-run average converges to, and the object almost every pricing and sizing argument is really about.</span>
+        </a></li></ul></section>
+        <section class="kb-relgroup"><h3>Builds towards</h3><p class="kb-relnote">Concepts that depend on this one.</p><ul class="kb-rellist"><li><a href="../concepts/brownian-motion.html" class="kb-relitem">
+          <span class="kb-relitem-title">Brownian Motion</span>
+          <span class="kb-relitem-meta">Stochastic Processes · Advanced</span>
+          <span class="kb-relitem-sum">The continuous-time limit of a random walk — Gaussian, independent increments scaling with √t, nowhere differentiable, and the driving noise underneath essentially every continuous-time model in finance.</span>
+        </a></li><li><a href="../concepts/covariance-and-correlation.html" class="kb-relitem">
+          <span class="kb-relitem-title">Covariance &amp; Correlation</span>
+          <span class="kb-relitem-meta">Statistics · Foundational</span>
+          <span class="kb-relitem-sum">Covariance measures how two variables move together in raw units; correlation normalises it to [-1, 1] — together they determine whether combining two positions reduces risk or concentrates it.</span>
+        </a></li><li><a href="../concepts/kelly-criterion.html" class="kb-relitem">
+          <span class="kb-relitem-title">Kelly Criterion</span>
+          <span class="kb-relitem-meta">Portfolio Construction · Intermediate</span>
+          <span class="kb-relitem-sum">The bet size that maximises the long-run growth rate of wealth — obtained by maximising expected log wealth rather than expected wealth, because capital compounds multiplicatively.</span>
+        </a></li><li><a href="../concepts/linear-regression.html" class="kb-relitem">
+          <span class="kb-relitem-title">Linear Regression</span>
+          <span class="kb-relitem-meta">Statistics · Intermediate</span>
+          <span class="kb-relitem-sum">The projection of a target onto the span of its predictors — the estimator behind every beta, factor loading and hedge ratio in finance, and the one whose assumptions market data violates most reliably.</span>
+        </a></li><li><a href="../concepts/sharpe-ratio.html" class="kb-relitem">
+          <span class="kb-relitem-title">Sharpe Ratio</span>
+          <span class="kb-relitem-meta">Portfolio Construction · Intermediate</span>
+          <span class="kb-relitem-sum">Excess return per unit of volatility — the industry&#39;s default measure of risk-adjusted performance, and an estimator noisy and gameable enough that knowing its failure modes matters more than knowing its formula.</span>
+        </a></li></ul></section>
+        <section class="kb-relgroup"><h3>Related</h3><ul class="kb-rellist"><li><a href="../concepts/covariance-and-correlation.html" class="kb-relitem">
+          <span class="kb-relitem-title">Covariance &amp; Correlation</span>
+          <span class="kb-relitem-meta">Statistics · Foundational</span>
+          <span class="kb-relitem-sum">Covariance measures how two variables move together in raw units; correlation normalises it to [-1, 1] — together they determine whether combining two positions reduces risk or concentrates it.</span>
+        </a></li><li><a href="../concepts/sharpe-ratio.html" class="kb-relitem">
+          <span class="kb-relitem-title">Sharpe Ratio</span>
+          <span class="kb-relitem-meta">Portfolio Construction · Intermediate</span>
+          <span class="kb-relitem-sum">Excess return per unit of volatility — the industry&#39;s default measure of risk-adjusted performance, and an estimator noisy and gameable enough that knowing its failure modes matters more than knowing its formula.</span>
+        </a></li><li><a href="../concepts/expectation.html" class="kb-relitem">
+          <span class="kb-relitem-title">Expectation</span>
+          <span class="kb-relitem-meta">Probability · Foundational</span>
+          <span class="kb-relitem-sum">The probability-weighted average of a random variable — the number a long-run average converges to, and the object almost every pricing and sizing argument is really about.</span>
+        </a></li></ul></section>
+        
+      </div>
+      
+    </section>
+
+    <nav class="kb-prevnext" aria-label="Concept navigation">
+    <span></span>
+    <a class="kb-prevnext-item kb-prevnext-up" href="../subjects/statistics.html">
+      <span class="kb-prevnext-label">Subject</span><span>Statistics</span></a>
+    <a class="kb-prevnext-item kb-prevnext-next" href="../concepts/covariance-and-correlation.html" rel="next">
+      <span class="kb-prevnext-label">Next →</span><span>Covariance &amp; Correlation</span></a>
+  </nav>
+    <footer class="kb-source-note">
+      Source: <code>content/concepts/variance.md</code> · updated 2026-01-14
+      · edit the markdown and run <code>npm run build</code>.
+    </footer>
+  </article>
+
+  <aside class="kb-sidebar">
+    <nav class="kb-toc" aria-label="On this page"><h3>On this page</h3><ol><li><a href="#intuition">Intuition</a></li><li><a href="#mathematical-formulation">Mathematical Formulation</a></li><li><a href="#derivation">Derivation</a></li><li><a href="#assumptions-edge-cases">Assumptions &amp; Edge Cases</a></li><li><a href="#worked-example">Worked Example</a></li><li><a href="#why-it-matters-in-quant-finance">Why It Matters in Quant Finance</a></li><li><a href="#trading-research-application">Trading &amp; Research Application</a></li><li><a href="#implementation-notes">Implementation Notes</a></li><li><a href="#common-mistakes">Common Mistakes</a></li><li><a href="#30-second-revision">30-Second Revision</a></li><li><a href="#key-formulas">Key Formulas</a></li><li><a href="#interview-questions">Interview Questions</a></li><li><a href="#connections">Connections</a></li></ol></nav>
+    <section class="kb-side-card" id="side-formulas"><h3>Key formulas</h3><ul class="kb-side-formulas"><li><a href="#variance">Variance</a></li><li><a href="#affine-scaling">Affine scaling</a></li><li><a href="#variance-of-a-sum">Variance of a sum</a></li><li><a href="#sample-variance">Sample variance</a></li></ul></section>
+    <section class="kb-side-card">
+      <h3>Metadata</h3>
+      <dl class="kb-meta">
+        <dt>Subject</dt><dd><a href="../subjects/statistics.html">Statistics</a></dd>
+        <dt>Difficulty</dt><dd>Foundational</dd>
+        <dt>Interview</dt><dd><span class="kb-stars" title="Interview relevance 5 of 5" aria-label="Interview relevance 5 of 5"><span class="kb-stars-on">★★★★★</span><span class="kb-stars-off"></span></span></dd>
+        <dt>Status</dt><dd data-kb-status-label="variance">Learned</dd>
+        <dt>Prereqs</dt><dd>1</dd>
+        <dt>Formulas</dt><dd>4</dd>
+        <dt>Questions</dt><dd>5</dd>
+      </dl>
+    </section>
+    <section class="kb-side-card kb-side-minimap">
+      <h3>Neighbourhood</h3>
+      <canvas data-kb-minimap="variance" width="260" height="200" aria-label="Local knowledge graph"></canvas>
+      <a class="kb-side-more" href="../graph.html?focus=variance">Open full graph →</a>
+    </section>
+  </aside>
+</main>
+<script src="../data/kb.data.js"></script>
+<script src="../data/search.index.js"></script>
+<script src="../assets/js/kb-core.js"></script>
+<script src="../assets/js/kb-ui.js"></script>
+<script src="../assets/vendor/katex/katex.min.js" defer></script>
+<script src="../assets/vendor/katex/auto-render.min.js" defer></script>
+<script src="../assets/js/math.js" defer></script>
+<script src="../assets/js/concept.js" defer></script>
+<script src="../assets/js/lib/plot.js" defer></script>
+<script src="../assets/js/modules/distribution-explorer.js" defer></script>
+</body>
+</html>

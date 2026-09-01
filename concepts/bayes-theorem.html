@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en" data-page="concept">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bayes&#39; Theorem · Quant Knowledge Base</title>
+<meta name="description" content="The rule for inverting a conditional probability — turning &quot;how likely is this evidence if the hypothesis is true&quot; into &quot;how likely is the hypothesis given the evidence&quot;.">
+<link rel="icon" href="../assets/icons/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/vendor/katex/katex.min.css">
+<link rel="stylesheet" href="../assets/css/app.css">
+<link rel="stylesheet" href="../assets/css/views.css">
+
+</head>
+<body class="kb-body kb-body--concept">
+<header class="kb-topbar">
+  <a class="kb-brand" href="../index.html" title="Home (H)">
+    <span class="kb-brand-mark">QF</span><span class="kb-brand-text">Quant Knowledge Base</span>
+  </a>
+  <nav class="kb-crumbs" aria-label="Breadcrumb"><ol><li><a href="../index.html">Dashboard</a></li><li class="kb-crumb-sep" aria-hidden="true">/</li><li><a href="../subjects/probability.html">Probability</a></li><li class="kb-crumb-sep" aria-hidden="true">/</li><li><span aria-current="page">Bayes&#39; Theorem</span></li></ol></nav>
+  <div class="kb-topbar-actions">
+    <button class="kb-searchbtn" type="button" data-kb-open-search>
+      <span>Search concepts, formulas, questions</span><kbd>/</kbd>
+    </button>
+    <nav class="kb-toplinks" aria-label="Sections">
+      <a href="../index.html" data-nav="home">Dashboard</a>
+      <a href="../graph.html" data-nav="graph">Graph</a>
+      <a href="../interview.html" data-nav="interview">Interview</a>
+      <a href="../library.html" data-nav="library">Library</a>
+    </nav>
+    <button class="kb-iconbtn" type="button" data-kb-theme title="Toggle theme (T)" aria-label="Toggle theme">◑</button>
+    <button class="kb-iconbtn" type="button" data-kb-help title="Keyboard shortcuts (?)" aria-label="Keyboard shortcuts">?</button>
+  </div>
+</header>
+<main class="kb-main kb-main--concept" data-concept-id="bayes-theorem">
+  <article class="kb-article">
+    <header class="kb-concept-head">
+      <div class="kb-concept-eyebrow">
+        <a class="kb-subject-chip" href="../subjects/probability.html" style="--subject-color:#4f8fd6">
+          <span class="kb-subject-mark">P</span>Probability</a>
+        <span class="kb-pill kb-pill--foundational">Foundational</span>
+        <span class="kb-stars" title="Interview relevance 5 of 5" aria-label="Interview relevance 5 of 5"><span class="kb-stars-on">★★★★★</span><span class="kb-stars-off"></span></span>
+        <span class="kb-meta-dot">·</span>
+        <span class="kb-readtime">13 min</span>
+      </div>
+      <h1 class="kb-concept-title">Bayes&#39; Theorem</h1>
+      <p class="kb-concept-summary">The rule for inverting a conditional probability — turning &quot;how likely is this evidence if the hypothesis is true&quot; into &quot;how likely is the hypothesis given the evidence&quot;.</p>
+      <div class="kb-concept-controls">
+        <label class="kb-statusctl">Status
+          <select data-kb-status="bayes-theorem" data-default="learning">
+            <option value="not-started">Not started</option><option value="learning" selected>Learning</option><option value="learned">Learned</option><option value="mastered">Mastered</option>
+          </select>
+        </label>
+        <button class="kb-btn kb-btn--ghost" type="button" data-kb-bookmark="bayes-theorem">☆ Bookmark</button>
+        <button class="kb-btn kb-btn--ghost" type="button" data-kb-flashcards>Revision card</button>
+        <a class="kb-btn kb-btn--ghost" href="../graph.html?focus=bayes-theorem">Show in graph</a>
+      </div>
+      <ul class="kb-taglist"><li><a class="kb-tag" href="../library.html?tag=probability">#probability</a></li><li><a class="kb-tag" href="../library.html?tag=bayes">#bayes</a></li><li><a class="kb-tag" href="../library.html?tag=inference">#inference</a></li><li><a class="kb-tag" href="../library.html?tag=base-rates">#base-rates</a></li><li><a class="kb-tag" href="../library.html?tag=updating">#updating</a></li></ul>
+    </header>
+
+    <div class="kb-content"><h2 id="intuition" class="kb-h kb-h2"><a class="kb-anchor" href="#intuition" aria-label="Link to this section">#</a>Intuition</h2>
+<p>Bayes&#39; theorem answers a question people constantly get backwards. You know how the world produces
+evidence —  <span class="math-inline">\(\P(\text{evidence} \mid \text{hypothesis})\)</span>  — and you want the reverse,
+ <span class="math-inline">\(\P(\text{hypothesis} \mid \text{evidence})\)</span> . The two are not the same, and the exchange rate
+between them is the <strong>base rate</strong>.</p>
+<p>The clearest mental model is the two-column picture. Split the population by hypothesis, work out
+how much evidence each column produces, then ask which column your observed evidence most likely
+came from. If one column is a thousand times bigger, even a rare false-positive rate in that column
+can swamp the true positives from the small one.</p>
+<aside class="kb-callout kb-callout--insight"><div class="kb-callout-title">Insight</div><div class="kb-callout-body"><p>Bayes is best done in <strong>odds form</strong>, where the normalising constant disappears entirely:</p>
+<span class="math-display">\[\underbrace{\frac{\P(H\mid E)}{\P(\neg H \mid E)}}_{\text{posterior odds}}
+= \underbrace{\frac{\P(H)}{\P(\neg H)}}_{\text{prior odds}} \times
+\underbrace{\frac{\P(E\mid H)}{\P(E\mid \neg H)}}_{\text{likelihood ratio}}\]</span>
+<p>Evidence is a <em>multiplier on odds</em>. That single sentence solves most interview questions faster
+than the standard formula.</p></div></aside>
+<h2 id="mathematical-formulation" class="kb-h kb-h2"><a class="kb-anchor" href="#mathematical-formulation" aria-label="Link to this section">#</a>Mathematical Formulation</h2>
+<figure class="kb-formula" id="bayes-theorem" data-formula="bayes-theorem"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">Bayes&#39; theorem</span><button class="kb-formula-copy" type="button" data-latex="\P(H \mid E) = \frac{\P(E \mid H)\,\P(H)}{\P(E)}" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[\P(H \mid E) = \frac{\P(E \mid H)\,\P(H)}{\P(E)}\]</span> </div><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">Alpha Research</span><span class="kb-chip">Risk</span><span class="kb-chip">Credit</span><span class="kb-chip">Microstructure</span></footer></figure>
+<p>With the denominator expanded by the law of total probability — the form you actually compute with:</p>
+<figure class="kb-formula" id="bayes-theorem-expanded" data-formula="bayes-theorem-expanded"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">Bayes&#39; theorem, expanded</span><button class="kb-formula-copy" type="button" data-latex="\P(H \mid E) = \frac{\P(E \mid H)\,\P(H)}{\P(E\mid H)\P(H) + \P(E \mid \neg H)\,\P(\neg H)}" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[\P(H \mid E) = \frac{\P(E \mid H)\,\P(H)}{\P(E\mid H)\P(H) + \P(E \mid \neg H)\,\P(\neg H)}\]</span> </div><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">Statistics</span><span class="kb-chip">Classification</span></footer></figure>
+<p>And in log-odds, where updates simply add — the form used inside every logistic regression and
+naive-Bayes classifier:</p>
+<figure class="kb-formula" id="log-odds-update" data-formula="log-odds-update"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">Log-odds update</span><button class="kb-formula-copy" type="button" data-latex="\operatorname{logit}\P(H\mid E) = \operatorname{logit}\P(H) + \ln \frac{\P(E\mid H)}{\P(E\mid\neg H)}" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[\operatorname{logit}\P(H\mid E) = \operatorname{logit}\P(H) + \ln \frac{\P(E\mid H)}{\P(E\mid\neg H)}\]</span> </div><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">Machine Learning</span><span class="kb-chip">Signal Combination</span></footer></figure>
+<div class="kb-module" data-module="bayes-explorer" data-config="{&quot;prior&quot;:0.01,&quot;sens&quot;:0.99,&quot;spec&quot;:0.99}"><div class="kb-module-shell"><div class="kb-module-loading">Loading interactive module &ldquo;bayes-explorer&rdquo;&hellip;</div></div></div>
+<h2 id="derivation" class="kb-h kb-h2"><a class="kb-anchor" href="#derivation" aria-label="Link to this section">#</a>Derivation</h2>
+<details class="kb-derivation"><summary>Two lines from the definition</summary><div class="kb-derivation-body"><p>By <a class="kb-link" href="conditional-probability.html" data-concept="conditional-probability">the definition of conditional probability</a>, the joint probability
+factors two ways:</p>
+<span class="math-display">\[\P(H \cap E) = \P(H\mid E)\,\P(E) = \P(E \mid H)\,\P(H)\]</span>
+<p>Divide both sides by  <span class="math-inline">\(\P(E)\)</span> :</p>
+<span class="math-display">\[\P(H\mid E) = \frac{\P(E\mid H)\,\P(H)}{\P(E)}\]</span>
+<p>That is the whole theorem. Its difficulty is entirely conceptual, not mathematical — which is
+precisely why interviewers like it.</p></div></details>
+<details class="kb-derivation"><summary>Sequential updating and why order does not matter</summary><div class="kb-derivation-body"><p>With conditionally independent evidence  <span class="math-inline">\(E_1, E_2\)</span>  given  <span class="math-inline">\(H\)</span> :</p>
+<span class="math-display">\[\frac{\P(H\mid E_1,E_2)}{\P(\neg H\mid E_1,E_2)} = \frac{\P(H)}{\P(\neg H)}\cdot
+\frac{\P(E_1\mid H)}{\P(E_1\mid\neg H)}\cdot\frac{\P(E_2\mid H)}{\P(E_2\mid\neg H)}\]</span>
+<p>Likelihood ratios multiply, so today&#39;s posterior is tomorrow&#39;s prior and the order of arrival is
+irrelevant. <strong>The conditional independence assumption is doing real work here</strong> — correlated
+evidence double-counts. Combining five momentum signals as if independent produces wildly
+overconfident posteriors, which is the Bayesian statement of why signal orthogonalisation matters.</p></div></details>
+<h2 id="assumptions-edge-cases" class="kb-h kb-h2"><a class="kb-anchor" href="#assumptions-edge-cases" aria-label="Link to this section">#</a>Assumptions &amp; Edge Cases</h2>
+<aside class="kb-callout kb-callout--assumption"><div class="kb-callout-title">Assumptions</div><div class="kb-callout-body"><ul class="kb-list"><li><strong>The prior must be honest.</strong> Garbage prior in, garbage posterior out. In finance the prior is
+usually &quot;most strategies do not work&quot;, and it should be pessimistic.</li>
+<li><strong>Conditional independence of evidence</strong> is assumed by naive Bayes and violated by almost all
+financial signals.</li>
+<li><strong>A zero prior is unrecoverable</strong>:  <span class="math-inline">\(\P(H)=0 \Rightarrow \P(H\mid E)=0\)</span>  for any evidence. Cromwell&#39;s
+rule — never assign probability zero to something you would revise on.</li>
+<li><strong>The evidence must be the evidence you actually would have observed.</strong> Conditioning on &quot;I found
+a strategy with Sharpe 2&quot; differs from &quot;the best of 100 tried had Sharpe 2&quot;.</li></ul></div></aside>
+<h2 id="worked-example" class="kb-h kb-h2"><a class="kb-anchor" href="#worked-example" aria-label="Link to this section">#</a>Worked Example</h2>
+<p>A credit model assigns a firm a 3% one-year default probability. A ratings downgrade arrives.
+Historically, 40% of firms that defaulted were downgraded in the preceding year; 6% of firms that
+survived were also downgraded.</p>
+<p>Odds form:</p>
+<ul class="kb-list"><li>Prior odds:  <span class="math-inline">\(0.03 / 0.97 = 0.0309\)</span></li>
+<li>Likelihood ratio:  <span class="math-inline">\(0.40 / 0.06 = 6.67\)</span></li>
+<li>Posterior odds:  <span class="math-inline">\(0.0309 \times 6.67 = 0.206\)</span></li>
+<li>Posterior probability:  <span class="math-inline">\(0.206 / 1.206 = \mathbf{17.1\%}\)</span></li></ul>
+<p>The downgrade multiplied the default odds by nearly seven, but the absolute probability is still
+only 17% — the base rate keeps it anchored. Pricing the bond as though default were near-certain
+would be a large error, and so would ignoring the downgrade.</p>
+<p>Now suppose a second, correlated signal arrives (a widening CDS spread, itself largely driven by the
+same downgrade). Treating it as independent evidence with its own LR of 5 would give posterior odds
+ <span class="math-inline">\(1.03\)</span> , i.e. 51% — roughly triple the honest answer. <strong>Correlated evidence must not be multiplied.</strong></p>
+<h2 id="why-it-matters-in-quant-finance" class="kb-h kb-h2"><a class="kb-anchor" href="#why-it-matters-in-quant-finance" aria-label="Link to this section">#</a>Why It Matters in Quant Finance</h2>
+<p>Bayes is the formal grammar of the research process:</p>
+<ul class="kb-list"><li><strong>Strategy evaluation.</strong> A backtest is evidence, not a conclusion. The posterior probability that
+a strategy is real depends on how many strategies you tried — the multiple-testing problem is a
+Bayesian statement about the likelihood of the evidence under the null.</li>
+<li><strong>Parameter estimation.</strong> Shrinkage estimators (James–Stein, Ledoit–Wolf covariance shrinkage,
+Black–Litterman) are all posterior means: a noisy sample estimate pulled towards a prior in
+proportion to its own imprecision.</li>
+<li><strong>Regime inference.</strong> Hidden Markov models and Kalman filters are Bayes applied recursively;
+the filter <em>is</em> a running posterior over an unobserved state.</li>
+<li><strong>Market microstructure.</strong> The PIN model and Glosten–Milgrom infer $\P(\text{informed} \mid
+\text{order flow})$ trade by trade — a market maker&#39;s quote is a posterior.</li></ul>
+<h2 id="trading-research-application" class="kb-h kb-h2"><a class="kb-anchor" href="#trading-research-application" aria-label="Link to this section">#</a>Trading &amp; Research Application</h2>
+<aside class="kb-callout kb-callout--desk"><div class="kb-callout-title">On the desk</div><div class="kb-callout-body"><p><strong>Black–Litterman is Bayes with a straight face.</strong> Market-implied equilibrium returns are the prior;
+your views are the likelihood; the blended vector is the posterior mean, with the weight on your
+view set by the confidence you attach to it. It exists because raw mean–variance optimisation on
+sample means produces absurd portfolios — the sample mean is a maximum-likelihood estimate with no
+prior, and it overfits.</p>
+<p><strong>Shrinkage.</strong> A 60-day realised beta of 1.8 for a mid-cap should not be traded as 1.8. The
+cross-sectional prior is ~1.0, and the posterior is roughly  <span class="math-inline">\(w \cdot 1.8 + (1-w)\cdot 1.0\)</span>  with  <span class="math-inline">\(w\)</span> 
+falling as the estimate&#39;s standard error rises. Every practitioner does this; Bayes tells you what
+ <span class="math-inline">\(w\)</span>  should be rather than leaving it to taste.</p>
+<p><strong>The research meeting question.</strong> &quot;How many variants did you test?&quot; is a question about the
+likelihood term. A Sharpe of 2 from the first thing you tried and a Sharpe of 2 from the best of
+500 are entirely different pieces of evidence.</p></div></aside>
+<h2 id="implementation-notes" class="kb-h kb-h2"><a class="kb-anchor" href="#implementation-notes" aria-label="Link to this section">#</a>Implementation Notes</h2>
+<figure class="kb-code" data-lang="python"><pre><code class="language-python">import numpy as np
+
+def posterior_odds(prior_odds: float, likelihood_ratios) -&gt; float:
+    &quot;&quot;&quot;Sequential Bayesian update. Work in logs: products of many small
+    likelihood ratios underflow, and additive updates are easier to debug.&quot;&quot;&quot;
+    log_odds = np.log(prior_odds) + np.sum(np.log(likelihood_ratios))
+    return float(np.exp(log_odds))
+
+def to_probability(odds: float) -&gt; float:
+    return odds / (1.0 + odds)
+
+# Correlated evidence: shrink each LR towards 1 before combining, or model
+# the joint likelihood directly. Multiplying correlated LRs is the single
+# most common way to build an overconfident signal.</code></pre></figure>
+<h2 id="common-mistakes" class="kb-h kb-h2"><a class="kb-anchor" href="#common-mistakes" aria-label="Link to this section">#</a>Common Mistakes</h2>
+<aside class="kb-callout kb-callout--pitfall"><div class="kb-callout-title">Common pitfall</div><div class="kb-callout-body"><ul class="kb-list"><li><strong>Base-rate neglect.</strong> The most-tested error in the entire quant interview canon. A 99% accurate
+test for a 1-in-1000 condition is right about 9% of the time when it fires.</li>
+<li><strong>Confusing  <span class="math-inline">\(\P(E\mid H)\)</span>  with  <span class="math-inline">\(\P(H\mid E)\)</span> </strong> — the prosecutor&#39;s fallacy. A p-value is
+ <span class="math-inline">\(\P(\text{data}\mid\text{null})\)</span> ; it is <em>not</em>  <span class="math-inline">\(\P(\text{null}\mid\text{data})\)</span> .</li>
+<li><strong>Multiplying correlated likelihood ratios</strong>, producing false confidence from five versions of
+the same signal.</li>
+<li><strong>Forgetting the search.</strong> Conditioning on the best of  <span class="math-inline">\(N\)</span>  trials, not on a single pre-registered
+test, changes the likelihood by orders of magnitude.</li>
+<li><strong>Assigning zero prior</strong>, making a hypothesis permanently unlearnable.</li></ul></div></aside>
+<h2 id="30-second-revision" class="kb-h kb-h2"><a class="kb-anchor" href="#30-second-revision" aria-label="Link to this section">#</a>30-Second Revision</h2>
+<ul class="kb-list"><li><span class="math-inline">\(\P(H\mid E) = \P(E\mid H)\P(H)/\P(E)\)</span> . Posterior  <span class="math-inline">\(\propto\)</span>  likelihood  <span class="math-inline">\(\times\)</span>  prior.</li>
+<li><strong>Odds form is faster</strong>: posterior odds = prior odds × likelihood ratio. Log-odds add.</li>
+<li>Base rate dominates when the classes are very unbalanced — 99% accurate, 1-in-1000 base rate,
+ <span class="math-inline">\(\approx\)</span>  9% posterior.</li>
+<li><span class="math-inline">\(\P(\text{data}\mid\text{null}) \ne \P(\text{null}\mid\text{data})\)</span> .</li>
+<li>Correlated evidence must not be multiplied as if independent.</li>
+<li>In finance: shrinkage, Black–Litterman, Kalman filters and deflated Sharpe are all Bayes.</li></ul></div>
+    <section class="kb-section" id="key-formulas">
+        <h2 class="kb-h kb-h2"><a class="kb-anchor" href="#key-formulas" aria-label="Link to this section">#</a>Key Formulas</h2>
+        <div class="kb-formula-recap">
+          <a class="kb-formula-recap-item" href="#bayes-theorem">
+            <span class="kb-formula-recap-name">Bayes&#39; theorem</span>
+            <span class="math-display">\[\P(H \mid E) = \frac{\P(E \mid H)\,\P(H)}{\P(E)}\]</span>
+          </a>
+          <a class="kb-formula-recap-item" href="#bayes-theorem-expanded">
+            <span class="kb-formula-recap-name">Bayes&#39; theorem, expanded</span>
+            <span class="math-display">\[\P(H \mid E) = \frac{\P(E \mid H)\,\P(H)}{\P(E\mid H)\P(H) + \P(E \mid \neg H)\,\P(\neg H)}\]</span>
+          </a>
+          <a class="kb-formula-recap-item" href="#log-odds-update">
+            <span class="kb-formula-recap-name">Log-odds update</span>
+            <span class="math-display">\[\operatorname{logit}\P(H\mid E) = \operatorname{logit}\P(H) + \ln \frac{\P(E\mid H)}{\P(E\mid\neg H)}\]</span>
+          </a></div>
+      </section>
+    <section class="kb-section" id="interview-questions">
+        <h2 class="kb-h kb-h2"><a class="kb-anchor" href="#interview-questions" aria-label="Link to this section">#</a>Interview Questions</h2>
+        <ol class="kb-questions">
+          <li class="kb-question" id="q-bayes-theorem-q1" data-difficulty="foundational">
+            <div class="kb-question-head">
+              <span class="kb-question-text">A test for a disease affecting 1 in 1,000 people is 99% accurate in both directions. You test positive. What is the probability you have the disease?</span>
+              <span class="kb-tagline">Foundational · base-rate · classic</span>
+            </div>
+            <details class="kb-hint"><summary>Hint</summary><div><p>Imagine 100,000 people rather than manipulating symbols.</p></div></details>
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>Take 100,000 people. 100 have the disease; 99 of them test positive. 99,900 are healthy;
+1% — that is 999 — test positive anyway.</p>
+<span class="math-display">\[\P(D\mid +) = \frac{99}{99 + 999} = \frac{99}{1098} \approx 9.0\%\]</span>
+<p><strong>False positives outnumber true positives 10 to 1</strong> because the healthy pool is a thousand
+times larger. The natural-frequency framing is worth practising: interviewers use it to see
+whether you reason about base rates automatically or only when prompted.</p></div></details>
+          </li>
+          <li class="kb-question" id="q-bayes-theorem-q2" data-difficulty="intermediate">
+            <div class="kb-question-head">
+              <span class="kb-question-text">Your model flags 200 stocks a month as &quot;will beat earnings&quot;. It is right 65% of the time. Base rate of beats is 55%. Is the model useful?</span>
+              <span class="kb-tagline">Intermediate · signal-evaluation · lift</span>
+            </div>
+            
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>Lift is  <span class="math-inline">\(0.65/0.55 = 1.18\times\)</span>  — a real but thin edge, so the question becomes whether it
+survives costs and whether 65% is estimated precisely enough.
+With  <span class="math-inline">\(n=200\)</span> /month over a year ( <span class="math-inline">\(N=2400\)</span> ), the standard error on a proportion is
+ <span class="math-inline">\(\sqrt{p(1-p)/N} = \sqrt{0.65\cdot0.35/2400} \approx 0.97\%\)</span> . So 65% ± 2% at two standard
+errors, comfortably above 55%. <strong>Statistically real.</strong>
+The economic question is separate: an 18% lift on a binary event converts to a small expected
+return, and if the flagged names are the crowded ones, realised alpha after impact may be zero.
+Always answer both the statistical and the economic question.</p></div></details>
+          </li>
+          <li class="kb-question" id="q-bayes-theorem-q3" data-difficulty="intermediate">
+            <div class="kb-question-head">
+              <span class="kb-question-text">Two coins: one fair, one two-headed. You pick one at random and flip 3 heads in a row. Probability it is the two-headed coin?</span>
+              <span class="kb-tagline">Intermediate · likelihood-ratio · classic</span>
+            </div>
+            
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>Prior odds 1:1. Likelihood ratio per flip is  <span class="math-inline">\(1 / 0.5 = 2\)</span> , so three flips give  <span class="math-inline">\(2^3 = 8\)</span> .
+<strong>Posterior odds 8:1</strong>, i.e.  <span class="math-inline">\(\P = 8/9 \approx 88.9\%\)</span> .
+Doing it in odds form avoids the normalising constant entirely — this is how you should do
+every Bayes question under time pressure.</p></div></details>
+          </li>
+          <li class="kb-question" id="q-bayes-theorem-q4" data-difficulty="advanced">
+            <div class="kb-question-head">
+              <span class="kb-question-text">A strategy shows a Sharpe of 2.0 over 3 years. You know 90% of proposed strategies are worthless and backtests of worthless strategies produce Sharpe ≥ 2 about 5% of the time. What do you believe?</span>
+              <span class="kb-tagline">Advanced · multiple-testing · backtesting · research-process</span>
+            </div>
+            
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>Prior odds good:bad  <span class="math-inline">\(= 1:9\)</span> . Assume a genuinely good strategy shows Sharpe  <span class="math-inline">\(\ge 2\)</span>  with
+probability  <span class="math-inline">\(0.5\)</span> . Likelihood ratio  <span class="math-inline">\(= 0.5/0.05 = 10\)</span> .
+Posterior odds  <span class="math-inline">\(= (1/9)\times 10 = 10/9\)</span> , so  <span class="math-inline">\(\P(\text{real}) \approx 53\%\)</span>  — <strong>a coin flip</strong>,
+from what looked like an outstanding backtest.
+Now the killer follow-up: if you tested 100 variants and reported the best, the relevant
+likelihood is $\P(\max \text{Sharpe} \ge 2 \mid \text{all worthless}) \approx 1 - 0.95^{100}
+\approx 99.4\%$, so the likelihood ratio collapses to  <span class="math-inline">\(0.5/0.994 \approx 0.5\)</span>  and the
+posterior odds fall to  <span class="math-inline">\(1:18\)</span>  — <strong>about 5%</strong>. This is why the number of trials is the single
+most important thing to disclose in a research meeting, and why deflated Sharpe ratios exist.</p></div></details>
+          </li></ol>
+      </section>
+
+    <section class="kb-section" id="connections">
+      <h2 class="kb-h kb-h2"><a class="kb-anchor" href="#connections" aria-label="Link to this section">#</a>Connections</h2>
+      <div class="kb-connections">
+        <section class="kb-relgroup"><h3>Prerequisites</h3><p class="kb-relnote">Understand these first.</p><ul class="kb-rellist"><li><a href="../concepts/conditional-probability.html" class="kb-relitem">
+          <span class="kb-relitem-title">Conditional Probability</span>
+          <span class="kb-relitem-meta">Probability · Foundational</span>
+          <span class="kb-relitem-sum">The probability of an event once you restrict attention to the states of the world where another event has occurred — the formal machinery for &quot;given what I now know&quot;.</span>
+        </a></li></ul></section>
+        
+        <section class="kb-relgroup"><h3>Related</h3><ul class="kb-rellist"><li><a href="../concepts/expectation.html" class="kb-relitem">
+          <span class="kb-relitem-title">Expectation</span>
+          <span class="kb-relitem-meta">Probability · Foundational</span>
+          <span class="kb-relitem-sum">The probability-weighted average of a random variable — the number a long-run average converges to, and the object almost every pricing and sizing argument is really about.</span>
+        </a></li><li><a href="../concepts/conditional-probability.html" class="kb-relitem">
+          <span class="kb-relitem-title">Conditional Probability</span>
+          <span class="kb-relitem-meta">Probability · Foundational</span>
+          <span class="kb-relitem-sum">The probability of an event once you restrict attention to the states of the world where another event has occurred — the formal machinery for &quot;given what I now know&quot;.</span>
+        </a></li><li><a href="../concepts/linear-regression.html" class="kb-relitem">
+          <span class="kb-relitem-title">Linear Regression</span>
+          <span class="kb-relitem-meta">Statistics · Intermediate</span>
+          <span class="kb-relitem-sum">The projection of a target onto the span of its predictors — the estimator behind every beta, factor loading and hedge ratio in finance, and the one whose assumptions market data violates most reliably.</span>
+        </a></li></ul></section>
+        
+      </div>
+      <div class="kb-references"><h3>References</h3><ul><li>Jaynes, *Probability Theory: The Logic of Science*, ch. 4</li></ul></div>
+    </section>
+
+    <nav class="kb-prevnext" aria-label="Concept navigation">
+    <a class="kb-prevnext-item kb-prevnext-prev" href="../concepts/expectation.html" rel="prev">
+      <span class="kb-prevnext-label">← Previous</span><span>Expectation</span></a>
+    <a class="kb-prevnext-item kb-prevnext-up" href="../subjects/probability.html">
+      <span class="kb-prevnext-label">Subject</span><span>Probability</span></a>
+    <span></span>
+  </nav>
+    <footer class="kb-source-note">
+      Source: <code>content/concepts/bayes-theorem.md</code> · updated 2026-01-14
+      · edit the markdown and run <code>npm run build</code>.
+    </footer>
+  </article>
+
+  <aside class="kb-sidebar">
+    <nav class="kb-toc" aria-label="On this page"><h3>On this page</h3><ol><li><a href="#intuition">Intuition</a></li><li><a href="#mathematical-formulation">Mathematical Formulation</a></li><li><a href="#derivation">Derivation</a></li><li><a href="#assumptions-edge-cases">Assumptions &amp; Edge Cases</a></li><li><a href="#worked-example">Worked Example</a></li><li><a href="#why-it-matters-in-quant-finance">Why It Matters in Quant Finance</a></li><li><a href="#trading-research-application">Trading &amp; Research Application</a></li><li><a href="#implementation-notes">Implementation Notes</a></li><li><a href="#common-mistakes">Common Mistakes</a></li><li><a href="#30-second-revision">30-Second Revision</a></li><li><a href="#key-formulas">Key Formulas</a></li><li><a href="#interview-questions">Interview Questions</a></li><li><a href="#connections">Connections</a></li></ol></nav>
+    <section class="kb-side-card" id="side-formulas"><h3>Key formulas</h3><ul class="kb-side-formulas"><li><a href="#bayes-theorem">Bayes&#39; theorem</a></li><li><a href="#bayes-theorem-expanded">Bayes&#39; theorem, expanded</a></li><li><a href="#log-odds-update">Log-odds update</a></li></ul></section>
+    <section class="kb-side-card">
+      <h3>Metadata</h3>
+      <dl class="kb-meta">
+        <dt>Subject</dt><dd><a href="../subjects/probability.html">Probability</a></dd>
+        <dt>Difficulty</dt><dd>Foundational</dd>
+        <dt>Interview</dt><dd><span class="kb-stars" title="Interview relevance 5 of 5" aria-label="Interview relevance 5 of 5"><span class="kb-stars-on">★★★★★</span><span class="kb-stars-off"></span></span></dd>
+        <dt>Status</dt><dd data-kb-status-label="bayes-theorem">Learning</dd>
+        <dt>Prereqs</dt><dd>1</dd>
+        <dt>Formulas</dt><dd>3</dd>
+        <dt>Questions</dt><dd>4</dd>
+      </dl>
+    </section>
+    <section class="kb-side-card kb-side-minimap">
+      <h3>Neighbourhood</h3>
+      <canvas data-kb-minimap="bayes-theorem" width="260" height="200" aria-label="Local knowledge graph"></canvas>
+      <a class="kb-side-more" href="../graph.html?focus=bayes-theorem">Open full graph →</a>
+    </section>
+  </aside>
+</main>
+<script src="../data/kb.data.js"></script>
+<script src="../data/search.index.js"></script>
+<script src="../assets/js/kb-core.js"></script>
+<script src="../assets/js/kb-ui.js"></script>
+<script src="../assets/vendor/katex/katex.min.js" defer></script>
+<script src="../assets/vendor/katex/auto-render.min.js" defer></script>
+<script src="../assets/js/math.js" defer></script>
+<script src="../assets/js/concept.js" defer></script>
+<script src="../assets/js/lib/plot.js" defer></script>
+<script src="../assets/js/modules/bayes-explorer.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en" data-page="concept">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Linear Regression · Quant Knowledge Base</title>
+<meta name="description" content="The projection of a target onto the span of its predictors — the estimator behind every beta, factor loading and hedge ratio in finance, and the one whose assumptions market data violates most reliably.">
+<link rel="icon" href="../assets/icons/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/vendor/katex/katex.min.css">
+<link rel="stylesheet" href="../assets/css/app.css">
+<link rel="stylesheet" href="../assets/css/views.css">
+
+</head>
+<body class="kb-body kb-body--concept">
+<header class="kb-topbar">
+  <a class="kb-brand" href="../index.html" title="Home (H)">
+    <span class="kb-brand-mark">QF</span><span class="kb-brand-text">Quant Knowledge Base</span>
+  </a>
+  <nav class="kb-crumbs" aria-label="Breadcrumb"><ol><li><a href="../index.html">Dashboard</a></li><li class="kb-crumb-sep" aria-hidden="true">/</li><li><a href="../subjects/statistics.html">Statistics</a></li><li class="kb-crumb-sep" aria-hidden="true">/</li><li><span aria-current="page">Linear Regression</span></li></ol></nav>
+  <div class="kb-topbar-actions">
+    <button class="kb-searchbtn" type="button" data-kb-open-search>
+      <span>Search concepts, formulas, questions</span><kbd>/</kbd>
+    </button>
+    <nav class="kb-toplinks" aria-label="Sections">
+      <a href="../index.html" data-nav="home">Dashboard</a>
+      <a href="../graph.html" data-nav="graph">Graph</a>
+      <a href="../interview.html" data-nav="interview">Interview</a>
+      <a href="../library.html" data-nav="library">Library</a>
+    </nav>
+    <button class="kb-iconbtn" type="button" data-kb-theme title="Toggle theme (T)" aria-label="Toggle theme">◑</button>
+    <button class="kb-iconbtn" type="button" data-kb-help title="Keyboard shortcuts (?)" aria-label="Keyboard shortcuts">?</button>
+  </div>
+</header>
+<main class="kb-main kb-main--concept" data-concept-id="linear-regression">
+  <article class="kb-article">
+    <header class="kb-concept-head">
+      <div class="kb-concept-eyebrow">
+        <a class="kb-subject-chip" href="../subjects/statistics.html" style="--subject-color:#4f8fd6">
+          <span class="kb-subject-mark">S</span>Statistics</a>
+        <span class="kb-pill kb-pill--intermediate">Intermediate</span>
+        <span class="kb-stars" title="Interview relevance 5 of 5" aria-label="Interview relevance 5 of 5"><span class="kb-stars-on">★★★★★</span><span class="kb-stars-off"></span></span>
+        <span class="kb-meta-dot">·</span>
+        <span class="kb-readtime">16 min</span>
+      </div>
+      <h1 class="kb-concept-title">Linear Regression</h1>
+      <p class="kb-concept-summary">The projection of a target onto the span of its predictors — the estimator behind every beta, factor loading and hedge ratio in finance, and the one whose assumptions market data violates most reliably.</p>
+      <div class="kb-concept-controls">
+        <label class="kb-statusctl">Status
+          <select data-kb-status="linear-regression" data-default="learning">
+            <option value="not-started">Not started</option><option value="learning" selected>Learning</option><option value="learned">Learned</option><option value="mastered">Mastered</option>
+          </select>
+        </label>
+        <button class="kb-btn kb-btn--ghost" type="button" data-kb-bookmark="linear-regression">☆ Bookmark</button>
+        <button class="kb-btn kb-btn--ghost" type="button" data-kb-flashcards>Revision card</button>
+        <a class="kb-btn kb-btn--ghost" href="../graph.html?focus=linear-regression">Show in graph</a>
+      </div>
+      <ul class="kb-taglist"><li><a class="kb-tag" href="../library.html?tag=statistics">#statistics</a></li><li><a class="kb-tag" href="../library.html?tag=econometrics">#econometrics</a></li><li><a class="kb-tag" href="../library.html?tag=ols">#ols</a></li><li><a class="kb-tag" href="../library.html?tag=factor-models">#factor-models</a></li><li><a class="kb-tag" href="../library.html?tag=estimation">#estimation</a></li></ul>
+    </header>
+
+    <div class="kb-content"><h2 id="intuition" class="kb-h kb-h2"><a class="kb-anchor" href="#intuition" aria-label="Link to this section">#</a>Intuition</h2>
+<p>Regression finds the line that makes the errors as small as possible in a squared sense. But the
+useful way to see it is <strong>geometric</strong>: your target  <span class="math-inline">\(y\)</span>  is a vector in  <span class="math-inline">\(\R^n\)</span> , your predictors span a
+subspace, and OLS drops a perpendicular from  <span class="math-inline">\(y\)</span>  onto that subspace. The fitted values are the
+shadow of  <span class="math-inline">\(y\)</span>  on the space you can explain; the residuals are what is left over, orthogonal to
+everything you used.</p>
+<p>That orthogonality is not an assumption — it is a consequence of minimising squared error, and it
+is why residuals are automatically uncorrelated with the regressors <em>in sample</em>, whether or not the
+model is true.</p>
+<p>The second interpretation matters just as much: under squared-error loss, the best possible
+predictor of  <span class="math-inline">\(Y\)</span>  given  <span class="math-inline">\(X\)</span>  is the conditional expectation  <span class="math-inline">\(\E[Y\mid X]\)</span> . Linear regression is the
+best <em>linear</em> approximation to that conditional expectation. Everything regression can and cannot
+do follows from that sentence.</p>
+<aside class="kb-callout kb-callout--insight"><div class="kb-callout-title">Insight</div><div class="kb-callout-body"><p> <span class="math-inline">\(\hat\beta = \Cov(X,Y)/\Var(X)\)</span> . A beta is not a correlation — it is a correlation scaled by the
+ratio of volatilities,  <span class="math-inline">\(\beta = \rho\,\sigma_Y/\sigma_X\)</span> . Hedge ratios use  <span class="math-inline">\(\beta\)</span> ; comparisons of
+association use  <span class="math-inline">\(\rho\)</span> . Substituting one for the other is a live source of mis-sized hedges.</p></div></aside>
+<h2 id="mathematical-formulation" class="kb-h kb-h2"><a class="kb-anchor" href="#mathematical-formulation" aria-label="Link to this section">#</a>Mathematical Formulation</h2>
+<p>The model, in matrix form with  <span class="math-inline">\(X \in \R^{n\times k}\)</span> :</p>
+<span class="math-display">\[\mathbf{y} = X\boldsymbol{\beta} + \boldsymbol{\varepsilon}, \qquad \E[\boldsymbol\varepsilon \mid X] = 0\]</span>
+<figure class="kb-formula" id="ols-estimator" data-formula="ols-estimator"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">OLS estimator</span><button class="kb-formula-copy" type="button" data-latex="\hat{\boldsymbol\beta} = (X^\top X)^{-1} X^\top \mathbf{y}" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[\hat{\boldsymbol\beta} = (X^\top X)^{-1} X^\top \mathbf{y}\]</span> </div><p class="kb-formula-note">A projection: ŷ = X(XᵀX)⁻¹Xᵀy = Hy, where H is the hat matrix.</p><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">Factor Models</span><span class="kb-chip">Hedging</span><span class="kb-chip">Econometrics</span></footer></figure>
+<figure class="kb-formula" id="simple-regression-slope" data-formula="simple-regression-slope"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">Simple regression slope</span><button class="kb-formula-copy" type="button" data-latex="\hat\beta = \frac{\Cov(X,Y)}{\Var(X)} = \rho_{XY}\,\frac{\sigma_Y}{\sigma_X}" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[\hat\beta = \frac{\Cov(X,Y)}{\Var(X)} = \rho_{XY}\,\frac{\sigma_Y}{\sigma_X}\]</span> </div><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">Hedging</span><span class="kb-chip">Beta Estimation</span></footer></figure>
+<p>Under homoskedastic, uncorrelated errors:</p>
+<figure class="kb-formula" id="coefficient-covariance" data-formula="coefficient-covariance"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">Coefficient covariance</span><button class="kb-formula-copy" type="button" data-latex="\Var(\hat{\boldsymbol\beta}) = \sigma^2 (X^\top X)^{-1}" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[\Var(\hat{\boldsymbol\beta}) = \sigma^2 (X^\top X)^{-1}\]</span> </div><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">Inference</span><span class="kb-chip">Significance Testing</span></footer></figure>
+<figure class="kb-formula" id="coefficient-of-determination" data-formula="coefficient-of-determination"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">Coefficient of determination</span><button class="kb-formula-copy" type="button" data-latex="R^2 = 1 - \frac{\text{SS}_{\text{res}}}{\text{SS}_{\text{tot}}}, \qquad
+\bar R^2 = 1 - (1-R^2)\frac{n-1}{n-k-1}" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[R^2 = 1 - \frac{\text{SS}_{\text{res}}}{\text{SS}_{\text{tot}}}, \qquad
+\bar R^2 = 1 - (1-R^2)\frac{n-1}{n-k-1}\]</span> </div><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">Model Evaluation</span></footer></figure>
+<div class="kb-module" data-module="regression-lab" data-config="{&quot;n&quot;:120,&quot;beta&quot;:0.8,&quot;noise&quot;:1,&quot;seed&quot;:3}"><div class="kb-module-shell"><div class="kb-module-loading">Loading interactive module &ldquo;regression-lab&rdquo;&hellip;</div></div></div>
+<h2 id="derivation" class="kb-h kb-h2"><a class="kb-anchor" href="#derivation" aria-label="Link to this section">#</a>Derivation</h2>
+<details class="kb-derivation"><summary>OLS as an orthogonal projection</summary><div class="kb-derivation-body"><p>Minimise  <span class="math-inline">\(\|\mathbf y - X\boldsymbol\beta\|^2\)</span> . Setting the gradient to zero:</p>
+<span class="math-display">\[\nabla_{\boldsymbol\beta}\left[(\mathbf y - X\boldsymbol\beta)^\top(\mathbf y - X\boldsymbol\beta)\right]
+= -2X^\top(\mathbf y - X\boldsymbol\beta) = 0\]</span>
+<p>giving the <strong>normal equations</strong>  <span class="math-inline">\(X^\top X\hat{\boldsymbol\beta} = X^\top\mathbf y\)</span> , and provided
+ <span class="math-inline">\(X\)</span>  has full column rank,  <span class="math-inline">\(\hat{\boldsymbol\beta} = (X^\top X)^{-1}X^\top\mathbf y\)</span> .</p>
+<p>The normal equations say  <span class="math-inline">\(X^\top\hat{\boldsymbol\varepsilon} = 0\)</span> : the residual is orthogonal to
+every regressor. The fitted values are  <span class="math-inline">\(\hat{\mathbf y} = H\mathbf y\)</span>  with
+ <span class="math-inline">\(H = X(X^\top X)^{-1}X^\top\)</span> , and  <span class="math-inline">\(H\)</span>  is idempotent ( <span class="math-inline">\(H^2 = H\)</span> ) and symmetric — the algebraic
+signature of a projection. Rank-deficient  <span class="math-inline">\(X\)</span>  (perfect multicollinearity) makes  <span class="math-inline">\(X^\top X\)</span> 
+singular and the projection non-unique, which is precisely what happens when you include a full set
+of dummy variables plus an intercept.</p></div></details>
+<details class="kb-derivation"><summary>Gauss–Markov: why &quot;best linear unbiased&quot;</summary><div class="kb-derivation-body"><p>Under (i) linearity, (ii)  <span class="math-inline">\(\E[\boldsymbol\varepsilon\mid X]=0\)</span> , (iii)
+ <span class="math-inline">\(\Var(\boldsymbol\varepsilon\mid X)=\sigma^2 I\)</span> , and (iv) full rank, OLS has the smallest variance
+among all <em>linear unbiased</em> estimators.</p>
+<p>Take any other linear unbiased estimator  <span class="math-inline">\(\tilde\beta = C\mathbf y\)</span>  and write  <span class="math-inline">\(C = (X^\top X)^{-1}X^\top + D\)</span> .
+Unbiasedness forces  <span class="math-inline">\(DX = 0\)</span> , and then</p>
+<span class="math-display">\[\Var(\tilde\beta) = \sigma^2\left[(X^\top X)^{-1} + DD^\top\right] \succeq \Var(\hat\beta)\]</span>
+<p>since  <span class="math-inline">\(DD^\top\)</span>  is PSD. Note what is <em>not</em> assumed: normality of errors. Normality is needed only
+for exact finite-sample t and F distributions, not for unbiasedness, consistency or efficiency
+within the linear class. Note also what <em>is</em> assumed — homoskedasticity — which financial data
+violates comprehensively.</p></div></details>
+<h2 id="assumptions-edge-cases" class="kb-h kb-h2"><a class="kb-anchor" href="#assumptions-edge-cases" aria-label="Link to this section">#</a>Assumptions &amp; Edge Cases</h2>
+<aside class="kb-callout kb-callout--assumption"><div class="kb-callout-title">Assumptions</div><div class="kb-callout-body"><p>The classical assumptions, ranked by how badly finance violates them:</p>
+<ol class="kb-list"><li><strong>Exogeneity  <span class="math-inline">\(\E[\varepsilon\mid X]=0\)</span> </strong> — the only one whose failure biases  <span class="math-inline">\(\hat\beta\)</span>  itself.
+ Broken by omitted variables, simultaneity (prices affect flows affect prices), and measurement
+ error in  <span class="math-inline">\(X\)</span>  (which attenuates  <span class="math-inline">\(\hat\beta\)</span>  towards zero).</li>
+<li><strong>Homoskedasticity</strong> — violated by volatility clustering in essentially all financial series.
+ Fix: White/robust standard errors. Does not bias  <span class="math-inline">\(\hat\beta\)</span> .</li>
+<li><strong>No autocorrelation</strong> — violated by overlapping windows and persistent predictors.
+ Fix: Newey–West. Does not bias  <span class="math-inline">\(\hat\beta\)</span> .</li>
+<li><strong>Full rank / no perfect multicollinearity</strong> — violated by redundant factors. Near-violation
+ inflates coefficient variance without biasing it.</li>
+<li><strong>Normal errors</strong> — rarely true, rarely necessary (CLT rescues inference asymptotically),
+ but matters in small samples and for prediction intervals.</li></ol></div></aside>
+<aside class="kb-callout kb-callout--warning"><div class="kb-callout-title">Warning</div><div class="kb-callout-body"><p><strong>Only exogeneity failure biases the coefficient.</strong> Heteroskedasticity and autocorrelation corrupt
+your <em>confidence</em>, not your <em>estimate</em>. Candidates frequently claim OLS is &quot;biased&quot; under
+heteroskedasticity; it is not, and saying so is a reliable tell.</p></div></aside>
+<h2 id="worked-example" class="kb-h kb-h2"><a class="kb-anchor" href="#worked-example" aria-label="Link to this section">#</a>Worked Example</h2>
+<p>Regressing a stock&#39;s monthly excess returns on the market&#39;s over 60 months gives:</p>
+<span class="math-display">\[\hat\beta = 1.35, \quad \text{SE} = 0.18, \quad \hat\alpha = 0.42\%\text{/month}, \quad
+\text{SE}_\alpha = 0.31\%, \quad R^2 = 0.49\]</span>
+<p><strong>Beta.</strong>  <span class="math-inline">\(t = 1.35/0.18 = 7.5\)</span>  — very precisely estimated. A 95% interval is roughly
+ <span class="math-inline">\([0.99, 1.71]\)</span> ; that width still matters if you are sizing a hedge, since hedging with 1.35 when
+the truth is 1.0 leaves a 35% residual short position in the market.</p>
+<p><strong>Alpha.</strong>  <span class="math-inline">\(t = 0.42/0.31 = 1.35\)</span>  — not significant. Annualised alpha of 5.0% sounds impressive and
+is statistically indistinguishable from zero. This asymmetry is fundamental: with  <span class="math-inline">\(R^2=0.49\)</span>  the
+regression pins down the <em>exposure</em> well and the <em>intercept</em> badly, because alpha is a mean and
+means need enormous samples (<a class="kb-link" href="variance.html" data-concept="variance">Variance</a>).</p>
+<p><strong>How long to establish this alpha?</strong> To reach  <span class="math-inline">\(t=2\)</span>  you need
+ <span class="math-inline">\(T \ge (2 \times 0.31/0.42)^2 \times 60 \approx 131\)</span>  months — <strong>eleven years</strong>. And that is
+assuming the alpha is stable over eleven years, which it will not be. This calculation, not the
+backtest, is the honest answer to &quot;is this manager skilled?&quot;</p>
+<h2 id="why-it-matters-in-quant-finance" class="kb-h kb-h2"><a class="kb-anchor" href="#why-it-matters-in-quant-finance" aria-label="Link to this section">#</a>Why It Matters in Quant Finance</h2>
+<p>Regression is not one tool in finance; it is the tool:</p>
+<div class="kb-table-wrap"><table class="kb-table"><thead><tr><th>Use</th><th>Regression</th></tr></thead><tbody><tr><td>CAPM beta / hedge ratio</td><td><span class="math-inline">\(r_i\)</span>  on  <span class="math-inline">\(r_m\)</span></td></tr>
+<tr><td>Fama–French exposures</td><td><span class="math-inline">\(r_i\)</span>  on  <span class="math-inline">\([\text{MKT}, \text{SMB}, \text{HML}, \ldots]\)</span></td></tr>
+<tr><td>Factor risk premia</td><td>Fama–MacBeth cross-sectional regressions</td></tr>
+<tr><td>Alpha signal validation</td><td>forward returns on signal, cross-sectionally</td></tr>
+<tr><td>Risk-model residuals</td><td>idiosyncratic variance  <span class="math-inline">\(= \Var(\hat\varepsilon)\)</span></td></tr>
+<tr><td>Yield curve fitting</td><td>Nelson–Siegel by (non-linear) least squares</td></tr>
+<tr><td>Transaction cost model</td><td>slippage on size, volatility, participation rate</td></tr>
+<tr><td>Performance attribution</td><td>P&amp;L on factor returns</td></tr></tbody></table></div>
+<p>The  <span class="math-inline">\(R^2\)</span>  tells you how much risk is common;  <span class="math-inline">\(1-R^2\)</span>  is the idiosyncratic share and thus the
+diversifiable part of the position.</p>
+<h2 id="trading-research-application" class="kb-h kb-h2"><a class="kb-anchor" href="#trading-research-application" aria-label="Link to this section">#</a>Trading &amp; Research Application</h2>
+<aside class="kb-callout kb-callout--desk"><div class="kb-callout-title">On the desk</div><div class="kb-callout-body"><p><strong>Low  <span class="math-inline">\(R^2\)</span>  is the normal case, not a failure.</strong> A daily cross-sectional signal with  <span class="math-inline">\(R^2 = 0.3\%\)</span> 
+is a perfectly respectable alpha. The fundamental law of active management,
+ <span class="math-inline">\(\text{IR} \approx \text{IC}\sqrt{\text{breadth}}\)</span> , says a weak signal applied widely beats a strong
+signal applied narrowly. Rejecting a signal for low  <span class="math-inline">\(R^2\)</span>  is a beginner&#39;s error; accepting it
+without checking costs and crowding is the expert&#39;s version of the same error.</p>
+<p><strong>Cluster your standard errors.</strong> In a panel of stock-days, residuals are strongly correlated across
+stocks on the same day (they share the market factor). Pooled OLS t-stats can be 3–5× too large.
+Cluster by date, or use Fama–MacBeth, which does it structurally.</p>
+<p><strong>Beta estimation is a shrinkage problem.</strong> A 60-day realised beta of 1.8 has a standard error big
+enough that the honest posterior is near 1.3. Blume/Vasicek shrinkage towards the cross-sectional
+mean is standard practice for exactly this reason — see <a class="kb-link" href="bayes-theorem.html" data-concept="bayes-theorem">Bayes&#39; Theorem</a>.</p>
+<p><strong>Watch the sign flips.</strong> If a coefficient reverses sign between the first and second half of your
+sample, you have either a regime change or multicollinearity. Both mean the coefficient should not
+be traded at full size.</p></div></aside>
+<h2 id="implementation-notes" class="kb-h kb-h2"><a class="kb-anchor" href="#implementation-notes" aria-label="Link to this section">#</a>Implementation Notes</h2>
+<figure class="kb-code" data-lang="python"><pre><code class="language-python">import numpy as np
+
+def ols(X: np.ndarray, y: np.ndarray):
+    &quot;&quot;&quot;Solve via QR/lstsq, never by explicitly inverting XᵀX -- inversion
+    squares the condition number and loses half your significant digits
+    on the collinear design matrices typical of factor models.&quot;&quot;&quot;
+    beta, *_ = np.linalg.lstsq(X, y, rcond=None)
+    resid = y - X @ beta
+    dof = len(y) - X.shape[1]
+    s2 = resid @ resid / dof
+    xtx_inv = np.linalg.pinv(X.T @ X)
+    se = np.sqrt(np.diag(s2 * xtx_inv))
+    return beta, se, resid
+
+def newey_west_se(X: np.ndarray, resid: np.ndarray, lags: int):
+    &quot;&quot;&quot;HAC standard errors. Mandatory for overlapping-window regressions,
+    where residual autocorrelation is induced by construction.&quot;&quot;&quot;
+    n, k = X.shape
+    xtx_inv = np.linalg.pinv(X.T @ X)
+    S = (X * resid[:, None]).T @ (X * resid[:, None])
+    for L in range(1, lags + 1):
+        w = 1.0 - L / (lags + 1.0)                     # Bartlett kernel
+        G = (X[L:] * resid[L:, None]).T @ (X[:-L] * resid[:-L, None])
+        S += w * (G + G.T)
+    return np.sqrt(np.diag(xtx_inv @ S @ xtx_inv))</code></pre></figure>
+<h2 id="common-mistakes" class="kb-h kb-h2"><a class="kb-anchor" href="#common-mistakes" aria-label="Link to this section">#</a>Common Mistakes</h2>
+<aside class="kb-callout kb-callout--pitfall"><div class="kb-callout-title">Common pitfall</div><div class="kb-callout-body"><ul class="kb-list"><li><strong>Claiming heteroskedasticity biases  <span class="math-inline">\(\hat\beta\)</span> .</strong> It does not; it biases the standard errors.</li>
+<li><strong>Reporting in-sample  <span class="math-inline">\(R^2\)</span>  with many regressors.</strong>  <span class="math-inline">\(\E[R^2]\approx k/T\)</span>  under the null. Use
+adjusted or out-of-sample  <span class="math-inline">\(R^2\)</span> .</li>
+<li><strong>Ignoring overlapping windows.</strong> Twelve-month forward returns sampled monthly have 11 lags of
+induced autocorrelation; naive t-stats are roughly  <span class="math-inline">\(\sqrt{12}\times\)</span>  too big.</li>
+<li><strong>Confusing  <span class="math-inline">\(\beta\)</span>  with  <span class="math-inline">\(\rho\)</span> .</strong>  <span class="math-inline">\(\beta = \rho\sigma_Y/\sigma_X\)</span> .</li>
+<li><strong>Inverting  <span class="math-inline">\(X^\top X\)</span>  explicitly</strong> on collinear factor data.</li>
+<li><strong>Interpreting coefficients causally.</strong> Regression estimates conditional expectations, not causal
+effects, unless the design earns that interpretation.</li>
+<li><strong>Forgetting the search.</strong> A  <span class="math-inline">\(t\)</span>  of 2.1 found after 50 specifications is not evidence of anything.</li></ul></div></aside>
+<h2 id="30-second-revision" class="kb-h kb-h2"><a class="kb-anchor" href="#30-second-revision" aria-label="Link to this section">#</a>30-Second Revision</h2>
+<ul class="kb-list"><li><span class="math-inline">\(\hat\beta = (X^\top X)^{-1}X^\top y\)</span>  — an orthogonal projection of  <span class="math-inline">\(y\)</span>  onto the span of  <span class="math-inline">\(X\)</span> .</li>
+<li>Simple case:  <span class="math-inline">\(\hat\beta = \Cov(X,Y)/\Var(X) = \rho\,\sigma_Y/\sigma_X\)</span> .</li>
+<li>Gauss–Markov: OLS is BLUE under exogeneity, homoskedasticity, no autocorrelation, full rank.
+Normality is <strong>not</strong> required.</li>
+<li>Only <strong>exogeneity failure biases  <span class="math-inline">\(\hat\beta\)</span> </strong>; heteroskedasticity and autocorrelation break
+inference only — fix with White / Newey–West.</li>
+<li><span class="math-inline">\(\E[R^2]\approx k/T\)</span>  under the null; low  <span class="math-inline">\(R^2\)</span>  is fine for a wide cross-sectional signal.</li>
+<li>Betas are estimated precisely, alphas are not. Establishing 5%/yr alpha at  <span class="math-inline">\(t=2\)</span>  can take a decade.</li></ul></div>
+    <section class="kb-section" id="key-formulas">
+        <h2 class="kb-h kb-h2"><a class="kb-anchor" href="#key-formulas" aria-label="Link to this section">#</a>Key Formulas</h2>
+        <div class="kb-formula-recap">
+          <a class="kb-formula-recap-item" href="#ols-estimator">
+            <span class="kb-formula-recap-name">OLS estimator</span>
+            <span class="math-display">\[\hat{\boldsymbol\beta} = (X^\top X)^{-1} X^\top \mathbf{y}\]</span>
+          </a>
+          <a class="kb-formula-recap-item" href="#simple-regression-slope">
+            <span class="kb-formula-recap-name">Simple regression slope</span>
+            <span class="math-display">\[\hat\beta = \frac{\Cov(X,Y)}{\Var(X)} = \rho_{XY}\,\frac{\sigma_Y}{\sigma_X}\]</span>
+          </a>
+          <a class="kb-formula-recap-item" href="#coefficient-covariance">
+            <span class="kb-formula-recap-name">Coefficient covariance</span>
+            <span class="math-display">\[\Var(\hat{\boldsymbol\beta}) = \sigma^2 (X^\top X)^{-1}\]</span>
+          </a>
+          <a class="kb-formula-recap-item" href="#coefficient-of-determination">
+            <span class="kb-formula-recap-name">Coefficient of determination</span>
+            <span class="math-display">\[R^2 = 1 - \frac{\text{SS}_{\text{res}}}{\text{SS}_{\text{tot}}}, \qquad
+\bar R^2 = 1 - (1-R^2)\frac{n-1}{n-k-1}\]</span>
+          </a></div>
+      </section>
+    <section class="kb-section" id="interview-questions">
+        <h2 class="kb-h kb-h2"><a class="kb-anchor" href="#interview-questions" aria-label="Link to this section">#</a>Interview Questions</h2>
+        <ol class="kb-questions">
+          <li class="kb-question" id="q-linear-regression-q1" data-difficulty="foundational">
+            <div class="kb-question-head">
+              <span class="kb-question-text">Derive the OLS estimator for simple regression and state what it equals in terms of covariance.</span>
+              <span class="kb-tagline">Foundational · derivation · core</span>
+            </div>
+            
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>Minimise  <span class="math-inline">\(S(\alpha,\beta) = \sum_i (y_i - \alpha - \beta x_i)^2\)</span> . First-order conditions:</p>
+<span class="math-display">\[\frac{\partial S}{\partial \alpha} = -2\sum (y_i - \alpha - \beta x_i) = 0
+\implies \hat\alpha = \bar y - \hat\beta \bar x\]</span>
+<span class="math-display">\[\frac{\partial S}{\partial \beta} = -2\sum x_i(y_i - \alpha - \beta x_i) = 0
+\implies \hat\beta = \frac{\sum (x_i-\bar x)(y_i - \bar y)}{\sum (x_i - \bar x)^2}
+= \frac{\widehat{\Cov}(x,y)}{\widehat{\Var}(x)}\]</span>
+<p>So <strong>beta is a covariance divided by a variance</strong>, and  <span class="math-inline">\(\hat\beta = \rho\,\sigma_y/\sigma_x\)</span> .
+In matrix form  <span class="math-inline">\(\hat{\boldsymbol\beta} = (X^\top X)^{-1}X^\top y\)</span> , which is the projection of
+ <span class="math-inline">\(y\)</span>  onto the column space of  <span class="math-inline">\(X\)</span> .</p></div></details>
+          </li>
+          <li class="kb-question" id="q-linear-regression-q2" data-difficulty="intermediate">
+            <div class="kb-question-head">
+              <span class="kb-question-text">What breaks if the residuals are autocorrelated? Is OLS still usable?</span>
+              <span class="kb-tagline">Intermediate · inference · standard-errors · gauss-markov</span>
+            </div>
+            
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p> <span class="math-inline">\(\hat\beta\)</span>  remains <strong>unbiased and consistent</strong> — autocorrelation is a property of the error
+term, not a violation of  <span class="math-inline">\(\E[\varepsilon\mid X]=0\)</span> . What breaks is <strong>inference</strong>: the usual
+standard error formula  <span class="math-inline">\(\sigma^2(X^\top X)^{-1}\)</span>  assumes i.i.d. errors and understates the true
+variance when errors are positively autocorrelated. Your t-stats are inflated, sometimes by
+several times.
+Fix with Newey–West (HAC) standard errors, or model the dependence directly (GLS, ARMA errors).
+<strong>The finance instance that matters:</strong> overlapping return windows. Regressing 12-month forward
+returns on monthly-sampled predictors induces mechanical autocorrelation of order 11 in the
+residuals. A large fraction of published return-predictability results shrink to
+insignificance under Hodrick or Newey–West standard errors with proper lag selection.</p></div></details>
+          </li>
+          <li class="kb-question" id="q-linear-regression-q3" data-difficulty="advanced">
+            <div class="kb-question-head">
+              <span class="kb-question-text">You regress stock returns on 50 candidate factors with 10 years of monthly data. What is wrong?</span>
+              <span class="kb-tagline">Advanced · overfitting · multiple-testing · degrees-of-freedom</span>
+            </div>
+            
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p> <span class="math-inline">\(T=120\)</span>  observations,  <span class="math-inline">\(k=50\)</span>  parameters. Several problems compound:</p>
+<ol class="kb-list"><li><strong>In-sample  <span class="math-inline">\(R^2\)</span>  is mechanically inflated.</strong>  <span class="math-inline">\(\E[R^2] \approx k/T = 0.42\)</span>  even if every
+ factor is pure noise. Always report adjusted  <span class="math-inline">\(R^2\)</span>  — or better, out-of-sample  <span class="math-inline">\(R^2\)</span> .</li>
+<li><strong>Multiple testing.</strong> At the 5% level you expect 2–3 &quot;significant&quot; factors from noise alone.
+ The relevant threshold after searching 50 candidates is around  <span class="math-inline">\(t &gt; 3.0\)</span> , not  <span class="math-inline">\(2.0\)</span> 
+ (Harvey–Liu–Zhu argue for  <span class="math-inline">\(t&gt;3\)</span>  even for pre-specified factors in asset pricing).</li>
+<li><strong>Multicollinearity.</strong> Fifty equity factors are heavily overlapping, so  <span class="math-inline">\(X^\top X\)</span>  is
+ ill-conditioned; individual coefficients become unstable and flip sign between subsamples
+ even when the fitted values are stable.</li></ol>
+<p>Remedies: regularisation (ridge/LASSO), dimension reduction (PCA on the factors), economic
+priors on which factors to include, and out-of-sample validation with an honest count of how
+many specifications were tried.</p></div></details>
+          </li>
+          <li class="kb-question" id="q-linear-regression-q4" data-difficulty="advanced">
+            <div class="kb-question-head">
+              <span class="kb-question-text">Your regression of returns on a signal gives beta = 0.03 with t-stat 2.1 and R² of 0.4%. Is this tradeable?</span>
+              <span class="kb-tagline">Advanced · alpha-research · economic-significance</span>
+            </div>
+            
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>Possibly — low  <span class="math-inline">\(R^2\)</span>  is normal and not disqualifying. Daily return predictability with
+ <span class="math-inline">\(R^2 = 0.4\%\)</span>  can support a very good strategy, because the information ratio scales with
+ <span class="math-inline">\(\sqrt{\text{breadth}}\)</span> : apply a weak signal across 2,000 names every day and the aggregate
+edge is substantial. Roughly,  <span class="math-inline">\(\text{IR} \approx \text{IC}\sqrt{N}\)</span>  (the fundamental law of
+active management), and  <span class="math-inline">\(\text{IC}\approx\sqrt{R^2} = 0.063\)</span> .
+The real questions are elsewhere:</p>
+<ul class="kb-list"><li><strong>t = 2.1 is weak</strong> for a searched result. How many signals were tested?</li>
+<li><strong>Are the standard errors right?</strong> Clustered by date, or the cross-sectional correlation of
+residuals will inflate t-stats several-fold.</li>
+<li><strong>Does the edge survive costs?</strong> A 3 bp per-name edge with 8 bp round-trip costs is a losing
+strategy however significant the coefficient.</li>
+<li><strong>Is the exposure incidental?</strong> Regress the strategy&#39;s returns on standard factors; a &quot;new&quot;
+signal that is 90% short-term reversal is not new.</li></ul></div></details>
+          </li>
+          <li class="kb-question" id="q-linear-regression-q5" data-difficulty="advanced">
+            <div class="kb-question-head">
+              <span class="kb-question-text">What is the difference between a time-series and a cross-sectional regression in asset pricing?</span>
+              <span class="kb-tagline">Advanced · factor-models · fama-macbeth</span>
+            </div>
+            
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p><strong>Time-series:</strong> for each asset  <span class="math-inline">\(i\)</span> , regress its excess returns on factor realisations
+ <span class="math-inline">\(r_{i,t} = \alpha_i + \boldsymbol\beta_i^\top f_t + \varepsilon_{i,t}\)</span> . This *estimates
+exposures*  <span class="math-inline">\(\boldsymbol\beta_i\)</span> , and  <span class="math-inline">\(\alpha_i\)</span>  is the pricing error — the thing an equity
+long/short manager is trying to capture.
+<strong>Cross-sectional:</strong> at each date  <span class="math-inline">\(t\)</span> , regress the panel of returns on the (previously
+estimated) betas or characteristics: $r_{i,t} = \gamma_{0,t} + \boldsymbol\gamma_t^\top
+\boldsymbol\beta_i + u_{i,t}$. This <em>estimates factor risk premia</em>  <span class="math-inline">\(\boldsymbol\gamma_t\)</span> .
+<strong>Fama–MacBeth</strong> runs the cross-sectional regression period by period and averages the
+ <span class="math-inline">\(\hat\gamma_t\)</span>  over time, taking the standard error from the time series of estimates. That
+procedure handles cross-sectional correlation of residuals automatically — which is precisely
+the correlation that makes a pooled OLS t-stat wildly overstated.</p></div></details>
+          </li></ol>
+      </section>
+
+    <section class="kb-section" id="connections">
+      <h2 class="kb-h kb-h2"><a class="kb-anchor" href="#connections" aria-label="Link to this section">#</a>Connections</h2>
+      <div class="kb-connections">
+        <section class="kb-relgroup"><h3>Prerequisites</h3><p class="kb-relnote">Understand these first.</p><ul class="kb-rellist"><li><a href="../concepts/covariance-and-correlation.html" class="kb-relitem">
+          <span class="kb-relitem-title">Covariance &amp; Correlation</span>
+          <span class="kb-relitem-meta">Statistics · Foundational</span>
+          <span class="kb-relitem-sum">Covariance measures how two variables move together in raw units; correlation normalises it to [-1, 1] — together they determine whether combining two positions reduces risk or concentrates it.</span>
+        </a></li><li><a href="../concepts/variance.html" class="kb-relitem">
+          <span class="kb-relitem-title">Variance</span>
+          <span class="kb-relitem-meta">Statistics · Foundational</span>
+          <span class="kb-relitem-sum">The expected squared deviation from the mean — the second moment that turns a return forecast into a position size, and the quantity that does not add when you combine assets.</span>
+        </a></li></ul></section>
+        
+        <section class="kb-relgroup"><h3>Related</h3><ul class="kb-rellist"><li><a href="../concepts/expectation.html" class="kb-relitem">
+          <span class="kb-relitem-title">Expectation</span>
+          <span class="kb-relitem-meta">Probability · Foundational</span>
+          <span class="kb-relitem-sum">The probability-weighted average of a random variable — the number a long-run average converges to, and the object almost every pricing and sizing argument is really about.</span>
+        </a></li><li><a href="../concepts/sharpe-ratio.html" class="kb-relitem">
+          <span class="kb-relitem-title">Sharpe Ratio</span>
+          <span class="kb-relitem-meta">Portfolio Construction · Intermediate</span>
+          <span class="kb-relitem-sum">Excess return per unit of volatility — the industry&#39;s default measure of risk-adjusted performance, and an estimator noisy and gameable enough that knowing its failure modes matters more than knowing its formula.</span>
+        </a></li><li><a href="../concepts/bayes-theorem.html" class="kb-relitem">
+          <span class="kb-relitem-title">Bayes&#39; Theorem</span>
+          <span class="kb-relitem-meta">Probability · Foundational</span>
+          <span class="kb-relitem-sum">The rule for inverting a conditional probability — turning &quot;how likely is this evidence if the hypothesis is true&quot; into &quot;how likely is the hypothesis given the evidence&quot;.</span>
+        </a></li><li><a href="../concepts/conditional-probability.html" class="kb-relitem">
+          <span class="kb-relitem-title">Conditional Probability</span>
+          <span class="kb-relitem-meta">Probability · Foundational</span>
+          <span class="kb-relitem-sum">The probability of an event once you restrict attention to the states of the world where another event has occurred — the formal machinery for &quot;given what I now know&quot;.</span>
+        </a></li><li><a href="../concepts/covariance-and-correlation.html" class="kb-relitem">
+          <span class="kb-relitem-title">Covariance &amp; Correlation</span>
+          <span class="kb-relitem-meta">Statistics · Foundational</span>
+          <span class="kb-relitem-sum">Covariance measures how two variables move together in raw units; correlation normalises it to [-1, 1] — together they determine whether combining two positions reduces risk or concentrates it.</span>
+        </a></li></ul></section>
+        
+      </div>
+      <div class="kb-references"><h3>References</h3><ul><li>Hayashi, *Econometrics*, ch. 1–2</li><li>Cochrane, *Asset Pricing*, ch. 12 (cross-sectional regressions)</li></ul></div>
+    </section>
+
+    <nav class="kb-prevnext" aria-label="Concept navigation">
+    <a class="kb-prevnext-item kb-prevnext-prev" href="../concepts/covariance-and-correlation.html" rel="prev">
+      <span class="kb-prevnext-label">← Previous</span><span>Covariance &amp; Correlation</span></a>
+    <a class="kb-prevnext-item kb-prevnext-up" href="../subjects/statistics.html">
+      <span class="kb-prevnext-label">Subject</span><span>Statistics</span></a>
+    <span></span>
+  </nav>
+    <footer class="kb-source-note">
+      Source: <code>content/concepts/linear-regression.md</code> · updated 2026-01-14
+      · edit the markdown and run <code>npm run build</code>.
+    </footer>
+  </article>
+
+  <aside class="kb-sidebar">
+    <nav class="kb-toc" aria-label="On this page"><h3>On this page</h3><ol><li><a href="#intuition">Intuition</a></li><li><a href="#mathematical-formulation">Mathematical Formulation</a></li><li><a href="#derivation">Derivation</a></li><li><a href="#assumptions-edge-cases">Assumptions &amp; Edge Cases</a></li><li><a href="#worked-example">Worked Example</a></li><li><a href="#why-it-matters-in-quant-finance">Why It Matters in Quant Finance</a></li><li><a href="#trading-research-application">Trading &amp; Research Application</a></li><li><a href="#implementation-notes">Implementation Notes</a></li><li><a href="#common-mistakes">Common Mistakes</a></li><li><a href="#30-second-revision">30-Second Revision</a></li><li><a href="#key-formulas">Key Formulas</a></li><li><a href="#interview-questions">Interview Questions</a></li><li><a href="#connections">Connections</a></li></ol></nav>
+    <section class="kb-side-card" id="side-formulas"><h3>Key formulas</h3><ul class="kb-side-formulas"><li><a href="#ols-estimator">OLS estimator</a></li><li><a href="#simple-regression-slope">Simple regression slope</a></li><li><a href="#coefficient-covariance">Coefficient covariance</a></li><li><a href="#coefficient-of-determination">Coefficient of determination</a></li></ul></section>
+    <section class="kb-side-card">
+      <h3>Metadata</h3>
+      <dl class="kb-meta">
+        <dt>Subject</dt><dd><a href="../subjects/statistics.html">Statistics</a></dd>
+        <dt>Difficulty</dt><dd>Intermediate</dd>
+        <dt>Interview</dt><dd><span class="kb-stars" title="Interview relevance 5 of 5" aria-label="Interview relevance 5 of 5"><span class="kb-stars-on">★★★★★</span><span class="kb-stars-off"></span></span></dd>
+        <dt>Status</dt><dd data-kb-status-label="linear-regression">Learning</dd>
+        <dt>Prereqs</dt><dd>2</dd>
+        <dt>Formulas</dt><dd>4</dd>
+        <dt>Questions</dt><dd>5</dd>
+      </dl>
+    </section>
+    <section class="kb-side-card kb-side-minimap">
+      <h3>Neighbourhood</h3>
+      <canvas data-kb-minimap="linear-regression" width="260" height="200" aria-label="Local knowledge graph"></canvas>
+      <a class="kb-side-more" href="../graph.html?focus=linear-regression">Open full graph →</a>
+    </section>
+  </aside>
+</main>
+<script src="../data/kb.data.js"></script>
+<script src="../data/search.index.js"></script>
+<script src="../assets/js/kb-core.js"></script>
+<script src="../assets/js/kb-ui.js"></script>
+<script src="../assets/vendor/katex/katex.min.js" defer></script>
+<script src="../assets/vendor/katex/auto-render.min.js" defer></script>
+<script src="../assets/js/math.js" defer></script>
+<script src="../assets/js/concept.js" defer></script>
+<script src="../assets/js/lib/plot.js" defer></script>
+<script src="../assets/js/modules/regression-lab.js" defer></script>
+</body>
+</html>

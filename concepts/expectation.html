@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en" data-page="concept">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Expectation · Quant Knowledge Base</title>
+<meta name="description" content="The probability-weighted average of a random variable — the number a long-run average converges to, and the object almost every pricing and sizing argument is really about.">
+<link rel="icon" href="../assets/icons/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/vendor/katex/katex.min.css">
+<link rel="stylesheet" href="../assets/css/app.css">
+<link rel="stylesheet" href="../assets/css/views.css">
+
+</head>
+<body class="kb-body kb-body--concept">
+<header class="kb-topbar">
+  <a class="kb-brand" href="../index.html" title="Home (H)">
+    <span class="kb-brand-mark">QF</span><span class="kb-brand-text">Quant Knowledge Base</span>
+  </a>
+  <nav class="kb-crumbs" aria-label="Breadcrumb"><ol><li><a href="../index.html">Dashboard</a></li><li class="kb-crumb-sep" aria-hidden="true">/</li><li><a href="../subjects/probability.html">Probability</a></li><li class="kb-crumb-sep" aria-hidden="true">/</li><li><span aria-current="page">Expectation</span></li></ol></nav>
+  <div class="kb-topbar-actions">
+    <button class="kb-searchbtn" type="button" data-kb-open-search>
+      <span>Search concepts, formulas, questions</span><kbd>/</kbd>
+    </button>
+    <nav class="kb-toplinks" aria-label="Sections">
+      <a href="../index.html" data-nav="home">Dashboard</a>
+      <a href="../graph.html" data-nav="graph">Graph</a>
+      <a href="../interview.html" data-nav="interview">Interview</a>
+      <a href="../library.html" data-nav="library">Library</a>
+    </nav>
+    <button class="kb-iconbtn" type="button" data-kb-theme title="Toggle theme (T)" aria-label="Toggle theme">◑</button>
+    <button class="kb-iconbtn" type="button" data-kb-help title="Keyboard shortcuts (?)" aria-label="Keyboard shortcuts">?</button>
+  </div>
+</header>
+<main class="kb-main kb-main--concept" data-concept-id="expectation">
+  <article class="kb-article">
+    <header class="kb-concept-head">
+      <div class="kb-concept-eyebrow">
+        <a class="kb-subject-chip" href="../subjects/probability.html" style="--subject-color:#4f8fd6">
+          <span class="kb-subject-mark">P</span>Probability</a>
+        <span class="kb-pill kb-pill--foundational">Foundational</span>
+        <span class="kb-stars" title="Interview relevance 5 of 5" aria-label="Interview relevance 5 of 5"><span class="kb-stars-on">★★★★★</span><span class="kb-stars-off"></span></span>
+        <span class="kb-meta-dot">·</span>
+        <span class="kb-readtime">12 min</span>
+      </div>
+      <h1 class="kb-concept-title">Expectation</h1>
+      <p class="kb-concept-summary">The probability-weighted average of a random variable — the number a long-run average converges to, and the object almost every pricing and sizing argument is really about.</p>
+      <div class="kb-concept-controls">
+        <label class="kb-statusctl">Status
+          <select data-kb-status="expectation" data-default="learned">
+            <option value="not-started">Not started</option><option value="learning">Learning</option><option value="learned" selected>Learned</option><option value="mastered">Mastered</option>
+          </select>
+        </label>
+        <button class="kb-btn kb-btn--ghost" type="button" data-kb-bookmark="expectation">☆ Bookmark</button>
+        <button class="kb-btn kb-btn--ghost" type="button" data-kb-flashcards>Revision card</button>
+        <a class="kb-btn kb-btn--ghost" href="../graph.html?focus=expectation">Show in graph</a>
+      </div>
+      <ul class="kb-taglist"><li><a class="kb-tag" href="../library.html?tag=probability">#probability</a></li><li><a class="kb-tag" href="../library.html?tag=moments">#moments</a></li><li><a class="kb-tag" href="../library.html?tag=pricing">#pricing</a></li><li><a class="kb-tag" href="../library.html?tag=linearity">#linearity</a></li></ul>
+    </header>
+
+    <div class="kb-content"><h2 id="intuition" class="kb-h kb-h2"><a class="kb-anchor" href="#intuition" aria-label="Link to this section">#</a>Intuition</h2>
+<p>Expectation is the number that the average of many independent copies settles down to. Roll a die
+ten thousand times and the running average will hug 3.5 — not because any roll is 3.5, but because
+the deviations cancel at rate  <span class="math-inline">\(1/\sqrt{n}\)</span> .</p>
+<p>The useful mental model is <strong>centre of mass</strong>. Put a point mass  <span class="math-inline">\(p_i\)</span>  at each possible value  <span class="math-inline">\(x_i\)</span> 
+along a rod; the expectation is the balance point. This immediately explains two things people find
+surprising: the expectation need not be an attainable value (3.5 is not a face of a die), and a
+single far-out outcome with tiny probability can drag the balance point a long way — which is why
+expectation alone is a dangerous summary of a fat-tailed P&amp;L distribution.</p>
+<h2 id="mathematical-formulation" class="kb-h kb-h2"><a class="kb-anchor" href="#mathematical-formulation" aria-label="Link to this section">#</a>Mathematical Formulation</h2>
+<p>For a discrete random variable taking values  <span class="math-inline">\(x_i\)</span>  with probabilities  <span class="math-inline">\(p_i\)</span> :</p>
+<figure class="kb-formula" id="expectation-discrete" data-formula="expectation-discrete"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">Expectation (discrete)</span><button class="kb-formula-copy" type="button" data-latex="\E[X] = \sum_i x_i \, p_i" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[\E[X] = \sum_i x_i \, p_i\]</span> </div><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">Probability</span><span class="kb-chip">Pricing</span><span class="kb-chip">Risk</span></footer></figure>
+<p>For a continuous random variable with density  <span class="math-inline">\(f\)</span> :</p>
+<figure class="kb-formula" id="expectation-continuous" data-formula="expectation-continuous"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">Expectation (continuous)</span><button class="kb-formula-copy" type="button" data-latex="\E[X] = \int_{-\infty}^{\infty} x \, f(x)\, \d x" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[\E[X] = \int_{-\infty}^{\infty} x \, f(x)\, \d x\]</span> </div><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">Probability</span><span class="kb-chip">Derivatives</span></footer></figure>
+<p>Both are the same object — the Lebesgue integral  <span class="math-inline">\(\E[X] = \int_\Omega X \,\d\P\)</span>  — which is why the
+same theorems apply to both. Expectation exists only when  <span class="math-inline">\(\E[|X|] &lt; \infty\)</span> ; the Cauchy
+distribution is the standard counterexample, and it is not merely pathological: it is the
+distribution of a ratio of two independent normals, which is exactly what a naive beta estimate
+looks like when the denominator variance is small.</p>
+<p>The property that does the real work:</p>
+<figure class="kb-formula" id="linearity-of-expectation" data-formula="linearity-of-expectation"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">Linearity of expectation</span><button class="kb-formula-copy" type="button" data-latex="\E\!\left[\sum_{i=1}^{n} a_i X_i\right] = \sum_{i=1}^{n} a_i\, \E[X_i]" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[\E\!\left[\sum_{i=1}^{n} a_i X_i\right] = \sum_{i=1}^{n} a_i\, \E[X_i]\]</span> </div><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">Portfolio Theory</span><span class="kb-chip">Combinatorics</span><span class="kb-chip">Risk</span></footer></figure>
+<aside class="kb-callout kb-callout--insight"><div class="kb-callout-title">Insight</div><div class="kb-callout-body"><p>Linearity holds <strong>without any independence assumption</strong>. This is the single most useful fact in
+elementary probability and the source of most slick interview solutions: decompose a complicated
+random quantity into a sum of simple indicators, take expectations term by term, and never worry
+about how the terms interact.</p></div></aside>
+<h2 id="derivation" class="kb-h kb-h2"><a class="kb-anchor" href="#derivation" aria-label="Link to this section">#</a>Derivation</h2>
+<details class="kb-derivation"><summary>Why linearity needs no independence</summary><div class="kb-derivation-body"><p>Write both variables on the same sample space and sum over outcomes:</p>
+<span class="math-display">\[\E[X+Y] = \sum_{\omega} (X(\omega)+Y(\omega))\,\P(\omega)
+          = \sum_{\omega} X(\omega)\P(\omega) + \sum_{\omega} Y(\omega)\P(\omega) = \E[X]+\E[Y]\]</span>
+<p>Nothing about the joint structure was used — only that each  <span class="math-inline">\(\omega\)</span>  contributes its own
+probability once. Contrast with variance, where the cross term
+ <span class="math-inline">\(2\Cov(X,Y)\)</span>  survives precisely because squaring is not linear. That asymmetry is why portfolio
+<em>returns</em> add trivially and portfolio <em>risk</em> does not.</p></div></details>
+<details class="kb-derivation"><summary>The tail-sum formula (useful for waiting-time questions)</summary><div class="kb-derivation-body"><p>For a non-negative integer-valued  <span class="math-inline">\(X\)</span> :</p>
+<span class="math-display">\[\E[X] = \sum_{k=1}^{\infty} \P(X \ge k)\]</span>
+<p><em>Proof.</em>  <span class="math-inline">\(\sum_{k\ge1}\P(X\ge k) = \sum_{k\ge1}\sum_{j\ge k}\P(X=j) = \sum_{j\ge1} j\,\P(X=j) = \E[X]\)</span> ,
+swapping the order of summation (valid for non-negative terms).</p>
+<p>This turns &quot;expected number of trials until success&quot; problems into one-line geometric sums:
+if each trial succeeds with probability  <span class="math-inline">\(p\)</span>  independently,  <span class="math-inline">\(\P(X \ge k) = (1-p)^{k-1}\)</span>  and
+ <span class="math-inline">\(\E[X] = 1/p\)</span> .</p></div></details>
+<h2 id="assumptions-edge-cases" class="kb-h kb-h2"><a class="kb-anchor" href="#assumptions-edge-cases" aria-label="Link to this section">#</a>Assumptions &amp; Edge Cases</h2>
+<aside class="kb-callout kb-callout--assumption"><div class="kb-callout-title">Assumptions</div><div class="kb-callout-body"><ul class="kb-list"><li><strong>Existence.</strong>  <span class="math-inline">\(\E[X]\)</span>  requires  <span class="math-inline">\(\E[|X|]&lt;\infty\)</span> . Fat-tailed distributions with tail index
+ <span class="math-inline">\(\alpha \le 1\)</span>  have no mean at all; with  <span class="math-inline">\(\alpha \le 2\)</span>  they have no variance. Empirical estimates
+will still print a number — that number is meaningless.</li>
+<li><strong>Interchange of limits.</strong>  <span class="math-inline">\(\E[\lim X_n] \ne \lim \E[X_n]\)</span>  in general. You need dominated or
+monotone convergence. Monte Carlo estimators quietly rely on this.</li>
+<li><strong>Non-linear functions.</strong>  <span class="math-inline">\(\E[g(X)] \ne g(\E[X])\)</span>  unless  <span class="math-inline">\(g\)</span>  is affine. See Jensen below.</li></ul></div></aside>
+<aside class="kb-callout kb-callout--pitfall"><div class="kb-callout-title">Common pitfall</div><div class="kb-callout-body"><p> <span class="math-inline">\(\E[1/X] \ne 1/\E[X]\)</span> . This bites in practice: the expected P/E ratio of a basket is not the
+reciprocal of its expected earnings yield, and averaging ratios across stocks is a different
+estimator from the ratio of averages.</p></div></aside>
+<h2 id="worked-example" class="kb-h kb-h2"><a class="kb-anchor" href="#worked-example" aria-label="Link to this section">#</a>Worked Example</h2>
+<p>A strategy has a 55% win rate. Winners make \$120, losers lose \$100. Trade size is fixed.</p>
+<span class="math-display">\[\E[\text{P\&amp;L per trade}] = 0.55 \times 120 + 0.45 \times (-100) = 66 - 45 = \$21\]</span>
+<p>Positive edge. But run it 200 times a year and ask what dispersion looks like. Each trade has
+ <span class="math-inline">\(\E[X^2] = 0.55(120)^2 + 0.45(100)^2 = 7920 + 4500 = 12{,}420\)</span> , so
+ <span class="math-inline">\(\Var(X) = 12{,}420 - 21^2 = 11{,}979\)</span>  and $\sigma \approx \$109.4$ per trade.</p>
+<p>Over 200 independent trades: expected P&amp;L $= \$4{,}200$, standard deviation
+$= 109.4\sqrt{200} \approx \$1{,}547$. The annual Sharpe ratio is  <span class="math-inline">\(4200/1547 \approx 2.7\)</span>  — strong.</p>
+<p>Now cut the win rate to 52%: $\E = 0.52(120) + 0.48(-100) = \$14.4$ per trade, annual expectation
+\$2,880 against essentially the same \$1,550 of noise, so Sharpe falls to  <span class="math-inline">\(1.9\)</span> . A three-point
+drop in hit rate — well inside the estimation error of a 200-trade sample — costs a third of the
+risk-adjusted return. That sensitivity is the reason <a class="kb-link" href="variance.html" data-concept="variance">Variance</a> matters as much as expectation.</p>
+<h2 id="why-it-matters-in-quant-finance" class="kb-h kb-h2"><a class="kb-anchor" href="#why-it-matters-in-quant-finance" aria-label="Link to this section">#</a>Why It Matters in Quant Finance</h2>
+<p>Expectation is the primitive of every valuation argument. Under the risk-neutral measure  <span class="math-inline">\(\Q\)</span> ,
+the price of a claim paying  <span class="math-inline">\(H\)</span>  at time  <span class="math-inline">\(T\)</span>  is</p>
+<figure class="kb-formula" id="risk-neutral-pricing" data-formula="risk-neutral-pricing"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">Risk-neutral pricing</span><button class="kb-formula-copy" type="button" data-latex="V_0 = \E^{\Q}\!\left[e^{-\int_0^T r_s\,\d s}\, H\right]" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[V_0 = \E^{\Q}\!\left[e^{-\int_0^T r_s\,\d s}\, H\right]\]</span> </div><p class="kb-formula-note">Everything in derivatives pricing is machinery for computing this one expectation.</p><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">Derivatives</span><span class="kb-chip">Options</span><span class="kb-chip">Fixed Income</span></footer></figure>
+<p>Black–Scholes, binomial trees, Monte Carlo and PDE methods are four ways to evaluate that
+expectation, not four different theories.</p>
+<p>Expectation also underwrites the mechanics of a research process: the expected value of a signal&#39;s
+next-period return <em>is</em> the alpha, and <a class="kb-link" href="linear-regression.html" data-concept="linear-regression">Linear Regression</a> is a machine for estimating conditional
+expectations  <span class="math-inline">\(\E[Y \mid X]\)</span> .</p>
+<h2 id="trading-research-application" class="kb-h kb-h2"><a class="kb-anchor" href="#trading-research-application" aria-label="Link to this section">#</a>Trading &amp; Research Application</h2>
+<aside class="kb-callout kb-callout--desk"><div class="kb-callout-title">On the desk</div><div class="kb-callout-body"><p>Every position sizing rule starts from an expectation and then argues about the second moment.
+A trader who reasons only in expectation over-bets; a risk manager who reasons only in variance
+never trades. Kelly sizing is the formal reconciliation: maximise  <span class="math-inline">\(\E[\ln W]\)</span> , not  <span class="math-inline">\(\E[W]\)</span>  — because
+wealth compounds multiplicatively and  <span class="math-inline">\(\ln\)</span>  is concave, so Jensen&#39;s inequality applies with force.</p>
+<p>The practical failure mode is a positive-expectation strategy with left-skewed payoff (short
+options, carry, illiquidity premia). The expectation is real and the strategy still blows up,
+because a mean computed over a period containing no crisis is an estimate of a conditional
+expectation you have mislabelled as unconditional.</p></div></aside>
+<p>Jensen&#39;s inequality is the bridge between &quot;expectation&quot; and &quot;what actually happens to capital&quot;:</p>
+<figure class="kb-formula" id="jensens-inequality" data-formula="jensens-inequality"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">Jensen&#39;s inequality</span><button class="kb-formula-copy" type="button" data-latex="g \text{ convex} \implies \E[g(X)] \ge g(\E[X])" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[g \text{ convex} \implies \E[g(X)] \ge g(\E[X])\]</span> </div><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">Portfolio Construction</span><span class="kb-chip">Position Sizing</span></footer></figure>
+<p>Applied to  <span class="math-inline">\(\ln\)</span>  (concave, so the inequality flips), it gives the volatility drag
+ <span class="math-inline">\(g \approx \mu - \sigma^2/2\)</span>  that separates arithmetic from geometric returns.</p>
+<h2 id="implementation-notes" class="kb-h kb-h2"><a class="kb-anchor" href="#implementation-notes" aria-label="Link to this section">#</a>Implementation Notes</h2>
+<figure class="kb-code" data-lang="python"><pre><code class="language-python">import numpy as np
+
+def expectation_mc(payoff, sampler, n=100_000, seed=0):
+    &quot;&quot;&quot;Monte Carlo expectation with a standard error, which is the only
+    number that tells you whether n was large enough.&quot;&quot;&quot;
+    rng = np.random.default_rng(seed)
+    draws = payoff(sampler(rng, n))
+    mean = draws.mean()
+    stderr = draws.std(ddof=1) / np.sqrt(n)
+    return mean, stderr          # report both, always
+
+# Convergence is O(1/sqrt(n)): 100x the paths buys 10x the precision.</code></pre></figure>
+<aside class="kb-callout kb-callout--warning"><div class="kb-callout-title">Warning</div><div class="kb-callout-body"><p>Never report a Monte Carlo expectation without its standard error. A price quoted to four decimals
+from 10,000 paths is usually accurate to one.</p></div></aside>
+<h2 id="common-mistakes" class="kb-h kb-h2"><a class="kb-anchor" href="#common-mistakes" aria-label="Link to this section">#</a>Common Mistakes</h2>
+<aside class="kb-callout kb-callout--pitfall"><div class="kb-callout-title">Common pitfall</div><div class="kb-callout-body"><ul class="kb-list"><li><strong>Assuming independence for linearity.</strong>  <span class="math-inline">\(\E[X+Y]=\E[X]+\E[Y]\)</span>  always. Saying &quot;assuming
+independence&quot; here signals you have not internalised the proof.</li>
+<li><strong>Confusing  <span class="math-inline">\(\E[g(X)]\)</span>  with  <span class="math-inline">\(g(\E[X])\)</span> .</strong> The gap is Jensen&#39;s inequality and it is where
+volatility drag, convexity and gamma P&amp;L all live.</li>
+<li><strong>Reporting a mean for a distribution that has none.</strong> Check tail behaviour before averaging.</li>
+<li><strong>Confusing the mean with the median</strong> in skewed distributions. For lognormal returns the median
+path is below the mean path; a strategy can have positive expected wealth and lose money in most
+states of the world.</li>
+<li><strong>Ignoring the conditioning set.</strong> Historical average return is  <span class="math-inline">\(\E[R \mid \text{regime observed}]\)</span> ,
+not  <span class="math-inline">\(\E[R]\)</span> .</li></ul></div></aside>
+<h2 id="30-second-revision" class="kb-h kb-h2"><a class="kb-anchor" href="#30-second-revision" aria-label="Link to this section">#</a>30-Second Revision</h2>
+<ul class="kb-list"><li><span class="math-inline">\(\E[X] = \sum x_i p_i\)</span>  or  <span class="math-inline">\(\int x f(x)\,\d x\)</span> ; the balance point of the distribution.</li>
+<li><strong>Linearity is unconditional</strong>:  <span class="math-inline">\(\E[\sum a_i X_i] = \sum a_i \E[X_i]\)</span> , independence irrelevant.</li>
+<li><span class="math-inline">\(\E[XY] = \E[X]\E[Y] + \Cov(X,Y)\)</span>  — independence <em>is</em> needed here.</li>
+<li>Jensen:  <span class="math-inline">\(\E[g(X)] \ge g(\E[X])\)</span>  for convex  <span class="math-inline">\(g\)</span> . Volatility drag  <span class="math-inline">\(\approx \sigma^2/2\)</span> .</li>
+<li>Tail-sum:  <span class="math-inline">\(\E[X] = \sum_{k\ge1}\P(X\ge k)\)</span>  for non-negative integers; waiting time  <span class="math-inline">\(=1/p\)</span> .</li>
+<li>Pricing is one expectation under  <span class="math-inline">\(\Q\)</span> ; everything else is numerical method.</li></ul></div>
+    <section class="kb-section" id="key-formulas">
+        <h2 class="kb-h kb-h2"><a class="kb-anchor" href="#key-formulas" aria-label="Link to this section">#</a>Key Formulas</h2>
+        <div class="kb-formula-recap">
+          <a class="kb-formula-recap-item" href="#expectation-discrete">
+            <span class="kb-formula-recap-name">Expectation (discrete)</span>
+            <span class="math-display">\[\E[X] = \sum_i x_i \, p_i\]</span>
+          </a>
+          <a class="kb-formula-recap-item" href="#expectation-continuous">
+            <span class="kb-formula-recap-name">Expectation (continuous)</span>
+            <span class="math-display">\[\E[X] = \int_{-\infty}^{\infty} x \, f(x)\, \d x\]</span>
+          </a>
+          <a class="kb-formula-recap-item" href="#linearity-of-expectation">
+            <span class="kb-formula-recap-name">Linearity of expectation</span>
+            <span class="math-display">\[\E\!\left[\sum_{i=1}^{n} a_i X_i\right] = \sum_{i=1}^{n} a_i\, \E[X_i]\]</span>
+          </a>
+          <a class="kb-formula-recap-item" href="#risk-neutral-pricing">
+            <span class="kb-formula-recap-name">Risk-neutral pricing</span>
+            <span class="math-display">\[V_0 = \E^{\Q}\!\left[e^{-\int_0^T r_s\,\d s}\, H\right]\]</span>
+          </a>
+          <a class="kb-formula-recap-item" href="#jensens-inequality">
+            <span class="kb-formula-recap-name">Jensen&#39;s inequality</span>
+            <span class="math-display">\[g \text{ convex} \implies \E[g(X)] \ge g(\E[X])\]</span>
+          </a></div>
+      </section>
+    <section class="kb-section" id="interview-questions">
+        <h2 class="kb-h kb-h2"><a class="kb-anchor" href="#interview-questions" aria-label="Link to this section">#</a>Interview Questions</h2>
+        <ol class="kb-questions">
+          <li class="kb-question" id="q-expectation-q1" data-difficulty="intermediate">
+            <div class="kb-question-head">
+              <span class="kb-question-text">A fair die is rolled. You may either take the roll&#39;s value in dollars, or pay $1 to re-roll once. What is the value of the game played optimally?</span>
+              <span class="kb-tagline">Intermediate · brainteaser · optimal-stopping</span>
+            </div>
+            <details class="kb-hint"><summary>Hint</summary><div><p>Work backwards. What is the continuation value?</p></div></details>
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>Solve backwards. A single roll is worth  <span class="math-inline">\(\E[X] = 3.5\)</span> . So after seeing the first roll you should
+re-roll exactly when the roll is worth less than  <span class="math-inline">\(3.5 - 1 = 2.5\)</span> , i.e. on a 1 or a 2.</p>
+<span class="math-display">\[\E[\text{game}] = \tfrac{1}{6}\big[2.5 + 2.5 + 3 + 4 + 5 + 6\big] = \tfrac{23}{6} \approx 3.833\]</span>
+<p>The 1 and 2 outcomes are each replaced by the continuation value  <span class="math-inline">\(3.5 - 1 = 2.5\)</span> .
+This is the smallest non-trivial optimal-stopping problem, and the structure —
+compare the payoff now against the expected payoff of continuing, net of cost — is exactly
+the structure of an American option exercise decision.</p></div></details>
+          </li>
+          <li class="kb-question" id="q-expectation-q2" data-difficulty="foundational">
+            <div class="kb-question-head">
+              <span class="kb-question-text">X and Y are dependent. Is E[XY] = E[X]E[Y]?</span>
+              <span class="kb-tagline">Foundational · linearity · independence</span>
+            </div>
+            
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>Not in general.  <span class="math-inline">\(\E[XY] = \E[X]\E[Y] + \Cov(X,Y)\)</span> , so the factorisation holds only when
+ <span class="math-inline">\(\Cov(X,Y)=0\)</span>  — which independence implies but does not require.
+The trap runs the other way too: <strong>linearity</strong>  <span class="math-inline">\(\E[X+Y]=\E[X]+\E[Y]\)</span>  needs <em>no</em> independence
+assumption at all. Candidates routinely add an independence caveat where none is needed and
+omit it where it is essential.</p></div></details>
+          </li>
+          <li class="kb-question" id="q-expectation-q3" data-difficulty="intermediate">
+            <div class="kb-question-head">
+              <span class="kb-question-text">You flip a fair coin until you see two heads in a row. What is the expected number of flips?</span>
+              <span class="kb-tagline">Intermediate · brainteaser · markov-chain</span>
+            </div>
+            <details class="kb-hint"><summary>Hint</summary><div><p>Define states by how many consecutive heads you currently hold.</p></div></details>
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>Let  <span class="math-inline">\(a\)</span>  = expected flips from &quot;0 consecutive heads&quot;,  <span class="math-inline">\(b\)</span>  = from &quot;1 consecutive head&quot;.</p>
+<span class="math-display">\[a = 1 + \tfrac12 b + \tfrac12 a, \qquad b = 1 + \tfrac12 \cdot 0 + \tfrac12 a\]</span>
+<p>From the first,  <span class="math-inline">\(\tfrac12 a = 1 + \tfrac12 b \Rightarrow a = 2 + b\)</span> . Substituting:
+ <span class="math-inline">\(b = 1 + \tfrac12(2+b) \Rightarrow \tfrac12 b = 2 \Rightarrow b = 4\)</span> , so  <span class="math-inline">\(a = 6\)</span> .
+<strong>Answer: 6 flips.</strong> The generalisation to  <span class="math-inline">\(k\)</span>  consecutive heads is  <span class="math-inline">\(2^{k+1}-2\)</span> .</p></div></details>
+          </li>
+          <li class="kb-question" id="q-expectation-q4" data-difficulty="intermediate">
+            <div class="kb-question-head">
+              <span class="kb-question-text">A stock is at 100. It moves up 10% or down 10% each day with equal probability. What is the expected price after 2 days, and the expected log price?</span>
+              <span class="kb-tagline">Intermediate · jensen · compounding</span>
+            </div>
+            
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>Prices multiply, so  <span class="math-inline">\(\E[S_2] = 100 \cdot \E[R]^2\)</span>  with  <span class="math-inline">\(\E[R] = \tfrac12(1.1) + \tfrac12(0.9) = 1.0\)</span> ,
+giving  <span class="math-inline">\(\E[S_2] = 100\)</span> . Yet the <em>median</em> path is down: up-then-down gives  <span class="math-inline">\(100 \times 1.1 \times 0.9 = 99\)</span> .
+In logs,  <span class="math-inline">\(\E[\ln R] = \tfrac12\ln 1.1 + \tfrac12 \ln 0.9 = -0.00501\)</span> , so
+ <span class="math-inline">\(\E[\ln S_2] = \ln 100 - 0.01 &lt; \ln 100\)</span> . This gap is Jensen&#39;s inequality and it is
+the entire content of <em>volatility drag</em>: arithmetic mean return exceeds geometric mean return
+by roughly  <span class="math-inline">\(\sigma^2/2\)</span> .</p></div></details>
+          </li></ol>
+      </section>
+
+    <section class="kb-section" id="connections">
+      <h2 class="kb-h kb-h2"><a class="kb-anchor" href="#connections" aria-label="Link to this section">#</a>Connections</h2>
+      <div class="kb-connections">
+        
+        <section class="kb-relgroup"><h3>Builds towards</h3><p class="kb-relnote">Concepts that depend on this one.</p><ul class="kb-rellist"><li><a href="../concepts/covariance-and-correlation.html" class="kb-relitem">
+          <span class="kb-relitem-title">Covariance &amp; Correlation</span>
+          <span class="kb-relitem-meta">Statistics · Foundational</span>
+          <span class="kb-relitem-sum">Covariance measures how two variables move together in raw units; correlation normalises it to [-1, 1] — together they determine whether combining two positions reduces risk or concentrates it.</span>
+        </a></li><li><a href="../concepts/kelly-criterion.html" class="kb-relitem">
+          <span class="kb-relitem-title">Kelly Criterion</span>
+          <span class="kb-relitem-meta">Portfolio Construction · Intermediate</span>
+          <span class="kb-relitem-sum">The bet size that maximises the long-run growth rate of wealth — obtained by maximising expected log wealth rather than expected wealth, because capital compounds multiplicatively.</span>
+        </a></li><li><a href="../concepts/martingales.html" class="kb-relitem">
+          <span class="kb-relitem-title">Martingales</span>
+          <span class="kb-relitem-meta">Stochastic Processes · Advanced</span>
+          <span class="kb-relitem-sum">A process whose best forecast of its own future value is its present value — the formal statement of &quot;no predictable edge&quot;, and the object that makes arbitrage-free pricing work.</span>
+        </a></li><li><a href="../concepts/sharpe-ratio.html" class="kb-relitem">
+          <span class="kb-relitem-title">Sharpe Ratio</span>
+          <span class="kb-relitem-meta">Portfolio Construction · Intermediate</span>
+          <span class="kb-relitem-sum">Excess return per unit of volatility — the industry&#39;s default measure of risk-adjusted performance, and an estimator noisy and gameable enough that knowing its failure modes matters more than knowing its formula.</span>
+        </a></li><li><a href="../concepts/variance.html" class="kb-relitem">
+          <span class="kb-relitem-title">Variance</span>
+          <span class="kb-relitem-meta">Statistics · Foundational</span>
+          <span class="kb-relitem-sum">The expected squared deviation from the mean — the second moment that turns a return forecast into a position size, and the quantity that does not add when you combine assets.</span>
+        </a></li></ul></section>
+        <section class="kb-relgroup"><h3>Related</h3><ul class="kb-rellist"><li><a href="../concepts/variance.html" class="kb-relitem">
+          <span class="kb-relitem-title">Variance</span>
+          <span class="kb-relitem-meta">Statistics · Foundational</span>
+          <span class="kb-relitem-sum">The expected squared deviation from the mean — the second moment that turns a return forecast into a position size, and the quantity that does not add when you combine assets.</span>
+        </a></li><li><a href="../concepts/conditional-probability.html" class="kb-relitem">
+          <span class="kb-relitem-title">Conditional Probability</span>
+          <span class="kb-relitem-meta">Probability · Foundational</span>
+          <span class="kb-relitem-sum">The probability of an event once you restrict attention to the states of the world where another event has occurred — the formal machinery for &quot;given what I now know&quot;.</span>
+        </a></li><li><a href="../concepts/linear-regression.html" class="kb-relitem">
+          <span class="kb-relitem-title">Linear Regression</span>
+          <span class="kb-relitem-meta">Statistics · Intermediate</span>
+          <span class="kb-relitem-sum">The projection of a target onto the span of its predictors — the estimator behind every beta, factor loading and hedge ratio in finance, and the one whose assumptions market data violates most reliably.</span>
+        </a></li><li><a href="../concepts/bayes-theorem.html" class="kb-relitem">
+          <span class="kb-relitem-title">Bayes&#39; Theorem</span>
+          <span class="kb-relitem-meta">Probability · Foundational</span>
+          <span class="kb-relitem-sum">The rule for inverting a conditional probability — turning &quot;how likely is this evidence if the hypothesis is true&quot; into &quot;how likely is the hypothesis given the evidence&quot;.</span>
+        </a></li><li><a href="../concepts/brownian-motion.html" class="kb-relitem">
+          <span class="kb-relitem-title">Brownian Motion</span>
+          <span class="kb-relitem-meta">Stochastic Processes · Advanced</span>
+          <span class="kb-relitem-sum">The continuous-time limit of a random walk — Gaussian, independent increments scaling with √t, nowhere differentiable, and the driving noise underneath essentially every continuous-time model in finance.</span>
+        </a></li></ul></section>
+        
+      </div>
+      <div class="kb-references"><h3>References</h3><ul><li>Grimmett &amp; Stirzaker, *Probability and Random Processes*, ch. 3</li></ul></div>
+    </section>
+
+    <nav class="kb-prevnext" aria-label="Concept navigation">
+    <a class="kb-prevnext-item kb-prevnext-prev" href="../concepts/conditional-probability.html" rel="prev">
+      <span class="kb-prevnext-label">← Previous</span><span>Conditional Probability</span></a>
+    <a class="kb-prevnext-item kb-prevnext-up" href="../subjects/probability.html">
+      <span class="kb-prevnext-label">Subject</span><span>Probability</span></a>
+    <a class="kb-prevnext-item kb-prevnext-next" href="../concepts/bayes-theorem.html" rel="next">
+      <span class="kb-prevnext-label">Next →</span><span>Bayes&#39; Theorem</span></a>
+  </nav>
+    <footer class="kb-source-note">
+      Source: <code>content/concepts/expectation.md</code> · updated 2026-01-14
+      · edit the markdown and run <code>npm run build</code>.
+    </footer>
+  </article>
+
+  <aside class="kb-sidebar">
+    <nav class="kb-toc" aria-label="On this page"><h3>On this page</h3><ol><li><a href="#intuition">Intuition</a></li><li><a href="#mathematical-formulation">Mathematical Formulation</a></li><li><a href="#derivation">Derivation</a></li><li><a href="#assumptions-edge-cases">Assumptions &amp; Edge Cases</a></li><li><a href="#worked-example">Worked Example</a></li><li><a href="#why-it-matters-in-quant-finance">Why It Matters in Quant Finance</a></li><li><a href="#trading-research-application">Trading &amp; Research Application</a></li><li><a href="#implementation-notes">Implementation Notes</a></li><li><a href="#common-mistakes">Common Mistakes</a></li><li><a href="#30-second-revision">30-Second Revision</a></li><li><a href="#key-formulas">Key Formulas</a></li><li><a href="#interview-questions">Interview Questions</a></li><li><a href="#connections">Connections</a></li></ol></nav>
+    <section class="kb-side-card" id="side-formulas"><h3>Key formulas</h3><ul class="kb-side-formulas"><li><a href="#expectation-discrete">Expectation (discrete)</a></li><li><a href="#expectation-continuous">Expectation (continuous)</a></li><li><a href="#linearity-of-expectation">Linearity of expectation</a></li><li><a href="#risk-neutral-pricing">Risk-neutral pricing</a></li><li><a href="#jensens-inequality">Jensen&#39;s inequality</a></li></ul></section>
+    <section class="kb-side-card">
+      <h3>Metadata</h3>
+      <dl class="kb-meta">
+        <dt>Subject</dt><dd><a href="../subjects/probability.html">Probability</a></dd>
+        <dt>Difficulty</dt><dd>Foundational</dd>
+        <dt>Interview</dt><dd><span class="kb-stars" title="Interview relevance 5 of 5" aria-label="Interview relevance 5 of 5"><span class="kb-stars-on">★★★★★</span><span class="kb-stars-off"></span></span></dd>
+        <dt>Status</dt><dd data-kb-status-label="expectation">Learned</dd>
+        <dt>Prereqs</dt><dd>—</dd>
+        <dt>Formulas</dt><dd>5</dd>
+        <dt>Questions</dt><dd>4</dd>
+      </dl>
+    </section>
+    <section class="kb-side-card kb-side-minimap">
+      <h3>Neighbourhood</h3>
+      <canvas data-kb-minimap="expectation" width="260" height="200" aria-label="Local knowledge graph"></canvas>
+      <a class="kb-side-more" href="../graph.html?focus=expectation">Open full graph →</a>
+    </section>
+  </aside>
+</main>
+<script src="../data/kb.data.js"></script>
+<script src="../data/search.index.js"></script>
+<script src="../assets/js/kb-core.js"></script>
+<script src="../assets/js/kb-ui.js"></script>
+<script src="../assets/vendor/katex/katex.min.js" defer></script>
+<script src="../assets/vendor/katex/auto-render.min.js" defer></script>
+<script src="../assets/js/math.js" defer></script>
+<script src="../assets/js/concept.js" defer></script>
+</body>
+</html>

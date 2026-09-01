@@ -1,0 +1,30 @@
+[
+  { "id": "probability",             "name": "Probability",              "group": "mathematics", "color": "#4f8fd6", "order": 10,  "description": "Sample spaces, random variables, conditioning, limit theorems — the language every other topic is written in." },
+  { "id": "statistics",              "name": "Statistics",               "group": "mathematics", "color": "#4f8fd6", "order": 20,  "description": "Estimation, inference, hypothesis testing and the sampling error that makes backtests lie." },
+  { "id": "linear-algebra",          "name": "Linear Algebra",           "group": "mathematics", "color": "#4f8fd6", "order": 30,  "description": "Vector spaces, decompositions and eigenstructure — covariance matrices, PCA and risk models all live here." },
+  { "id": "calculus",                "name": "Calculus",                 "group": "mathematics", "color": "#4f8fd6", "order": 40,  "description": "Differentiation, integration, Taylor expansion and multivariate analysis, including the Greeks." },
+  { "id": "optimization",            "name": "Optimization",             "group": "mathematics", "color": "#4f8fd6", "order": 50,  "description": "Convexity, Lagrangians, KKT conditions and numerical solvers behind every portfolio allocation." },
+  { "id": "numerical-methods",       "name": "Numerical Methods",        "group": "mathematics", "color": "#4f8fd6", "order": 60,  "description": "Finite differences, quadrature, root finding, linear solvers and floating-point pitfalls." },
+
+  { "id": "stochastic-processes",    "name": "Stochastic Processes",     "group": "modelling",   "color": "#7a63c9", "order": 110, "description": "Random walks, Markov chains, martingales, Brownian motion and Itô calculus." },
+  { "id": "time-series",             "name": "Time Series",              "group": "modelling",   "color": "#7a63c9", "order": 120, "description": "Stationarity, ARMA, GARCH, cointegration and forecasting financial data that refuses to be i.i.d." },
+  { "id": "econometrics",            "name": "Econometrics",             "group": "modelling",   "color": "#7a63c9", "order": 130, "description": "Regression under real-world violations: endogeneity, heteroskedasticity, panel data, causal inference." },
+  { "id": "statistical-learning",    "name": "Statistical Learning",     "group": "modelling",   "color": "#7a63c9", "order": 140, "description": "Bias–variance, regularisation, cross-validation, trees and neural nets applied to low signal-to-noise data." },
+
+  { "id": "quantitative-trading",    "name": "Quantitative Trading",     "group": "strategy",    "color": "#2f9e79", "order": 210, "description": "Strategy archetypes, edge, capacity, turnover and the economics of a trading business." },
+  { "id": "alpha-research",          "name": "Alpha Research",           "group": "strategy",    "color": "#2f9e79", "order": 220, "description": "Signal construction, feature engineering, orthogonalisation and honest evaluation of predictive power." },
+  { "id": "factor-models",           "name": "Factor Models",            "group": "strategy",    "color": "#2f9e79", "order": 230, "description": "CAPM, Fama–French, statistical factors, risk decomposition and factor crowding." },
+  { "id": "portfolio-construction",  "name": "Portfolio Construction",   "group": "strategy",    "color": "#2f9e79", "order": 240, "description": "Mean–variance, Black–Litterman, risk parity, constraints, transaction costs and Kelly sizing." },
+  { "id": "risk-management",         "name": "Risk Management",          "group": "strategy",    "color": "#2f9e79", "order": 250, "description": "VaR, expected shortfall, stress testing, drawdown control and the limits of historical risk." },
+  { "id": "backtesting",             "name": "Backtesting",              "group": "strategy",    "color": "#2f9e79", "order": 260, "description": "Point-in-time data, look-ahead bias, multiple testing, deflated Sharpe and walk-forward validation." },
+  { "id": "alternative-data",        "name": "Alternative Data",         "group": "strategy",    "color": "#2f9e79", "order": 270, "description": "Satellite, card, web and text data: sourcing, cleaning, entity mapping, decay and legal constraints." },
+
+  { "id": "derivatives",             "name": "Derivatives",              "group": "markets",     "color": "#c07f3e", "order": 310, "description": "Forwards, futures, swaps, replication, no-arbitrage pricing and risk-neutral valuation." },
+  { "id": "options",                 "name": "Options",                  "group": "markets",     "color": "#c07f3e", "order": 320, "description": "Black–Scholes, the Greeks, implied volatility surfaces, exotics and volatility trading." },
+  { "id": "fixed-income",            "name": "Fixed Income",             "group": "markets",     "color": "#c07f3e", "order": 330, "description": "Yield curves, duration, convexity, bootstrapping, credit spreads and rates models." },
+  { "id": "market-microstructure",   "name": "Market Microstructure",    "group": "markets",     "color": "#c07f3e", "order": 340, "description": "Order books, spreads, adverse selection, price impact, market making and queue position." },
+  { "id": "execution",               "name": "Execution",                "group": "markets",     "color": "#c07f3e", "order": 350, "description": "Implementation shortfall, VWAP/TWAP, optimal scheduling, slippage and transaction cost analysis." },
+
+  { "id": "programming",             "name": "Programming & Algorithms", "group": "craft",       "color": "#b0556b", "order": 410, "description": "Data structures, complexity, vectorised numerics, testing and research code that survives contact with production." },
+  { "id": "mental-math",             "name": "Mental Math & Brainteasers","group": "craft",      "color": "#b0556b", "order": 420, "description": "Fast arithmetic, estimation, expected-value puzzles and the classic trading-floor brainteasers." }
+]
