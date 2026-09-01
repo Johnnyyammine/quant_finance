@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en" data-page="concept">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Brownian Motion · Quant Knowledge Base</title>
+<meta name="description" content="The continuous-time limit of a random walk — Gaussian, independent increments scaling with √t, nowhere differentiable, and the driving noise underneath essentially every continuous-time model in finance.">
+<link rel="icon" href="../assets/icons/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/vendor/katex/katex.min.css">
+<link rel="stylesheet" href="../assets/css/app.css">
+<link rel="stylesheet" href="../assets/css/views.css">
+
+</head>
+<body class="kb-body kb-body--concept">
+<header class="kb-topbar">
+  <a class="kb-brand" href="../index.html" title="Home (H)">
+    <span class="kb-brand-mark">QF</span><span class="kb-brand-text">Quant Knowledge Base</span>
+  </a>
+  <nav class="kb-crumbs" aria-label="Breadcrumb"><ol><li><a href="../index.html">Dashboard</a></li><li class="kb-crumb-sep" aria-hidden="true">/</li><li><a href="../subjects/stochastic-processes.html">Stochastic Processes</a></li><li class="kb-crumb-sep" aria-hidden="true">/</li><li><span aria-current="page">Brownian Motion</span></li></ol></nav>
+  <div class="kb-topbar-actions">
+    <button class="kb-searchbtn" type="button" data-kb-open-search>
+      <span>Search concepts, formulas, questions</span><kbd>/</kbd>
+    </button>
+    <nav class="kb-toplinks" aria-label="Sections">
+      <a href="../index.html" data-nav="home">Dashboard</a>
+      <a href="../graph.html" data-nav="graph">Graph</a>
+      <a href="../interview.html" data-nav="interview">Interview</a>
+      <a href="../library.html" data-nav="library">Library</a>
+    </nav>
+    <button class="kb-iconbtn" type="button" data-kb-theme title="Toggle theme (T)" aria-label="Toggle theme">◑</button>
+    <button class="kb-iconbtn" type="button" data-kb-help title="Keyboard shortcuts (?)" aria-label="Keyboard shortcuts">?</button>
+  </div>
+</header>
+<main class="kb-main kb-main--concept" data-concept-id="brownian-motion">
+  <article class="kb-article">
+    <header class="kb-concept-head">
+      <div class="kb-concept-eyebrow">
+        <a class="kb-subject-chip" href="../subjects/stochastic-processes.html" style="--subject-color:#7a63c9">
+          <span class="kb-subject-mark">W</span>Stochastic Processes</a>
+        <span class="kb-pill kb-pill--advanced">Advanced</span>
+        <span class="kb-stars" title="Interview relevance 4 of 5" aria-label="Interview relevance 4 of 5"><span class="kb-stars-on">★★★★</span><span class="kb-stars-off">☆</span></span>
+        <span class="kb-meta-dot">·</span>
+        <span class="kb-readtime">16 min</span>
+      </div>
+      <h1 class="kb-concept-title">Brownian Motion</h1>
+      <p class="kb-concept-summary">The continuous-time limit of a random walk — Gaussian, independent increments scaling with √t, nowhere differentiable, and the driving noise underneath essentially every continuous-time model in finance.</p>
+      <div class="kb-concept-controls">
+        <label class="kb-statusctl">Status
+          <select data-kb-status="brownian-motion" data-default="not-started">
+            <option value="not-started" selected>Not started</option><option value="learning">Learning</option><option value="learned">Learned</option><option value="mastered">Mastered</option>
+          </select>
+        </label>
+        <button class="kb-btn kb-btn--ghost" type="button" data-kb-bookmark="brownian-motion">☆ Bookmark</button>
+        <button class="kb-btn kb-btn--ghost" type="button" data-kb-flashcards>Revision card</button>
+        <a class="kb-btn kb-btn--ghost" href="../graph.html?focus=brownian-motion">Show in graph</a>
+      </div>
+      <ul class="kb-taglist"><li><a class="kb-tag" href="../library.html?tag=stochastic-processes">#stochastic-processes</a></li><li><a class="kb-tag" href="../library.html?tag=wiener-process">#wiener-process</a></li><li><a class="kb-tag" href="../library.html?tag=diffusion">#diffusion</a></li><li><a class="kb-tag" href="../library.html?tag=pricing">#pricing</a></li><li><a class="kb-tag" href="../library.html?tag=quadratic-variation">#quadratic-variation</a></li></ul>
+    </header>
+
+    <div class="kb-content"><h2 id="intuition" class="kb-h kb-h2"><a class="kb-anchor" href="#intuition" aria-label="Link to this section">#</a>Intuition</h2>
+<p>Take a random walk, make the steps smaller and more frequent, and hold the total variance per unit
+time fixed. Because variance adds, a step of size  <span class="math-inline">\(\sigma\sqrt{\Delta t}\)</span>  every  <span class="math-inline">\(\Delta t\)</span>  preserves
+variance  <span class="math-inline">\(\sigma^2\)</span>  per unit time as  <span class="math-inline">\(\Delta t \to 0\)</span> . The limit is Brownian motion.</p>
+<p>Two properties follow from that construction and are worth internalising separately:</p>
+<ol class="kb-list"><li><strong>The  <span class="math-inline">\(\sqrt{t}\)</span>  scaling.</strong> Dispersion grows with the square root of time, not linearly. This is
+ the single most-used quantitative fact in finance.</li>
+<li><strong>Roughness at every scale.</strong> Zoom in on a Brownian path and it looks the same — statistically
+ self-similar, with  <span class="math-inline">\(W_{ct} \overset{d}{=} \sqrt{c}\,W_t\)</span> . There is no scale at which the path
+ becomes smooth, so it has no derivative anywhere.</li></ol>
+<aside class="kb-callout kb-callout--insight"><div class="kb-callout-title">Insight</div><div class="kb-callout-body"><p>The step size  <span class="math-inline">\(\sqrt{\Delta t}\)</span>  is the whole story. It is why the path is continuous (steps shrink),
+why it is not differentiable (steps shrink <em>slower</em> than the time interval, so slope  <span class="math-inline">\(\to \infty\)</span> ),
+and why  <span class="math-inline">\((\d W)^2 = \d t\)</span>  survives in Itô&#39;s lemma while  <span class="math-inline">\((\d t)^2\)</span>  does not.</p></div></aside>
+<div class="kb-module" data-module="random-walk" data-config="{&quot;paths&quot;:40,&quot;steps&quot;:500,&quot;sigma&quot;:0.2,&quot;drift&quot;:0}"><div class="kb-module-shell"><div class="kb-module-loading">Loading interactive module &ldquo;random-walk&rdquo;&hellip;</div></div></div>
+<h2 id="mathematical-formulation" class="kb-h kb-h2"><a class="kb-anchor" href="#mathematical-formulation" aria-label="Link to this section">#</a>Mathematical Formulation</h2>
+<p>Standard Brownian motion  <span class="math-inline">\((W_t)_{t\ge0}\)</span>  is defined by four properties:</p>
+<ol class="kb-list"><li><span class="math-inline">\(W_0 = 0\)</span></li>
+<li>Independent increments:  <span class="math-inline">\(W_t - W_s \perp \mathcal F_s\)</span>  for  <span class="math-inline">\(s&lt;t\)</span></li>
+<li>Gaussian increments:  <span class="math-inline">\(W_t - W_s \sim N(0, t-s)\)</span></li>
+<li>Continuous sample paths (almost surely)</li></ol>
+<figure class="kb-formula" id="increment-distribution" data-formula="increment-distribution"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">Increment distribution</span><button class="kb-formula-copy" type="button" data-latex="W_t - W_s \sim N(0,\, t-s), \qquad \Cov(W_s, W_t) = \min(s,t)" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[W_t - W_s \sim N(0,\, t-s), \qquad \Cov(W_s, W_t) = \min(s,t)\]</span> </div><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">Derivatives</span><span class="kb-chip">Simulation</span><span class="kb-chip">Risk</span></footer></figure>
+<figure class="kb-formula" id="quadratic-variation" data-formula="quadratic-variation"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">Quadratic variation</span><button class="kb-formula-copy" type="button" data-latex="\langle W \rangle_T = \lim_{\|\Pi\|\to 0} \sum_{i} (W_{t_{i+1}} - W_{t_i})^2 = T
+\quad\Longrightarrow\quad (\d W_t)^2 = \d t" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[\langle W \rangle_T = \lim_{\|\Pi\|\to 0} \sum_{i} (W_{t_{i+1}} - W_{t_i})^2 = T
+\quad\Longrightarrow\quad (\d W_t)^2 = \d t\]</span> </div><p class="kb-formula-note">Holds almost surely, not just in expectation — this is what makes Itô calculus work.</p><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">Itô Calculus</span><span class="kb-chip">Volatility Trading</span></footer></figure>
+<figure class="kb-formula" id="its-lemma-one-dimension" data-formula="its-lemma-one-dimension"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">Itô&#39;s lemma (one dimension)</span><button class="kb-formula-copy" type="button" data-latex="\d f(t, W_t) = \left(\frac{\partial f}{\partial t} + \frac{1}{2}\frac{\partial^2 f}{\partial x^2}\right)\d t
++ \frac{\partial f}{\partial x}\,\d W_t" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[\d f(t, W_t) = \left(\frac{\partial f}{\partial t} + \frac{1}{2}\frac{\partial^2 f}{\partial x^2}\right)\d t
++ \frac{\partial f}{\partial x}\,\d W_t\]</span> </div><p class="kb-formula-note">The ½f&#39;&#39; term is the source of every convexity effect in finance.</p><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">Options</span><span class="kb-chip">Derivatives</span><span class="kb-chip">Hedging</span></footer></figure>
+<p>Geometric Brownian motion — the model behind Black–Scholes — and its solution:</p>
+<figure class="kb-formula" id="geometric-brownian-motion" data-formula="geometric-brownian-motion"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">Geometric Brownian motion</span><button class="kb-formula-copy" type="button" data-latex="\d S_t = \mu S_t\,\d t + \sigma S_t\,\d W_t
+\quad\Longrightarrow\quad
+S_t = S_0 \exp\!\left[\left(\mu - \tfrac{\sigma^2}{2}\right)t + \sigma W_t\right]" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[\d S_t = \mu S_t\,\d t + \sigma S_t\,\d W_t
+\quad\Longrightarrow\quad
+S_t = S_0 \exp\!\left[\left(\mu - \tfrac{\sigma^2}{2}\right)t + \sigma W_t\right]\]</span> </div><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">Options</span><span class="kb-chip">Equity Modelling</span></footer></figure>
+<h2 id="derivation" class="kb-h kb-h2"><a class="kb-anchor" href="#derivation" aria-label="Link to this section">#</a>Derivation</h2>
+<details class="kb-derivation"><summary>Why quadratic variation equals T</summary><div class="kb-derivation-body"><p>Partition  <span class="math-inline">\([0,T]\)</span>  into  <span class="math-inline">\(n\)</span>  equal intervals of length  <span class="math-inline">\(\Delta t = T/n\)</span>  and set
+ <span class="math-inline">\(Q_n = \sum_{i=1}^n (\Delta W_i)^2\)</span> .</p>
+<p>Each  <span class="math-inline">\(\Delta W_i \sim N(0,\Delta t)\)</span> , so  <span class="math-inline">\(\E[(\Delta W_i)^2] = \Delta t\)</span>  and
+ <span class="math-inline">\(\E[Q_n] = n\Delta t = T\)</span>  for every  <span class="math-inline">\(n\)</span> .</p>
+<p>For the variance, use  <span class="math-inline">\(\Var(Z^2) = 2\sigma^4\)</span>  for  <span class="math-inline">\(Z\sim N(0,\sigma^2)\)</span> :</p>
+<span class="math-display">\[\Var(Q_n) = n \cdot 2(\Delta t)^2 = 2n\frac{T^2}{n^2} = \frac{2T^2}{n} \longrightarrow 0\]</span>
+<p>So  <span class="math-inline">\(Q_n \to T\)</span>  in  <span class="math-inline">\(L^2\)</span> , and along a fast enough sequence of partitions, almost surely. Compare a
+differentiable path, where  <span class="math-inline">\(\sum(\Delta f)^2 \approx \sum (f&#39;)^2(\Delta t)^2 = O(\Delta t) \to 0\)</span> .
+<strong>Non-zero quadratic variation is exactly what separates a diffusion from a smooth path</strong>, and it is
+why  <span class="math-inline">\((\d W)^2\)</span>  cannot be discarded.</p></div></details>
+<details class="kb-derivation"><summary>The GBM solution and where −σ²/2 comes from</summary><div class="kb-derivation-body"><p>Apply Itô&#39;s lemma to  <span class="math-inline">\(f(S) = \ln S\)</span> , with  <span class="math-inline">\(f&#39; = 1/S\)</span>  and  <span class="math-inline">\(f&#39;&#39; = -1/S^2\)</span> :</p>
+<span class="math-display">\[\d(\ln S_t) = \frac{1}{S_t}\d S_t - \frac{1}{2}\frac{1}{S_t^2}(\d S_t)^2\]</span>
+<p>Substituting  <span class="math-inline">\(\d S_t = \mu S_t\d t + \sigma S_t \d W_t\)</span>  and using
+ <span class="math-inline">\((\d S_t)^2 = \sigma^2S_t^2 (\d W_t)^2 = \sigma^2S_t^2\,\d t\)</span> :</p>
+<span class="math-display">\[\d(\ln S_t) = \left(\mu - \frac{\sigma^2}{2}\right)\d t + \sigma\, \d W_t\]</span>
+<p>Integrating gives the closed form. The  <span class="math-inline">\(-\sigma^2/2\)</span>  is <strong>not a modelling choice</strong> — it is forced by
+the concavity of  <span class="math-inline">\(\ln\)</span>  meeting non-zero quadratic variation. It is Jensen&#39;s inequality made
+dynamic, and it is the mathematical identity of volatility drag: expected log return is expected
+arithmetic return minus  <span class="math-inline">\(\sigma^2/2\)</span> .</p></div></details>
+<details class="kb-derivation"><summary>Nowhere differentiability, informally</summary><div class="kb-derivation-body"><p>Over  <span class="math-inline">\([t, t+h]\)</span> ,  <span class="math-inline">\(|W_{t+h} - W_t| \sim \sqrt h\)</span>  in distribution. Then</p>
+<span class="math-display">\[\left|\frac{W_{t+h}-W_t}{h}\right| \sim \frac{\sqrt h}{h} = \frac{1}{\sqrt h} \longrightarrow \infty\]</span>
+<p>Continuity requires only that the numerator vanish, which it does. Differentiability requires it to
+vanish <em>faster than  <span class="math-inline">\(h\)</span> </em>, which it does not. The path is continuous everywhere and differentiable
+nowhere — an object that seemed pathological when Weierstrass constructed one, and which turns out
+to be the generic behaviour of prices.</p></div></details>
+<h2 id="assumptions-edge-cases" class="kb-h kb-h2"><a class="kb-anchor" href="#assumptions-edge-cases" aria-label="Link to this section">#</a>Assumptions &amp; Edge Cases</h2>
+<aside class="kb-callout kb-callout--assumption"><div class="kb-callout-title">Assumptions</div><div class="kb-callout-body"><p>Brownian motion is a model, and every one of its defining properties is violated by market data:</p>
+<ul class="kb-list"><li><strong>Gaussian increments.</strong> Real returns are leptokurtic. A 5σ daily move should occur once per
+7,000 years; equity markets deliver several per decade.</li>
+<li><strong>Independent increments.</strong> Returns show weak autocorrelation, but <em>squared</em> returns are strongly
+autocorrelated — volatility clusters. GARCH and stochastic-volatility models exist for this.</li>
+<li><strong>Continuous paths.</strong> Markets gap on news, overnight, and at open. Jump-diffusion (Merton) and
+Lévy processes address this; the practical consequence is that delta hedging cannot be made safe
+by trading faster.</li>
+<li><strong>Constant  <span class="math-inline">\(\sigma\)</span> .</strong> Implied volatility varies by strike and maturity — the volatility smile is
+the market&#39;s direct statement that GBM is wrong.</li></ul></div></aside>
+<aside class="kb-callout kb-callout--warning"><div class="kb-callout-title">Warning</div><div class="kb-callout-body"><p>The failures are not uniform across applications. GBM is a reasonable scaffold for <em>relative</em> value
+and hedging, where errors partly cancel, and a poor model for <em>tail risk</em>, where the Gaussian
+assumption fails precisely where it matters. A VaR model built on Brownian motion will understate
+crisis losses systematically — the model does not merely have errors, it has errors that are
+correlated with the states you care about.</p></div></aside>
+<h2 id="worked-example" class="kb-h kb-h2"><a class="kb-anchor" href="#worked-example" aria-label="Link to this section">#</a>Worked Example</h2>
+<p>A stock at \$100 with  <span class="math-inline">\(\sigma = 25\%\)</span>  annual. What is the probability it falls below \$80 within
+one year, ignoring drift?</p>
+<p>Log-return needed:  <span class="math-inline">\(\ln(80/100) = -0.223\)</span> . Annual log-vol  <span class="math-inline">\(= 0.25\)</span> , so the terminal probability is</p>
+<span class="math-display">\[\P(S_1 &lt; 80) = \Phi(-0.223/0.25) = \Phi(-0.892) \approx 18.6\%\]</span>
+<p>But &quot;falls below at any point&quot; is a first-passage question, not a terminal one. By the <strong>reflection
+principle</strong>, for driftless Brownian motion the probability of ever hitting a level is exactly twice
+the probability of finishing beyond it:</p>
+<span class="math-display">\[\P\!\left(\min_{t\le 1} S_t &lt; 80\right) \approx 2 \times 18.6\% = 37.2\%\]</span>
+<p><strong>Twice as likely.</strong> The reflection principle is worth committing to memory: it prices every
+knock-in and knock-out barrier option, and it is the reason a stop-loss is triggered far more often
+than a naive terminal-distribution calculation suggests. A trader who sizes a stop using the
+terminal probability will be stopped out roughly twice as often as planned.</p>
+<h2 id="why-it-matters-in-quant-finance" class="kb-h kb-h2"><a class="kb-anchor" href="#why-it-matters-in-quant-finance" aria-label="Link to this section">#</a>Why It Matters in Quant Finance</h2>
+<p>Brownian motion is the noise term in nearly every continuous-time model:</p>
+<div class="kb-table-wrap"><table class="kb-table"><thead><tr><th>Model</th><th>SDE</th><th>Used for</th></tr></thead><tbody><tr><td>GBM</td><td><span class="math-inline">\(\d S = \mu S\,\d t + \sigma S\,\d W\)</span></td><td>equities, Black–Scholes</td></tr>
+<tr><td>Ornstein–Uhlenbeck</td><td><span class="math-inline">\(\d X = \theta(\mu - X)\d t + \sigma\,\d W\)</span></td><td>mean reversion, pairs, spreads</td></tr>
+<tr><td>Vasicek / CIR</td><td><span class="math-inline">\(\d r = a(b-r)\d t + \sigma r^\gamma \d W\)</span></td><td>short rates</td></tr>
+<tr><td>Heston</td><td><span class="math-inline">\(\d v = \kappa(\theta-v)\d t + \xi\sqrt v\,\d W\)</span></td><td>stochastic volatility</td></tr>
+<tr><td>Almgren–Chriss</td><td><span class="math-inline">\(\d S = -\eta\,\d Q + \sigma\,\d W\)</span></td><td>optimal execution</td></tr></tbody></table></div>
+<p>The Black–Scholes PDE emerges from Itô&#39;s lemma plus the no-arbitrage argument: form a portfolio
+long the option and short  <span class="math-inline">\(\partial V/\partial S\)</span>  shares, and the  <span class="math-inline">\(\d W\)</span>  terms cancel exactly.
+What remains is riskless, so it must earn  <span class="math-inline">\(r\)</span>  — and that equation is Black–Scholes. The
+<a class="kb-link" href="martingales.html" data-concept="martingales">martingale</a> view says the same thing: under  <span class="math-inline">\(\Q\)</span>  the discounted price is a
+martingale and the hedge ratio is the martingale representation integrand.</p>
+<h2 id="trading-research-application" class="kb-h kb-h2"><a class="kb-anchor" href="#trading-research-application" aria-label="Link to this section">#</a>Trading &amp; Research Application</h2>
+<aside class="kb-callout kb-callout--desk"><div class="kb-callout-title">On the desk</div><div class="kb-callout-body"><p><strong>Position sizing and time scaling.</strong>  <span class="math-inline">\(\sqrt{t}\)</span>  scaling determines how a stop-loss, a drawdown
+limit or a rebalancing horizon should be set. Doubling the holding period increases expected P&amp;L by
+2× and risk by only  <span class="math-inline">\(\sqrt2\)</span>  — the entire case for lower-turnover strategies, and the
+counterweight to signal decay.</p>
+<p><strong>Hedging error is a variance trade.</strong> Discrete delta hedging at frequency  <span class="math-inline">\(\Delta t\)</span>  produces a
+residual P&amp;L of  <span class="math-inline">\(\tfrac12\Gamma[(\Delta S)^2 - \sigma^2S^2\Delta t]\)</span> . Long an option and hedging
+discretely, you are systematically long realised variance and short implied. The whole gamma
+scalping business is the accumulation of this term.</p>
+<p><strong>Where the model breaks is where the money is.</strong> Options are not priced with a single  <span class="math-inline">\(\sigma\)</span> 
+because the market knows GBM is wrong; the skew is the price of the missing left tail. Anyone
+selling options at a flat Black–Scholes vol is selling the model&#39;s error to someone who has
+noticed it.</p>
+<p><strong>Simulation discipline.</strong> Simulate log prices, not prices, and never let discretisation reintroduce
+the  <span class="math-inline">\(\sigma^2/2\)</span>  you already accounted for. Getting this wrong produces a systematic drift bias in
+Monte Carlo pricing that is easy to miss and hard to debug.</p></div></aside>
+<h2 id="implementation-notes" class="kb-h kb-h2"><a class="kb-anchor" href="#implementation-notes" aria-label="Link to this section">#</a>Implementation Notes</h2>
+<figure class="kb-code" data-lang="python"><pre><code class="language-python">import numpy as np
+
+def simulate_gbm(s0, mu, sigma, T, steps, paths, seed=0):
+    &quot;&quot;&quot;Exact GBM simulation. Note the -sigma²/2: the SDE&#39;s drift mu is the
+    ARITHMETIC expected return; the log-drift is mu - sigma²/2. Omitting it
+    is the most common simulation bug in quantitative finance.&quot;&quot;&quot;
+    rng = np.random.default_rng(seed)
+    dt = T / steps
+    shocks = rng.standard_normal((paths, steps)) * np.sqrt(dt)
+    log_increments = (mu - 0.5 * sigma**2) * dt + sigma * shocks
+    log_paths = np.cumsum(log_increments, axis=1)
+    return s0 * np.exp(np.concatenate([np.zeros((paths, 1)), log_paths], axis=1))
+
+# Sanity check that catches the bug above:
+#   paths[:, -1].mean() should approach s0 * exp(mu * T), not s0 * exp((mu - sigma²/2) * T)</code></pre></figure>
+<h2 id="common-mistakes" class="kb-h kb-h2"><a class="kb-anchor" href="#common-mistakes" aria-label="Link to this section">#</a>Common Mistakes</h2>
+<aside class="kb-callout kb-callout--pitfall"><div class="kb-callout-title">Common pitfall</div><div class="kb-callout-body"><ul class="kb-list"><li><strong>Forgetting  <span class="math-inline">\(-\sigma^2/2\)</span> </strong> when converting between arithmetic and log drift. This is the single
+most common error in derivatives interviews and in production simulation code.</li>
+<li><strong>Applying ordinary chain rule</strong> to functions of  <span class="math-inline">\(W_t\)</span> .  <span class="math-inline">\((\d W)^2 = \d t\)</span>  does not vanish.</li>
+<li><strong>Confusing  <span class="math-inline">\(\E[S_T]\)</span>  with the median.</strong> For lognormal  <span class="math-inline">\(S\)</span> , mean $&gt; $ median, and the gap widens
+with  <span class="math-inline">\(\sigma^2 T\)</span> .</li>
+<li><strong>Using terminal probabilities for barrier questions.</strong> The reflection principle roughly doubles
+first-passage probabilities.</li>
+<li><strong>Treating  <span class="math-inline">\(\sqrt{t}\)</span>  scaling as universal.</strong> It requires independent increments; autocorrelated
+or regime-switching returns scale differently.</li>
+<li><strong>Trusting Gaussian tails.</strong> The model&#39;s worst failures are concentrated exactly in the scenarios
+risk management exists to handle.</li></ul></div></aside>
+<h2 id="30-second-revision" class="kb-h kb-h2"><a class="kb-anchor" href="#30-second-revision" aria-label="Link to this section">#</a>30-Second Revision</h2>
+<ul class="kb-list"><li><span class="math-inline">\(W_t - W_s \sim N(0, t-s)\)</span> , independent increments, continuous,  <span class="math-inline">\(\Cov(W_s,W_t)=\min(s,t)\)</span> .</li>
+<li>Scaling is  <span class="math-inline">\(\sqrt t\)</span> : variances add, standard deviations do not.</li>
+<li><span class="math-inline">\(\langle W\rangle_T = T\)</span>  almost surely, so  <span class="math-inline">\((\d W)^2 = \d t\)</span>  — the fact that creates Itô calculus.</li>
+<li>Itô:  <span class="math-inline">\(\d f = (f_t + \tfrac12 f_{xx})\d t + f_x\,\d W\)</span> . The  <span class="math-inline">\(\tfrac12 f_{xx}\)</span>  term is all convexity.</li>
+<li>GBM:  <span class="math-inline">\(S_t = S_0\exp[(\mu-\sigma^2/2)t + \sigma W_t]\)</span> . The  <span class="math-inline">\(-\sigma^2/2\)</span>  is volatility drag.</li>
+<li>Reflection principle:  <span class="math-inline">\(\P(\text{ever hit a level}) \approx 2\,\P(\text{finish beyond it})\)</span> .</li>
+<li>Continuous everywhere, differentiable nowhere — so continuous hedging is impossible and
+the residual is gamma P&amp;L.</li></ul></div>
+    <section class="kb-section" id="key-formulas">
+        <h2 class="kb-h kb-h2"><a class="kb-anchor" href="#key-formulas" aria-label="Link to this section">#</a>Key Formulas</h2>
+        <div class="kb-formula-recap">
+          <a class="kb-formula-recap-item" href="#increment-distribution">
+            <span class="kb-formula-recap-name">Increment distribution</span>
+            <span class="math-display">\[W_t - W_s \sim N(0,\, t-s), \qquad \Cov(W_s, W_t) = \min(s,t)\]</span>
+          </a>
+          <a class="kb-formula-recap-item" href="#quadratic-variation">
+            <span class="kb-formula-recap-name">Quadratic variation</span>
+            <span class="math-display">\[\langle W \rangle_T = \lim_{\|\Pi\|\to 0} \sum_{i} (W_{t_{i+1}} - W_{t_i})^2 = T
+\quad\Longrightarrow\quad (\d W_t)^2 = \d t\]</span>
+          </a>
+          <a class="kb-formula-recap-item" href="#its-lemma-one-dimension">
+            <span class="kb-formula-recap-name">Itô&#39;s lemma (one dimension)</span>
+            <span class="math-display">\[\d f(t, W_t) = \left(\frac{\partial f}{\partial t} + \frac{1}{2}\frac{\partial^2 f}{\partial x^2}\right)\d t
++ \frac{\partial f}{\partial x}\,\d W_t\]</span>
+          </a>
+          <a class="kb-formula-recap-item" href="#geometric-brownian-motion">
+            <span class="kb-formula-recap-name">Geometric Brownian motion</span>
+            <span class="math-display">\[\d S_t = \mu S_t\,\d t + \sigma S_t\,\d W_t
+\quad\Longrightarrow\quad
+S_t = S_0 \exp\!\left[\left(\mu - \tfrac{\sigma^2}{2}\right)t + \sigma W_t\right]\]</span>
+          </a></div>
+      </section>
+    <section class="kb-section" id="interview-questions">
+        <h2 class="kb-h kb-h2"><a class="kb-anchor" href="#interview-questions" aria-label="Link to this section">#</a>Interview Questions</h2>
+        <ol class="kb-questions">
+          <li class="kb-question" id="q-brownian-motion-q1" data-difficulty="intermediate">
+            <div class="kb-question-head">
+              <span class="kb-question-text">Why does Brownian motion scale as √t rather than t?</span>
+              <span class="kb-tagline">Intermediate · scaling · variance</span>
+            </div>
+            <details class="kb-hint"><summary>Hint</summary><div><p>Variances add for independent increments; standard deviations do not.</p></div></details>
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>Increments are independent, so <strong>variances</strong> add:
+ <span class="math-inline">\(\Var(W_t) = \sum \Var(\Delta W) = t\)</span> . The standard deviation is therefore  <span class="math-inline">\(\sqrt{t}\)</span> .
+Contrast with a deterministic drift, where displacements add linearly. This is why over long
+horizons drift dominates noise ( <span class="math-inline">\(\mu t\)</span>  vs  <span class="math-inline">\(\sigma\sqrt t\)</span> ) and over short horizons noise
+dominates drift — the single most important scaling fact in finance.
+<strong>Consequences that follow immediately:</strong> volatility annualises by  <span class="math-inline">\(\sqrt{252}\)</span> ; the
+signal-to-noise ratio of a return estimate grows only as  <span class="math-inline">\(\sqrt{T}\)</span> , which is why estimating
+expected returns takes decades; and Sharpe ratio scales as  <span class="math-inline">\(\sqrt{T}\)</span> , which is why it must
+always be quoted with its horizon.</p></div></details>
+          </li>
+          <li class="kb-question" id="q-brownian-motion-q2" data-difficulty="intermediate">
+            <div class="kb-question-head">
+              <span class="kb-question-text">What is E[W_s W_t]?</span>
+              <span class="kb-tagline">Intermediate · covariance · core</span>
+            </div>
+            
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p> <span class="math-inline">\(\Cov(W_s, W_t) = \min(s,t)\)</span> .
+For  <span class="math-inline">\(s &lt; t\)</span> , write  <span class="math-inline">\(W_t = W_s + (W_t - W_s)\)</span>  where the increment is independent of  <span class="math-inline">\(W_s\)</span> :</p>
+<span class="math-display">\[\E[W_sW_t] = \E[W_s^2] + \E[W_s]\,\E[W_t-W_s] = s + 0 = s = \min(s,t)\]</span>
+<p>Only the shared history contributes. This covariance kernel <em>defines</em> Brownian motion among
+Gaussian processes, and it is the reason a Brownian bridge (conditioning on  <span class="math-inline">\(W_T\)</span> ) has
+covariance  <span class="math-inline">\(\min(s,t) - st/T\)</span> .</p></div></details>
+          </li>
+          <li class="kb-question" id="q-brownian-motion-q3" data-difficulty="advanced">
+            <div class="kb-question-head">
+              <span class="kb-question-text">Brownian motion is continuous but nowhere differentiable. What does that mean for a hedger?</span>
+              <span class="kb-tagline">Advanced · quadratic-variation · hedging · gamma</span>
+            </div>
+            
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>Over  <span class="math-inline">\([t, t+\d t]\)</span>  the path moves  <span class="math-inline">\(O(\sqrt{\d t})\)</span> , so the difference quotient
+ <span class="math-inline">\(\Delta W/\Delta t \sim 1/\sqrt{\Delta t} \to \infty\)</span> . There is no velocity, so ordinary
+calculus does not apply — hence Itô calculus.
+<strong>For a hedger this is not abstract.</strong> Total path length is infinite, so continuous rebalancing
+would require infinite trading and infinite cost. Discrete hedging at interval  <span class="math-inline">\(\Delta t\)</span> 
+leaves a residual whose standard deviation scales as  <span class="math-inline">\(\sqrt{\Delta t}\)</span> , and the P&amp;L of that
+residual is the gamma term:</p>
+<span class="math-display">\[\text{hedging error} \approx \tfrac12 \Gamma \big[(\Delta S)^2 - \sigma^2S^2\Delta t\big]\]</span>
+<p>You are effectively short realised variance and long implied variance. The optimal rebalancing
+frequency trades this variance against transaction costs, and the fact that both scale in
+ <span class="math-inline">\(\Delta t\)</span>  but with different powers is what makes a finite optimum exist.</p></div></details>
+          </li>
+          <li class="kb-question" id="q-brownian-motion-q4" data-difficulty="advanced">
+            <div class="kb-question-head">
+              <span class="kb-question-text">What is the quadratic variation of Brownian motion over [0,T], and why is it the key fact in stochastic calculus?</span>
+              <span class="kb-tagline">Advanced · quadratic-variation · ito</span>
+            </div>
+            
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p> <span class="math-inline">\(\langle W\rangle_T = T\)</span> , <strong>almost surely</strong> — not merely in expectation. Sum the squared
+increments over a partition of mesh  <span class="math-inline">\(\Delta t\)</span> : there are  <span class="math-inline">\(T/\Delta t\)</span>  terms each with mean
+ <span class="math-inline">\(\Delta t\)</span> , so the sum has mean  <span class="math-inline">\(T\)</span>  and variance  <span class="math-inline">\(O(\Delta t) \to 0\)</span> .
+Why it matters: in a Taylor expansion of  <span class="math-inline">\(f(W_t)\)</span>  the second-order term carries  <span class="math-inline">\((\d W)^2\)</span> .
+For a smooth path that would be  <span class="math-inline">\(O(\d t^2)\)</span>  and negligible; here  <span class="math-inline">\((\d W)^2 = \d t\)</span> , which is
+first order. That surviving term is the entire difference between ordinary and Itô calculus:</p>
+<span class="math-display">\[\d f(W_t) = f&#39;(W_t)\,\d W_t + \tfrac12 f&#39;&#39;(W_t)\,\d t\]</span>
+<p>Every convexity effect in finance — gamma P&amp;L, volatility drag, the  <span class="math-inline">\(-\sigma^2/2\)</span>  in lognormal
+returns, the value of a variance swap — is that  <span class="math-inline">\(\tfrac12 f&#39;&#39;\)</span>  term.</p></div></details>
+          </li>
+          <li class="kb-question" id="q-brownian-motion-q5" data-difficulty="advanced">
+            <div class="kb-question-head">
+              <span class="kb-question-text">A stock follows GBM with μ = 10%, σ = 30%. What is the probability it is above its starting price in one year?</span>
+              <span class="kb-tagline">Advanced · gbm · lognormal · drift</span>
+            </div>
+            
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>Under GBM,  <span class="math-inline">\(\ln(S_T/S_0) \sim N\!\big((\mu - \sigma^2/2)T,\ \sigma^2 T\big)\)</span> .
+Log-drift  <span class="math-inline">\(= 0.10 - 0.045 = 0.055\)</span> ; log-vol  <span class="math-inline">\(= 0.30\)</span> .</p>
+<span class="math-display">\[\P(S_1 &gt; S_0) = \P(Z &gt; -0.055/0.30) = \Phi(0.183) \approx 57\%\]</span>
+<p><strong>The trap:</strong> the expected price is  <span class="math-inline">\(S_0 e^{0.10} = 1.105 S_0\)</span> , a 10.5% gain, yet the stock
+finishes down 43% of the time and the <em>median</em> outcome is only  <span class="math-inline">\(+5.7\%\)</span> . The  <span class="math-inline">\(-\sigma^2/2\)</span> 
+is volatility drag (<a class="kb-link" href="variance.html" data-concept="variance">Variance</a>, Jensen&#39;s inequality). At  <span class="math-inline">\(\sigma = 60\%\)</span>  the log-drift turns
+negative  <span class="math-inline">\((0.10-0.18=-0.08)\)</span> : the stock has positive expected return and declines in the
+majority of scenarios — the exact arithmetic behind the long-run decay of leveraged ETFs.</p></div></details>
+          </li></ol>
+      </section>
+
+    <section class="kb-section" id="connections">
+      <h2 class="kb-h kb-h2"><a class="kb-anchor" href="#connections" aria-label="Link to this section">#</a>Connections</h2>
+      <div class="kb-connections">
+        <section class="kb-relgroup"><h3>Prerequisites</h3><p class="kb-relnote">Understand these first.</p><ul class="kb-rellist"><li><a href="../concepts/martingales.html" class="kb-relitem">
+          <span class="kb-relitem-title">Martingales</span>
+          <span class="kb-relitem-meta">Stochastic Processes · Advanced</span>
+          <span class="kb-relitem-sum">A process whose best forecast of its own future value is its present value — the formal statement of &quot;no predictable edge&quot;, and the object that makes arbitrage-free pricing work.</span>
+        </a></li><li><a href="../concepts/variance.html" class="kb-relitem">
+          <span class="kb-relitem-title">Variance</span>
+          <span class="kb-relitem-meta">Statistics · Foundational</span>
+          <span class="kb-relitem-sum">The expected squared deviation from the mean — the second moment that turns a return forecast into a position size, and the quantity that does not add when you combine assets.</span>
+        </a></li></ul></section>
+        
+        <section class="kb-relgroup"><h3>Related</h3><ul class="kb-rellist"><li><a href="../concepts/expectation.html" class="kb-relitem">
+          <span class="kb-relitem-title">Expectation</span>
+          <span class="kb-relitem-meta">Probability · Foundational</span>
+          <span class="kb-relitem-sum">The probability-weighted average of a random variable — the number a long-run average converges to, and the object almost every pricing and sizing argument is really about.</span>
+        </a></li><li><a href="../concepts/kelly-criterion.html" class="kb-relitem">
+          <span class="kb-relitem-title">Kelly Criterion</span>
+          <span class="kb-relitem-meta">Portfolio Construction · Intermediate</span>
+          <span class="kb-relitem-sum">The bet size that maximises the long-run growth rate of wealth — obtained by maximising expected log wealth rather than expected wealth, because capital compounds multiplicatively.</span>
+        </a></li><li><a href="../concepts/martingales.html" class="kb-relitem">
+          <span class="kb-relitem-title">Martingales</span>
+          <span class="kb-relitem-meta">Stochastic Processes · Advanced</span>
+          <span class="kb-relitem-sum">A process whose best forecast of its own future value is its present value — the formal statement of &quot;no predictable edge&quot;, and the object that makes arbitrage-free pricing work.</span>
+        </a></li><li><a href="../concepts/sharpe-ratio.html" class="kb-relitem">
+          <span class="kb-relitem-title">Sharpe Ratio</span>
+          <span class="kb-relitem-meta">Portfolio Construction · Intermediate</span>
+          <span class="kb-relitem-sum">Excess return per unit of volatility — the industry&#39;s default measure of risk-adjusted performance, and an estimator noisy and gameable enough that knowing its failure modes matters more than knowing its formula.</span>
+        </a></li></ul></section>
+        
+      </div>
+      <div class="kb-references"><h3>References</h3><ul><li>Shreve, *Stochastic Calculus for Finance II*, ch. 3</li><li>Karatzas &amp; Shreve, *Brownian Motion and Stochastic Calculus*</li></ul></div>
+    </section>
+
+    <nav class="kb-prevnext" aria-label="Concept navigation">
+    <a class="kb-prevnext-item kb-prevnext-prev" href="../concepts/martingales.html" rel="prev">
+      <span class="kb-prevnext-label">← Previous</span><span>Martingales</span></a>
+    <a class="kb-prevnext-item kb-prevnext-up" href="../subjects/stochastic-processes.html">
+      <span class="kb-prevnext-label">Subject</span><span>Stochastic Processes</span></a>
+    <span></span>
+  </nav>
+    <footer class="kb-source-note">
+      Source: <code>content/concepts/brownian-motion.md</code> · updated 2026-01-14
+      · edit the markdown and run <code>npm run build</code>.
+    </footer>
+  </article>
+
+  <aside class="kb-sidebar">
+    <nav class="kb-toc" aria-label="On this page"><h3>On this page</h3><ol><li><a href="#intuition">Intuition</a></li><li><a href="#mathematical-formulation">Mathematical Formulation</a></li><li><a href="#derivation">Derivation</a></li><li><a href="#assumptions-edge-cases">Assumptions &amp; Edge Cases</a></li><li><a href="#worked-example">Worked Example</a></li><li><a href="#why-it-matters-in-quant-finance">Why It Matters in Quant Finance</a></li><li><a href="#trading-research-application">Trading &amp; Research Application</a></li><li><a href="#implementation-notes">Implementation Notes</a></li><li><a href="#common-mistakes">Common Mistakes</a></li><li><a href="#30-second-revision">30-Second Revision</a></li><li><a href="#key-formulas">Key Formulas</a></li><li><a href="#interview-questions">Interview Questions</a></li><li><a href="#connections">Connections</a></li></ol></nav>
+    <section class="kb-side-card" id="side-formulas"><h3>Key formulas</h3><ul class="kb-side-formulas"><li><a href="#increment-distribution">Increment distribution</a></li><li><a href="#quadratic-variation">Quadratic variation</a></li><li><a href="#its-lemma-one-dimension">Itô&#39;s lemma (one dimension)</a></li><li><a href="#geometric-brownian-motion">Geometric Brownian motion</a></li></ul></section>
+    <section class="kb-side-card">
+      <h3>Metadata</h3>
+      <dl class="kb-meta">
+        <dt>Subject</dt><dd><a href="../subjects/stochastic-processes.html">Stochastic Processes</a></dd>
+        <dt>Difficulty</dt><dd>Advanced</dd>
+        <dt>Interview</dt><dd><span class="kb-stars" title="Interview relevance 4 of 5" aria-label="Interview relevance 4 of 5"><span class="kb-stars-on">★★★★</span><span class="kb-stars-off">☆</span></span></dd>
+        <dt>Status</dt><dd data-kb-status-label="brownian-motion">Not started</dd>
+        <dt>Prereqs</dt><dd>2</dd>
+        <dt>Formulas</dt><dd>4</dd>
+        <dt>Questions</dt><dd>5</dd>
+      </dl>
+    </section>
+    <section class="kb-side-card kb-side-minimap">
+      <h3>Neighbourhood</h3>
+      <canvas data-kb-minimap="brownian-motion" width="260" height="200" aria-label="Local knowledge graph"></canvas>
+      <a class="kb-side-more" href="../graph.html?focus=brownian-motion">Open full graph →</a>
+    </section>
+  </aside>
+</main>
+<script src="../data/kb.data.js"></script>
+<script src="../data/search.index.js"></script>
+<script src="../assets/js/kb-core.js"></script>
+<script src="../assets/js/kb-ui.js"></script>
+<script src="../assets/vendor/katex/katex.min.js" defer></script>
+<script src="../assets/vendor/katex/auto-render.min.js" defer></script>
+<script src="../assets/js/math.js" defer></script>
+<script src="../assets/js/concept.js" defer></script>
+<script src="../assets/js/lib/plot.js" defer></script>
+<script src="../assets/js/modules/random-walk.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en" data-page="concept">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Martingales · Quant Knowledge Base</title>
+<meta name="description" content="A process whose best forecast of its own future value is its present value — the formal statement of &quot;no predictable edge&quot;, and the object that makes arbitrage-free pricing work.">
+<link rel="icon" href="../assets/icons/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/vendor/katex/katex.min.css">
+<link rel="stylesheet" href="../assets/css/app.css">
+<link rel="stylesheet" href="../assets/css/views.css">
+
+</head>
+<body class="kb-body kb-body--concept">
+<header class="kb-topbar">
+  <a class="kb-brand" href="../index.html" title="Home (H)">
+    <span class="kb-brand-mark">QF</span><span class="kb-brand-text">Quant Knowledge Base</span>
+  </a>
+  <nav class="kb-crumbs" aria-label="Breadcrumb"><ol><li><a href="../index.html">Dashboard</a></li><li class="kb-crumb-sep" aria-hidden="true">/</li><li><a href="../subjects/stochastic-processes.html">Stochastic Processes</a></li><li class="kb-crumb-sep" aria-hidden="true">/</li><li><span aria-current="page">Martingales</span></li></ol></nav>
+  <div class="kb-topbar-actions">
+    <button class="kb-searchbtn" type="button" data-kb-open-search>
+      <span>Search concepts, formulas, questions</span><kbd>/</kbd>
+    </button>
+    <nav class="kb-toplinks" aria-label="Sections">
+      <a href="../index.html" data-nav="home">Dashboard</a>
+      <a href="../graph.html" data-nav="graph">Graph</a>
+      <a href="../interview.html" data-nav="interview">Interview</a>
+      <a href="../library.html" data-nav="library">Library</a>
+    </nav>
+    <button class="kb-iconbtn" type="button" data-kb-theme title="Toggle theme (T)" aria-label="Toggle theme">◑</button>
+    <button class="kb-iconbtn" type="button" data-kb-help title="Keyboard shortcuts (?)" aria-label="Keyboard shortcuts">?</button>
+  </div>
+</header>
+<main class="kb-main kb-main--concept" data-concept-id="martingales">
+  <article class="kb-article">
+    <header class="kb-concept-head">
+      <div class="kb-concept-eyebrow">
+        <a class="kb-subject-chip" href="../subjects/stochastic-processes.html" style="--subject-color:#7a63c9">
+          <span class="kb-subject-mark">W</span>Stochastic Processes</a>
+        <span class="kb-pill kb-pill--advanced">Advanced</span>
+        <span class="kb-stars" title="Interview relevance 4 of 5" aria-label="Interview relevance 4 of 5"><span class="kb-stars-on">★★★★</span><span class="kb-stars-off">☆</span></span>
+        <span class="kb-meta-dot">·</span>
+        <span class="kb-readtime">15 min</span>
+      </div>
+      <h1 class="kb-concept-title">Martingales</h1>
+      <p class="kb-concept-summary">A process whose best forecast of its own future value is its present value — the formal statement of &quot;no predictable edge&quot;, and the object that makes arbitrage-free pricing work.</p>
+      <div class="kb-concept-controls">
+        <label class="kb-statusctl">Status
+          <select data-kb-status="martingales" data-default="learning">
+            <option value="not-started">Not started</option><option value="learning" selected>Learning</option><option value="learned">Learned</option><option value="mastered">Mastered</option>
+          </select>
+        </label>
+        <button class="kb-btn kb-btn--ghost" type="button" data-kb-bookmark="martingales">☆ Bookmark</button>
+        <button class="kb-btn kb-btn--ghost" type="button" data-kb-flashcards>Revision card</button>
+        <a class="kb-btn kb-btn--ghost" href="../graph.html?focus=martingales">Show in graph</a>
+      </div>
+      <ul class="kb-taglist"><li><a class="kb-tag" href="../library.html?tag=stochastic-processes">#stochastic-processes</a></li><li><a class="kb-tag" href="../library.html?tag=conditioning">#conditioning</a></li><li><a class="kb-tag" href="../library.html?tag=pricing">#pricing</a></li><li><a class="kb-tag" href="../library.html?tag=no-arbitrage">#no-arbitrage</a></li><li><a class="kb-tag" href="../library.html?tag=efficiency">#efficiency</a></li></ul>
+    </header>
+
+    <div class="kb-content"><h2 id="intuition" class="kb-h kb-h2"><a class="kb-anchor" href="#intuition" aria-label="Link to this section">#</a>Intuition</h2>
+<p>A martingale is a <strong>fair game</strong>. Whatever has happened so far, your expected change from here is
+zero. Not &quot;the process is random&quot;, and not &quot;the process has no memory&quot; — the past can influence
+volatility, higher moments, anything at all. What it cannot influence is the *expected direction of
+the next move*.</p>
+<p>This is why martingales and market efficiency are the same idea in different vocabulary. If a price
+were not (roughly, after adjusting for risk and discounting) a martingale, the predictable part
+would be a trade. The act of taking that trade removes the predictability. Efficiency is the
+equilibrium in which nothing predictable is left.</p>
+<aside class="kb-callout kb-callout--insight"><div class="kb-callout-title">Insight</div><div class="kb-callout-body"><p>&quot;Best forecast of tomorrow&#39;s value is today&#39;s value.&quot; The tower property makes this self-consistent:
+your forecast today of your forecast tomorrow must equal your forecast today — otherwise you would
+already have revised it. That is the entire content of the definition, and it is worth being able
+to say it in one sentence in an interview.</p></div></aside>
+<h2 id="mathematical-formulation" class="kb-h kb-h2"><a class="kb-anchor" href="#mathematical-formulation" aria-label="Link to this section">#</a>Mathematical Formulation</h2>
+<p>A process  <span class="math-inline">\((X_t)\)</span>  adapted to a filtration  <span class="math-inline">\((\mathcal F_t)\)</span>  is a martingale if:</p>
+<figure class="kb-formula" id="martingale-property" data-formula="martingale-property"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">Martingale property</span><button class="kb-formula-copy" type="button" data-latex="\E\big[X_{t+1} \,\big|\, \mathcal{F}_t\big] = X_t \quad \text{for all } t" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[\E\big[X_{t+1} \,\big|\, \mathcal{F}_t\big] = X_t \quad \text{for all } t\]</span> </div><p class="kb-formula-note">Plus two technical conditions: adapted to the filtration, and integrable.</p><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">Derivatives</span><span class="kb-chip">Pricing</span><span class="kb-chip">Efficiency</span></footer></figure>
+<p>with  <span class="math-inline">\(\E[|X_t|] &lt; \infty\)</span>  and  <span class="math-inline">\(X_t\)</span>  being  <span class="math-inline">\(\mathcal F_t\)</span> -measurable. The two one-sided variants:</p>
+<div class="kb-table-wrap"><table class="kb-table"><thead><tr><th>Type</th><th>Condition</th><th>Meaning</th><th>Example</th></tr></thead><tbody><tr><td>Martingale</td><td><span class="math-inline">\(\E[X_{t+1}\mid\mathcal F_t] = X_t\)</span></td><td>fair game</td><td>discounted price under  <span class="math-inline">\(\Q\)</span></td></tr>
+<tr><td>Submartingale</td><td><span class="math-inline">\(\E[X_{t+1}\mid\mathcal F_t] \ge X_t\)</span></td><td>favourable</td><td>equity price under  <span class="math-inline">\(\P\)</span></td></tr>
+<tr><td>Supermartingale</td><td><span class="math-inline">\(\E[X_{t+1}\mid\mathcal F_t] \le X_t\)</span></td><td>unfavourable</td><td>your P&amp;L at a casino</td></tr></tbody></table></div>
+<p>The theorem that does most of the work:</p>
+<figure class="kb-formula" id="optional-stopping-theorem" data-formula="optional-stopping-theorem"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">Optional stopping theorem</span><button class="kb-formula-copy" type="button" data-latex="\E[X_\tau] = \E[X_0] \quad \text{for a suitable stopping time } \tau" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[\E[X_\tau] = \E[X_0] \quad \text{for a suitable stopping time } \tau\]</span> </div><p class="kb-formula-note">Requires τ bounded, or X bounded, or a dominating integrable variable — the conditions are where the interesting failures live.</p><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">Barrier Options</span><span class="kb-chip">Gambler&#39;s Ruin</span><span class="kb-chip">Risk of Ruin</span></footer></figure>
+<p>And the result that makes martingales the natural language of limits:</p>
+<figure class="kb-formula" id="martingale-convergence-theorem" data-formula="martingale-convergence-theorem"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">Martingale convergence theorem</span><button class="kb-formula-copy" type="button" data-latex="\sup_t \E[|X_t|] &lt; \infty \implies X_t \to X_\infty \text{ almost surely}" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[\sup_t \E[|X_t|] &lt; \infty \implies X_t \to X_\infty \text{ almost surely}\]</span> </div><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">Estimation</span><span class="kb-chip">Bayesian Updating</span></footer></figure>
+<h2 id="derivation" class="kb-h kb-h2"><a class="kb-anchor" href="#derivation" aria-label="Link to this section">#</a>Derivation</h2>
+<details class="kb-derivation"><summary>Gambler&#39;s ruin via optional stopping</summary><div class="kb-derivation-body"><p>A gambler starts at  <span class="math-inline">\(k\)</span> , bets \$1 on fair flips, stops at  <span class="math-inline">\(0\)</span>  or  <span class="math-inline">\(N\)</span> . Wealth  <span class="math-inline">\(X_n\)</span>  is a martingale
+and  <span class="math-inline">\(\tau = \min\{n : X_n \in \{0,N\}\}\)</span>  is a stopping time. The process is bounded in  <span class="math-inline">\([0,N]\)</span> , so
+optional stopping applies:</p>
+<span class="math-display">\[k = \E[X_0] = \E[X_\tau] = 0\cdot\P(\text{ruin}) + N\cdot\P(\text{win})\]</span>
+<span class="math-display">\[\P(\text{reach } N \text{ before } 0) = \frac{k}{N}\]</span>
+<p>A gambler with \$100 seeking \$1,000 against an infinitely wealthy house has a 10% chance. Against a
+house with any edge at all, the probability decays exponentially in  <span class="math-inline">\(N\)</span>  rather than linearly. This
+single calculation is the foundation of every risk-of-ruin and drawdown-probability formula used in
+position sizing.</p></div></details>
+<details class="kb-derivation"><summary>Why X² − ⟨X⟩ is a martingale</summary><div class="kb-derivation-body"><p>For a martingale  <span class="math-inline">\(X\)</span>  with increments  <span class="math-inline">\(\Delta_t = X_{t+1}-X_t\)</span> :</p>
+<span class="math-display">\[\E[X_{t+1}^2 \mid \mathcal F_t] = \E[(X_t + \Delta_t)^2\mid\mathcal F_t]
+= X_t^2 + 2X_t\underbrace{\E[\Delta_t \mid \mathcal F_t]}_{=0} + \E[\Delta_t^2\mid\mathcal F_t]\]</span>
+<p>So  <span class="math-inline">\(\E[X_{t+1}^2\mid\mathcal F_t] - X_t^2 = \E[\Delta_t^2\mid\mathcal F_t]\)</span> , which is non-negative
+— hence the submartingale result. Defining the <strong>quadratic variation</strong>
+ <span class="math-inline">\(\langle X\rangle_t = \sum_{s&lt;t}\E[\Delta_s^2\mid\mathcal F_s]\)</span>  removes exactly that drift and
+restores the martingale property for  <span class="math-inline">\(X_t^2 - \langle X\rangle_t\)</span> .</p>
+<p>For <a class="kb-link" href="brownian-motion.html" data-concept="brownian-motion">Brownian Motion</a>,  <span class="math-inline">\(\langle W\rangle_t = t\)</span> , giving the martingale  <span class="math-inline">\(W_t^2 - t\)</span> . This is the
+seed of Itô&#39;s lemma: the second-order term does not vanish because quadratic variation accumulates
+linearly in time rather than quadratically.</p></div></details>
+<h2 id="assumptions-edge-cases" class="kb-h kb-h2"><a class="kb-anchor" href="#assumptions-edge-cases" aria-label="Link to this section">#</a>Assumptions &amp; Edge Cases</h2>
+<aside class="kb-callout kb-callout--assumption"><div class="kb-callout-title">Assumptions</div><div class="kb-callout-body"><ul class="kb-list"><li><strong>Integrability</strong>  <span class="math-inline">\(\E|X_t|&lt;\infty\)</span>  is required. Heavy-tailed processes may fail it.</li>
+<li><strong>The filtration matters.</strong> A process can be a martingale with respect to one information set and
+not another. &quot;Is it a martingale?&quot; is incomplete without &quot;with respect to what?&quot;</li>
+<li><strong>Optional stopping needs a side condition.</strong> Unbounded stopping times with unbounded processes —
+exactly the doubling strategy — break it. This is the single most-tested subtlety.</li>
+<li><strong>Martingale ≠ independent increments.</strong> GARCH-type processes are martingales with strongly
+dependent volatility. Absence of predictable drift says nothing about predictable risk.</li></ul></div></aside>
+<aside class="kb-callout kb-callout--warning"><div class="kb-callout-title">Warning</div><div class="kb-callout-body"><p>&quot;Prices are martingales, therefore returns are unpredictable, therefore quant strategies cannot
+work&quot; is a chain of two errors. First, prices are martingales only under  <span class="math-inline">\(\Q\)</span> , not  <span class="math-inline">\(\P\)</span> . Second,
+even under  <span class="math-inline">\(\P\)</span>  the martingale property constrains only the conditional <em>mean</em> — volatility,
+correlation, higher moments and cross-sectional relative value are all still forecastable, and most
+systematic strategies live there.</p></div></aside>
+<h2 id="worked-example" class="kb-h kb-h2"><a class="kb-anchor" href="#worked-example" aria-label="Link to this section">#</a>Worked Example</h2>
+<p>A market maker quotes a binary event at 40¢. New information arrives and the fair value jumps to
+55¢. Was the original quote wrong?</p>
+<p>Not necessarily. If the price process is a martingale under the market&#39;s information filtration,
+then before the news arrived,  <span class="math-inline">\(\E[P_{t+1}\mid \mathcal F_t] = 0.40\)</span> . The news was an unpredictable
+increment. Decompose it: suppose the news is either &quot;positive&quot; (probability  <span class="math-inline">\(p\)</span> , price → 55) or
+&quot;negative&quot; (probability  <span class="math-inline">\(1-p\)</span> , price →  <span class="math-inline">\(x\)</span> ). The martingale property pins down the pair:</p>
+<span class="math-display">\[0.40 = p(0.55) + (1-p)x\]</span>
+<p>If the market assessed  <span class="math-inline">\(p = 0.5\)</span> , then  <span class="math-inline">\(x = 0.25\)</span> . The 15¢ up-move was always paired with a
+30¢ down-move at equal probability — the asymmetry is what makes the fair game fair.</p>
+<p><strong>This is the correct way to interrogate a quote after the fact.</strong> The question is never &quot;did the
+price move?&quot; but &quot;was the <em>distribution</em> of possible moves centred on the quote?&quot; A market maker
+whose realised moves are systematically upward is not unlucky; their quotes are biased.</p>
+<h2 id="why-it-matters-in-quant-finance" class="kb-h kb-h2"><a class="kb-anchor" href="#why-it-matters-in-quant-finance" aria-label="Link to this section">#</a>Why It Matters in Quant Finance</h2>
+<p>Martingales are the mathematical content of no-arbitrage:</p>
+<p><strong>First Fundamental Theorem of Asset Pricing.</strong> A market is arbitrage-free if and only if there
+exists an equivalent martingale measure  <span class="math-inline">\(\Q\)</span>  under which all discounted asset prices are
+martingales. <strong>Second FTAP.</strong> The market is complete if and only if  <span class="math-inline">\(\Q\)</span>  is unique.</p>
+<p>Every derivative price is then a conditional expectation under  <span class="math-inline">\(\Q\)</span> , and hedging is the martingale
+representation theorem in disguise: any  <span class="math-inline">\(\Q\)</span> -martingale can be written as a stochastic integral
+against the underlying, and <em>that integrand is the hedge ratio</em> — the delta. Replication and
+pricing are the same theorem viewed from two directions.</p>
+<p>Downstream:</p>
+<ul class="kb-list"><li><strong>Efficient market hypothesis</strong> in its weak form is the assertion that risk-adjusted excess
+returns are martingale differences.</li>
+<li><strong>Variance swaps</strong> trade  <span class="math-inline">\(\langle X\rangle_T\)</span>  directly, made tradeable by the $X^2 - \langle
+X\rangle$ decomposition.</li>
+<li><strong>Optimal execution</strong> treats the unaffected price as a martingale so that the only thing the
+scheduler optimises is impact versus timing risk — otherwise you would be trading a directional
+view, not executing.</li>
+<li><strong>Risk of ruin and drawdown probability</strong> come straight from optional stopping.</li></ul>
+<h2 id="trading-research-application" class="kb-h kb-h2"><a class="kb-anchor" href="#trading-research-application" aria-label="Link to this section">#</a>Trading &amp; Research Application</h2>
+<aside class="kb-callout kb-callout--desk"><div class="kb-callout-title">On the desk</div><div class="kb-callout-body"><p><strong>The doubling-down family.</strong> Martingale grid systems, averaging down, and short-gamma carry trades
+all manufacture a P&amp;L distribution that looks like a martingale with a tiny probability of a
+terminal loss. They show high win rates, high Sharpe on short samples, and a left tail that
+eventually arrives. Recognising the structure — &quot;am I being paid a small amount often to accept an
+unbounded rare loss?&quot; — is the practical skill that optional stopping formalises.</p>
+<p><strong>Residual diagnostics.</strong> After fitting a forecasting model, cumulative residuals should behave like
+a driftless martingale. If they trend, the model is misspecified and the trend is free alpha you
+have not captured. Plotting cumulative residuals is a two-minute check that catches a surprising
+number of broken models.</p>
+<p><strong> <span class="math-inline">\(\P\)</span>  versus  <span class="math-inline">\(\Q\)</span>  discipline.</strong> Risk management, position sizing and backtests live under  <span class="math-inline">\(\P\)</span> .
+Pricing and hedging live under  <span class="math-inline">\(\Q\)</span> . Mixing them — for instance using risk-neutral implied
+probabilities as forecasts of real-world outcomes — systematically overstates the probability of
+bad states, because the difference between the measures <em>is</em> the risk premium.</p></div></aside>
+<h2 id="common-mistakes" class="kb-h kb-h2"><a class="kb-anchor" href="#common-mistakes" aria-label="Link to this section">#</a>Common Mistakes</h2>
+<aside class="kb-callout kb-callout--pitfall"><div class="kb-callout-title">Common pitfall</div><div class="kb-callout-body"><ul class="kb-list"><li><strong>Forgetting the filtration.</strong> &quot;Is it a martingale?&quot; is meaningless without &quot;with respect to which
+information set?&quot; A process can be a martingale under one filtration and not another.</li>
+<li><strong>Applying optional stopping without checking its conditions.</strong> This is the doubling-strategy
+error, and its trading form — a strategy that never loses until it loses everything — is a real
+and recurring way to blow up a book.</li>
+<li><strong>Confusing  <span class="math-inline">\(\P\)</span>  and  <span class="math-inline">\(\Q\)</span> .</strong> Discounted prices are martingales under the risk-neutral measure,
+not the real-world one. Using risk-neutral probabilities as forecasts overstates bad outcomes by
+exactly the risk premium.</li>
+<li><strong>Reading &quot;martingale&quot; as &quot;unpredictable&quot;.</strong> It constrains only the conditional <em>mean</em>. Volatility,
+correlation and higher moments remain forecastable, and most systematic strategies live there.</li>
+<li><strong>Assuming  <span class="math-inline">\(X\)</span>  martingale  <span class="math-inline">\(\Rightarrow\)</span>   <span class="math-inline">\(f(X)\)</span>  martingale.</strong> Only affine  <span class="math-inline">\(f\)</span>  preserves it; convex
+ <span class="math-inline">\(f\)</span>  gives a submartingale by Jensen.</li>
+<li><strong>Wanting a martingale P&amp;L.</strong> You want a submartingale. It is the <em>residuals</em> that should be a
+martingale difference sequence.</li></ul></div></aside>
+<h2 id="30-second-revision" class="kb-h kb-h2"><a class="kb-anchor" href="#30-second-revision" aria-label="Link to this section">#</a>30-Second Revision</h2>
+<ul class="kb-list"><li><span class="math-inline">\(\E[X_{t+1}\mid\mathcal F_t] = X_t\)</span>  — fair game; best forecast of the future is the present.</li>
+<li>Sub- ( <span class="math-inline">\(\ge\)</span> ) and super- ( <span class="math-inline">\(\le\)</span> ) martingales are the favourable and unfavourable versions.</li>
+<li>Stock prices: submartingale under  <span class="math-inline">\(\P\)</span> , discounted martingale under  <span class="math-inline">\(\Q\)</span> . <strong>FTAP</strong>: no arbitrage
+ <span class="math-inline">\(\iff\)</span>  an equivalent martingale measure exists.</li>
+<li>Optional stopping  <span class="math-inline">\(\E[X_\tau]=\E[X_0]\)</span>  needs boundedness — the doubling strategy is the
+counterexample, and it is a real trading failure mode.</li>
+<li><span class="math-inline">\(X\)</span>  martingale  <span class="math-inline">\(\Rightarrow X^2\)</span>  submartingale (Jensen);  <span class="math-inline">\(X^2 - \langle X\rangle\)</span>  is a martingale.
+For <a class="kb-link" href="brownian-motion.html" data-concept="brownian-motion">Brownian Motion</a>,  <span class="math-inline">\(W_t^2 - t\)</span> .</li>
+<li>Gambler&#39;s ruin:  <span class="math-inline">\(\P(\text{reach } N \text{ from } k) = k/N\)</span>  in a fair game.</li></ul></div>
+    <section class="kb-section" id="key-formulas">
+        <h2 class="kb-h kb-h2"><a class="kb-anchor" href="#key-formulas" aria-label="Link to this section">#</a>Key Formulas</h2>
+        <div class="kb-formula-recap">
+          <a class="kb-formula-recap-item" href="#martingale-property">
+            <span class="kb-formula-recap-name">Martingale property</span>
+            <span class="math-display">\[\E\big[X_{t+1} \,\big|\, \mathcal{F}_t\big] = X_t \quad \text{for all } t\]</span>
+          </a>
+          <a class="kb-formula-recap-item" href="#optional-stopping-theorem">
+            <span class="kb-formula-recap-name">Optional stopping theorem</span>
+            <span class="math-display">\[\E[X_\tau] = \E[X_0] \quad \text{for a suitable stopping time } \tau\]</span>
+          </a>
+          <a class="kb-formula-recap-item" href="#martingale-convergence-theorem">
+            <span class="kb-formula-recap-name">Martingale convergence theorem</span>
+            <span class="math-display">\[\sup_t \E[|X_t|] &lt; \infty \implies X_t \to X_\infty \text{ almost surely}\]</span>
+          </a></div>
+      </section>
+    <section class="kb-section" id="interview-questions">
+        <h2 class="kb-h kb-h2"><a class="kb-anchor" href="#interview-questions" aria-label="Link to this section">#</a>Interview Questions</h2>
+        <ol class="kb-questions">
+          <li class="kb-question" id="q-martingales-q1" data-difficulty="intermediate">
+            <div class="kb-question-head">
+              <span class="kb-question-text">A gambler bets on fair coin flips, doubling after every loss (martingale strategy). Expected profit is +$1 per sequence. Why is this not free money?</span>
+              <span class="kb-tagline">Intermediate · optional-stopping · classic · risk-of-ruin</span>
+            </div>
+            <details class="kb-hint"><summary>Hint</summary><div><p>Which condition of the optional stopping theorem fails?</p></div></details>
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>Wealth  <span class="math-inline">\(W_n\)</span>  is a martingale, so  <span class="math-inline">\(\E[W_\tau]=W_0\)</span>  <em>provided</em> the optional stopping theorem
+applies. It requires one of: bounded stopping time, bounded process, or integrable dominating
+variable. <strong>The doubling strategy satisfies none of them</strong> — the required stake grows as
+ <span class="math-inline">\(2^n\)</span>  without bound, and the stopping time is unbounded.
+Practically: to guarantee +\$1 you must be able to survive an arbitrarily long losing streak
+with unbounded capital. With finite bankroll  <span class="math-inline">\(B\)</span>  you can survive  <span class="math-inline">\(\lfloor\log_2 B\rfloor\)</span> 
+losses; beyond that you are wiped out. Expected value is exactly preserved — a small
+probability of a catastrophic loss precisely offsets the near-certain small gain.
+<strong>The trading version:</strong> every strategy that &quot;never loses&quot; (short deep OTM options, martingale
+grid systems, averaging down) is this bet. The P&amp;L distribution is left-skewed to the point
+where the mean is uninformative, and the failure mode arrives as a single terminal event.</p></div></details>
+          </li>
+          <li class="kb-question" id="q-martingales-q2" data-difficulty="intermediate">
+            <div class="kb-question-head">
+              <span class="kb-question-text">Is a stock price a martingale?</span>
+              <span class="kb-tagline">Intermediate · risk-neutral · efficiency · measure-change</span>
+            </div>
+            
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>Not under the real-world measure  <span class="math-inline">\(\P\)</span>  — equities have a positive expected return, so
+ <span class="math-inline">\(\E^\P[S_{t+1}\mid\mathcal F_t] &gt; S_t\)</span> . That is a <em>submartingale</em>, and it must be, or nobody
+would hold equity risk.
+Under the <strong>risk-neutral measure</strong>  <span class="math-inline">\(\Q\)</span> , the <em>discounted</em> price  <span class="math-inline">\(\tilde S_t = e^{-rt}S_t\)</span>  is a
+martingale:</p>
+<span class="math-display">\[\E^\Q\!\left[e^{-r(T-t)}S_T \mid \mathcal F_t\right] = S_t\]</span>
+<p>That is the first fundamental theorem of asset pricing: <strong>no arbitrage  <span class="math-inline">\(\iff\)</span>  there exists an
+equivalent measure under which discounted prices are martingales.</strong> Girsanov&#39;s theorem
+constructs it by changing the drift while leaving the volatility (and the null sets) alone.
+The distinction is the whole subject.  <span class="math-inline">\(\P\)</span>  tells you what will happen;  <span class="math-inline">\(\Q\)</span>  tells you what
+things cost.</p></div></details>
+          </li>
+          <li class="kb-question" id="q-martingales-q3" data-difficulty="advanced">
+            <div class="kb-question-head">
+              <span class="kb-question-text">X is a martingale. Is X² a martingale?</span>
+              <span class="kb-tagline">Advanced · jensen · submartingale</span>
+            </div>
+            
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>No —  <span class="math-inline">\(X^2\)</span>  is a <strong>submartingale</strong>. By conditional Jensen with the convex function  <span class="math-inline">\(x^2\)</span> :</p>
+<span class="math-display">\[\E[X_{t+1}^2 \mid \mathcal F_t] \ge \big(\E[X_{t+1}\mid \mathcal F_t]\big)^2 = X_t^2\]</span>
+<p>with equality only if  <span class="math-inline">\(X_{t+1}\)</span>  is  <span class="math-inline">\(\mathcal F_t\)</span> -measurable (no new randomness).
+The gap is exactly the conditional variance, and correcting for it gives a genuine martingale:
+ <span class="math-inline">\(X_t^2 - \langle X\rangle_t\)</span> , where  <span class="math-inline">\(\langle X \rangle\)</span>  is the quadratic variation. For
+Brownian motion this is the famous  <span class="math-inline">\(W_t^2 - t\)</span> . This construction is the discrete ancestor of
+Itô&#39;s lemma&#39;s second-order term, and it is why realised variance is tradeable: a variance swap
+is a bet on  <span class="math-inline">\(\langle X\rangle_T\)</span> .</p></div></details>
+          </li>
+          <li class="kb-question" id="q-martingales-q4" data-difficulty="foundational">
+            <div class="kb-question-head">
+              <span class="kb-question-text">Prove that a martingale has constant unconditional expectation.</span>
+              <span class="kb-tagline">Foundational · tower-property</span>
+            </div>
+            
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>By the tower property of <a class="kb-link" href="conditional-probability.html" data-concept="conditional-probability">conditional expectation</a>:</p>
+<span class="math-display">\[\E[X_{t+1}] = \E\big[\E[X_{t+1}\mid \mathcal F_t]\big] = \E[X_t]\]</span>
+<p>Induction gives  <span class="math-inline">\(\E[X_t] = \E[X_0]\)</span>  for all  <span class="math-inline">\(t\)</span> .
+This is a good sanity check but a weak one: constant expectation does <strong>not</strong> imply the
+martingale property, which is a statement about every conditional expectation, not just the
+unconditional one.</p></div></details>
+          </li>
+          <li class="kb-question" id="q-martingales-q5" data-difficulty="advanced">
+            <div class="kb-question-head">
+              <span class="kb-question-text">Your strategy&#39;s cumulative P&amp;L looks like a martingale in-sample. Is that good or bad?</span>
+              <span class="kb-tagline">Advanced · alpha · research-process</span>
+            </div>
+            
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p><strong>Bad — a martingale P&amp;L has zero expected profit.</strong> You want a submartingale: positive drift.
+What you <em>do</em> want to be a martingale is the sequence of <em>forecast errors</em>. If
+ <span class="math-inline">\(\E[r_{t+1} - \hat r_{t+1} \mid \mathcal F_t] \ne 0\)</span> , there is exploitable structure left in
+your residuals and your model is misspecified.
+The useful diagnostic: cumulative residuals should look like a driftless random walk, while
+cumulative P&amp;L should not. Confusing the two is a real and common analytical mistake in
+research reviews.</p></div></details>
+          </li></ol>
+      </section>
+
+    <section class="kb-section" id="connections">
+      <h2 class="kb-h kb-h2"><a class="kb-anchor" href="#connections" aria-label="Link to this section">#</a>Connections</h2>
+      <div class="kb-connections">
+        <section class="kb-relgroup"><h3>Prerequisites</h3><p class="kb-relnote">Understand these first.</p><ul class="kb-rellist"><li><a href="../concepts/expectation.html" class="kb-relitem">
+          <span class="kb-relitem-title">Expectation</span>
+          <span class="kb-relitem-meta">Probability · Foundational</span>
+          <span class="kb-relitem-sum">The probability-weighted average of a random variable — the number a long-run average converges to, and the object almost every pricing and sizing argument is really about.</span>
+        </a></li><li><a href="../concepts/conditional-probability.html" class="kb-relitem">
+          <span class="kb-relitem-title">Conditional Probability</span>
+          <span class="kb-relitem-meta">Probability · Foundational</span>
+          <span class="kb-relitem-sum">The probability of an event once you restrict attention to the states of the world where another event has occurred — the formal machinery for &quot;given what I now know&quot;.</span>
+        </a></li></ul></section>
+        <section class="kb-relgroup"><h3>Builds towards</h3><p class="kb-relnote">Concepts that depend on this one.</p><ul class="kb-rellist"><li><a href="../concepts/brownian-motion.html" class="kb-relitem">
+          <span class="kb-relitem-title">Brownian Motion</span>
+          <span class="kb-relitem-meta">Stochastic Processes · Advanced</span>
+          <span class="kb-relitem-sum">The continuous-time limit of a random walk — Gaussian, independent increments scaling with √t, nowhere differentiable, and the driving noise underneath essentially every continuous-time model in finance.</span>
+        </a></li></ul></section>
+        <section class="kb-relgroup"><h3>Related</h3><ul class="kb-rellist"><li><a href="../concepts/brownian-motion.html" class="kb-relitem">
+          <span class="kb-relitem-title">Brownian Motion</span>
+          <span class="kb-relitem-meta">Stochastic Processes · Advanced</span>
+          <span class="kb-relitem-sum">The continuous-time limit of a random walk — Gaussian, independent increments scaling with √t, nowhere differentiable, and the driving noise underneath essentially every continuous-time model in finance.</span>
+        </a></li><li><a href="../concepts/conditional-probability.html" class="kb-relitem">
+          <span class="kb-relitem-title">Conditional Probability</span>
+          <span class="kb-relitem-meta">Probability · Foundational</span>
+          <span class="kb-relitem-sum">The probability of an event once you restrict attention to the states of the world where another event has occurred — the formal machinery for &quot;given what I now know&quot;.</span>
+        </a></li></ul></section>
+        
+      </div>
+      <div class="kb-references"><h3>References</h3><ul><li>Williams, *Probability with Martingales*</li><li>Shreve, *Stochastic Calculus for Finance II*, ch. 2</li></ul></div>
+    </section>
+
+    <nav class="kb-prevnext" aria-label="Concept navigation">
+    <span></span>
+    <a class="kb-prevnext-item kb-prevnext-up" href="../subjects/stochastic-processes.html">
+      <span class="kb-prevnext-label">Subject</span><span>Stochastic Processes</span></a>
+    <a class="kb-prevnext-item kb-prevnext-next" href="../concepts/brownian-motion.html" rel="next">
+      <span class="kb-prevnext-label">Next →</span><span>Brownian Motion</span></a>
+  </nav>
+    <footer class="kb-source-note">
+      Source: <code>content/concepts/martingales.md</code> · updated 2026-01-14
+      · edit the markdown and run <code>npm run build</code>.
+    </footer>
+  </article>
+
+  <aside class="kb-sidebar">
+    <nav class="kb-toc" aria-label="On this page"><h3>On this page</h3><ol><li><a href="#intuition">Intuition</a></li><li><a href="#mathematical-formulation">Mathematical Formulation</a></li><li><a href="#derivation">Derivation</a></li><li><a href="#assumptions-edge-cases">Assumptions &amp; Edge Cases</a></li><li><a href="#worked-example">Worked Example</a></li><li><a href="#why-it-matters-in-quant-finance">Why It Matters in Quant Finance</a></li><li><a href="#trading-research-application">Trading &amp; Research Application</a></li><li><a href="#common-mistakes">Common Mistakes</a></li><li><a href="#30-second-revision">30-Second Revision</a></li><li><a href="#key-formulas">Key Formulas</a></li><li><a href="#interview-questions">Interview Questions</a></li><li><a href="#connections">Connections</a></li></ol></nav>
+    <section class="kb-side-card" id="side-formulas"><h3>Key formulas</h3><ul class="kb-side-formulas"><li><a href="#martingale-property">Martingale property</a></li><li><a href="#optional-stopping-theorem">Optional stopping theorem</a></li><li><a href="#martingale-convergence-theorem">Martingale convergence theorem</a></li></ul></section>
+    <section class="kb-side-card">
+      <h3>Metadata</h3>
+      <dl class="kb-meta">
+        <dt>Subject</dt><dd><a href="../subjects/stochastic-processes.html">Stochastic Processes</a></dd>
+        <dt>Difficulty</dt><dd>Advanced</dd>
+        <dt>Interview</dt><dd><span class="kb-stars" title="Interview relevance 4 of 5" aria-label="Interview relevance 4 of 5"><span class="kb-stars-on">★★★★</span><span class="kb-stars-off">☆</span></span></dd>
+        <dt>Status</dt><dd data-kb-status-label="martingales">Learning</dd>
+        <dt>Prereqs</dt><dd>2</dd>
+        <dt>Formulas</dt><dd>3</dd>
+        <dt>Questions</dt><dd>5</dd>
+      </dl>
+    </section>
+    <section class="kb-side-card kb-side-minimap">
+      <h3>Neighbourhood</h3>
+      <canvas data-kb-minimap="martingales" width="260" height="200" aria-label="Local knowledge graph"></canvas>
+      <a class="kb-side-more" href="../graph.html?focus=martingales">Open full graph →</a>
+    </section>
+  </aside>
+</main>
+<script src="../data/kb.data.js"></script>
+<script src="../data/search.index.js"></script>
+<script src="../assets/js/kb-core.js"></script>
+<script src="../assets/js/kb-ui.js"></script>
+<script src="../assets/vendor/katex/katex.min.js" defer></script>
+<script src="../assets/vendor/katex/auto-render.min.js" defer></script>
+<script src="../assets/js/math.js" defer></script>
+<script src="../assets/js/concept.js" defer></script>
+</body>
+</html>

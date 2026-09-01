@@ -1,0 +1,67 @@
+[
+  {
+    "id": "quant-research",
+    "name": "Quant Researcher",
+    "order": 10,
+    "min_relevance": 3,
+    "description": "Statistical depth first. Expect probability, inference, time series and honest evaluation of signals — plus a whiteboard derivation or two.",
+    "subjects": ["probability", "statistics", "linear-algebra", "time-series", "econometrics", "statistical-learning", "alpha-research", "factor-models", "backtesting", "stochastic-processes"]
+  },
+  {
+    "id": "quant-trader",
+    "name": "Quant Trader",
+    "order": 20,
+    "min_relevance": 3,
+    "description": "Speed, expected value and market intuition. Mental math, probability puzzles, microstructure and risk under pressure.",
+    "subjects": ["probability", "mental-math", "market-microstructure", "quantitative-trading", "risk-management", "options", "execution"]
+  },
+  {
+    "id": "quant-developer",
+    "name": "Quant Developer",
+    "order": 30,
+    "min_relevance": 2,
+    "description": "Engineering rigour applied to numerical finance: data structures, complexity, numerics, backtest infrastructure and correctness.",
+    "subjects": ["programming", "numerical-methods", "backtesting", "execution", "derivatives", "linear-algebra"]
+  },
+  {
+    "id": "stat-arb",
+    "name": "Statistical Arbitrage",
+    "order": 40,
+    "min_relevance": 3,
+    "description": "Cross-sectional and relative-value equity strategies: cointegration, mean reversion, factor neutrality, costs and capacity.",
+    "subjects": ["time-series", "factor-models", "alpha-research", "portfolio-construction", "execution", "statistics"],
+    "tags": ["mean-reversion", "cointegration", "cross-sectional"]
+  },
+  {
+    "id": "market-making",
+    "name": "Market Making",
+    "order": 50,
+    "min_relevance": 3,
+    "description": "Quoting, inventory risk, adverse selection, queue dynamics and the Avellaneda–Stoikov school of thought.",
+    "subjects": ["market-microstructure", "execution", "probability", "stochastic-processes", "risk-management", "options"]
+  },
+  {
+    "id": "systematic-macro",
+    "name": "Systematic Macro",
+    "order": 60,
+    "min_relevance": 3,
+    "description": "Cross-asset trend, carry and value; rates and FX mechanics; regime awareness and drawdown management at low breadth.",
+    "subjects": ["time-series", "fixed-income", "econometrics", "risk-management", "portfolio-construction", "quantitative-trading"]
+  },
+  {
+    "id": "equity-long-short",
+    "name": "Equity Long/Short Quant",
+    "order": 70,
+    "min_relevance": 3,
+    "description": "Fundamental-meets-systematic: factor exposure, alpha capture, hedging, alternative data and portfolio construction under constraints.",
+    "subjects": ["factor-models", "alpha-research", "portfolio-construction", "alternative-data", "statistics", "risk-management"]
+  },
+  {
+    "id": "derivatives-desk",
+    "name": "Derivatives & Volatility",
+    "order": 80,
+    "min_relevance": 3,
+    "description": "Pricing, hedging and the volatility surface: Itô calculus, Black–Scholes and its failures, Greeks, and vol as an asset class.",
+    "subjects": ["derivatives", "options", "stochastic-processes", "numerical-methods", "calculus"]
+  }
+]

@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en" data-page="concept">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kelly Criterion · Quant Knowledge Base</title>
+<meta name="description" content="The bet size that maximises the long-run growth rate of wealth — obtained by maximising expected log wealth rather than expected wealth, because capital compounds multiplicatively.">
+<link rel="icon" href="../assets/icons/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/vendor/katex/katex.min.css">
+<link rel="stylesheet" href="../assets/css/app.css">
+<link rel="stylesheet" href="../assets/css/views.css">
+
+</head>
+<body class="kb-body kb-body--concept">
+<header class="kb-topbar">
+  <a class="kb-brand" href="../index.html" title="Home (H)">
+    <span class="kb-brand-mark">QF</span><span class="kb-brand-text">Quant Knowledge Base</span>
+  </a>
+  <nav class="kb-crumbs" aria-label="Breadcrumb"><ol><li><a href="../index.html">Dashboard</a></li><li class="kb-crumb-sep" aria-hidden="true">/</li><li><a href="../subjects/portfolio-construction.html">Portfolio Construction</a></li><li class="kb-crumb-sep" aria-hidden="true">/</li><li><span aria-current="page">Kelly Criterion</span></li></ol></nav>
+  <div class="kb-topbar-actions">
+    <button class="kb-searchbtn" type="button" data-kb-open-search>
+      <span>Search concepts, formulas, questions</span><kbd>/</kbd>
+    </button>
+    <nav class="kb-toplinks" aria-label="Sections">
+      <a href="../index.html" data-nav="home">Dashboard</a>
+      <a href="../graph.html" data-nav="graph">Graph</a>
+      <a href="../interview.html" data-nav="interview">Interview</a>
+      <a href="../library.html" data-nav="library">Library</a>
+    </nav>
+    <button class="kb-iconbtn" type="button" data-kb-theme title="Toggle theme (T)" aria-label="Toggle theme">◑</button>
+    <button class="kb-iconbtn" type="button" data-kb-help title="Keyboard shortcuts (?)" aria-label="Keyboard shortcuts">?</button>
+  </div>
+</header>
+<main class="kb-main kb-main--concept" data-concept-id="kelly-criterion">
+  <article class="kb-article">
+    <header class="kb-concept-head">
+      <div class="kb-concept-eyebrow">
+        <a class="kb-subject-chip" href="../subjects/portfolio-construction.html" style="--subject-color:#2f9e79">
+          <span class="kb-subject-mark">C</span>Portfolio Construction</a>
+        <span class="kb-pill kb-pill--intermediate">Intermediate</span>
+        <span class="kb-stars" title="Interview relevance 5 of 5" aria-label="Interview relevance 5 of 5"><span class="kb-stars-on">★★★★★</span><span class="kb-stars-off"></span></span>
+        <span class="kb-meta-dot">·</span>
+        <span class="kb-readtime">14 min</span>
+      </div>
+      <h1 class="kb-concept-title">Kelly Criterion</h1>
+      <p class="kb-concept-summary">The bet size that maximises the long-run growth rate of wealth — obtained by maximising expected log wealth rather than expected wealth, because capital compounds multiplicatively.</p>
+      <div class="kb-concept-controls">
+        <label class="kb-statusctl">Status
+          <select data-kb-status="kelly-criterion" data-default="learning">
+            <option value="not-started">Not started</option><option value="learning" selected>Learning</option><option value="learned">Learned</option><option value="mastered">Mastered</option>
+          </select>
+        </label>
+        <button class="kb-btn kb-btn--ghost" type="button" data-kb-bookmark="kelly-criterion">☆ Bookmark</button>
+        <button class="kb-btn kb-btn--ghost" type="button" data-kb-flashcards>Revision card</button>
+        <a class="kb-btn kb-btn--ghost" href="../graph.html?focus=kelly-criterion">Show in graph</a>
+      </div>
+      <ul class="kb-taglist"><li><a class="kb-tag" href="../library.html?tag=sizing">#sizing</a></li><li><a class="kb-tag" href="../library.html?tag=leverage">#leverage</a></li><li><a class="kb-tag" href="../library.html?tag=compounding">#compounding</a></li><li><a class="kb-tag" href="../library.html?tag=growth">#growth</a></li><li><a class="kb-tag" href="../library.html?tag=risk">#risk</a></li></ul>
+    </header>
+
+    <div class="kb-content"><h2 id="intuition" class="kb-h kb-h2"><a class="kb-anchor" href="#intuition" aria-label="Link to this section">#</a>Intuition</h2>
+<p>Expectation is the wrong objective for anything you compound.</p>
+<p>Suppose a bet doubles your stake half the time and takes 60% of it the other half. Expected wealth
+per round is  <span class="math-inline">\(\tfrac12(2.0) + \tfrac12(0.4) = 1.2\)</span>  — a 20% gain. So bet everything, every round?</p>
+<p>Run it. Win then lose:  <span class="math-inline">\(1.0 \times 2.0 \times 0.4 = 0.8\)</span> . You are down 20% after seeing exactly the
+outcome frequencies you expected. Over many rounds you go broke almost surely, while the <em>expectation</em>
+grows without bound — carried entirely by the shrinking sliver of paths that never lose.</p>
+<aside class="kb-callout kb-callout--insight"><div class="kb-callout-title">Insight</div><div class="kb-callout-body"><p>Expected wealth is dominated by paths that essentially never happen. The mean of a compounded
+process sits far above its median, and <strong>you live on the median</strong>. Kelly replaces  <span class="math-inline">\(\E[W]\)</span>  with
+ <span class="math-inline">\(\E[\ln W]\)</span>  because  <span class="math-inline">\(\ln\)</span>  turns products into sums, and the law of large numbers applies to sums:</p>
+<span class="math-display">\[\frac{1}{n}\sum_{i=1}^n \ln R_i \longrightarrow \E[\ln R] \quad \text{almost surely}\]</span>
+<p>So  <span class="math-inline">\(\E[\ln R]\)</span>  is the growth rate you <em>actually realise</em>, not merely the one you expect.</p></div></aside>
+<h2 id="mathematical-formulation" class="kb-h kb-h2"><a class="kb-anchor" href="#mathematical-formulation" aria-label="Link to this section">#</a>Mathematical Formulation</h2>
+<p>For a discrete bet paying  <span class="math-inline">\(b\)</span> -to-1 with win probability  <span class="math-inline">\(p\)</span>  and  <span class="math-inline">\(q = 1-p\)</span> :</p>
+<figure class="kb-formula" id="kelly-fraction-discrete-bet" data-formula="kelly-fraction-discrete-bet"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">Kelly fraction (discrete bet)</span><button class="kb-formula-copy" type="button" data-latex="f^\star = \frac{pb - q}{b}" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[f^\star = \frac{pb - q}{b}\]</span> </div><p class="kb-formula-note">Read it as edge divided by odds.</p><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">Position Sizing</span><span class="kb-chip">Betting</span><span class="kb-chip">Risk</span></footer></figure>
+<p>For continuously-rebalanced returns with excess drift  <span class="math-inline">\(\mu\)</span>  and volatility  <span class="math-inline">\(\sigma\)</span> :</p>
+<figure class="kb-formula" id="kelly-fraction-continuous" data-formula="kelly-fraction-continuous"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">Kelly fraction (continuous)</span><button class="kb-formula-copy" type="button" data-latex="f^\star = \frac{\mu}{\sigma^2}" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[f^\star = \frac{\mu}{\sigma^2}\]</span> </div><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">Portfolio Construction</span><span class="kb-chip">Leverage</span></footer></figure>
+<figure class="kb-formula" id="optimal-growth-rate" data-formula="optimal-growth-rate"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">Optimal growth rate</span><button class="kb-formula-copy" type="button" data-latex="g(f^\star) = \frac{\mu^2}{2\sigma^2} = \frac{SR^2}{2}" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[g(f^\star) = \frac{\mu^2}{2\sigma^2} = \frac{SR^2}{2}\]</span> </div><p class="kb-formula-note">The optimal log-growth rate is half the squared Sharpe ratio.</p><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">Portfolio Construction</span><span class="kb-chip">Performance</span></footer></figure>
+<p>The multi-asset generalisation, which is where it meets portfolio theory:</p>
+<figure class="kb-formula" id="multivariate-kelly" data-formula="multivariate-kelly"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">Multivariate Kelly</span><button class="kb-formula-copy" type="button" data-latex="\mathbf{f}^\star = \Sigma^{-1}\boldsymbol{\mu}" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[\mathbf{f}^\star = \Sigma^{-1}\boldsymbol{\mu}\]</span> </div><p class="kb-formula-note">The same direction as the mean–variance tangency portfolio.</p><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">Portfolio Construction</span><span class="kb-chip">Allocation</span></footer></figure>
+<p>And the fact that justifies everyone&#39;s actual behaviour:</p>
+<figure class="kb-formula" id="growth-at-a-fraction-of-kelly" data-formula="growth-at-a-fraction-of-kelly"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">Growth at a fraction of Kelly</span><button class="kb-formula-copy" type="button" data-latex="g(k f^\star) = k(2-k)\, g(f^\star)" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[g(k f^\star) = k(2-k)\, g(f^\star)\]</span> </div><p class="kb-formula-note">k = ½ gives 75% of the growth for half the volatility; k = 2 gives none at all.</p><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">Position Sizing</span><span class="kb-chip">Risk Management</span></footer></figure>
+<h2 id="derivation" class="kb-h kb-h2"><a class="kb-anchor" href="#derivation" aria-label="Link to this section">#</a>Derivation</h2>
+<details class="kb-derivation"><summary>The discrete Kelly fraction</summary><div class="kb-derivation-body"><p>Staking fraction  <span class="math-inline">\(f\)</span>  of wealth, one round multiplies wealth by  <span class="math-inline">\((1+fb)\)</span>  with probability  <span class="math-inline">\(p\)</span>  and by
+ <span class="math-inline">\((1-f)\)</span>  with probability  <span class="math-inline">\(q\)</span> . The expected log growth per round is</p>
+<span class="math-display">\[g(f) = p\ln(1+fb) + q\ln(1-f)\]</span>
+<span class="math-display">\[g&#39;(f) = \frac{pb}{1+fb} - \frac{q}{1-f}\]</span>
+<p>Setting  <span class="math-inline">\(g&#39;(f)=0\)</span> :</p>
+<span class="math-display">\[pb(1-f) = q(1+fb) \;\Longrightarrow\; pb - pbf = q + qbf
+\;\Longrightarrow\; f^\star = \frac{pb-q}{b}\]</span>
+<p> <span class="math-inline">\(g&#39;&#39;(f) = -\dfrac{pb^2}{(1+fb)^2} - \dfrac{q}{(1-f)^2} &lt; 0\)</span>  everywhere on  <span class="math-inline">\((0,1)\)</span> , so  <span class="math-inline">\(g\)</span>  is
+strictly concave and the stationary point is the unique maximum.</p></div></details>
+<details class="kb-derivation"><summary>The continuous case, and where σ² comes from</summary><div class="kb-derivation-body"><p>For a position of size  <span class="math-inline">\(f\)</span>  in an asset following geometric <a class="kb-link" href="brownian-motion.html" data-concept="brownian-motion">Brownian Motion</a> with excess drift
+ <span class="math-inline">\(\mu\)</span>  and volatility  <span class="math-inline">\(\sigma\)</span> , the portfolio follows</p>
+<span class="math-display">\[\frac{\d W_t}{W_t} = f\mu\,\d t + f\sigma\,\d W_t\]</span>
+<p>By Itô&#39;s lemma applied to  <span class="math-inline">\(\ln W\)</span>  — the  <span class="math-inline">\(-\tfrac12 f&#39;&#39;\)</span>  term again — the log-growth rate is</p>
+<span class="math-display">\[g(f) = f\mu - \tfrac{1}{2}f^2\sigma^2\]</span>
+<p>The drift term is <strong>linear</strong> in size; the variance drag is <strong>quadratic</strong>. Maximising:</p>
+<span class="math-display">\[g&#39;(f) = \mu - f\sigma^2 = 0 \;\Longrightarrow\; f^\star = \frac{\mu}{\sigma^2}\]</span>
+<span class="math-display">\[g(f^\star) = \frac{\mu^2}{\sigma^2} - \frac{1}{2}\frac{\mu^2}{\sigma^2} = \frac{\mu^2}{2\sigma^2}\]</span>
+<p>That quadratic drag is the same  <span class="math-inline">\(\sigma^2/2\)</span>  that appears as volatility drag in <a class="kb-link" href="variance.html" data-concept="variance">Variance</a> and in
+the GBM solution. Kelly is not a separate theory — it is Jensen&#39;s inequality solved for position size.</p></div></details>
+<details class="kb-derivation"><summary>Why k(2−k), and why 2× Kelly gives nothing</summary><div class="kb-derivation-body"><p>Substitute  <span class="math-inline">\(f = kf^\star = k\mu/\sigma^2\)</span>  into  <span class="math-inline">\(g(f) = f\mu - \tfrac12 f^2\sigma^2\)</span> :</p>
+<span class="math-display">\[g(kf^\star) = \frac{k\mu^2}{\sigma^2} - \frac{1}{2}\frac{k^2\mu^2}{\sigma^2}
+= \frac{\mu^2}{2\sigma^2}\left(2k - k^2\right) = k(2-k)\,g(f^\star)\]</span>
+<p>A parabola through  <span class="math-inline">\(k=0\)</span>  and  <span class="math-inline">\(k=2\)</span> , peaking at  <span class="math-inline">\(k=1\)</span> . Hence: half Kelly  <span class="math-inline">\(\to 0.75\)</span> , quarter Kelly
+ <span class="math-inline">\(\to 0.4375\)</span> , double Kelly  <span class="math-inline">\(\to 0\)</span> , and anything beyond  <span class="math-inline">\(2\times\)</span>  is a negative growth rate on a
+strictly positive-expectation bet.</p>
+<p>The asymmetry is the practical point. Being at  <span class="math-inline">\(k=0.5\)</span>  costs 25% of the growth rate; being at
+ <span class="math-inline">\(k=1.5\)</span>  costs the same 25% — but with three times the position and three times the drawdown.
+<strong>When you are unsure of your edge, err low.</strong></p></div></details>
+<h2 id="assumptions-edge-cases" class="kb-h kb-h2"><a class="kb-anchor" href="#assumptions-edge-cases" aria-label="Link to this section">#</a>Assumptions &amp; Edge Cases</h2>
+<aside class="kb-callout kb-callout--assumption"><div class="kb-callout-title">Assumptions</div><div class="kb-callout-body"><ul class="kb-list"><li><strong>The edge is known.</strong> Kelly is optimal <em>given</em>  <span class="math-inline">\(p\)</span>  and  <span class="math-inline">\(b\)</span> . In practice you have  <span class="math-inline">\(\hat p\)</span>  from a
+finite sample, and the plug-in estimate systematically overbets.</li>
+<li><strong>Infinite horizon, infinitely divisible capital.</strong> Kelly optimises the asymptotic growth rate. It
+is not the right objective if you have a fixed short horizon, a hard drawdown limit, or a
+liquidation threshold.</li>
+<li><strong>Log utility.</strong> Maximising  <span class="math-inline">\(\E[\ln W]\)</span>  is exactly optimal for a log-utility investor; for anyone
+else it is a growth-rate argument, not a utility argument. Someone with a genuine risk budget or
+a redemption clause is not a log-utility investor.</li>
+<li><strong>Repeated, independent bets.</strong> Correlated or one-shot bets need the multivariate solution or a
+different framework entirely.</li>
+<li><strong>No transaction costs and continuous rebalancing</strong> in the continuous version.</li></ul></div></aside>
+<aside class="kb-callout kb-callout--warning"><div class="kb-callout-title">Warning</div><div class="kb-callout-body"><p>Kelly says nothing about drawdown tolerance, and full Kelly&#39;s drawdowns are severe:
+ <span class="math-inline">\(\P(\text{wealth ever falls to fraction } x \text{ of its peak}) \approx x\)</span> . A 50% drawdown is a
+coin flip. Any real mandate — an allocator, a risk committee, a personal tolerance — imposes a
+constraint Kelly does not know about, and fractional Kelly is how that constraint enters.</p></div></aside>
+<h2 id="worked-example" class="kb-h kb-h2"><a class="kb-anchor" href="#worked-example" aria-label="Link to this section">#</a>Worked Example</h2>
+<p>A market-neutral strategy has estimated annual excess return  <span class="math-inline">\(\mu = 6\%\)</span>  with volatility
+ <span class="math-inline">\(\sigma = 8\%\)</span>  (Sharpe 0.75).</p>
+<p><strong>Full Kelly:</strong></p>
+<span class="math-display">\[f^\star = \frac{0.06}{0.08^2} = \frac{0.06}{0.0064} = 9.4\times \text{ leverage}\]</span>
+<span class="math-display">\[g(f^\star) = \frac{0.06^2}{2(0.08)^2} = \frac{0.0036}{0.0128} = 28.1\%\text{ log growth} = \frac{0.75^2}{2}\]</span>
+<p>Nine times leverage on a Sharpe-0.75 strategy. That number should stop you.</p>
+<p><strong>Why it is not the answer.</strong> At  <span class="math-inline">\(9.4\times\)</span> , the portfolio&#39;s volatility is
+ <span class="math-inline">\(9.4 \times 8\% = 75\%\)</span>  annualised, and the expected drawdown is catastrophic. Worse,  <span class="math-inline">\(\mu = 6\%\)</span> 
+is an <em>estimate</em>: from <a class="kb-link" href="sharpe-ratio.html" data-concept="sharpe-ratio">Sharpe Ratio</a>, the standard error of a Sharpe of 0.75 over 5 years is
+ <span class="math-inline">\(\sqrt{(1+0.75^2/2)/5} \approx 0.51\)</span> . The true Sharpe could plausibly be 0.25, in which case the
+true  <span class="math-inline">\(f^\star\)</span>  is one ninth of what you computed and you are at  <span class="math-inline">\(9\times\)</span>  Kelly — deep into
+negative growth.</p>
+<p><strong>Quarter Kelly:</strong></p>
+<span class="math-display">\[f = 2.35\times, \quad \sigma_p = 18.8\%, \quad g = 0.25(1.75)(28.1\%) = 12.3\%\]</span>
+<p>You keep 44% of the theoretical growth at a quarter of the leverage, and you survive being wrong
+about  <span class="math-inline">\(\mu\)</span>  by a factor of three. That is the trade every serious desk makes, and the reason
+published Kelly fractions are almost never traded as published.</p>
+<h2 id="why-it-matters-in-quant-finance" class="kb-h kb-h2"><a class="kb-anchor" href="#why-it-matters-in-quant-finance" aria-label="Link to this section">#</a>Why It Matters in Quant Finance</h2>
+<p>Kelly is the bridge between <em>forecasting</em> and <em>sizing</em> — the step that turns a signal into a
+position. Its consequences are everywhere:</p>
+<ul class="kb-list"><li><strong>The connection to Sharpe.</strong>  <span class="math-inline">\(g(f^\star) = SR^2/2\)</span>  means growth is quadratic in Sharpe. Doubling
+Sharpe quadruples the sustainable growth rate. This is the quantitative case for improving signal
+quality over adding leverage.</li>
+<li><strong>The connection to mean–variance.</strong>  <span class="math-inline">\(\mathbf f^\star = \Sigma^{-1}\boldsymbol\mu\)</span>  is the tangency
+portfolio direction. Kelly and Markowitz agree on <em>what to hold</em> and differ only on <em>how much</em> —
+Kelly fixes the scale by an objective, Markowitz leaves it to a risk-aversion parameter.</li>
+<li><strong>Volatility targeting is fractional Kelly in disguise.</strong> Sizing  <span class="math-inline">\(w \propto 1/\sigma\)</span>  is
+ <span class="math-inline">\(f = \mu/\sigma^2\)</span>  with  <span class="math-inline">\(\mu\)</span>  assumed proportional to  <span class="math-inline">\(\sigma\)</span>  — i.e. constant Sharpe across
+assets. Making that assumption explicit is often more honest than estimating  <span class="math-inline">\(\mu\)</span>  per asset.</li>
+<li><strong>Leveraged product decay.</strong> A 3× daily ETF on an index is frequently past  <span class="math-inline">\(2\times\)</span>  Kelly for
+that index, which is why it loses money over long horizons in a flat market.</li></ul>
+<h2 id="trading-research-application" class="kb-h kb-h2"><a class="kb-anchor" href="#trading-research-application" aria-label="Link to this section">#</a>Trading &amp; Research Application</h2>
+<aside class="kb-callout kb-callout--desk"><div class="kb-callout-title">On the desk</div><div class="kb-callout-body"><p><strong>Nobody trades full Kelly.</strong> Typical practice is a quarter to a half, and the reasoning is
+mechanical rather than timid: the growth curve is flat near the optimum and steep beyond it, your
+edge estimate has large error bars, and drawdown constraints are real and externally imposed.</p>
+<p><strong>Size the estimate, not the point forecast.</strong> The Bayesian version — shrink  <span class="math-inline">\(\hat\mu\)</span>  towards zero
+in proportion to its standard error, then apply Kelly — is closer to correct than applying Kelly to
+a raw sample mean. Fractional Kelly is a crude approximation to exactly this shrinkage, which is why
+it works as well as it does.</p>
+<p><strong>Correlation is the expensive mistake.</strong> Running  <span class="math-inline">\(n\)</span>  strategies each at its standalone Kelly
+fraction over-bets by whatever the correlation implies. Use  <span class="math-inline">\(\Sigma^{-1}\boldsymbol\mu\)</span> , and
+remember from <a class="kb-link" href="covariance-and-correlation.html" data-concept="covariance-and-correlation">Covariance &amp; Correlation</a> that  <span class="math-inline">\(\Sigma^{-1}\)</span>  loads hardest on the smallest
+eigenvalues — the noisiest ones. Kelly inherits every estimation problem mean–variance has.</p>
+<p><strong>The one-line diagnostic.</strong> Given a strategy&#39;s Sharpe,  <span class="math-inline">\(SR^2/2\)</span>  is the <em>maximum</em> log growth rate
+available at any leverage. If a pitch claims returns above that, it is claiming leverage beyond
+Kelly — and therefore, by construction, a worse long-run outcome than a smaller position.</p></div></aside>
+<h2 id="implementation-notes" class="kb-h kb-h2"><a class="kb-anchor" href="#implementation-notes" aria-label="Link to this section">#</a>Implementation Notes</h2>
+<figure class="kb-code" data-lang="python"><pre><code class="language-python">import numpy as np
+
+def kelly_discrete(p: float, b: float) -&gt; float:
+    &quot;&quot;&quot;Edge over odds. Negative means the other side of the bet, or no bet.&quot;&quot;&quot;
+    return max(0.0, (p * b - (1 - p)) / b)
+
+def kelly_continuous(mu: float, sigma: float, fraction: float = 0.25) -&gt; float:
+    &quot;&quot;&quot;Fractional Kelly for continuous returns. `fraction` defaults to a quarter:
+    full Kelly assumes you know mu, and you do not.&quot;&quot;&quot;
+    return fraction * mu / (sigma ** 2)
+
+def kelly_portfolio(mu: np.ndarray, cov: np.ndarray, fraction: float = 0.25) -&gt; np.ndarray:
+    &quot;&quot;&quot;Multivariate Kelly = Sigma^-1 mu, the tangency direction.
+
+    Solve rather than invert, and shrink the covariance first: this expression
+    loads hardest on the smallest eigenvalues, which are the noisiest ones.
+    &quot;&quot;&quot;
+    return fraction * np.linalg.solve(cov, mu)
+
+def growth_rate(k: float, sharpe: float) -&gt; float:
+    &quot;&quot;&quot;Log growth at k times the Kelly fraction. k=0.5 -&gt; 75%, k=2 -&gt; 0.&quot;&quot;&quot;
+    return k * (2 - k) * sharpe ** 2 / 2</code></pre></figure>
+<h2 id="common-mistakes" class="kb-h kb-h2"><a class="kb-anchor" href="#common-mistakes" aria-label="Link to this section">#</a>Common Mistakes</h2>
+<aside class="kb-callout kb-callout--pitfall"><div class="kb-callout-title">Common pitfall</div><div class="kb-callout-body"><ul class="kb-list"><li><strong>Maximising  <span class="math-inline">\(\E[W]\)</span>  instead of  <span class="math-inline">\(\E[\ln W]\)</span> .</strong> The headline error, and it leads to certain ruin on
+a positive-expectation bet.</li>
+<li><strong>Treating the estimated edge as known.</strong> Plug-in Kelly on a sample mean systematically overbets,
+and the growth curve punishes overbetting far more than underbetting.</li>
+<li><strong>Stacking standalone Kelly fractions across correlated strategies.</strong> Use
+ <span class="math-inline">\(\Sigma^{-1}\boldsymbol\mu\)</span> ; anything else over-bets by the correlation.</li>
+<li><strong>Assuming more leverage means more growth.</strong> Growth peaks at  <span class="math-inline">\(f^\star\)</span> , hits zero at  <span class="math-inline">\(2f^\star\)</span> 
+and is negative beyond — with positive expected value at every single bet.</li>
+<li><strong>Applying Kelly over a short horizon.</strong> It optimises an asymptotic growth rate; over ten trades
+its guarantees do not apply.</li>
+<li><strong>Ignoring the drawdown implication.</strong>  <span class="math-inline">\(\P(\text{ever fall to fraction } x) \approx x\)</span>  under full
+Kelly. A 50% drawdown is a coin flip, and no mandate survives that.</li></ul></div></aside>
+<h2 id="30-second-revision" class="kb-h kb-h2"><a class="kb-anchor" href="#30-second-revision" aria-label="Link to this section">#</a>30-Second Revision</h2>
+<ul class="kb-list"><li>Maximise  <span class="math-inline">\(\E[\ln W]\)</span> , not  <span class="math-inline">\(\E[W]\)</span>  — wealth compounds, so the geometric mean is what you realise.</li>
+<li>Discrete:  <span class="math-inline">\(f^\star = (pb-q)/b\)</span> , <strong>edge over odds</strong>. Continuous:  <span class="math-inline">\(f^\star = \mu/\sigma^2\)</span> .</li>
+<li>Optimal growth  <span class="math-inline">\(= \mu^2/2\sigma^2 = SR^2/2\)</span> . Growth is <strong>quadratic in Sharpe</strong>.</li>
+<li>Fractional Kelly:  <span class="math-inline">\(g(kf^\star) = k(2-k)\,g(f^\star)\)</span> . Half Kelly → <strong>75% of the growth, half the
+risk</strong>. Double Kelly → <strong>zero growth</strong>.</li>
+<li>Multi-asset:  <span class="math-inline">\(\mathbf f^\star = \Sigma^{-1}\boldsymbol\mu\)</span>  — the tangency direction; Kelly fixes
+the scale.</li>
+<li>Nobody trades full Kelly: the edge is estimated, and  <span class="math-inline">\(\P(\text{50\% drawdown}) \approx 1/2\)</span> .</li></ul></div>
+    <section class="kb-section" id="key-formulas">
+        <h2 class="kb-h kb-h2"><a class="kb-anchor" href="#key-formulas" aria-label="Link to this section">#</a>Key Formulas</h2>
+        <div class="kb-formula-recap">
+          <a class="kb-formula-recap-item" href="#kelly-fraction-discrete-bet">
+            <span class="kb-formula-recap-name">Kelly fraction (discrete bet)</span>
+            <span class="math-display">\[f^\star = \frac{pb - q}{b}\]</span>
+          </a>
+          <a class="kb-formula-recap-item" href="#kelly-fraction-continuous">
+            <span class="kb-formula-recap-name">Kelly fraction (continuous)</span>
+            <span class="math-display">\[f^\star = \frac{\mu}{\sigma^2}\]</span>
+          </a>
+          <a class="kb-formula-recap-item" href="#optimal-growth-rate">
+            <span class="kb-formula-recap-name">Optimal growth rate</span>
+            <span class="math-display">\[g(f^\star) = \frac{\mu^2}{2\sigma^2} = \frac{SR^2}{2}\]</span>
+          </a>
+          <a class="kb-formula-recap-item" href="#multivariate-kelly">
+            <span class="kb-formula-recap-name">Multivariate Kelly</span>
+            <span class="math-display">\[\mathbf{f}^\star = \Sigma^{-1}\boldsymbol{\mu}\]</span>
+          </a>
+          <a class="kb-formula-recap-item" href="#growth-at-a-fraction-of-kelly">
+            <span class="kb-formula-recap-name">Growth at a fraction of Kelly</span>
+            <span class="math-display">\[g(k f^\star) = k(2-k)\, g(f^\star)\]</span>
+          </a></div>
+      </section>
+    <section class="kb-section" id="interview-questions">
+        <h2 class="kb-h kb-h2"><a class="kb-anchor" href="#interview-questions" aria-label="Link to this section">#</a>Interview Questions</h2>
+        <ol class="kb-questions">
+          <li class="kb-question" id="q-kelly-criterion-q1" data-difficulty="intermediate">
+            <div class="kb-question-head">
+              <span class="kb-question-text">A bet doubles your money with probability ½ and loses 60% with probability ½. Expected return per round is +20%. Should you bet everything every round?</span>
+              <span class="kb-tagline">Intermediate · classic · compounding · ruin</span>
+            </div>
+            <details class="kb-hint"><summary>Hint</summary><div><p>Compute the typical path, not the average path.</p></div></details>
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p><strong>No — you go broke almost surely.</strong>
+Expected wealth per round is  <span class="math-inline">\(\tfrac12(2.0) + \tfrac12(0.4) = 1.2\)</span> , so betting everything
+maximises  <span class="math-inline">\(\E[W]\)</span> . But wealth compounds, so the realised growth rate is governed by the
+<em>geometric</em> mean:</p>
+<span class="math-display">\[\E[\ln R] = \tfrac12\ln 2.0 + \tfrac12\ln 0.4 = \tfrac12(0.693) + \tfrac12(-0.916) = -0.112\]</span>
+<p>Negative. A typical pair of rounds gives  <span class="math-inline">\(2.0 \times 0.4 = 0.8\)</span>  — a 20% loss. By the law of
+large numbers  <span class="math-inline">\(W_n \approx W_0 e^{-0.112n} \to 0\)</span>  almost surely.
+The expectation still grows without bound, carried by the vanishing set of paths that win
+every round. <strong>The mean is not where you live.</strong> Kelly asks what fraction  <span class="math-inline">\(f\)</span>  of wealth to
+stake; here  <span class="math-inline">\(f^\star = (0.5)(1.0)/(1.0) \cdot \ldots\)</span>  works out well below 1, and at any
+ <span class="math-inline">\(f\)</span>  above roughly 0.4 the growth rate turns negative.</p></div></details>
+          </li>
+          <li class="kb-question" id="q-kelly-criterion-q2" data-difficulty="intermediate">
+            <div class="kb-question-head">
+              <span class="kb-question-text">Derive the Kelly fraction for a bet paying b-to-1 with win probability p.</span>
+              <span class="kb-tagline">Intermediate · derivation · core</span>
+            </div>
+            
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>Staking fraction  <span class="math-inline">\(f\)</span> , wealth multiplies by  <span class="math-inline">\((1+fb)\)</span>  on a win and  <span class="math-inline">\((1-f)\)</span>  on a loss. Maximise
+the expected log growth:</p>
+<span class="math-display">\[g(f) = p\ln(1+fb) + q\ln(1-f), \qquad q = 1-p\]</span>
+<span class="math-display">\[g&#39;(f) = \frac{pb}{1+fb} - \frac{q}{1-f} = 0
+\;\Longrightarrow\; pb(1-f) = q(1+fb)\]</span>
+<span class="math-display">\[pb - pbf = q + qbf \;\Longrightarrow\; f^\star = \frac{pb - q}{b}\]</span>
+<p>Read it as <strong>edge over odds</strong>: the numerator  <span class="math-inline">\(pb - q\)</span>  is the expected profit per unit staked,
+and dividing by  <span class="math-inline">\(b\)</span>  converts it to a fraction of capital. If the edge is zero,  <span class="math-inline">\(f^\star = 0\)</span> ;
+if it is negative,  <span class="math-inline">\(f^\star &lt; 0\)</span>  and the correct action is the other side of the bet, or no
+bet at all.
+ <span class="math-inline">\(g\)</span>  is strictly concave on  <span class="math-inline">\((0, 1)\)</span> , so the stationary point is the maximum.</p></div></details>
+          </li>
+          <li class="kb-question" id="q-kelly-criterion-q3" data-difficulty="advanced">
+            <div class="kb-question-head">
+              <span class="kb-question-text">Why does almost everyone trade a fraction of Kelly rather than full Kelly?</span>
+              <span class="kb-tagline">Advanced · practice · estimation-error · drawdown</span>
+            </div>
+            
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>Three reasons, and they compound.</p>
+<ol class="kb-list"><li><strong>You do not know your edge — you estimated it.</strong> Kelly is optimal given  <span class="math-inline">\(p\)</span> ; substituting
+  <span class="math-inline">\(\hat p\)</span>  makes the sizing itself a random variable. The growth curve  <span class="math-inline">\(g(f)\)</span>  is asymmetric
+ around  <span class="math-inline">\(f^\star\)</span> : overbetting hurts far more than underbetting by the same amount, and
+ estimation error puts you on the wrong side about half the time.</li>
+<li><strong>Full Kelly drawdowns are intolerable.</strong> Under full Kelly the probability of at some point
+ halving your capital is roughly  <span class="math-inline">\(1/2\)</span> ; of quartering it, roughly  <span class="math-inline">\(1/4\)</span> . In general
+  <span class="math-inline">\(\P(\text{ever fall to fraction } x) \approx x\)</span> . No allocator, and no human, sits through that.</li>
+<li><strong>The trade is cheap.</strong> Growth at a fraction  <span class="math-inline">\(k\)</span>  of Kelly is  <span class="math-inline">\(k(2-k)\)</span>  times the full-Kelly
+ rate. <strong>Half Kelly gives 75% of the growth for half the volatility.</strong> Giving up a quarter
+ of the growth rate to halve the risk is an obviously good deal, and it is why &quot;half Kelly&quot;
+ is the de facto industry default.</li></ol></div></details>
+          </li>
+          <li class="kb-question" id="q-kelly-criterion-q4" data-difficulty="advanced">
+            <div class="kb-question-head">
+              <span class="kb-question-text">What happens at exactly twice the Kelly fraction?</span>
+              <span class="kb-tagline">Advanced · growth-rate · leverage</span>
+            </div>
+            
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p><strong>Zero growth rate.</strong> Since  <span class="math-inline">\(g(k f^\star) = k(2-k)\,g(f^\star)\)</span> , at  <span class="math-inline">\(k=2\)</span>  we get
+ <span class="math-inline">\(2(2-2) = 0\)</span> . Beyond  <span class="math-inline">\(2\times\)</span>  Kelly the growth rate is <em>negative</em>: you lose money in the long
+run despite every individual bet having positive expected value.
+This is the cleanest statement of why leverage is not free. The expectation is linear in size;
+the growth rate is not, because the variance drag  <span class="math-inline">\(-\tfrac12 f^2\sigma^2\)</span>  grows quadratically
+while the drift term  <span class="math-inline">\(f\mu\)</span>  grows linearly. It also explains the long-run decay of leveraged
+ETFs: a 3× daily-rebalanced product on an index is often past its own  <span class="math-inline">\(2\times\)</span> -Kelly point.</p></div></details>
+          </li>
+          <li class="kb-question" id="q-kelly-criterion-q5" data-difficulty="advanced">
+            <div class="kb-question-head">
+              <span class="kb-question-text">Kelly for continuous returns — state the fraction and the resulting growth rate.</span>
+              <span class="kb-tagline">Advanced · continuous · sharpe · gbm</span>
+            </div>
+            
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>For a continuously-rebalanced asset with drift  <span class="math-inline">\(\mu\)</span>  (in excess of the risk-free rate) and
+volatility  <span class="math-inline">\(\sigma\)</span> :</p>
+<span class="math-display">\[f^\star = \frac{\mu}{\sigma^2}, \qquad g(f^\star) = \frac{\mu^2}{2\sigma^2} = \frac{SR^2}{2}\]</span>
+<p><strong>The optimal growth rate is half the squared Sharpe ratio.</strong> That is a strikingly useful
+identity: a Sharpe of 1 supports at most 50% annual log growth <em>at full Kelly</em>, which
+immediately tells you that a strategy claiming 30% returns at Sharpe 0.5 is claiming
+leverage well beyond Kelly, not skill.
+It also links directly to <a class="kb-link" href="sharpe-ratio.html" data-concept="sharpe-ratio">Sharpe Ratio</a>: since Sharpe is leverage-invariant and Kelly
+growth is not, Sharpe measures the <em>quality</em> of an opportunity and Kelly turns that quality
+into a <em>size</em>.</p></div></details>
+          </li>
+          <li class="kb-question" id="q-kelly-criterion-q6" data-difficulty="research">
+            <div class="kb-question-head">
+              <span class="kb-question-text">You have two uncorrelated strategies, each with its own Kelly fraction. Can you run both at full Kelly?</span>
+              <span class="kb-tagline">Research · portfolio · correlation</span>
+            </div>
+            
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>Not by simply adding them — you must solve the joint problem. The multivariate Kelly solution
+for a vector of excess returns is</p>
+<span class="math-display">\[\mathbf f^\star = \Sigma^{-1}\boldsymbol\mu\]</span>
+<p>which is the <strong>same direction as the mean–variance tangency portfolio</strong>; Kelly picks the point
+on that ray, where mean–variance leaves the scale to a risk-aversion parameter.
+For genuinely uncorrelated strategies  <span class="math-inline">\(\Sigma\)</span>  is diagonal and the individual fractions <em>are</em>
+the joint solution, so you can run both at full Kelly — and the growth rates add:
+ <span class="math-inline">\(g = \sum SR_i^2/2\)</span> . With correlation,  <span class="math-inline">\(\Sigma^{-1}\)</span>  shrinks the combined exposure below the
+sum of the individual fractions, and it does so most aggressively for the pairs that look most
+similar. Sizing each strategy at its standalone Kelly and stacking them is a common and
+expensive mistake — it is over-betting by exactly the amount the correlation implies.</p></div></details>
+          </li></ol>
+      </section>
+
+    <section class="kb-section" id="connections">
+      <h2 class="kb-h kb-h2"><a class="kb-anchor" href="#connections" aria-label="Link to this section">#</a>Connections</h2>
+      <div class="kb-connections">
+        <section class="kb-relgroup"><h3>Prerequisites</h3><p class="kb-relnote">Understand these first.</p><ul class="kb-rellist"><li><a href="../concepts/expectation.html" class="kb-relitem">
+          <span class="kb-relitem-title">Expectation</span>
+          <span class="kb-relitem-meta">Probability · Foundational</span>
+          <span class="kb-relitem-sum">The probability-weighted average of a random variable — the number a long-run average converges to, and the object almost every pricing and sizing argument is really about.</span>
+        </a></li><li><a href="../concepts/variance.html" class="kb-relitem">
+          <span class="kb-relitem-title">Variance</span>
+          <span class="kb-relitem-meta">Statistics · Foundational</span>
+          <span class="kb-relitem-sum">The expected squared deviation from the mean — the second moment that turns a return forecast into a position size, and the quantity that does not add when you combine assets.</span>
+        </a></li></ul></section>
+        
+        <section class="kb-relgroup"><h3>Related</h3><ul class="kb-rellist"><li><a href="../concepts/sharpe-ratio.html" class="kb-relitem">
+          <span class="kb-relitem-title">Sharpe Ratio</span>
+          <span class="kb-relitem-meta">Portfolio Construction · Intermediate</span>
+          <span class="kb-relitem-sum">Excess return per unit of volatility — the industry&#39;s default measure of risk-adjusted performance, and an estimator noisy and gameable enough that knowing its failure modes matters more than knowing its formula.</span>
+        </a></li><li><a href="../concepts/brownian-motion.html" class="kb-relitem">
+          <span class="kb-relitem-title">Brownian Motion</span>
+          <span class="kb-relitem-meta">Stochastic Processes · Advanced</span>
+          <span class="kb-relitem-sum">The continuous-time limit of a random walk — Gaussian, independent increments scaling with √t, nowhere differentiable, and the driving noise underneath essentially every continuous-time model in finance.</span>
+        </a></li><li><a href="../concepts/covariance-and-correlation.html" class="kb-relitem">
+          <span class="kb-relitem-title">Covariance &amp; Correlation</span>
+          <span class="kb-relitem-meta">Statistics · Foundational</span>
+          <span class="kb-relitem-sum">Covariance measures how two variables move together in raw units; correlation normalises it to [-1, 1] — together they determine whether combining two positions reduces risk or concentrates it.</span>
+        </a></li></ul></section>
+        
+      </div>
+      <div class="kb-references"><h3>References</h3><ul><li>Kelly (1956), *A New Interpretation of Information Rate*, Bell System Technical Journal</li><li>Thorp (2006), *The Kelly Criterion in Blackjack, Sports Betting and the Stock Market*</li><li>MacLean, Thorp &amp; Ziemba, *The Kelly Capital Growth Investment Criterion*</li></ul></div>
+    </section>
+
+    <nav class="kb-prevnext" aria-label="Concept navigation">
+    <span></span>
+    <a class="kb-prevnext-item kb-prevnext-up" href="../subjects/portfolio-construction.html">
+      <span class="kb-prevnext-label">Subject</span><span>Portfolio Construction</span></a>
+    <a class="kb-prevnext-item kb-prevnext-next" href="../concepts/sharpe-ratio.html" rel="next">
+      <span class="kb-prevnext-label">Next →</span><span>Sharpe Ratio</span></a>
+  </nav>
+    <footer class="kb-source-note">
+      Source: <code>content/concepts/kelly-criterion.md</code> · updated 2026-01-14
+      · edit the markdown and run <code>npm run build</code>.
+    </footer>
+  </article>
+
+  <aside class="kb-sidebar">
+    <nav class="kb-toc" aria-label="On this page"><h3>On this page</h3><ol><li><a href="#intuition">Intuition</a></li><li><a href="#mathematical-formulation">Mathematical Formulation</a></li><li><a href="#derivation">Derivation</a></li><li><a href="#assumptions-edge-cases">Assumptions &amp; Edge Cases</a></li><li><a href="#worked-example">Worked Example</a></li><li><a href="#why-it-matters-in-quant-finance">Why It Matters in Quant Finance</a></li><li><a href="#trading-research-application">Trading &amp; Research Application</a></li><li><a href="#implementation-notes">Implementation Notes</a></li><li><a href="#common-mistakes">Common Mistakes</a></li><li><a href="#30-second-revision">30-Second Revision</a></li><li><a href="#key-formulas">Key Formulas</a></li><li><a href="#interview-questions">Interview Questions</a></li><li><a href="#connections">Connections</a></li></ol></nav>
+    <section class="kb-side-card" id="side-formulas"><h3>Key formulas</h3><ul class="kb-side-formulas"><li><a href="#kelly-fraction-discrete-bet">Kelly fraction (discrete bet)</a></li><li><a href="#kelly-fraction-continuous">Kelly fraction (continuous)</a></li><li><a href="#optimal-growth-rate">Optimal growth rate</a></li><li><a href="#multivariate-kelly">Multivariate Kelly</a></li><li><a href="#growth-at-a-fraction-of-kelly">Growth at a fraction of Kelly</a></li></ul></section>
+    <section class="kb-side-card">
+      <h3>Metadata</h3>
+      <dl class="kb-meta">
+        <dt>Subject</dt><dd><a href="../subjects/portfolio-construction.html">Portfolio Construction</a></dd>
+        <dt>Difficulty</dt><dd>Intermediate</dd>
+        <dt>Interview</dt><dd><span class="kb-stars" title="Interview relevance 5 of 5" aria-label="Interview relevance 5 of 5"><span class="kb-stars-on">★★★★★</span><span class="kb-stars-off"></span></span></dd>
+        <dt>Status</dt><dd data-kb-status-label="kelly-criterion">Learning</dd>
+        <dt>Prereqs</dt><dd>2</dd>
+        <dt>Formulas</dt><dd>5</dd>
+        <dt>Questions</dt><dd>6</dd>
+      </dl>
+    </section>
+    <section class="kb-side-card kb-side-minimap">
+      <h3>Neighbourhood</h3>
+      <canvas data-kb-minimap="kelly-criterion" width="260" height="200" aria-label="Local knowledge graph"></canvas>
+      <a class="kb-side-more" href="../graph.html?focus=kelly-criterion">Open full graph →</a>
+    </section>
+  </aside>
+</main>
+<script src="../data/kb.data.js"></script>
+<script src="../data/search.index.js"></script>
+<script src="../assets/js/kb-core.js"></script>
+<script src="../assets/js/kb-ui.js"></script>
+<script src="../assets/vendor/katex/katex.min.js" defer></script>
+<script src="../assets/vendor/katex/auto-render.min.js" defer></script>
+<script src="../assets/js/math.js" defer></script>
+<script src="../assets/js/concept.js" defer></script>
+</body>
+</html>

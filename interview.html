@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" data-page="interview">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Interview Mode · Quant Knowledge Base</title>
+<link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/vendor/katex/katex.min.css">
+<link rel="stylesheet" href="assets/css/app.css">
+<link rel="stylesheet" href="assets/css/views.css">
+</head>
+<body class="kb-body kb-body--interview">
+
+<header class="kb-topbar">
+  <a class="kb-brand" href="index.html" title="Home (H)">
+    <span class="kb-brand-mark">QF</span><span class="kb-brand-text">Quant Knowledge Base</span>
+  </a>
+  <nav class="kb-crumbs" aria-label="Breadcrumb"><ol>
+    <li><a href="index.html">Dashboard</a></li>
+    <li class="kb-crumb-sep" aria-hidden="true">/</li>
+    <li><span aria-current="page">Interview mode</span></li>
+  </ol></nav>
+  <div class="kb-topbar-actions">
+    <button class="kb-searchbtn" type="button" data-kb-open-search>
+      <span>Search concepts, formulas, questions</span><kbd>/</kbd>
+    </button>
+    <nav class="kb-toplinks" aria-label="Sections">
+      <a href="index.html" data-nav="home">Dashboard</a>
+      <a href="graph.html" data-nav="graph">Graph</a>
+      <a href="interview.html" data-nav="interview">Interview</a>
+      <a href="library.html" data-nav="library">Library</a>
+    </nav>
+    <button class="kb-iconbtn" type="button" data-kb-theme title="Toggle theme (T)" aria-label="Toggle theme">◑</button>
+    <button class="kb-iconbtn" type="button" data-kb-help title="Keyboard shortcuts (?)" aria-label="Keyboard shortcuts">?</button>
+  </div>
+</header>
+<main class="kb-main kb-main--interview">
+  <div class="kb-section-head" style="margin-top:0">
+    <h2>Interview mode</h2>
+    <span class="kb-section-note">Pick a track, cram the concepts that carry the most weight, then drill the question bank.</span>
+    <span class="kb-section-actions">
+      <label style="display:flex;align-items:center;gap:6px;font-size:11.5px;color:var(--ink-muted)">
+        Minimum relevance
+        <select data-kb-rel>
+          <option value="5">★★★★★</option>
+          <option value="4" selected>★★★★ and up</option>
+          <option value="3">★★★ and up</option>
+          <option value="0">Everything</option>
+        </select>
+      </label>
+    </span>
+  </div>
+
+  <div class="kb-tracks" data-kb-tracks></div>
+
+  <div class="kb-drill">
+    <section>
+      <div class="kb-section-head" style="margin-top:26px">
+        <h2>Question drill</h2>
+        <span class="kb-section-actions">
+          <select data-kb-diff></select>
+          <label class="kb-btn kb-btn--ghost" style="cursor:pointer">
+            <input type="checkbox" data-kb-weak style="margin-right:6px">Weak concepts only</label>
+          <button class="kb-btn kb-btn--ghost" type="button" data-kb-shuffle>Shuffle</button>
+        </span>
+      </div>
+      <div class="kb-drillcard" data-kb-drill></div>
+      <p style="margin-top:10px;font-size:11.5px;color:var(--ink-faint)">
+        <kbd>space</kbd> reveal / next · <kbd>1</kbd> got it · <kbd>2</kbd> missed it · <kbd>n</kbd> skip
+      </p>
+    </section>
+
+    <aside>
+      <div class="kb-section-head" style="margin-top:26px">
+        <h2>Cram sheet</h2>
+      </div>
+      <p style="margin:0 0 12px;font-size:11.5px;color:var(--ink-faint)" data-kb-cram-count></p>
+      <div class="kb-cram" data-kb-cram></div>
+    </aside>
+  </div>
+</main>
+<script src="data/kb.data.js"></script>
+<script src="data/search.index.js"></script>
+<script src="assets/js/kb-core.js"></script>
+<script src="assets/js/kb-ui.js"></script>
+<script src="assets/vendor/katex/katex.min.js" defer></script>
+<script src="assets/vendor/katex/auto-render.min.js" defer></script>
+<script src="assets/js/math.js" defer></script>
+<script src="assets/js/interview.js" defer></script>
+</body>
+</html>

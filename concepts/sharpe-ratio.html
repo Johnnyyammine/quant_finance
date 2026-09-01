@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en" data-page="concept">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sharpe Ratio · Quant Knowledge Base</title>
+<meta name="description" content="Excess return per unit of volatility — the industry&#39;s default measure of risk-adjusted performance, and an estimator noisy and gameable enough that knowing its failure modes matters more than knowing its formula.">
+<link rel="icon" href="../assets/icons/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/vendor/katex/katex.min.css">
+<link rel="stylesheet" href="../assets/css/app.css">
+<link rel="stylesheet" href="../assets/css/views.css">
+
+</head>
+<body class="kb-body kb-body--concept">
+<header class="kb-topbar">
+  <a class="kb-brand" href="../index.html" title="Home (H)">
+    <span class="kb-brand-mark">QF</span><span class="kb-brand-text">Quant Knowledge Base</span>
+  </a>
+  <nav class="kb-crumbs" aria-label="Breadcrumb"><ol><li><a href="../index.html">Dashboard</a></li><li class="kb-crumb-sep" aria-hidden="true">/</li><li><a href="../subjects/portfolio-construction.html">Portfolio Construction</a></li><li class="kb-crumb-sep" aria-hidden="true">/</li><li><span aria-current="page">Sharpe Ratio</span></li></ol></nav>
+  <div class="kb-topbar-actions">
+    <button class="kb-searchbtn" type="button" data-kb-open-search>
+      <span>Search concepts, formulas, questions</span><kbd>/</kbd>
+    </button>
+    <nav class="kb-toplinks" aria-label="Sections">
+      <a href="../index.html" data-nav="home">Dashboard</a>
+      <a href="../graph.html" data-nav="graph">Graph</a>
+      <a href="../interview.html" data-nav="interview">Interview</a>
+      <a href="../library.html" data-nav="library">Library</a>
+    </nav>
+    <button class="kb-iconbtn" type="button" data-kb-theme title="Toggle theme (T)" aria-label="Toggle theme">◑</button>
+    <button class="kb-iconbtn" type="button" data-kb-help title="Keyboard shortcuts (?)" aria-label="Keyboard shortcuts">?</button>
+  </div>
+</header>
+<main class="kb-main kb-main--concept" data-concept-id="sharpe-ratio">
+  <article class="kb-article">
+    <header class="kb-concept-head">
+      <div class="kb-concept-eyebrow">
+        <a class="kb-subject-chip" href="../subjects/portfolio-construction.html" style="--subject-color:#2f9e79">
+          <span class="kb-subject-mark">C</span>Portfolio Construction</a>
+        <span class="kb-pill kb-pill--intermediate">Intermediate</span>
+        <span class="kb-stars" title="Interview relevance 5 of 5" aria-label="Interview relevance 5 of 5"><span class="kb-stars-on">★★★★★</span><span class="kb-stars-off"></span></span>
+        <span class="kb-meta-dot">·</span>
+        <span class="kb-readtime">18 min</span>
+      </div>
+      <h1 class="kb-concept-title">Sharpe Ratio</h1>
+      <p class="kb-concept-summary">Excess return per unit of volatility — the industry&#39;s default measure of risk-adjusted performance, and an estimator noisy and gameable enough that knowing its failure modes matters more than knowing its formula.</p>
+      <div class="kb-concept-controls">
+        <label class="kb-statusctl">Status
+          <select data-kb-status="sharpe-ratio" data-default="learning">
+            <option value="not-started">Not started</option><option value="learning" selected>Learning</option><option value="learned">Learned</option><option value="mastered">Mastered</option>
+          </select>
+        </label>
+        <button class="kb-btn kb-btn--ghost" type="button" data-kb-bookmark="sharpe-ratio">☆ Bookmark</button>
+        <button class="kb-btn kb-btn--ghost" type="button" data-kb-flashcards>Revision card</button>
+        <a class="kb-btn kb-btn--ghost" href="../graph.html?focus=sharpe-ratio">Show in graph</a>
+      </div>
+      <ul class="kb-taglist"><li><a class="kb-tag" href="../library.html?tag=performance">#performance</a></li><li><a class="kb-tag" href="../library.html?tag=risk">#risk</a></li><li><a class="kb-tag" href="../library.html?tag=portfolio">#portfolio</a></li><li><a class="kb-tag" href="../library.html?tag=estimation">#estimation</a></li><li><a class="kb-tag" href="../library.html?tag=backtesting">#backtesting</a></li><li><a class="kb-tag" href="../library.html?tag=allocation">#allocation</a></li></ul>
+    </header>
+
+    <div class="kb-content"><h2 id="intuition" class="kb-h kb-h2"><a class="kb-anchor" href="#intuition" aria-label="Link to this section">#</a>Intuition</h2>
+<p>The Sharpe ratio asks a simple question: <strong>how much excess return did you earn per unit of risk
+taken?</strong> Two strategies returning 10% are not equivalent if one did it with 5% volatility and the
+other with 30%.</p>
+<p>The reason this particular ratio became the industry standard is leverage invariance. Lever a
+strategy  <span class="math-inline">\(2\times\)</span>  and both excess return and volatility double, leaving Sharpe unchanged. That
+makes it a statement about the <em>quality</em> of a return stream independent of how much of it you
+choose to hold — which is exactly the right separation when capital and leverage are decisions made
+elsewhere.</p>
+<aside class="kb-callout kb-callout--insight"><div class="kb-callout-title">Insight</div><div class="kb-callout-body"><p>Sharpe is fundamentally a <strong>t-statistic</strong>. For a strategy with  <span class="math-inline">\(T\)</span>  years of data,
+ <span class="math-inline">\(t \approx SR \times \sqrt{T}\)</span> . A Sharpe of 1.0 over 4 years gives  <span class="math-inline">\(t=2\)</span> . Once you see this, every
+statistical property follows: the noise in a Sharpe estimate, why sampling more frequently does not
+help, and why the honest evaluation of a backtest is a multiple-testing problem.</p></div></aside>
+<h2 id="mathematical-formulation" class="kb-h kb-h2"><a class="kb-anchor" href="#mathematical-formulation" aria-label="Link to this section">#</a>Mathematical Formulation</h2>
+<figure class="kb-formula" id="sharpe-ratio" data-formula="sharpe-ratio"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">Sharpe ratio</span><button class="kb-formula-copy" type="button" data-latex="SR = \frac{\E[R_p] - r_f}{\sigma(R_p - r_f)}" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[SR = \frac{\E[R_p] - r_f}{\sigma(R_p - r_f)}\]</span> </div><p class="kb-formula-note">Excess return over the risk-free rate, per unit of volatility. Leverage-invariant.</p><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">Performance</span><span class="kb-chip">Allocation</span><span class="kb-chip">Risk</span></footer></figure>
+<p>Annualisation under the i.i.d. assumption:</p>
+<figure class="kb-formula" id="annualisation" data-formula="annualisation"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">Annualisation</span><button class="kb-formula-copy" type="button" data-latex="SR_{\text{annual}} = SR_{\text{period}} \times \sqrt{k}" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[SR_{\text{annual}} = SR_{\text{period}} \times \sqrt{k}\]</span> </div><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">Reporting</span><span class="kb-chip">Comparison</span></footer></figure>
+<p>with  <span class="math-inline">\(k\)</span>  periods per year (252 daily, 52 weekly, 12 monthly).</p>
+<p>The estimator&#39;s own noise — arguably the most useful formula on this page:</p>
+<figure class="kb-formula" id="standard-error-of-an-estimated-sharpe-lo-2002" data-formula="standard-error-of-an-estimated-sharpe-lo-2002"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">Standard error of an estimated Sharpe (Lo, 2002)</span><button class="kb-formula-copy" type="button" data-latex="\operatorname{SE}(\widehat{SR}) \approx \sqrt{\frac{1 + \tfrac12 SR^2}{T}}" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[\operatorname{SE}(\widehat{SR}) \approx \sqrt{\frac{1 + \tfrac12 SR^2}{T}}\]</span> </div><p class="kb-formula-note">T is in YEARS. Sampling more finely does not help; only more calendar time does.</p><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">Backtesting</span><span class="kb-chip">Due Diligence</span></footer></figure>
+<p>With non-normal returns, the third and fourth moments enter:</p>
+<figure class="kb-formula" id="non-normal-standard-error" data-formula="non-normal-standard-error"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">Non-normal standard error</span><button class="kb-formula-copy" type="button" data-latex="\operatorname{SE}(\widehat{SR}) \approx \sqrt{\frac{1 - \gamma_3 SR + \frac{\gamma_4-1}{4}SR^2}{T}}" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[\operatorname{SE}(\widehat{SR}) \approx \sqrt{\frac{1 - \gamma_3 SR + \frac{\gamma_4-1}{4}SR^2}{T}}\]</span> </div><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">Due Diligence</span><span class="kb-chip">Hedge Fund Analysis</span></footer></figure>
+<p>where  <span class="math-inline">\(\gamma_3\)</span>  is skewness and  <span class="math-inline">\(\gamma_4\)</span>  kurtosis. <strong>Negative skew inflates the standard error</strong> —
+precisely the shape produced by option selling and carry, so the strategies with the most flattering
+Sharpe ratios are the ones whose Sharpe is least reliably estimated.</p>
+<h2 id="derivation" class="kb-h kb-h2"><a class="kb-anchor" href="#derivation" aria-label="Link to this section">#</a>Derivation</h2>
+<details class="kb-derivation"><summary>Why Sharpe scales as √T</summary><div class="kb-derivation-body"><p>Assume i.i.d. period returns with mean  <span class="math-inline">\(\mu\)</span>  and volatility  <span class="math-inline">\(\sigma\)</span> . Over  <span class="math-inline">\(k\)</span>  periods:</p>
+<span class="math-display">\[\E[R_{1:k}] = k\mu \quad\text{(means add)}, \qquad
+\sigma(R_{1:k}) = \sigma\sqrt{k} \quad\text{(variances add)}\]</span>
+<span class="math-display">\[SR_k = \frac{k\mu}{\sigma\sqrt k} = \sqrt{k}\,\frac{\mu}{\sigma} = \sqrt k \cdot SR_1\]</span>
+<p>The asymmetry between the numerator (linear in  <span class="math-inline">\(k\)</span> ) and the denominator (square root) is the same
+ <span class="math-inline">\(\sqrt t\)</span>  scaling as <a class="kb-link" href="brownian-motion.html" data-concept="brownian-motion">Brownian Motion</a>, and it is why a Sharpe ratio is meaningless without a
+stated horizon.</p></div></details>
+<details class="kb-derivation"><summary>Why more frequent sampling does not improve precision</summary><div class="kb-derivation-body"><p>Sample at frequency  <span class="math-inline">\(k\)</span>  per year over  <span class="math-inline">\(T\)</span>  years, giving  <span class="math-inline">\(n = kT\)</span>  observations. The estimated Sharpe
+at that frequency has standard error roughly  <span class="math-inline">\(1/\sqrt{n}\)</span> , and annualising multiplies by  <span class="math-inline">\(\sqrt k\)</span> :</p>
+<span class="math-display">\[\operatorname{SE}(\widehat{SR}_{\text{annual}}) \approx \sqrt{k}\cdot\frac{1}{\sqrt{kT}} = \frac{1}{\sqrt T}\]</span>
+<p><strong>The  <span class="math-inline">\(k\)</span>  cancels.</strong> Precision depends only on calendar time. This is the single most
+counter-intuitive and most important statistical fact about performance measurement: a
+high-frequency strategy generates millions of observations and still needs years of live trading
+before its Sharpe is known to within ±0.3.</p></div></details>
+<details class="kb-derivation"><summary>The optimal combination of two strategies</summary><div class="kb-derivation-body"><p>Maximising the Sharpe of  <span class="math-inline">\(w R_A + (1-w)R_B\)</span>  over  <span class="math-inline">\(w\)</span>  gives the tangency solution
+ <span class="math-inline">\(\mathbf w^\star \propto \Sigma^{-1}\boldsymbol\mu\)</span> . For two assets this reduces to</p>
+<span class="math-display">\[\frac{w_A}{w_B} = \frac{\sigma_B(SR_A - \rho\,SR_B)}{\sigma_A(SR_B - \rho\,SR_A)}\]</span>
+<p>Note the condition for a positive allocation to B:  <span class="math-inline">\(SR_B &gt; \rho\,SR_A\)</span> . A strategy with a <em>low</em>
+Sharpe still earns capital if it is sufficiently uncorrelated. With  <span class="math-inline">\(SR_A = 1.5\)</span> ,  <span class="math-inline">\(SR_B = 0.8\)</span>  and
+ <span class="math-inline">\(\rho = 0\)</span> , both get positive weight and the combined Sharpe is
+ <span class="math-inline">\(\sqrt{1.5^2 + 0.8^2} = 1.70\)</span>  — better than either alone. That  <span class="math-inline">\(\sqrt{\sum SR_i^2}\)</span>  formula for
+uncorrelated strategies is the mathematical case for the multi-strategy fund.</p></div></details>
+<h2 id="assumptions-edge-cases" class="kb-h kb-h2"><a class="kb-anchor" href="#assumptions-edge-cases" aria-label="Link to this section">#</a>Assumptions &amp; Edge Cases</h2>
+<aside class="kb-callout kb-callout--assumption"><div class="kb-callout-title">Assumptions</div><div class="kb-callout-body"><ol class="kb-list"><li><strong>Volatility is the right risk measure.</strong> True only if returns are elliptically distributed or
+ the investor has quadratic utility. Neither holds.</li>
+<li><strong>Returns are i.i.d.</strong> Broken by autocorrelation (smoothing, trend, illiquidity) and volatility
+ clustering.</li>
+<li><strong>Symmetric treatment of upside and downside.</strong> Sharpe penalises a +5% month exactly as much as
+ a −5% month. Sortino and Omega exist because investors do not.</li>
+<li><strong>Stable moments.</strong> Sharpe assumes the mean and variance being estimated are constants; regime
+ changes make them conditional quantities.</li>
+<li><strong>The risk-free rate is well-defined and achievable.</strong> In a rate regime like 2022–2024 the choice
+ of  <span class="math-inline">\(r_f\)</span>  moves reported Sharpe materially; in 2015 it did not.</li>
+<li><strong>Negative Sharpe is not comparable.</strong> With negative excess return, higher volatility gives a
+ <em>less negative</em> Sharpe. Ranking losing strategies by Sharpe is meaningless.</li></ol></div></aside>
+<aside class="kb-callout kb-callout--warning"><div class="kb-callout-title">Warning</div><div class="kb-callout-body"><p><strong>The systematic bias:</strong> every strategy that sells insurance — short volatility, credit carry, FX
+carry, merger arb, illiquidity — reports a high Sharpe over any period without a crisis. The
+metric&#39;s blindness to negative skew is not a rounding error; it is a structural incentive to take
+exactly the risks that Sharpe cannot see. LTCM ran a Sharpe above 4 until it did not exist.</p></div></aside>
+<h2 id="worked-example" class="kb-h kb-h2"><a class="kb-anchor" href="#worked-example" aria-label="Link to this section">#</a>Worked Example</h2>
+<p>A strategy returns 12% annually with 8% volatility, risk-free 3%.</p>
+<span class="math-display">\[SR = \frac{0.12 - 0.03}{0.08} = 1.125\]</span>
+<p>Now interrogate it properly.</p>
+<p><strong>Precision.</strong> Over 3 years, $\operatorname{SE} \approx \sqrt{(1 + 1.125^2/2)/3} = \sqrt{0.544} =
+0.74$. So  <span class="math-inline">\(SR = 1.13 \pm 0.74\)</span> : the 95% interval is roughly  <span class="math-inline">\([-0.32, 2.57]\)</span> . <strong>A three-year track
+record cannot distinguish a Sharpe of 1.1 from zero.</strong></p>
+<p><strong>Autocorrelation.</strong> If monthly returns have  <span class="math-inline">\(\rho_1 = 0.25\)</span> , the correction factor is
+ <span class="math-inline">\(\sqrt{(1-0.25)/(1+0.25)} = 0.77\)</span> , so the honest Sharpe is  <span class="math-inline">\(1.125 \times 0.77 = 0.87\)</span> .</p>
+<p><strong>Skew.</strong> If the strategy shows  <span class="math-inline">\(\gamma_3 = -1.5\)</span>  and  <span class="math-inline">\(\gamma_4 = 8\)</span>  (typical for short volatility),
+the standard error becomes</p>
+<span class="math-display">\[\sqrt{\frac{1 - (-1.5)(1.125) + \frac{8-1}{4}(1.125)^2}{3}} = \sqrt{\frac{1 + 1.69 + 2.21}{3}} = 1.21\]</span>
+<p>— 64% wider than the normal-case estimate. The reported 1.125 now sits inside  <span class="math-inline">\([-1.3, 3.5]\)</span> .</p>
+<p><strong>Conclusion:</strong> the honest statement is &quot;estimated Sharpe 0.9, indistinguishable from zero on this
+sample, with a return distribution that will look worse in a crisis.&quot; That is a very different
+sentence from &quot;Sharpe 1.13&quot;.</p>
+<h2 id="why-it-matters-in-quant-finance" class="kb-h kb-h2"><a class="kb-anchor" href="#why-it-matters-in-quant-finance" aria-label="Link to this section">#</a>Why It Matters in Quant Finance</h2>
+<p>Sharpe is the currency of the industry: it determines capital allocation between PMs, sets risk
+limits, decides which strategies are launched and killed, and feeds directly into compensation.
+Because it is the objective people are measured on, it is also the objective people optimise —
+including in ways that do not create value.</p>
+<p>Its relatives, each fixing one assumption:</p>
+<div class="kb-table-wrap"><table class="kb-table"><thead><tr><th>Metric</th><th>Denominator</th><th>Fixes</th></tr></thead><tbody><tr><td>Sharpe</td><td>total volatility</td><td>—</td></tr>
+<tr><td>Information ratio</td><td>tracking error</td><td>benchmark-relative skill</td></tr>
+<tr><td>Sortino</td><td>downside deviation</td><td>symmetry</td></tr>
+<tr><td>Calmar</td><td>max drawdown</td><td>path dependence</td></tr>
+<tr><td>Omega</td><td>full distribution</td><td>all higher moments</td></tr>
+<tr><td>Deflated Sharpe</td><td>adjusted for  <span class="math-inline">\(N\)</span>  trials</td><td>multiple testing</td></tr>
+<tr><td>Probabilistic Sharpe</td><td>—</td><td>reports  <span class="math-inline">\(\P(SR &gt; \text{threshold})\)</span></td></tr></tbody></table></div>
+<p>Grinold&#39;s fundamental law connects Sharpe to its drivers:</p>
+<figure class="kb-formula" id="fundamental-law-of-active-management" data-formula="fundamental-law-of-active-management"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">Fundamental law of active management</span><button class="kb-formula-copy" type="button" data-latex="IR \approx IC \times \sqrt{\text{breadth}}" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[IR \approx IC \times \sqrt{\text{breadth}}\]</span> </div><p class="kb-formula-note">Breadth counts INDEPENDENT bets. Correlated positions do not multiply.</p><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">Alpha Research</span><span class="kb-chip">Capacity Planning</span></footer></figure>
+<p>An IC of 0.03 — a correlation of 3% between forecast and outcome, which is a realistic
+cross-sectional equity signal — applied to 1,000 independent bets per year yields
+ <span class="math-inline">\(IR \approx 0.03\sqrt{1000} \approx 0.95\)</span> . That is the arithmetic of a real equity market-neutral
+business, and it shows why breadth and independence are worth as much as forecasting skill.</p>
+<h2 id="trading-research-application" class="kb-h kb-h2"><a class="kb-anchor" href="#trading-research-application" aria-label="Link to this section">#</a>Trading &amp; Research Application</h2>
+<aside class="kb-callout kb-callout--desk"><div class="kb-callout-title">On the desk</div><div class="kb-callout-body"><p><strong>Allocate on marginal, not standalone, Sharpe.</strong> The question is never &quot;what is this strategy&#39;s
+Sharpe?&quot; but &quot;how much does adding it raise the fund&#39;s Sharpe?&quot; For uncorrelated strategies,
+combined  <span class="math-inline">\(SR = \sqrt{\sum SR_i^2}\)</span>  — five uncorrelated 0.8-Sharpe strategies give 1.79, better than
+any single one and better than most single strategies anywhere. This is the entire economic
+rationale for the multi-strategy platform.</p>
+<p><strong>Due diligence checklist when someone shows you a Sharpe:</strong></p>
+<ul class="kb-list"><li>Over what period, and who chose the start date?</li>
+<li>Net or gross of fees, financing and transaction costs?</li>
+<li>What is the skew and kurtosis? Negative skew means the Sharpe is both flattering and imprecise.</li>
+<li>What is the autocorrelation of monthly returns? Above 0.2 suggests smoothed marks.</li>
+<li>How many variants were tested? (The question most likely to end the conversation.)</li>
+<li>What is the maximum drawdown, and does it match what the Sharpe implies? For a Sharpe-1 strategy,
+expected max drawdown over a few years is roughly one annual volatility — if the reported
+drawdown is far smaller, the volatility is understated.</li></ul>
+<p><strong>Capacity is invisible to Sharpe.</strong> A backtested Sharpe of 3 at \$10m of capital may be 0.5 at
+\$500m once market impact is included. Sharpe says nothing about the size of the business, and a
+fund cares about both.</p>
+<p><strong>Live is not backtest.</strong> Realised out-of-sample Sharpe is typically <strong>half</strong> the backtested figure
+even with honest research — the combination of overfitting, cost underestimation and alpha decay.
+Planning as though the backtest number will be realised is the most reliable way to be
+under-capitalised in the first drawdown.</p></div></aside>
+<h2 id="implementation-notes" class="kb-h kb-h2"><a class="kb-anchor" href="#implementation-notes" aria-label="Link to this section">#</a>Implementation Notes</h2>
+<figure class="kb-code" data-lang="python"><pre><code class="language-python">import numpy as np
+from scipy import stats   # optional; only for the deflated-Sharpe helper
+
+def sharpe(returns, rf_periodic=0.0, periods_per_year=252):
+    excess = np.asarray(returns) - rf_periodic
+    if excess.std(ddof=1) == 0:
+        return float(&quot;nan&quot;)
+    return excess.mean() / excess.std(ddof=1) * np.sqrt(periods_per_year)
+
+def sharpe_stderr(sr_annual, years, skew=0.0, kurtosis=3.0):
+    &quot;&quot;&quot;Lo (2002), with the non-normal correction. Report this next to every
+    Sharpe you quote -- a Sharpe without an interval is not a measurement.&quot;&quot;&quot;
+    var = 1.0 - skew * sr_annual + 0.25 * (kurtosis - 1.0) * sr_annual**2
+    return np.sqrt(max(var, 1e-12) / years)
+
+def autocorr_adjusted_sharpe(returns, periods_per_year=252):
+    &quot;&quot;&quot;Lo&#39;s autocorrelation correction. Applies to smoothed/illiquid marks and
+    to trend strategies -- both of which the naive sqrt(k) rule misstates.&quot;&quot;&quot;
+    r = np.asarray(returns)
+    q = periods_per_year
+    rho = [np.corrcoef(r[:-k], r[k:])[0, 1] for k in range(1, min(q, len(r) // 2))]
+    denom = q + 2 * sum((q - k) * rho[k - 1] for k in range(1, len(rho) + 1))
+    naive = r.mean() / r.std(ddof=1)
+    return naive * q / np.sqrt(max(denom, 1e-12))
+
+def deflated_threshold(n_trials, sr_stderr):
+    &quot;&quot;&quot;Expected maximum Sharpe from n_trials of pure noise. Your observed
+    Sharpe must beat THIS, not zero.&quot;&quot;&quot;
+    gamma = 0.5772156649
+    a = stats.norm.ppf(1 - 1 / n_trials)
+    b = stats.norm.ppf(1 - 1 / (n_trials * np.e))
+    return sr_stderr * ((1 - gamma) * a + gamma * b)</code></pre></figure>
+<h2 id="common-mistakes" class="kb-h kb-h2"><a class="kb-anchor" href="#common-mistakes" aria-label="Link to this section">#</a>Common Mistakes</h2>
+<aside class="kb-callout kb-callout--pitfall"><div class="kb-callout-title">Common pitfall</div><div class="kb-callout-body"><ul class="kb-list"><li><strong>Quoting a Sharpe without a confidence interval.</strong>  <span class="math-inline">\(\operatorname{SE}\approx\sqrt{(1+SR^2/2)/T}\)</span> 
+with  <span class="math-inline">\(T\)</span>  in years. A one-year Sharpe of 2 is not evidence of anything.</li>
+<li><strong>Believing more data points help.</strong> Only calendar time reduces the standard error; sampling
+frequency cancels.</li>
+<li><strong>Annualising by  <span class="math-inline">\(\sqrt{k}\)</span>  with autocorrelated returns.</strong> Overstates smoothed and trend
+strategies, understates mean reversion.</li>
+<li><strong>Ignoring skew and kurtosis.</strong> Negative skew both flatters the ratio and widens its error bars.</li>
+<li><strong>Comparing negative Sharpes.</strong> The ordering inverts and is meaningless.</li>
+<li><strong>Allocating on standalone rather than marginal Sharpe.</strong> Correlation to the existing book is the
+missing variable in almost every allocation question.</li>
+<li><strong>Not disclosing the number of trials.</strong> The best of 500 backtests is a different object from a
+single pre-registered test, by roughly a factor of three in Sharpe.</li>
+<li><strong>Confusing Sharpe with the information ratio.</strong> Sharpe uses  <span class="math-inline">\(r_f\)</span> ; IR uses a benchmark. A
+long-only manager&#39;s Sharpe in a bull market says nothing about skill.</li></ul></div></aside>
+<h2 id="30-second-revision" class="kb-h kb-h2"><a class="kb-anchor" href="#30-second-revision" aria-label="Link to this section">#</a>30-Second Revision</h2>
+<ul class="kb-list"><li><span class="math-inline">\(SR = (\E[R]-r_f)/\sigma\)</span> ; leverage-invariant; annualise by  <span class="math-inline">\(\sqrt k\)</span>  <strong>if i.i.d.</strong></li>
+<li>Sharpe is a t-statistic:  <span class="math-inline">\(t \approx SR\sqrt{T}\)</span> ,  <span class="math-inline">\(T\)</span>  in years.</li>
+<li><span class="math-inline">\(\operatorname{SE}(\widehat{SR}) \approx \sqrt{(1+SR^2/2)/T}\)</span> . <strong>Only calendar time helps</strong> —
+higher sampling frequency does not.</li>
+<li>Negative skew both inflates the ratio and widens its error bars: option sellers look best on this
+metric and deserve it least.</li>
+<li>Uncorrelated strategies combine as  <span class="math-inline">\(\sqrt{\sum SR_i^2}\)</span> ; allocate on <strong>marginal</strong>, not standalone.</li>
+<li><span class="math-inline">\(IR \approx IC\sqrt{\text{breadth}}\)</span>  — skill per bet times the root of independent bets.</li>
+<li>Best-of- <span class="math-inline">\(N\)</span>  backtests need a deflated threshold; the number of trials is the number that matters.</li>
+<li>Expect realised Sharpe ≈ half the backtest.</li></ul></div>
+    <section class="kb-section" id="key-formulas">
+        <h2 class="kb-h kb-h2"><a class="kb-anchor" href="#key-formulas" aria-label="Link to this section">#</a>Key Formulas</h2>
+        <div class="kb-formula-recap">
+          <a class="kb-formula-recap-item" href="#sharpe-ratio">
+            <span class="kb-formula-recap-name">Sharpe ratio</span>
+            <span class="math-display">\[SR = \frac{\E[R_p] - r_f}{\sigma(R_p - r_f)}\]</span>
+          </a>
+          <a class="kb-formula-recap-item" href="#annualisation">
+            <span class="kb-formula-recap-name">Annualisation</span>
+            <span class="math-display">\[SR_{\text{annual}} = SR_{\text{period}} \times \sqrt{k}\]</span>
+          </a>
+          <a class="kb-formula-recap-item" href="#standard-error-of-an-estimated-sharpe-lo-2002">
+            <span class="kb-formula-recap-name">Standard error of an estimated Sharpe (Lo, 2002)</span>
+            <span class="math-display">\[\operatorname{SE}(\widehat{SR}) \approx \sqrt{\frac{1 + \tfrac12 SR^2}{T}}\]</span>
+          </a>
+          <a class="kb-formula-recap-item" href="#non-normal-standard-error">
+            <span class="kb-formula-recap-name">Non-normal standard error</span>
+            <span class="math-display">\[\operatorname{SE}(\widehat{SR}) \approx \sqrt{\frac{1 - \gamma_3 SR + \frac{\gamma_4-1}{4}SR^2}{T}}\]</span>
+          </a>
+          <a class="kb-formula-recap-item" href="#fundamental-law-of-active-management">
+            <span class="kb-formula-recap-name">Fundamental law of active management</span>
+            <span class="math-display">\[IR \approx IC \times \sqrt{\text{breadth}}\]</span>
+          </a></div>
+      </section>
+    <section class="kb-section" id="interview-questions">
+        <h2 class="kb-h kb-h2"><a class="kb-anchor" href="#interview-questions" aria-label="Link to this section">#</a>Interview Questions</h2>
+        <ol class="kb-questions">
+          <li class="kb-question" id="q-sharpe-ratio-q1" data-difficulty="advanced">
+            <div class="kb-question-head">
+              <span class="kb-question-text">A strategy reports Sharpe 2.0 over 1 year of daily data. How confident should you be that the true Sharpe is above 1?</span>
+              <span class="kb-tagline">Advanced · sampling-error · estimation · backtesting</span>
+            </div>
+            <details class="kb-hint"><summary>Hint</summary><div><p>The standard error of an estimated Sharpe depends on the number of years, not the number of observations.</p></div></details>
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>For i.i.d. normal returns,  <span class="math-inline">\(\operatorname{SE}(\widehat{SR}) \approx \sqrt{(1 + SR^2/2)/T}\)</span> 
+with  <span class="math-inline">\(T\)</span>  in <strong>years</strong>. With  <span class="math-inline">\(T = 1\)</span>  and  <span class="math-inline">\(SR=2\)</span> :</p>
+<span class="math-display">\[\operatorname{SE} \approx \sqrt{(1 + 2)/1} = \sqrt{3} = 1.73\]</span>
+<p>So the 95% confidence interval is roughly  <span class="math-inline">\([-1.4, 5.4]\)</span> . <strong>You cannot even reject zero.</strong>
+This is the most important practical fact about the Sharpe ratio, and it surprises people:
+sampling frequency does not help. Going from daily to 5-minute data multiplies the number of
+observations by 78 and leaves the precision of the Sharpe estimate essentially unchanged,
+because both the numerator and the denominator scale together. <strong>Only calendar time helps.</strong>
+To establish  <span class="math-inline">\(SR = 1\)</span>  at  <span class="math-inline">\(t = 2\)</span>  takes roughly 4–5 years of data.</p></div></details>
+          </li>
+          <li class="kb-question" id="q-sharpe-ratio-q2" data-difficulty="intermediate">
+            <div class="kb-question-head">
+              <span class="kb-question-text">How do you annualise a monthly Sharpe ratio, and when is that wrong?</span>
+              <span class="kb-tagline">Intermediate · annualisation · autocorrelation</span>
+            </div>
+            
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>Naively  <span class="math-inline">\(SR_{\text{annual}} = SR_{\text{monthly}} \times \sqrt{12}\)</span> , because mean scales with
+ <span class="math-inline">\(T\)</span>  and volatility with  <span class="math-inline">\(\sqrt T\)</span> .
+This assumes <strong>i.i.d. returns</strong>. With AR(1) autocorrelation  <span class="math-inline">\(\rho_1\)</span> , Lo (2002) gives the
+correction factor</p>
+<span class="math-display">\[\sqrt{\frac{T}{1 + 2\sum_{k=1}^{T-1}\frac{T-k}{T}\rho_k}}\]</span>
+<p>which for AR(1) is approximately  <span class="math-inline">\(\sqrt{T}\cdot\sqrt{\frac{1-\rho_1}{1+\rho_1}}\)</span> .
+With  <span class="math-inline">\(\rho_1 = 0.3\)</span>  (typical of a smoothed credit or private-asset book), the naive  <span class="math-inline">\(\sqrt{12}\)</span> 
+overstates the annual Sharpe by about 35%. Trend-following strategies with positive
+autocorrelation are similarly overstated; short-horizon mean reversion with  <span class="math-inline">\(\rho_1 &lt; 0\)</span>  is
+<em>understated</em>.</p></div></details>
+          </li>
+          <li class="kb-question" id="q-sharpe-ratio-q3" data-difficulty="advanced">
+            <div class="kb-question-head">
+              <span class="kb-question-text">Name five ways to inflate a Sharpe ratio without adding any skill.</span>
+              <span class="kb-tagline">Advanced · gaming · due-diligence · red-flags</span>
+            </div>
+            
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><ol class="kb-list"><li><strong>Sell tail risk.</strong> Short deep OTM options or take illiquidity premia. Returns look smooth
+ and positive until they do not; the variance measured pre-event is not the variance.</li>
+<li><strong>Smooth the marks.</strong> Illiquid or model-priced assets have autocorrelated returns, which
+ suppress measured volatility. Unsmoothing (Getmansky–Lo–Makarov) typically halves the Sharpe.</li>
+<li><strong>Choose the window.</strong> Report from the trough of the last drawdown. Backtest start dates are
+ not chosen at random.</li>
+<li><strong>Survivorship / selection.</strong> Report only the funds or variants that survived. The
+ cross-sectional maximum of noise is large.</li>
+<li><strong>Sample at a convenient frequency.</strong> Monthly returns hide daily drawdowns entirely; the
+ same P&amp;L path can present very differently.</li></ol>
+<p>A sixth, subtler one: <strong>leverage a low-Sharpe strategy and compare to unlevered peers</strong> — Sharpe
+is leverage-invariant, so this does not work directly, but changing the <em>risk-free</em> benchmark or
+excluding financing costs achieves it.</p></div></details>
+          </li>
+          <li class="kb-question" id="q-sharpe-ratio-q4" data-difficulty="intermediate">
+            <div class="kb-question-head">
+              <span class="kb-question-text">Two strategies: A has Sharpe 1.5, B has Sharpe 0.8. Which do you allocate to?</span>
+              <span class="kb-tagline">Intermediate · portfolio-construction · correlation</span>
+            </div>
+            <details class="kb-hint"><summary>Hint</summary><div><p>The question is incomplete as asked. What is missing?</p></div></details>
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p><strong>Insufficient information — you need the correlation to the existing book.</strong> Sharpe is a
+standalone statistic, and allocation is a marginal decision.
+For a two-asset combination the optimal risk-weight ratio is</p>
+<span class="math-display">\[\frac{w_A}{w_B} \propto \frac{SR_A - \rho\,SR_B}{SR_B - \rho\,SR_A}\]</span>
+<p>If B is uncorrelated with the existing portfolio and A is 0.8 correlated with it, B may well
+deserve the larger allocation despite the worse standalone number. The right quantity is the
+<strong>marginal</strong> contribution to portfolio Sharpe, not the standalone Sharpe.
+This is why multi-strategy funds pay for uncorrelated mediocrity over correlated excellence,
+and it is the answer interviewers are listening for.</p></div></details>
+          </li>
+          <li class="kb-question" id="q-sharpe-ratio-q5" data-difficulty="intermediate">
+            <div class="kb-question-head">
+              <span class="kb-question-text">Why do hedge funds quote the information ratio rather than the Sharpe ratio?</span>
+              <span class="kb-tagline">Intermediate · benchmark · alpha</span>
+            </div>
+            
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>The <strong>information ratio</strong> is active return over tracking error — excess return relative to a
+<em>benchmark</em> rather than the risk-free rate:</p>
+<span class="math-display">\[IR = \frac{\E[r_p - r_b]}{\sigma(r_p - r_b)}\]</span>
+<p>It isolates skill from beta. A long-only manager with a Sharpe of 0.9 in a bull market has
+demonstrated nothing if the benchmark&#39;s Sharpe was 0.9; their IR is zero.
+Sharpe and IR coincide when the benchmark is cash. Grinold&#39;s <strong>fundamental law of active
+management</strong> connects IR to its drivers:  <span class="math-inline">\(IR \approx IC\sqrt{\text{breadth}}\)</span>  — skill per bet
+times the square root of the number of independent bets. That decomposition is why a weak
+signal applied to 3,000 stocks can beat a strong signal applied to 10.</p></div></details>
+          </li>
+          <li class="kb-question" id="q-sharpe-ratio-q6" data-difficulty="research">
+            <div class="kb-question-head">
+              <span class="kb-question-text">Your backtest of 500 strategy variants produced a best Sharpe of 2.5. What is the honest expected out-of-sample Sharpe?</span>
+              <span class="kb-tagline">Research · multiple-testing · deflated-sharpe · backtesting</span>
+            </div>
+            
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>The maximum of  <span class="math-inline">\(N\)</span>  draws from a zero-mean distribution with standard deviation  <span class="math-inline">\(\sigma_{SR}\)</span> 
+has expectation approximately</p>
+<span class="math-display">\[\E[\max] \approx \sigma_{SR}\left[(1-\gamma)\Phi^{-1}\!\left(1 - \tfrac1N\right) +
+\gamma\,\Phi^{-1}\!\left(1 - \tfrac{1}{Ne}\right)\right]\]</span>
+<p>( <span class="math-inline">\(\gamma \approx 0.577\)</span> , Euler–Mascheroni). With  <span class="math-inline">\(N=500\)</span>  and  <span class="math-inline">\(\sigma_{SR}=0.7\)</span>  this is roughly
+ <span class="math-inline">\(0.7 \times 3.2 \approx 2.2\)</span>  — so <strong>a best-of-500 Sharpe of 2.5 is barely distinguishable from
+pure noise.</strong>
+Bailey and López de Prado&#39;s <em>deflated Sharpe ratio</em> formalises this: report the probability
+that the observed Sharpe exceeds what the search itself would have produced. In practice:
+pre-register the hypothesis, hold out data you genuinely do not look at, and disclose the
+number of trials. The number of trials is the most important number in any backtest and the
+one most often omitted.</p></div></details>
+          </li></ol>
+      </section>
+
+    <section class="kb-section" id="connections">
+      <h2 class="kb-h kb-h2"><a class="kb-anchor" href="#connections" aria-label="Link to this section">#</a>Connections</h2>
+      <div class="kb-connections">
+        <section class="kb-relgroup"><h3>Prerequisites</h3><p class="kb-relnote">Understand these first.</p><ul class="kb-rellist"><li><a href="../concepts/variance.html" class="kb-relitem">
+          <span class="kb-relitem-title">Variance</span>
+          <span class="kb-relitem-meta">Statistics · Foundational</span>
+          <span class="kb-relitem-sum">The expected squared deviation from the mean — the second moment that turns a return forecast into a position size, and the quantity that does not add when you combine assets.</span>
+        </a></li><li><a href="../concepts/expectation.html" class="kb-relitem">
+          <span class="kb-relitem-title">Expectation</span>
+          <span class="kb-relitem-meta">Probability · Foundational</span>
+          <span class="kb-relitem-sum">The probability-weighted average of a random variable — the number a long-run average converges to, and the object almost every pricing and sizing argument is really about.</span>
+        </a></li></ul></section>
+        
+        <section class="kb-relgroup"><h3>Related</h3><ul class="kb-rellist"><li><a href="../concepts/covariance-and-correlation.html" class="kb-relitem">
+          <span class="kb-relitem-title">Covariance &amp; Correlation</span>
+          <span class="kb-relitem-meta">Statistics · Foundational</span>
+          <span class="kb-relitem-sum">Covariance measures how two variables move together in raw units; correlation normalises it to [-1, 1] — together they determine whether combining two positions reduces risk or concentrates it.</span>
+        </a></li><li><a href="../concepts/linear-regression.html" class="kb-relitem">
+          <span class="kb-relitem-title">Linear Regression</span>
+          <span class="kb-relitem-meta">Statistics · Intermediate</span>
+          <span class="kb-relitem-sum">The projection of a target onto the span of its predictors — the estimator behind every beta, factor loading and hedge ratio in finance, and the one whose assumptions market data violates most reliably.</span>
+        </a></li><li><a href="../concepts/brownian-motion.html" class="kb-relitem">
+          <span class="kb-relitem-title">Brownian Motion</span>
+          <span class="kb-relitem-meta">Stochastic Processes · Advanced</span>
+          <span class="kb-relitem-sum">The continuous-time limit of a random walk — Gaussian, independent increments scaling with √t, nowhere differentiable, and the driving noise underneath essentially every continuous-time model in finance.</span>
+        </a></li><li><a href="../concepts/kelly-criterion.html" class="kb-relitem">
+          <span class="kb-relitem-title">Kelly Criterion</span>
+          <span class="kb-relitem-meta">Portfolio Construction · Intermediate</span>
+          <span class="kb-relitem-sum">The bet size that maximises the long-run growth rate of wealth — obtained by maximising expected log wealth rather than expected wealth, because capital compounds multiplicatively.</span>
+        </a></li><li><a href="../concepts/variance.html" class="kb-relitem">
+          <span class="kb-relitem-title">Variance</span>
+          <span class="kb-relitem-meta">Statistics · Foundational</span>
+          <span class="kb-relitem-sum">The expected squared deviation from the mean — the second moment that turns a return forecast into a position size, and the quantity that does not add when you combine assets.</span>
+        </a></li></ul></section>
+        
+      </div>
+      <div class="kb-references"><h3>References</h3><ul><li>Sharpe (1994), *The Sharpe Ratio*, Journal of Portfolio Management</li><li>Lo (2002), *The Statistics of Sharpe Ratios*, Financial Analysts Journal</li><li>Bailey &amp; López de Prado (2014), *The Deflated Sharpe Ratio*</li></ul></div>
+    </section>
+
+    <nav class="kb-prevnext" aria-label="Concept navigation">
+    <a class="kb-prevnext-item kb-prevnext-prev" href="../concepts/kelly-criterion.html" rel="prev">
+      <span class="kb-prevnext-label">← Previous</span><span>Kelly Criterion</span></a>
+    <a class="kb-prevnext-item kb-prevnext-up" href="../subjects/portfolio-construction.html">
+      <span class="kb-prevnext-label">Subject</span><span>Portfolio Construction</span></a>
+    <span></span>
+  </nav>
+    <footer class="kb-source-note">
+      Source: <code>content/concepts/sharpe-ratio.md</code> · updated 2026-01-14
+      · edit the markdown and run <code>npm run build</code>.
+    </footer>
+  </article>
+
+  <aside class="kb-sidebar">
+    <nav class="kb-toc" aria-label="On this page"><h3>On this page</h3><ol><li><a href="#intuition">Intuition</a></li><li><a href="#mathematical-formulation">Mathematical Formulation</a></li><li><a href="#derivation">Derivation</a></li><li><a href="#assumptions-edge-cases">Assumptions &amp; Edge Cases</a></li><li><a href="#worked-example">Worked Example</a></li><li><a href="#why-it-matters-in-quant-finance">Why It Matters in Quant Finance</a></li><li><a href="#trading-research-application">Trading &amp; Research Application</a></li><li><a href="#implementation-notes">Implementation Notes</a></li><li><a href="#common-mistakes">Common Mistakes</a></li><li><a href="#30-second-revision">30-Second Revision</a></li><li><a href="#key-formulas">Key Formulas</a></li><li><a href="#interview-questions">Interview Questions</a></li><li><a href="#connections">Connections</a></li></ol></nav>
+    <section class="kb-side-card" id="side-formulas"><h3>Key formulas</h3><ul class="kb-side-formulas"><li><a href="#sharpe-ratio">Sharpe ratio</a></li><li><a href="#annualisation">Annualisation</a></li><li><a href="#standard-error-of-an-estimated-sharpe-lo-2002">Standard error of an estimated Sharpe (Lo, 2002)</a></li><li><a href="#non-normal-standard-error">Non-normal standard error</a></li><li><a href="#fundamental-law-of-active-management">Fundamental law of active management</a></li></ul></section>
+    <section class="kb-side-card">
+      <h3>Metadata</h3>
+      <dl class="kb-meta">
+        <dt>Subject</dt><dd><a href="../subjects/portfolio-construction.html">Portfolio Construction</a></dd>
+        <dt>Difficulty</dt><dd>Intermediate</dd>
+        <dt>Interview</dt><dd><span class="kb-stars" title="Interview relevance 5 of 5" aria-label="Interview relevance 5 of 5"><span class="kb-stars-on">★★★★★</span><span class="kb-stars-off"></span></span></dd>
+        <dt>Status</dt><dd data-kb-status-label="sharpe-ratio">Learning</dd>
+        <dt>Prereqs</dt><dd>2</dd>
+        <dt>Formulas</dt><dd>5</dd>
+        <dt>Questions</dt><dd>6</dd>
+      </dl>
+    </section>
+    <section class="kb-side-card kb-side-minimap">
+      <h3>Neighbourhood</h3>
+      <canvas data-kb-minimap="sharpe-ratio" width="260" height="200" aria-label="Local knowledge graph"></canvas>
+      <a class="kb-side-more" href="../graph.html?focus=sharpe-ratio">Open full graph →</a>
+    </section>
+  </aside>
+</main>
+<script src="../data/kb.data.js"></script>
+<script src="../data/search.index.js"></script>
+<script src="../assets/js/kb-core.js"></script>
+<script src="../assets/js/kb-ui.js"></script>
+<script src="../assets/vendor/katex/katex.min.js" defer></script>
+<script src="../assets/vendor/katex/auto-render.min.js" defer></script>
+<script src="../assets/js/math.js" defer></script>
+<script src="../assets/js/concept.js" defer></script>
+</body>
+</html>
