@@ -290,6 +290,19 @@ test('build: the repository builds without errors', () => {
   });
 });
 
+test('build: the build is deterministic', () => {
+  // Generated output is committed, and CI fails if it drifts from content/.
+  // A wall-clock timestamp in the payload would make every build differ and
+  // turn that check into permanent noise, so it must stay reproducible.
+  const { build } = require('./build');
+  const a = build().payload;
+  const b = build().payload;
+  assert.ok(!('generatedAt' in a), 'payload carries a wall-clock timestamp');
+  assert.strictEqual(a.contentHash, b.contentHash, 'content hash is unstable');
+  assert.strictEqual(JSON.stringify(a), JSON.stringify(b), 'two builds of identical input differ');
+  assert.ok(/^[0-9a-f]{12}$/.test(a.contentHash), 'content hash is malformed');
+});
+
 test('build: every declared prerequisite and relation resolves', () => {
   const data = require(path.join(__dirname, '..', 'data', 'kb.json'));
   const ids = new Set(data.concepts.map((c) => c.id));
