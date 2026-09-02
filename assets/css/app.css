@@ -403,13 +403,13 @@ html[data-theme="light"] .kb-pill--research     { color: #8d4c25; background: rg
 
 .kb-main--concept {
   display: grid;
-  grid-template-columns: 264px minmax(0, 1fr);
-  gap: 52px;
-  /* Sized so the article column lands near 70 characters. Long-form text past
-     about 75ch costs the reader the line return -- the eye loses its place
-     coming back to the left margin. The rail on the left absorbs the width
-     that a wider column would have wasted. */
-  max-width: 1044px;
+  grid-template-columns: 268px minmax(0, 1fr);
+  gap: 56px;
+  /* Wide enough that tables, code and the interactive modules get real room.
+     The reading measure is no longer enforced by starving the column -- it is
+     set on the prose elements themselves, so text stays comfortable while
+     anything wider than a sentence can use the whole width. */
+  max-width: 1260px;
 }
 /* The rail sits on the left, but the article stays FIRST in the DOM: screen
    readers, print and the no-CSS fallback all get the prose before the
@@ -434,14 +434,28 @@ html[data-theme="light"] .kb-pill--research     { color: #8d4c25; background: rg
   line-height: 1.68;
   overflow-wrap: break-word;
 }
-/* Things that are diagrams rather than prose get to ignore the measure and
-   use the full column: a chart squeezed to reading width is a worse chart. */
-.kb-article .kb-module,
-.kb-article table { margin-inline: -18px; width: calc(100% + 36px); max-width: none; }
+/* Things that are diagrams rather than prose ignore the measure and use the
+   full column: a chart squeezed to reading width is a worse chart.
+
+   Scoped to DIRECT children of the body wrapper. The previous selector caught
+   every table in the article, including ones nested inside an answer or a
+   derivation -- those blocks have their own padding, so the negative margin
+   pushed the table's first column outside the block, where it was clipped. */
+.kb-content > .kb-module,
+.kb-content > table { margin-inline: -18px; width: calc(100% + 36px); max-width: none; }
 @media (max-width: 700px) {
-  .kb-article .kb-module,
-  .kb-article table { margin-inline: 0; width: 100%; }
+  .kb-content > .kb-module,
+  .kb-content > table { margin-inline: 0; width: 100%; }
 }
+
+/* The measure lives on the prose, not on the column. Past roughly 75
+   characters the eye starts losing its place on the line return -- but that
+   argument is about sentences, not about a table, a chart or a block of code,
+   which are read by scanning and only suffer from being cramped. */
+.kb-content > p,
+.kb-content > ul,
+.kb-content > ol,
+.kb-content > blockquote { max-width: 72ch; }
 
 .kb-concept-head { padding-bottom: 22px; border-bottom: 1px solid var(--line); margin-bottom: 30px; }
 
@@ -486,6 +500,7 @@ html[data-theme="light"] .kb-pill--research     { color: #8d4c25; background: rg
   margin: 0; padding-left: 12px;
   border-left: 2px solid var(--accent);
   font-size: 15.5px; line-height: 1.6; color: var(--ink);
+  max-width: 74ch;
 }
 .kb-concept-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 18px; }
 .kb-statusctl { display: inline-flex; align-items: center; gap: 6px; font-size: 11.5px; color: var(--ink-muted); }
@@ -680,8 +695,8 @@ html[data-theme="light"] .kb-pill--research     { color: #8d4c25; background: rg
 }
 .kb-answer > summary::-webkit-details-marker, .kb-hint > summary::-webkit-details-marker { display: none; }
 .kb-answer > summary:hover, .kb-hint > summary:hover { color: var(--ink); border-color: var(--accent); }
-.kb-answer-body { margin-top: 10px; padding: 12px 14px; background: var(--bg-sunken);
-  border-radius: var(--r); font-size: 14px; }
+.kb-answer-body { margin-top: 10px; padding: 16px 18px; background: var(--bg-sunken);
+  border-radius: var(--r-lg); font-size: 14px; }
 .kb-answer-body > :first-child { margin-top: 0; }
 .kb-answer-body > :last-child { margin-bottom: 0; }
 .kb-answer-missing { margin: 8px 0 0; font-size: 12px; color: var(--ink-faint); font-style: italic; }
