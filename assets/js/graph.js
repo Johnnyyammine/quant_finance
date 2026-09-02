@@ -255,19 +255,71 @@
     return best;
   }
 
+  /* Pointer Events rather than mouse events: one code path covers mouse, touch
+     and pen. The canvas previously listened for mousedown/mousemove/wheel,
+     which meant a phone could tap a node but never pan or zoom the graph. */
   function bindPointer() {
     var panning = false, last = null, moved = 0;
+    var pointers = {}, pinch = null;
 
-    canvas.addEventListener('mousedown', function (e) {
-      var p = toWorld(e.clientX, e.clientY);
-      var n = pick(p);
+    function active() {
+      return Object.keys(pointers).map(function (k) { return pointers[k]; });
+    }
+
+    /** Midpoint and spread of the two active pointers. */
+    function pinchState() {
+      var p = active();
+      var dx = p[0].x - p[1].x, dy = p[0].y - p[1].y;
+      return { dist: Math.sqrt(dx * dx + dy * dy) || 1,
+        cx: (p[0].x + p[1].x) / 2, cy: (p[0].y + p[1].y) / 2 };
+    }
+
+    /** Zoom by `factor`, keeping the point under (clientX, clientY) fixed. */
+    function zoomAt(clientX, clientY, factor) {
+      var r = canvas.getBoundingClientRect();
+      var mx = clientX - r.left - r.width / 2;
+      var my = clientY - r.top - r.height / 2;
+      var k = Math.max(0.2, Math.min(4, view.k * factor));
+      view.x = mx - (mx - view.x) * (k / view.k);
+      view.y = my - (my - view.y) * (k / view.k);
+      view.k = k;
+      UI.$('[data-kb-graph-zoom]').textContent = 'zoom ' + view.k.toFixed(2) + '×';
+    }
+
+    canvas.addEventListener('pointerdown', function (e) {
+      pointers[e.pointerId] = { x: e.clientX, y: e.clientY };
+      var n = active().length;
+
+      // A second finger means a pinch, not a drag. Abandon whatever the first
+      // finger started so the gesture does not drag a node across the screen.
+      if (n === 2) {
+        dragNode = null; panning = false; last = null;
+        canvas.classList.remove('is-dragging');
+        pinch = pinchState();
+        return;
+      }
+      if (n > 2) return;
+
+      canvas.setPointerCapture(e.pointerId);
+      var node = pick(toWorld(e.clientX, e.clientY));
       moved = 0;
-      if (n) { dragNode = n; alpha = Math.max(alpha, 0.35); }
+      if (node) { dragNode = node; alpha = Math.max(alpha, 0.35); }
       else { panning = true; canvas.classList.add('is-dragging'); }
       last = { x: e.clientX, y: e.clientY };
     });
 
-    global.addEventListener('mousemove', function (e) {
+    global.addEventListener('pointermove', function (e) {
+      if (pointers[e.pointerId]) pointers[e.pointerId] = { x: e.clientX, y: e.clientY };
+
+      if (pinch && active().length >= 2) {
+        var now = pinchState();
+        view.x += now.cx - pinch.cx;          // follow the midpoint...
+        view.y += now.cy - pinch.cy;
+        zoomAt(now.cx, now.cy, now.dist / pinch.dist);   // ...then scale about it
+        pinch = now;
+        moved += 1;
+        return;
+      }
       if (dragNode) {
         var p = toWorld(e.clientX, e.clientY);
         dragNode.x = p.x; dragNode.y = p.y;
@@ -281,16 +333,25 @@
         moved += 1;
         return;
       }
+      // Hover is a mouse idea. A finger has no hover state, and showing a
+      // tooltip under it would just cover the node you are trying to read.
+      if (e.pointerType && e.pointerType !== 'mouse') return;
       if (e.target !== canvas) { setHover(null); return; }
       setHover(pick(toWorld(e.clientX, e.clientY)), e.clientX, e.clientY);
     });
 
-    global.addEventListener('mouseup', function (e) {
+    function release(e) {
+      delete pointers[e.pointerId];
+      if (active().length < 2) pinch = null;
+      if (active().length > 0) return;        // other fingers still down
+
       if (dragNode && moved < 3) select(dragNode);
       else if (panning && moved < 3 && e.target === canvas) select(null);
       dragNode = null; panning = false; last = null;
       canvas.classList.remove('is-dragging');
-    });
+    }
+    global.addEventListener('pointerup', release);
+    global.addEventListener('pointercancel', release);
 
     canvas.addEventListener('dblclick', function (e) {
       var n = pick(toWorld(e.clientX, e.clientY));
@@ -299,14 +360,7 @@
 
     canvas.addEventListener('wheel', function (e) {
       e.preventDefault();
-      var r = canvas.getBoundingClientRect();
-      var mx = e.clientX - r.left - r.width / 2;
-      var my = e.clientY - r.top - r.height / 2;
-      var k = Math.max(0.2, Math.min(4, view.k * (e.deltaY < 0 ? 1.12 : 1 / 1.12)));
-      view.x = mx - (mx - view.x) * (k / view.k);
-      view.y = my - (my - view.y) * (k / view.k);
-      view.k = k;
-      UI.$('[data-kb-graph-zoom]').textContent = 'zoom ' + view.k.toFixed(2) + '×';
+      zoomAt(e.clientX, e.clientY, e.deltaY < 0 ? 1.12 : 1 / 1.12);
     }, { passive: false });
   }
 
