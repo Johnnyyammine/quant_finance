@@ -303,7 +303,7 @@
   position: absolute; left: 12px; bottom: 12px;
   display: flex; gap: 6px; align-items: center;
   padding: 6px 12px; background: color-mix(in srgb, var(--bg-raised) 92%, transparent);
-  border: 0; border-radius: var(--r-pill);
+  border: 0; border-radius: var(--r-pill); max-width: calc(100% - 24px);
   font-family: var(--font-mono); font-size: 10.5px; color: var(--ink-faint);
 }
 .kb-graph-tooltip {
@@ -320,6 +320,10 @@
   .kb-main--graph { flex-direction: column; height: auto; }
   .kb-graph-canvas-wrap { height: 60vh; }
   .kb-graph-panel { width: auto; border-left: 0; border-top: 1px solid var(--line); }
+  /* The hint wraps to two lines on a phone and lands on top of the graph.
+     The gestures it describes are the obvious ones on touch anyway. */
+  .kb-graph-hud { display: none; }
+
 }
 
 /* --------------------------------------------------------- interview ----- */
