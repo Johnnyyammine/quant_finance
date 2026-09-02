@@ -88,6 +88,43 @@ function topbar(base, crumbs) {
 
 /* ------------------------------------------------------------- concept ---- */
 
+/**
+ * Persistent site navigation: every subject that has content, with its
+ * concepts underneath. This is the piece a reference site lives or dies on --
+ * you move between concepts without going back to an index, and you can always
+ * see where the page you are on sits in the whole.
+ *
+ * Rendered as <details> so the open/closed state needs no JavaScript; the
+ * section containing the current page is forced open.
+ */
+function siteNav(base, groups, currentId, currentSubject) {
+  const section = (g) => {
+    const here = g.subject.id === currentSubject;
+    return `<details class="kb-nav-group"${here ? ' open' : ''}>
+      <summary class="kb-nav-summary">
+        <span class="kb-nav-dot" style="background:${attr(g.subject.color)}"></span>
+        <span class="kb-nav-name">${escapeHtml(g.subject.name)}</span>
+        <span class="kb-nav-count">${g.concepts.length}</span>
+      </summary>
+      <ul class="kb-nav-list">
+        ${g.concepts.map((c) => {
+          const on = c.id === currentId;
+          return `<li><a class="kb-nav-link${on ? ' is-current' : ''}" href="${base}concepts/${attr(c.id)}.html"${on ? ' aria-current="page"' : ''}>${escapeHtml(c.title)}</a></li>`;
+        }).join('')}
+      </ul>
+    </details>`;
+  };
+
+  return `<nav class="kb-nav" aria-label="All concepts">
+    <a class="kb-nav-top${currentId || currentSubject ? '' : ' is-current'}" href="${base}index.html">Dashboard</a>
+    <a class="kb-nav-top" href="${base}library.html">Library</a>
+    <a class="kb-nav-top" href="${base}interview.html">Interview mode</a>
+    <a class="kb-nav-top" href="${base}graph.html">Knowledge graph</a>
+    <div class="kb-nav-heading">Subjects</div>
+    ${groups.map(section).join('')}
+  </nav>`;
+}
+
 function conceptPage(c, ctx) {
   const base = '../';
   const subject = ctx.subject;
@@ -166,6 +203,7 @@ function conceptPage(c, ctx) {
     { label: c.title },
   ])}
 <main class="kb-main kb-main--concept" data-concept-id="${attr(c.id)}">
+  ${siteNav(base, ctx.navGroups || [], c.id, subject.id)}
   <article class="kb-article">
     <header class="kb-concept-head">
       <div class="kb-concept-eyebrow">
@@ -277,6 +315,7 @@ function subjectPage(s, concepts, ctx) {
     { label: s.name },
   ])}
 <main class="kb-main kb-main--subject" data-subject-id="${attr(s.id)}">
+  ${siteNav(base, ctx.navGroups || [], null, s.id)}
   <div class="kb-subject-wrap">
     <header class="kb-subject-head" style="--subject-color:${attr(s.color)}">
       <div class="kb-subject-mark kb-subject-mark--lg">${escapeHtml(s.icon)}</div>
