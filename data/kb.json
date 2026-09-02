@@ -1,6 +1,6 @@
 {
-  "contentHash": "e06e443a06cc",
-  "contentUpdated": "2026-01-14",
+  "contentHash": "eba3f80d3a6d",
+  "contentUpdated": "2026-09-02",
   "version": 1,
   "vocab": {
     "difficulty": [
@@ -126,9 +126,9 @@
       "group": "mathematics",
       "order": 30,
       "path": "subjects/linear-algebra.html",
-      "conceptCount": 0,
+      "conceptCount": 1,
       "progress": 0,
-      "interviewMax": 0
+      "interviewMax": 5
     },
     {
       "id": "calculus",
@@ -282,9 +282,9 @@
       "group": "strategy",
       "order": 250,
       "path": "subjects/risk-management.html",
-      "conceptCount": 0,
+      "conceptCount": 1,
       "progress": 0,
-      "interviewMax": 0
+      "interviewMax": 5
     },
     {
       "id": "backtesting",
@@ -430,12 +430,13 @@
         "covariance-and-correlation",
         "expectation",
         "linear-regression",
+        "pca-and-eigenportfolios",
         "sharpe-ratio",
         "variance",
         "brownian-motion",
         "martingales"
       ],
-      "progress": 0.4
+      "progress": 0.36
     },
     {
       "id": "quant-trader",
@@ -456,10 +457,11 @@
       "conceptIds": [
         "bayes-theorem",
         "conditional-probability",
+        "effective-number-of-bets",
         "expectation",
         "sharpe-ratio"
       ],
-      "progress": 0.44999999999999996
+      "progress": 0.36
     },
     {
       "id": "quant-developer",
@@ -476,7 +478,9 @@
       "tags": [],
       "minRelevance": 2,
       "order": 30,
-      "conceptIds": [],
+      "conceptIds": [
+        "pca-and-eigenportfolios"
+      ],
       "progress": 0
     },
     {
@@ -525,11 +529,12 @@
       "conceptIds": [
         "bayes-theorem",
         "conditional-probability",
+        "effective-number-of-bets",
         "expectation",
         "brownian-motion",
         "martingales"
       ],
-      "progress": 0.36
+      "progress": 0.3
     },
     {
       "id": "systematic-macro",
@@ -547,10 +552,11 @@
       "minRelevance": 3,
       "order": 60,
       "conceptIds": [
+        "effective-number-of-bets",
         "kelly-criterion",
         "sharpe-ratio"
       ],
-      "progress": 0.35
+      "progress": 0.2333333333333333
     },
     {
       "id": "equity-long-short",
@@ -569,12 +575,13 @@
       "order": 70,
       "conceptIds": [
         "covariance-and-correlation",
+        "effective-number-of-bets",
         "kelly-criterion",
         "linear-regression",
         "sharpe-ratio",
         "variance"
       ],
-      "progress": 0.43
+      "progress": 0.35833333333333334
     },
     {
       "id": "derivatives-desk",
@@ -600,7 +607,15 @@
   "tags": [
     {
       "id": "risk",
-      "count": 4
+      "count": 6
+    },
+    {
+      "id": "diversification",
+      "count": 3
+    },
+    {
+      "id": "factor-models",
+      "count": 3
     },
     {
       "id": "pricing",
@@ -623,11 +638,23 @@
       "count": 2
     },
     {
+      "id": "eigenvalues",
+      "count": 2
+    },
+    {
       "id": "estimation",
       "count": 2
     },
     {
+      "id": "linear-algebra",
+      "count": 2
+    },
+    {
       "id": "moments",
+      "count": 2
+    },
+    {
+      "id": "pca",
       "count": 2
     },
     {
@@ -651,6 +678,14 @@
       "count": 1
     },
     {
+      "id": "concentration",
+      "count": 1
+    },
+    {
+      "id": "crowding",
+      "count": 1
+    },
+    {
       "id": "dependence",
       "count": 1
     },
@@ -659,11 +694,11 @@
       "count": 1
     },
     {
-      "id": "dispersion",
+      "id": "dimensionality-reduction",
       "count": 1
     },
     {
-      "id": "diversification",
+      "id": "dispersion",
       "count": 1
     },
     {
@@ -672,10 +707,6 @@
     },
     {
       "id": "efficiency",
-      "count": 1
-    },
-    {
-      "id": "factor-models",
       "count": 1
     },
     {
@@ -692,10 +723,6 @@
     },
     {
       "id": "leverage",
-      "count": 1
-    },
-    {
-      "id": "linear-algebra",
       "count": 1
     },
     {
@@ -719,11 +746,19 @@
       "count": 1
     },
     {
+      "id": "portfolio-construction",
+      "count": 1
+    },
+    {
       "id": "quadratic-variation",
       "count": 1
     },
     {
       "id": "sizing",
+      "count": 1
+    },
+    {
+      "id": "stress-testing",
       "count": 1
     },
     {
@@ -836,6 +871,31 @@
       "type": "related"
     },
     {
+      "from": "pca-and-eigenportfolios",
+      "to": "effective-number-of-bets",
+      "type": "prerequisite"
+    },
+    {
+      "from": "covariance-and-correlation",
+      "to": "effective-number-of-bets",
+      "type": "prerequisite"
+    },
+    {
+      "from": "effective-number-of-bets",
+      "to": "sharpe-ratio",
+      "type": "related"
+    },
+    {
+      "from": "effective-number-of-bets",
+      "to": "kelly-criterion",
+      "type": "related"
+    },
+    {
+      "from": "effective-number-of-bets",
+      "to": "pca-and-eigenportfolios",
+      "type": "related"
+    },
+    {
       "from": "expectation",
       "to": "variance",
       "type": "related"
@@ -876,6 +936,11 @@
       "type": "related"
     },
     {
+      "from": "linear-regression",
+      "to": "pca-and-eigenportfolios",
+      "type": "related"
+    },
+    {
       "from": "expectation",
       "to": "martingales",
       "type": "prerequisite"
@@ -883,6 +948,11 @@
     {
       "from": "conditional-probability",
       "to": "martingales",
+      "type": "prerequisite"
+    },
+    {
+      "from": "covariance-and-correlation",
+      "to": "pca-and-eigenportfolios",
       "type": "prerequisite"
     },
     {
@@ -1445,7 +1515,9 @@
         "variance"
       ],
       "builtOn": [
-        "linear-regression"
+        "effective-number-of-bets",
+        "linear-regression",
+        "pca-and-eigenportfolios"
       ],
       "tracks": [],
       "path": "concepts/covariance-and-correlation.html",
@@ -1602,6 +1674,237 @@
           "subject": "statistics",
           "hasAnswer": true,
           "path": "concepts/covariance-and-correlation.html#q-covariance-and-correlation-q5"
+        }
+      ]
+    },
+    {
+      "id": "effective-number-of-bets",
+      "title": "Effective Number of Bets",
+      "subject": "risk-management",
+      "summary": "Diversification is not the number of assets you hold but the number of independent risks you actually bear — measured by the effective dimension of the covariance spectrum and by the entropy of a portfolio's risk contributions across uncorrelated directions.",
+      "difficulty": "intermediate",
+      "interviewRelevance": 5,
+      "status": "not-started",
+      "tags": [
+        "risk",
+        "diversification",
+        "pca",
+        "eigenvalues",
+        "concentration",
+        "factor-models",
+        "portfolio-construction",
+        "crowding",
+        "stress-testing"
+      ],
+      "prerequisites": [
+        "pca-and-eigenportfolios",
+        "covariance-and-correlation"
+      ],
+      "related": [
+        "sharpe-ratio",
+        "kelly-criterion",
+        "pca-and-eigenportfolios"
+      ],
+      "builtOn": [],
+      "tracks": [],
+      "path": "concepts/effective-number-of-bets.html",
+      "estimatedMinutes": 18,
+      "wordCount": 2682,
+      "updated": "2026-09-02",
+      "modules": [
+        "diversification-lab"
+      ],
+      "sections": [
+        {
+          "id": "intuition",
+          "label": "Intuition"
+        },
+        {
+          "id": "mathematical-formulation",
+          "label": "Mathematical Formulation"
+        },
+        {
+          "id": "derivation",
+          "label": "Derivation"
+        },
+        {
+          "id": "assumptions-edge-cases",
+          "label": "Assumptions & Edge Cases"
+        },
+        {
+          "id": "worked-example",
+          "label": "Worked Example"
+        },
+        {
+          "id": "why-it-matters-in-quant-finance",
+          "label": "Why It Matters in Quant Finance"
+        },
+        {
+          "id": "trading-research-application",
+          "label": "Trading & Research Application"
+        },
+        {
+          "id": "implementation-notes",
+          "label": "Implementation Notes"
+        },
+        {
+          "id": "common-mistakes",
+          "label": "Common Mistakes"
+        },
+        {
+          "id": "30-second-revision",
+          "label": "30-Second Revision"
+        }
+      ],
+      "formulas": [
+        {
+          "id": "effective-dimension-participation-ratio",
+          "name": "Effective dimension (participation ratio)",
+          "latex": "N_{\\text{eff}} = \\frac{\\big(\\sum_i \\lambda_i\\big)^2}{\\sum_i \\lambda_i^2}",
+          "usedIn": [
+            "Risk Management",
+            "Regime Monitoring",
+            "Systemic Risk"
+          ]
+        },
+        {
+          "id": "risk-contribution-of-each-independent-direction",
+          "name": "Risk contribution of each independent direction",
+          "latex": "\\sigma_p^2 = \\sum_{i=1}^{N} \\tilde v_i^2\\, \\lambda_i,\n\\qquad\np_i = \\frac{\\tilde v_i^2\\, \\lambda_i}{\\sigma_p^2}, \\qquad p_i \\ge 0, \\ \\ \\sum_i p_i = 1",
+          "usedIn": [
+            "Risk Attribution",
+            "Diversification"
+          ]
+        },
+        {
+          "id": "effective-number-of-bets-meucci-2009",
+          "name": "Effective Number of Bets (Meucci, 2009)",
+          "latex": "\\text{ENB} = \\exp\\Big({-}\\sum_{i=1}^{N} p_i \\log p_i\\Big) \\in [1, N]",
+          "usedIn": [
+            "Risk Management",
+            "Portfolio Construction",
+            "Risk Budgeting"
+          ]
+        },
+        {
+          "id": "diversification-ratio-choueifaty-coignard-2008",
+          "name": "Diversification ratio (Choueifaty & Coignard, 2008)",
+          "latex": "\\text{DR} = \\frac{\\sum_i |w_i| \\sigma_i}{\\sqrt{w^\\top \\Sigma w}}",
+          "usedIn": [
+            "Portfolio Construction",
+            "Maximum Diversification"
+          ]
+        },
+        {
+          "id": "absorption-ratio-kritzman-page-turkington-2011",
+          "name": "Absorption ratio (Kritzman, Page & Turkington, 2011)",
+          "latex": "\\text{AR}_k = \\frac{\\sum_{i=1}^{k} \\lambda_i}{\\sum_{i=1}^{N} \\lambda_i}",
+          "usedIn": [
+            "Systemic Risk",
+            "Regime Detection"
+          ]
+        }
+      ],
+      "questions": [
+        {
+          "id": "effective-number-of-bets-q1",
+          "question": "You hold 50 stocks, equally weighted. How many bets is that?",
+          "difficulty": "foundational",
+          "tags": [
+            "diversification",
+            "intuition",
+            "classic"
+          ],
+          "concept": "effective-number-of-bets",
+          "subject": "risk-management",
+          "hasAnswer": true,
+          "path": "concepts/effective-number-of-bets.html#q-effective-number-of-bets-q1"
+        },
+        {
+          "id": "effective-number-of-bets-q2",
+          "question": "Prove that an equally weighted portfolio of equicorrelated assets has an effective number of bets of exactly one.",
+          "difficulty": "advanced",
+          "tags": [
+            "derivation",
+            "enb",
+            "eigenvectors"
+          ],
+          "concept": "effective-number-of-bets",
+          "subject": "risk-management",
+          "hasAnswer": true,
+          "path": "concepts/effective-number-of-bets.html#q-effective-number-of-bets-q2"
+        },
+        {
+          "id": "effective-number-of-bets-q3",
+          "question": "What is the difference between the effective dimension of the covariance matrix and the effective number of bets?",
+          "difficulty": "intermediate",
+          "tags": [
+            "enb",
+            "definitions",
+            "risk-attribution"
+          ],
+          "concept": "effective-number-of-bets",
+          "subject": "risk-management",
+          "hasAnswer": true,
+          "path": "concepts/effective-number-of-bets.html#q-effective-number-of-bets-q3"
+        },
+        {
+          "id": "effective-number-of-bets-q4",
+          "question": "A PM's book has an ENB of 1.2 and a Sharpe ratio of 3.0. Do you make them diversify?",
+          "difficulty": "intermediate",
+          "tags": [
+            "judgement",
+            "risk-limits",
+            "sharpe"
+          ],
+          "concept": "effective-number-of-bets",
+          "subject": "risk-management",
+          "hasAnswer": true,
+          "path": "concepts/effective-number-of-bets.html#q-effective-number-of-bets-q4"
+        },
+        {
+          "id": "effective-number-of-bets-q5",
+          "question": "Your colleague computes ENB two different ways and gets 3.4 and 7.1 on the same portfolio. Who is wrong?",
+          "difficulty": "advanced",
+          "tags": [
+            "rotation",
+            "minimum-torsion",
+            "identification"
+          ],
+          "concept": "effective-number-of-bets",
+          "subject": "risk-management",
+          "hasAnswer": true,
+          "path": "concepts/effective-number-of-bets.html#q-effective-number-of-bets-q5"
+        },
+        {
+          "id": "effective-number-of-bets-q6",
+          "question": "Your risk system reports $N_{\\text{eff}} = 12$ for a 50-name book estimated from one year of daily returns. Do you believe it?",
+          "difficulty": "advanced",
+          "tags": [
+            "estimation",
+            "marchenko-pastur",
+            "noise",
+            "bias"
+          ],
+          "concept": "effective-number-of-bets",
+          "subject": "risk-management",
+          "hasAnswer": true,
+          "path": "concepts/effective-number-of-bets.html#q-effective-number-of-bets-q6"
+        },
+        {
+          "id": "effective-number-of-bets-q7",
+          "question": "Why does diversification collapse precisely when you need it?",
+          "difficulty": "intermediate",
+          "tags": [
+            "stress",
+            "correlation",
+            "crowding",
+            "tail-risk"
+          ],
+          "concept": "effective-number-of-bets",
+          "subject": "risk-management",
+          "hasAnswer": true,
+          "path": "concepts/effective-number-of-bets.html#q-effective-number-of-bets-q7"
         }
       ]
     },
@@ -1809,7 +2112,8 @@
       "related": [
         "sharpe-ratio",
         "brownian-motion",
-        "covariance-and-correlation"
+        "covariance-and-correlation",
+        "effective-number-of-bets"
       ],
       "builtOn": [],
       "tracks": [],
@@ -2016,7 +2320,8 @@
         "sharpe-ratio",
         "bayes-theorem",
         "conditional-probability",
-        "covariance-and-correlation"
+        "covariance-and-correlation",
+        "pca-and-eigenportfolios"
       ],
       "builtOn": [],
       "tracks": [],
@@ -2348,6 +2653,208 @@
       ]
     },
     {
+      "id": "pca-and-eigenportfolios",
+      "title": "PCA & Eigenportfolios",
+      "subject": "linear-algebra",
+      "summary": "The spectral decomposition $\\Sigma = Q\\Lambda Q^\\top$ rewrites a correlated universe as a set of uncorrelated principal portfolios — the eigenvectors are the independent directions of risk and the eigenvalues are how much risk lives in each.",
+      "difficulty": "intermediate",
+      "interviewRelevance": 5,
+      "status": "not-started",
+      "tags": [
+        "linear-algebra",
+        "pca",
+        "eigenvalues",
+        "factor-models",
+        "risk",
+        "dimensionality-reduction",
+        "diversification"
+      ],
+      "prerequisites": [
+        "covariance-and-correlation"
+      ],
+      "related": [
+        "linear-regression",
+        "effective-number-of-bets"
+      ],
+      "builtOn": [
+        "effective-number-of-bets"
+      ],
+      "tracks": [],
+      "path": "concepts/pca-and-eigenportfolios.html",
+      "estimatedMinutes": 16,
+      "wordCount": 1967,
+      "updated": "2026-09-02",
+      "modules": [
+        "diversification-lab"
+      ],
+      "sections": [
+        {
+          "id": "intuition",
+          "label": "Intuition"
+        },
+        {
+          "id": "mathematical-formulation",
+          "label": "Mathematical Formulation"
+        },
+        {
+          "id": "derivation",
+          "label": "Derivation"
+        },
+        {
+          "id": "assumptions-edge-cases",
+          "label": "Assumptions & Edge Cases"
+        },
+        {
+          "id": "worked-example",
+          "label": "Worked Example"
+        },
+        {
+          "id": "why-it-matters-in-quant-finance",
+          "label": "Why It Matters in Quant Finance"
+        },
+        {
+          "id": "trading-research-application",
+          "label": "Trading & Research Application"
+        },
+        {
+          "id": "implementation-notes",
+          "label": "Implementation Notes"
+        },
+        {
+          "id": "common-mistakes",
+          "label": "Common Mistakes"
+        },
+        {
+          "id": "30-second-revision",
+          "label": "30-Second Revision"
+        }
+      ],
+      "formulas": [
+        {
+          "id": "spectral-decomposition",
+          "name": "Spectral decomposition",
+          "latex": "\\Sigma = Q \\Lambda Q^\\top = \\sum_{i=1}^{N} \\lambda_i\\, q_i q_i^\\top,\n\\qquad Q^\\top Q = I, \\qquad \\lambda_1 \\ge \\lambda_2 \\ge \\cdots \\ge \\lambda_N \\ge 0",
+          "usedIn": [
+            "Risk Management",
+            "Factor Models",
+            "Portfolio Construction"
+          ]
+        },
+        {
+          "id": "principal-portfolios-are-uncorrelated",
+          "name": "Principal portfolios are uncorrelated",
+          "latex": "\\operatorname{Cov}(y) = Q^\\top \\Sigma Q = \\Lambda\n\\quad\\Longrightarrow\\quad\n\\Var(y_i) = \\lambda_i, \\quad \\Cov(y_i, y_j) = 0 \\ \\ (i \\ne j)",
+          "usedIn": [
+            "Risk Attribution",
+            "Statistical Arbitrage"
+          ]
+        },
+        {
+          "id": "portfolio-variance-in-the-eigenbasis",
+          "name": "Portfolio variance in the eigenbasis",
+          "latex": "\\sigma_p^2 = w^\\top \\Sigma w = \\tilde v^\\top \\Lambda \\tilde v = \\sum_{i=1}^{N} \\tilde v_i^2 \\lambda_i",
+          "usedIn": [
+            "Risk Management",
+            "Diversification"
+          ]
+        },
+        {
+          "id": "variance-explained",
+          "name": "Variance explained",
+          "latex": "\\text{share}_i = \\frac{\\lambda_i}{\\sum_{j} \\lambda_j} = \\frac{\\lambda_i}{\\operatorname{tr}(\\Sigma)}",
+          "usedIn": [
+            "Risk Reporting",
+            "PCA"
+          ]
+        }
+      ],
+      "questions": [
+        {
+          "id": "pca-and-eigenportfolios-q1",
+          "question": "Run PCA on daily changes in a government yield curve. What do the first three components look like, and how much variance do they explain?",
+          "difficulty": "intermediate",
+          "tags": [
+            "fixed-income",
+            "classic",
+            "interpretation"
+          ],
+          "concept": "pca-and-eigenportfolios",
+          "subject": "linear-algebra",
+          "hasAnswer": true,
+          "path": "concepts/pca-and-eigenportfolios.html#q-pca-and-eigenportfolios-q1"
+        },
+        {
+          "id": "pca-and-eigenportfolios-q2",
+          "question": "Why do we use `np.linalg.eigh` rather than `np.linalg.eig` on a covariance matrix?",
+          "difficulty": "foundational",
+          "tags": [
+            "numerics",
+            "spectral-theorem",
+            "implementation"
+          ],
+          "concept": "pca-and-eigenportfolios",
+          "subject": "linear-algebra",
+          "hasAnswer": true,
+          "path": "concepts/pca-and-eigenportfolios.html#q-pca-and-eigenportfolios-q2"
+        },
+        {
+          "id": "pca-and-eigenportfolios-q3",
+          "question": "PCA on the covariance matrix or on the correlation matrix?",
+          "difficulty": "intermediate",
+          "tags": [
+            "scaling",
+            "interpretation"
+          ],
+          "concept": "pca-and-eigenportfolios",
+          "subject": "linear-algebra",
+          "hasAnswer": true,
+          "path": "concepts/pca-and-eigenportfolios.html#q-pca-and-eigenportfolios-q3"
+        },
+        {
+          "id": "pca-and-eigenportfolios-q4",
+          "question": "Your top eigenvalue explains 40% of the variance of a 100-asset correlation matrix estimated from 2 years of daily data. Is that a real factor?",
+          "difficulty": "advanced",
+          "tags": [
+            "marchenko-pastur",
+            "random-matrix-theory",
+            "noise"
+          ],
+          "concept": "pca-and-eigenportfolios",
+          "subject": "linear-algebra",
+          "hasAnswer": true,
+          "path": "concepts/pca-and-eigenportfolios.html#q-pca-and-eigenportfolios-q4"
+        },
+        {
+          "id": "pca-and-eigenportfolios-q5",
+          "question": "You rebuild your statistical risk model each month. PC4 and PC5 keep swapping. Why, and does it matter?",
+          "difficulty": "advanced",
+          "tags": [
+            "stability",
+            "perturbation",
+            "risk-model"
+          ],
+          "concept": "pca-and-eigenportfolios",
+          "subject": "linear-algebra",
+          "hasAnswer": true,
+          "path": "concepts/pca-and-eigenportfolios.html#q-pca-and-eigenportfolios-q5"
+        },
+        {
+          "id": "pca-and-eigenportfolios-q6",
+          "question": "Show that the first principal component maximises portfolio variance subject to a unit-norm weight constraint.",
+          "difficulty": "intermediate",
+          "tags": [
+            "optimisation",
+            "derivation",
+            "lagrangian"
+          ],
+          "concept": "pca-and-eigenportfolios",
+          "subject": "linear-algebra",
+          "hasAnswer": true,
+          "path": "concepts/pca-and-eigenportfolios.html#q-pca-and-eigenportfolios-q6"
+        }
+      ]
+    },
+    {
       "id": "sharpe-ratio",
       "title": "Sharpe Ratio",
       "subject": "portfolio-construction",
@@ -2371,6 +2878,7 @@
         "covariance-and-correlation",
         "linear-regression",
         "brownian-motion",
+        "effective-number-of-bets",
         "kelly-criterion",
         "variance"
       ],
@@ -2749,11 +3257,11 @@
     }
   ],
   "stats": {
-    "concepts": 10,
+    "concepts": 12,
     "subjects": 24,
-    "formulas": 41,
-    "questions": 49,
-    "words": 13607,
-    "progress": 0.395
+    "formulas": 50,
+    "questions": 62,
+    "words": 18256,
+    "progress": 0.32916666666666666
   }
 }

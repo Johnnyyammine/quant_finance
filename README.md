@@ -188,15 +188,17 @@ In interview mode: `space` reveal/next, `1` got it, `2` missed it, `n` skip.
 
 ## Current content
 
-The repository ships **nine worked concepts** — deliberately few. The point of this milestone is the
-system, not the corpus; these exist to prove that navigation, search, the graph, prerequisites,
+The repository ships **twelve worked concepts** — deliberately few. The point of this milestone is
+the system, not the corpus; these exist to prove that navigation, search, the graph, prerequisites,
 interview mode, progress, formulas and interactive modules all work end to end.
 
 ```
 Probability            Expectation · Conditional Probability · Bayes' Theorem
 Statistics             Variance · Covariance & Correlation · Linear Regression
+Linear Algebra         PCA & Eigenportfolios
 Stochastic Processes   Martingales · Brownian Motion
-Portfolio Construction Sharpe Ratio
+Portfolio Construction Sharpe Ratio · Kelly Criterion
+Risk Management        Effective Number of Bets
 ```
 
 They form a real prerequisite chain (Expectation → Variance → Covariance → Linear Regression;

@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en" data-page="concept">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Effective Number of Bets · Quant Knowledge Base</title>
+<meta name="description" content="Diversification is not the number of assets you hold but the number of independent risks you actually bear — measured by the effective dimension of the covariance spectrum and by the entropy of a portfolio&#39;s risk contributions across uncorrelated directions.">
+<link rel="icon" href="../assets/icons/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/vendor/katex/katex.min.css">
+<link rel="stylesheet" href="../assets/css/app.css">
+<link rel="stylesheet" href="../assets/css/views.css">
+
+</head>
+<body class="kb-body kb-body--concept">
+<header class="kb-topbar">
+  <a class="kb-brand" href="../index.html" title="Home (H)">
+    <span class="kb-brand-mark">QF</span><span class="kb-brand-text">Quant Knowledge Base</span>
+  </a>
+  <nav class="kb-crumbs" aria-label="Breadcrumb"><ol><li><a href="../index.html">Dashboard</a></li><li class="kb-crumb-sep" aria-hidden="true">/</li><li><a href="../subjects/risk-management.html">Risk Management</a></li><li class="kb-crumb-sep" aria-hidden="true">/</li><li><span aria-current="page">Effective Number of Bets</span></li></ol></nav>
+  <div class="kb-topbar-actions">
+    <button class="kb-searchbtn" type="button" data-kb-open-search>
+      <span>Search concepts, formulas, questions</span><kbd>/</kbd>
+    </button>
+    <nav class="kb-toplinks" aria-label="Sections">
+      <a href="../index.html" data-nav="home">Dashboard</a>
+      <a href="../graph.html" data-nav="graph">Graph</a>
+      <a href="../interview.html" data-nav="interview">Interview</a>
+      <a href="../library.html" data-nav="library">Library</a>
+    </nav>
+    <button class="kb-iconbtn" type="button" data-kb-theme title="Toggle theme (T)" aria-label="Toggle theme">◑</button>
+    <button class="kb-iconbtn" type="button" data-kb-help title="Keyboard shortcuts (?)" aria-label="Keyboard shortcuts">?</button>
+  </div>
+</header>
+<main class="kb-main kb-main--concept" data-concept-id="effective-number-of-bets">
+  <article class="kb-article">
+    <header class="kb-concept-head">
+      <div class="kb-concept-eyebrow">
+        <a class="kb-subject-chip" href="../subjects/risk-management.html" style="--subject-color:#2f9e79">
+          <span class="kb-subject-mark">R</span>Risk Management</a>
+        <span class="kb-pill kb-pill--intermediate">Intermediate</span>
+        <span class="kb-stars" title="Interview relevance 5 of 5" aria-label="Interview relevance 5 of 5"><span class="kb-stars-on">★★★★★</span><span class="kb-stars-off"></span></span>
+        <span class="kb-meta-dot">·</span>
+        <span class="kb-readtime">18 min</span>
+      </div>
+      <h1 class="kb-concept-title">Effective Number of Bets</h1>
+      <p class="kb-concept-summary">Diversification is not the number of assets you hold but the number of independent risks you actually bear — measured by the effective dimension of the covariance spectrum and by the entropy of a portfolio&#39;s risk contributions across uncorrelated directions.</p>
+      <div class="kb-concept-controls">
+        <label class="kb-statusctl">Status
+          <select data-kb-status="effective-number-of-bets" data-default="not-started">
+            <option value="not-started" selected>Not started</option><option value="learning">Learning</option><option value="learned">Learned</option><option value="mastered">Mastered</option>
+          </select>
+        </label>
+        <button class="kb-btn kb-btn--ghost" type="button" data-kb-bookmark="effective-number-of-bets">☆ Bookmark</button>
+        <button class="kb-btn kb-btn--ghost" type="button" data-kb-flashcards>Revision card</button>
+        <a class="kb-btn kb-btn--ghost" href="../graph.html?focus=effective-number-of-bets">Show in graph</a>
+      </div>
+      <ul class="kb-taglist"><li><a class="kb-tag" href="../library.html?tag=risk">#risk</a></li><li><a class="kb-tag" href="../library.html?tag=diversification">#diversification</a></li><li><a class="kb-tag" href="../library.html?tag=pca">#pca</a></li><li><a class="kb-tag" href="../library.html?tag=eigenvalues">#eigenvalues</a></li><li><a class="kb-tag" href="../library.html?tag=concentration">#concentration</a></li><li><a class="kb-tag" href="../library.html?tag=factor-models">#factor-models</a></li><li><a class="kb-tag" href="../library.html?tag=portfolio-construction">#portfolio-construction</a></li><li><a class="kb-tag" href="../library.html?tag=crowding">#crowding</a></li><li><a class="kb-tag" href="../library.html?tag=stress-testing">#stress-testing</a></li></ul>
+    </header>
+
+    <div class="kb-content"><h2 id="intuition" class="kb-h kb-h2"><a class="kb-anchor" href="#intuition" aria-label="Link to this section">#</a>Intuition</h2>
+<p>Holding fifty tickers is not the same as taking fifty bets. If AAPL, MSFT, NVDA and AVGO all load
+on the same &quot;US large-cap technology&quot; driver, then owning all four is closer to owning one position
+four times than to owning four independent things. The count of line items is an accounting fact;
+the count of <em>independent risks</em> is an economic one, and only the second determines what happens to
+your P&amp;L.</p>
+<p>The way to make this precise is to stop looking at assets and start looking at directions.
+<a class="kb-link" href="pca-and-eigenportfolios.html" data-concept="pca-and-eigenportfolios">Rotate the covariance matrix into its eigenbasis</a> and you get a set of
+uncorrelated principal portfolios whose variances are the eigenvalues. Now two questions become
+answerable:</p>
+<ol class="kb-list"><li><strong>How many directions does the market actually have?</strong> If the eigenvalues are all equal, there
+ are  <span class="math-inline">\(N\)</span>  genuinely distinct risks. If one eigenvalue dwarfs the rest, there is effectively one.
+ This is the <em>effective dimension</em>,  <span class="math-inline">\(N_{\text{eff}}\)</span> .</li>
+<li><strong>How many of them is this portfolio betting on?</strong> A portfolio spreads its variance across those
+ directions. If 95% of its risk sits in one direction, it has taken one bet regardless of how
+ many names it holds. This is the <em>effective number of bets</em>, ENB.</li></ol>
+<p>Both are answered the same way: take the distribution of risk shares, and ask how <em>spread out</em> it
+is. That is a question entropy was invented to answer.</p>
+<aside class="kb-callout kb-callout--insight"><div class="kb-callout-title">Insight</div><div class="kb-callout-body"><p>Both measures are the <strong>exponential of an entropy</strong> of the same kind of object — a set of
+non-negative shares summing to one.</p>
+<span class="math-display">\[N_{\text{eff}} = \exp\big(H_2(p)\big) = \frac{1}{\sum_i p_i^2}, \qquad
+\text{ENB} = \exp\big(H_1(p)\big) = \exp\Big({-}\sum_i p_i \log p_i\Big)\]</span>
+<p>where  <span class="math-inline">\(H_2\)</span>  is the Rényi entropy of order 2 and  <span class="math-inline">\(H_1\)</span>  the Shannon entropy. Both equal  <span class="math-inline">\(N\)</span>  when the
+shares are uniform and 1 when a single share is 1 — they are <em>perplexities</em>, &quot;the number of equally
+likely alternatives this distribution is worth&quot;. The two genuine differences are which shares you
+feed in (eigenvalue shares for  <span class="math-inline">\(N_{\text{eff}}\)</span> , the portfolio&#39;s risk contributions for ENB) and
+which entropy order you use. Since Rényi entropy decreases in its order,  <span class="math-inline">\(\exp(H_1) \ge \exp(H_2)\)</span> 
+on the same shares: the entropy version is always the more generous count.</p></div></aside>
+<h2 id="mathematical-formulation" class="kb-h kb-h2"><a class="kb-anchor" href="#mathematical-formulation" aria-label="Link to this section">#</a>Mathematical Formulation</h2>
+<p>Start from the eigendecomposition  <span class="math-inline">\(\Sigma = Q\Lambda Q^\top\)</span>  with $\lambda_1 \ge \cdots \ge
+\lambda_N \ge 0$.</p>
+<h3 id="the-effective-dimension-of-the-covariance-structure" class="kb-h kb-h3"><a class="kb-anchor" href="#the-effective-dimension-of-the-covariance-structure" aria-label="Link to this section">#</a>The effective dimension of the covariance structure</h3>
+<figure class="kb-formula" id="effective-dimension-participation-ratio" data-formula="effective-dimension-participation-ratio"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">Effective dimension (participation ratio)</span><button class="kb-formula-copy" type="button" data-latex="N_{\text{eff}} = \frac{\big(\sum_i \lambda_i\big)^2}{\sum_i \lambda_i^2}" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[N_{\text{eff}} = \frac{\big(\sum_i \lambda_i\big)^2}{\sum_i \lambda_i^2}\]</span> </div><p class="kb-formula-note">A property of the covariance matrix alone — no portfolio required.</p><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">Risk Management</span><span class="kb-chip">Regime Monitoring</span><span class="kb-chip">Systemic Risk</span></footer></figure>
+<p>Writing  <span class="math-inline">\(s_i = \lambda_i / \sum_j \lambda_j\)</span>  for the variance-explained shares, this is exactly
+ <span class="math-inline">\(1/\sum_i s_i^2\)</span>  — the inverse Herfindahl index of the spectrum. It is bounded:
+ <span class="math-inline">\(1 \le N_{\text{eff}} \le N\)</span> , hitting  <span class="math-inline">\(N\)</span>  when all eigenvalues are equal and 1 when a single
+eigenvalue carries everything.</p>
+<h3 id="the-effective-number-of-bets" class="kb-h kb-h3"><a class="kb-anchor" href="#the-effective-number-of-bets" aria-label="Link to this section">#</a>The effective number of bets</h3>
+<p>Now bring in a portfolio  <span class="math-inline">\(w\)</span> . Its loadings on the principal portfolios are  <span class="math-inline">\(\tilde v = Q^\top w\)</span> ,
+and because the principal portfolios are uncorrelated, variance decomposes with no cross terms:</p>
+<figure class="kb-formula" id="risk-contribution-of-each-independent-direction" data-formula="risk-contribution-of-each-independent-direction"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">Risk contribution of each independent direction</span><button class="kb-formula-copy" type="button" data-latex="\sigma_p^2 = \sum_{i=1}^{N} \tilde v_i^2\, \lambda_i,
+\qquad
+p_i = \frac{\tilde v_i^2\, \lambda_i}{\sigma_p^2}, \qquad p_i \ge 0, \ \ \sum_i p_i = 1" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[\sigma_p^2 = \sum_{i=1}^{N} \tilde v_i^2\, \lambda_i,
+\qquad
+p_i = \frac{\tilde v_i^2\, \lambda_i}{\sigma_p^2}, \qquad p_i \ge 0, \ \ \sum_i p_i = 1\]</span> </div><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">Risk Attribution</span><span class="kb-chip">Diversification</span></footer></figure>
+<p>The  <span class="math-inline">\(p_i\)</span>  are a genuine probability distribution — non-negative and summing to one — which is what
+licenses the entropy.</p>
+<figure class="kb-formula" id="effective-number-of-bets-meucci-2009" data-formula="effective-number-of-bets-meucci-2009"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">Effective Number of Bets (Meucci, 2009)</span><button class="kb-formula-copy" type="button" data-latex="\text{ENB} = \exp\Big({-}\sum_{i=1}^{N} p_i \log p_i\Big) \in [1, N]" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[\text{ENB} = \exp\Big({-}\sum_{i=1}^{N} p_i \log p_i\Big) \in [1, N]\]</span> </div><p class="kb-formula-note">Perplexity of the portfolio&#39;s risk distribution across uncorrelated factors. Equals N under uniform spreading and 1 under total concentration.</p><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">Risk Management</span><span class="kb-chip">Portfolio Construction</span><span class="kb-chip">Risk Budgeting</span></footer></figure>
+<h3 id="two-relatives-you-should-be-able-to-name" class="kb-h kb-h3"><a class="kb-anchor" href="#two-relatives-you-should-be-able-to-name" aria-label="Link to this section">#</a>Two relatives you should be able to name</h3>
+<figure class="kb-formula" id="diversification-ratio-choueifaty-coignard-2008" data-formula="diversification-ratio-choueifaty-coignard-2008"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">Diversification ratio (Choueifaty &amp; Coignard, 2008)</span><button class="kb-formula-copy" type="button" data-latex="\text{DR} = \frac{\sum_i |w_i| \sigma_i}{\sqrt{w^\top \Sigma w}}" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[\text{DR} = \frac{\sum_i |w_i| \sigma_i}{\sqrt{w^\top \Sigma w}}\]</span> </div><p class="kb-formula-note">Weighted-average volatility over portfolio volatility. Its square is another effective-N measure: it equals N for equally weighted uncorrelated assets.</p><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">Portfolio Construction</span><span class="kb-chip">Maximum Diversification</span></footer></figure>
+<figure class="kb-formula" id="absorption-ratio-kritzman-page-turkington-2011" data-formula="absorption-ratio-kritzman-page-turkington-2011"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">Absorption ratio (Kritzman, Page &amp; Turkington, 2011)</span><button class="kb-formula-copy" type="button" data-latex="\text{AR}_k = \frac{\sum_{i=1}^{k} \lambda_i}{\sum_{i=1}^{N} \lambda_i}" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[\text{AR}_k = \frac{\sum_{i=1}^{k} \lambda_i}{\sum_{i=1}^{N} \lambda_i}\]</span> </div><p class="kb-formula-note">Share of total variance carried by the top k principal portfolios. Spikes ahead of drawdowns.</p><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">Systemic Risk</span><span class="kb-chip">Regime Detection</span></footer></figure>
+<p>The simplest and most-used of the family is the  <span class="math-inline">\(k=1\)</span>  absorption ratio, $\lambda_1 /
+\operatorname{tr}(\Sigma)$ — the share of all risk sitting in the single largest direction.</p>
+<h2 id="derivation" class="kb-h kb-h2"><a class="kb-anchor" href="#derivation" aria-label="Link to this section">#</a>Derivation</h2>
+<details class="kb-derivation"><summary>Where the participation ratio comes from, and why it is the &quot;right&quot; count</summary><div class="kb-derivation-body"><p>Suppose the risk were spread evenly over exactly  <span class="math-inline">\(m\)</span>  directions and zero elsewhere: $\lambda_i =
+c$ for  <span class="math-inline">\(i \le m\)</span> , zero after. Then</p>
+<span class="math-display">\[\frac{\big(\sum_i \lambda_i\big)^2}{\sum_i \lambda_i^2} = \frac{(mc)^2}{mc^2} = m\]</span>
+<p>So the formula returns  <span class="math-inline">\(m\)</span>  on the case where the answer is unambiguous. That is the defining
+property we want: <strong>a count that agrees with counting when counting is possible</strong>, and interpolates
+smoothly otherwise. Every effective-dimension measure is built to satisfy exactly this.</p>
+<p>In terms of shares  <span class="math-inline">\(s_i = \lambda_i/\sum\lambda_j\)</span> ,  <span class="math-inline">\(N_{\text{eff}} = 1/\sum_i s_i^2\)</span> , the inverse
+Herfindahl. And in terms of the coefficient of variation of the eigenvalues,</p>
+<span class="math-display">\[N_{\text{eff}} = \frac{N\,\overline\lambda^2}{\overline{\lambda^2}}
+= \frac{N}{1 + \mathrm{CV}^2(\lambda)}\]</span>
+<p>which is the most useful form for reasoning about estimation error: <strong>any mechanism that spreads
+the eigenvalues, including pure sampling noise, reduces the measured effective dimension.</strong></p></div></details>
+<details class="kb-derivation"><summary>The equicorrelation case, end to end</summary><div class="kb-derivation-body"><p>Unit variances, all pairwise correlations  <span class="math-inline">\(\rho\)</span> . From <a class="kb-link" href="pca-and-eigenportfolios.html" data-concept="pca-and-eigenportfolios">PCA &amp; Eigenportfolios</a> the spectrum is
+ <span class="math-inline">\(\lambda_1 = 1+(N-1)\rho\)</span>  once and  <span class="math-inline">\(1-\rho\)</span>  with multiplicity  <span class="math-inline">\(N-1\)</span> . Then</p>
+<span class="math-display">\[\sum_i \lambda_i = N, \qquad
+\sum_i \lambda_i^2 = \big[1+(N-1)\rho\big]^2 + (N-1)(1-\rho)^2\]</span>
+<span class="math-display">\[\boxed{\ N_{\text{eff}} = \frac{N^2}{\big[1+(N-1)\rho\big]^2 + (N-1)(1-\rho)^2}\ }\]</span>
+<p>Now take  <span class="math-inline">\(N \to \infty\)</span>  with  <span class="math-inline">\(\rho &gt; 0\)</span>  fixed. The leading terms are $\big[(N-1)\rho\big]^2 \approx
+N^2\rho^2$ in the first piece and  <span class="math-inline">\(N(1-\rho)^2\)</span>  in the second, so</p>
+<span class="math-display">\[N_{\text{eff}} \approx \frac{N^2}{N^2\rho^2 + N(1-\rho)^2} \ \longrightarrow\ \frac{1}{\rho^2}\]</span>
+<p><strong>The ceiling on diversification is  <span class="math-inline">\(1/\rho^2\)</span> , and no amount of breadth raises it.</strong> At
+ <span class="math-inline">\(\rho = 0.2\)</span>  that is 25 bets; at  <span class="math-inline">\(\rho = 0.5\)</span>  it is 4; at  <span class="math-inline">\(\rho = 0.7\)</span>  it is 2. This single result
+is why &quot;we hold 400 names&quot; is not an answer to a risk question.</p></div></details>
+<details class="kb-derivation"><summary>Why the equally weighted portfolio has ENB = 1</summary><div class="kb-derivation-body"><p>The first eigenvector of the equicorrelation matrix is  <span class="math-inline">\(q_1 = \1/\sqrt N\)</span> , and every other
+eigenvector is orthogonal to  <span class="math-inline">\(\1\)</span> . The equally weighted portfolio  <span class="math-inline">\(w = \1/N\)</span>  is therefore parallel
+to  <span class="math-inline">\(q_1\)</span> , so</p>
+<span class="math-display">\[\tilde v_1 = q_1^\top w = \frac 1{\sqrt N}, \qquad \tilde v_i = q_i^\top w = 0 \quad (i \ge 2)\]</span>
+<p>Every risk contribution but the first is zero, so  <span class="math-inline">\(p_1 = 1\)</span>  and</p>
+<span class="math-display">\[\text{ENB} = \exp(-1\cdot\log 1) = 1\]</span>
+<p>Exactly one bet, for every  <span class="math-inline">\(N\)</span>  and every  <span class="math-inline">\(\rho &gt; 0\)</span> , while  <span class="math-inline">\(N_{\text{eff}}\)</span>  for the same matrix can
+be 9 or 30. The market offers dimensions; the portfolio declines to use them.</p>
+<p>In a real universe with unequal volatilities and correlations,  <span class="math-inline">\(w = \1/N\)</span>  is not exactly parallel to
+ <span class="math-inline">\(q_1\)</span>  and ENB comes out a little above 1 — but &quot;a little above 1&quot; is still the answer, and it is
+nowhere near  <span class="math-inline">\(N\)</span> .</p></div></details>
+<h2 id="assumptions-edge-cases" class="kb-h kb-h2"><a class="kb-anchor" href="#assumptions-edge-cases" aria-label="Link to this section">#</a>Assumptions &amp; Edge Cases</h2>
+<aside class="kb-callout kb-callout--assumption"><div class="kb-callout-title">Assumptions</div><div class="kb-callout-body"><ul class="kb-list"><li><strong>Second moments only.</strong> Both measures are functions of  <span class="math-inline">\(\Sigma\)</span> . Two portfolios with identical
+covariance and wildly different tail behaviour score the same.</li>
+<li><strong>A fixed covariance matrix.</strong>  <span class="math-inline">\(\Sigma\)</span>  is treated as known and constant. It is neither. Every
+number here is conditional on a regime.</li>
+<li><strong>ENB depends on the choice of uncorrelated basis.</strong> PCA, Cholesky (in some asset order) and
+minimum-torsion all give different answers.  <span class="math-inline">\(N_{\text{eff}}\)</span>  does not have this problem — it uses
+only the eigenvalues, which are rotation-invariant.</li>
+<li><strong>Near-degenerate eigenvalues make the PCA basis unstable,</strong> so PCA-based ENB inherits that
+instability. This is the argument for minimum-torsion in production reporting.</li>
+<li><strong>Covariance or correlation?</strong> Computing  <span class="math-inline">\(N_{\text{eff}}\)</span>  from  <span class="math-inline">\(\Sigma\)</span>  lets high-volatility
+names dominate; from the correlation matrix it measures co-movement structure only. Both are
+defensible; state which you used, and never compare across the two.</li>
+<li><strong>Estimation noise biases  <span class="math-inline">\(N_{\text{eff}}\)</span>  downwards,</strong> roughly  <span class="math-inline">\(N \mapsto N/(1+N/T)\)</span>  for an
+uncorrelated truth. Denoise before you set a limit on it.</li></ul></div></aside>
+<aside class="kb-callout kb-callout--warning"><div class="kb-callout-title">Warning</div><div class="kb-callout-body"><p><strong>ENB is a concentration measure, not a quality measure.</strong> Nothing in it references expected return.
+Maximising ENB will hand you the portfolio that spreads risk most evenly across statistical
+directions, which is generally <em>not</em> the portfolio with the best Sharpe ratio — it systematically
+overweights low-variance directions, which are also the worst-estimated ones. Use ENB as a
+diagnostic and a constraint, never as an objective on its own.</p></div></aside>
+<h2 id="worked-example" class="kb-h kb-h2"><a class="kb-anchor" href="#worked-example" aria-label="Link to this section">#</a>Worked Example</h2>
+<p>Fifty equicorrelated names, unit volatility, equally weighted. Everything below follows from the
+closed forms above.</p>
+<div class="kb-table-wrap"><table class="kb-table"><thead><tr><th><span class="math-inline">\(\rho\)</span></th><th><span class="math-inline">\(\lambda_1\)</span></th><th><span class="math-inline">\(\lambda_1\)</span>  share</th><th><span class="math-inline">\(N_{\text{eff}}\)</span></th><th><span class="math-inline">\(\text{DR}^2\)</span></th><th>ENB</th></tr></thead><tbody><tr><td>0.0</td><td>1.0</td><td>2.0%</td><td>50.0</td><td>50.0</td><td>n/a*</td></tr>
+<tr><td>0.1</td><td>5.9</td><td>11.8%</td><td>33.6</td><td>8.5</td><td>1.0</td></tr>
+<tr><td>0.2</td><td>10.8</td><td>21.6%</td><td>16.9</td><td>4.6</td><td>1.0</td></tr>
+<tr><td>0.3</td><td>15.7</td><td>31.4%</td><td>9.2</td><td>3.2</td><td>1.0</td></tr>
+<tr><td>0.4</td><td>20.6</td><td>41.2%</td><td>5.7</td><td>2.4</td><td>1.0</td></tr>
+<tr><td>0.5</td><td>25.5</td><td>51.0%</td><td>3.8</td><td>2.0</td><td>1.0</td></tr>
+<tr><td>0.6</td><td>30.4</td><td>60.8%</td><td>2.7</td><td>1.6</td><td>1.0</td></tr>
+<tr><td>0.8</td><td>40.2</td><td>80.4%</td><td>1.5</td><td>1.2</td><td>1.0</td></tr></tbody></table></div>
+<p>Read the row at  <span class="math-inline">\(\rho = 0.6\)</span> : fifty positions, and the covariance structure supports only 2.7
+independent directions. <strong>That is where &quot;50 stocks, 3 bets&quot; comes from</strong> — it is not rhetoric, it is
+the participation ratio at an ordinary crisis correlation.</p>
+<p>Three things in this table are worth more than the rest:</p>
+<ul class="kb-list"><li><span class="math-inline">\(\text{DR}^2 = N/\big[1+(N-1)\rho\big] = 1/\text{(the } \lambda_1 \text{ share)}\)</span>  here, because
+the equally weighted portfolio <em>is</em> the first eigenportfolio. It answers &quot;how much variance did
+combining these names save me&quot;, which is a different question again.</li>
+<li><strong>The ENB column is 1.0 for every  <span class="math-inline">\(\rho &gt; 0\)</span> ,</strong> no matter how many names are held: the
+equally weighted portfolio <em>is</em> the first eigenportfolio, so all of its risk sits in one
+direction. \*The  <span class="math-inline">\(\rho = 0\)</span>  row is marked n/a deliberately — with  <span class="math-inline">\(\Sigma = I\)</span>  every eigenvalue
+is identical, the eigenbasis is completely arbitrary, and ENB can be made anything from 1 to 50 by
+choosing a rotation. That is not a defect of the table; it is the basis-dependence problem in its
+purest form, and the reason production systems report a minimum-torsion ENB rather than a PCA one.</li>
+<li>The three columns disagree by an order of magnitude at  <span class="math-inline">\(\rho = 0.3\)</span> : 9.2 versus 3.2 versus 1.0.
+They are not competing estimates of one quantity. They answer three different questions, and
+quoting one without saying which is how risk reports mislead.</li></ul>
+<div class="kb-module" data-module="diversification-lab" data-config="{&quot;sectors&quot;:5,&quot;perSector&quot;:10,&quot;rhoMarket&quot;:0.25,&quot;rhoSector&quot;:0.2,&quot;portfolio&quot;:&quot;equal&quot;}"><div class="kb-module-shell"><div class="kb-module-loading">Loading interactive module &ldquo;diversification-lab&rdquo;&hellip;</div></div></div>
+<p>Things worth doing in the module above:</p>
+<ul class="kb-list"><li>Push <strong>market correlation</strong> from 0.25 to 0.7 and watch  <span class="math-inline">\(N_{\text{eff}}\)</span>  collapse while the number
+of holdings never changes. That is panel 04 of the story: stress does not change your positions,
+it changes what they mean.</li>
+<li>Switch <strong>portfolio</strong> from equal-weight to market-neutral. The fifty holdings are identical; ENB
+goes from about 1.1 to about 28, because the weights are now orthogonal to the dominant
+eigenvector and the risk has nowhere to concentrate.</li>
+<li>Note that the module gives each name its own volatility rather than the unit variances the table
+assumes, so equal weight scores ENB  <span class="math-inline">\(\approx 1.07\)</span>  rather than exactly 1. That is the realistic
+version of the same result.</li>
+<li>Set <strong>sectors</strong> to 5 with a high extra within-sector correlation and look at the second tier of
+eigenvalues — one market direction, four sector directions, then the idiosyncratic bulk.</li></ul>
+<h2 id="why-it-matters-in-quant-finance" class="kb-h kb-h2"><a class="kb-anchor" href="#why-it-matters-in-quant-finance" aria-label="Link to this section">#</a>Why It Matters in Quant Finance</h2>
+<ul class="kb-list"><li><strong>Position limits are the wrong control.</strong> A limit of &quot;no more than 3% per name&quot; allows a
+portfolio with ENB of 1. Constraints must be written on factor exposure or on risk contributions,
+not on holdings.</li>
+<li><strong>Capital allocation across PMs.</strong> A multi-strategy fund allocating to twelve teams whose books
+all load on the same carry factor has funded one bet twelve times. The ENB of the <em>combined</em>
+book, computed across PM return streams, is the number the CIO actually needs.</li>
+<li><strong>Leverage.</strong> Kelly-style sizing (see <a class="kb-link" href="kelly-criterion.html" data-concept="kelly-criterion">Kelly Criterion</a>) scales with the number of independent
+bets. Levering a book as though it holds  <span class="math-inline">\(N\)</span>  independent positions when it holds one is the
+standard route to a terminal drawdown.</li>
+<li><strong>Sharpe ratio standard errors.</strong> The uncertainty in a measured <a class="kb-link" href="sharpe-ratio.html" data-concept="sharpe-ratio">Sharpe Ratio</a> depends on the
+number of <em>independent</em> observations. A book with ENB near 1 has far fewer effective independent
+bets per period than its holding count suggests, so its track record means proportionally less.</li>
+<li><strong>Systemic risk monitoring.</strong> The absorption ratio — the market-wide version of this
+calculation — rises before drawdowns. It is a regime indicator computed from prices alone, with
+no portfolio and no model of returns.</li>
+<li><strong>Risk parity and its failure mode.</strong> Equalising <em>volatility</em> contributions is not equalising
+<em>independent</em> risk contributions. Classic risk parity can hold assets in equal vol terms and still
+have most of its ENB in a single duration bet, which is exactly what 2022 exposed.</li></ul>
+<h2 id="trading-research-application" class="kb-h kb-h2"><a class="kb-anchor" href="#trading-research-application" aria-label="Link to this section">#</a>Trading &amp; Research Application</h2>
+<aside class="kb-callout kb-callout--desk"><div class="kb-callout-title">On the desk</div><div class="kb-callout-body"><p><strong>Report the pair, never one alone.</strong>  <span class="math-inline">\(N_{\text{eff}}\)</span>  tells you what the regime offers; ENB tells
+you what the PM took.  <span class="math-inline">\(N_{\text{eff}} = 25\)</span>  with ENB  <span class="math-inline">\(= 1.3\)</span>  is a portfolio construction problem.
+ <span class="math-inline">\(N_{\text{eff}} = 2\)</span>  with ENB  <span class="math-inline">\(= 1.9\)</span>  is a <em>market</em> problem, and no rebalancing will fix it — only
+lower gross will.</p>
+<p><strong>Track  <span class="math-inline">\(\lambda_1/\operatorname{tr}(\Sigma)\)</span>  daily.</strong> It is the cheapest early warning available:
+one eigenvalue, no portfolio, no return model. When the top-eigenvalue share is trending up, every
+diversification assumption in the book is degrading in the background, and the trade is to cut
+leverage before the correlation shows up in realised P&amp;L rather than after.</p>
+<p><strong>Compute the stressed version, and size to that.</strong> Recompute  <span class="math-inline">\(N_{\text{eff}}\)</span>  and ENB with
+correlations shocked towards 1 (a simple, defensible shock:  <span class="math-inline">\(\rho \mapsto \rho + (1-\rho)\kappa\)</span> 
+for  <span class="math-inline">\(\kappa \approx 0.5\)</span> ). The gap between the calm and stressed numbers is the diversification
+you are borrowing against and will not have when you need it.</p>
+<p><strong>Look outside your own book.</strong> Crowding means other funds&#39; positioning is a risk factor that does
+not appear in your covariance matrix at all, because it has not moved yet. Proxy it with days-to-
+liquidate, short interest, and the correlation of your P&amp;L to peer-fund indices. The 2007 quant
+quake was a factor that no risk model contained on the Friday and every risk model contained by
+the following Wednesday.</p>
+<p><strong>Do not maximise it.</strong> Maximum-diversification and maximum-ENB portfolios load on the smallest,
+worst-estimated eigenvalues. Use ENB as a floor in a constraint set — &quot;ENB  <span class="math-inline">\(\ge 3\)</span>  at the target
+risk level&quot; — alongside an objective that references expected return.</p></div></aside>
+<h2 id="implementation-notes" class="kb-h kb-h2"><a class="kb-anchor" href="#implementation-notes" aria-label="Link to this section">#</a>Implementation Notes</h2>
+<figure class="kb-code" data-lang="python"><pre><code class="language-python">import numpy as np
+
+def effective_dimension(cov: np.ndarray) -&gt; float:
+    &quot;&quot;&quot;N_eff: how many independent risk directions the market offers.
+    Property of the covariance matrix alone -- no portfolio involved.
+    Equivalently 1 / sum(share_i^2), the inverse Herfindahl of the spectrum.&quot;&quot;&quot;
+    lam = np.linalg.eigvalsh((cov + cov.T) / 2)
+    lam = np.clip(lam, 0.0, None)
+    return float(lam.sum() ** 2 / (lam ** 2).sum())
+
+def effective_number_of_bets(weights: np.ndarray, cov: np.ndarray) -&gt; float:
+    &quot;&quot;&quot;ENB: how many of those directions the portfolio actually bets on.
+
+    Basis-dependent by construction -- this uses the PCA (eigenvector) basis.
+    For production reporting prefer a minimum-torsion basis, which is unique
+    and stable when eigenvalues are close together.&quot;&quot;&quot;
+    lam, vecs = np.linalg.eigh((cov + cov.T) / 2)
+    lam = np.clip(lam, 0.0, None)
+    loadings = vecs.T @ weights                      # v~ = Q^T w
+    contrib = (loadings ** 2) * lam                  # variance per direction
+    total = contrib.sum()
+    if total &lt;= 0:
+        return 1.0
+    p = contrib / total
+    p = p[p &gt; 1e-12]                                 # 0 log 0 := 0
+    return float(np.exp(-(p * np.log(p)).sum()))
+
+def absorption_ratio(cov: np.ndarray, k: int = 1) -&gt; float:
+    &quot;&quot;&quot;Share of total variance in the top k directions. k=1 is the single most
+    useful live risk indicator: it needs no portfolio and no return model.&quot;&quot;&quot;
+    lam = np.sort(np.linalg.eigvalsh((cov + cov.T) / 2))[::-1]
+    return float(lam[:k].sum() / lam.sum())
+
+def stress(cov: np.ndarray, kappa: float = 0.5) -&gt; np.ndarray:
+    &quot;&quot;&quot;Push every correlation a fraction kappa of the way to 1, holding
+    volatilities fixed. Size to the metrics computed on THIS matrix, not on
+    the calm one.&quot;&quot;&quot;
+    sd = np.sqrt(np.diag(cov))
+    corr = cov / np.outer(sd, sd)
+    stressed = corr + (1.0 - corr) * kappa
+    np.fill_diagonal(stressed, 1.0)
+    return stressed * np.outer(sd, sd)</code></pre></figure>
+<h2 id="common-mistakes" class="kb-h kb-h2"><a class="kb-anchor" href="#common-mistakes" aria-label="Link to this section">#</a>Common Mistakes</h2>
+<aside class="kb-callout kb-callout--pitfall"><div class="kb-callout-title">Common pitfall</div><div class="kb-callout-body"><ul class="kb-list"><li><strong>Counting holdings.</strong> The headline error. Fifty names at  <span class="math-inline">\(\rho = 0.6\)</span>  is under three bets.</li>
+<li><strong>Quoting ENB without the basis.</strong> PCA, Cholesky and minimum-torsion give different numbers on
+the same portfolio. A number without its convention is not comparable to anything.</li>
+<li><strong>Confusing  <span class="math-inline">\(N_{\text{eff}}\)</span>  with ENB.</strong> One is a property of the market, the other of the
+portfolio. They routinely differ by 10×, and the difference is the finding.</li>
+<li><strong>Maximising ENB.</strong> It loads on the smallest, noisiest eigenvalues and ignores expected return
+entirely. Constrain it; do not optimise it.</li>
+<li><strong>Using a calm-market  <span class="math-inline">\(\Sigma\)</span>  to justify leverage.</strong> The diversification you are levering
+against is precisely the quantity that disappears in the drawdown.</li>
+<li><strong>Trusting a raw sample estimate.</strong> Noise spreads the spectrum and biases  <span class="math-inline">\(N_{\text{eff}}\)</span>  down,
+by roughly a factor  <span class="math-inline">\(1/(1+N/T)\)</span> . Clip or shrink first.</li>
+<li><strong>Assuming risk parity implies many bets.</strong> Equal <em>volatility</em> contributions are not equal
+<em>independent</em> risk contributions; a classic risk-parity book can have most of its ENB in one
+duration factor.</li>
+<li><strong>Ignoring crowding.</strong> Your covariance matrix contains no information about who else holds your
+book, and in a liquidation that is the only factor that matters.</li></ul></div></aside>
+<h2 id="30-second-revision" class="kb-h kb-h2"><a class="kb-anchor" href="#30-second-revision" aria-label="Link to this section">#</a>30-Second Revision</h2>
+<ul class="kb-list"><li>Diversification is the number of independent risks borne, not the number of assets held.</li>
+<li><span class="math-inline">\(N_{\text{eff}} = (\sum\lambda_i)^2/\sum\lambda_i^2\)</span>  — a property of  <span class="math-inline">\(\Sigma\)</span>  alone, the inverse
+Herfindahl of the eigenvalue shares, in  <span class="math-inline">\([1, N]\)</span> .</li>
+<li><span class="math-inline">\(\text{ENB} = \exp(-\sum p_i\log p_i)\)</span>  with  <span class="math-inline">\(p_i = \tilde v_i^2\lambda_i/\sigma_p^2\)</span>  and
+ <span class="math-inline">\(\tilde v = Q^\top w\)</span>  — depends on the portfolio <strong>and</strong> on the chosen uncorrelated basis.</li>
+<li>Equicorrelation:  <span class="math-inline">\(N_{\text{eff}} \to 1/\rho^2\)</span> . At  <span class="math-inline">\(\rho = 0.6\)</span> , fifty names is 2.7 bets.</li>
+<li>Equally weighted on an equicorrelated universe: ENB  <span class="math-inline">\(= 1\)</span>  exactly, because  <span class="math-inline">\(w \parallel q_1\)</span> .</li>
+<li>Both are exponentials of an entropy — Rényi-2 for  <span class="math-inline">\(N_{\text{eff}}\)</span> , Shannon for ENB.</li>
+<li>Sampling noise biases  <span class="math-inline">\(N_{\text{eff}}\)</span>  down by about  <span class="math-inline">\(1/(1+N/T)\)</span> ; denoise before setting limits.</li>
+<li>Monitor  <span class="math-inline">\(\lambda_1/\operatorname{tr}(\Sigma)\)</span> , the effective rank, factor risk contributions and
+crowding. ENB is a constraint, never an objective.</li></ul></div>
+    <section class="kb-section" id="key-formulas">
+        <h2 class="kb-h kb-h2"><a class="kb-anchor" href="#key-formulas" aria-label="Link to this section">#</a>Key Formulas</h2>
+        <div class="kb-formula-recap">
+          <a class="kb-formula-recap-item" href="#effective-dimension-participation-ratio">
+            <span class="kb-formula-recap-name">Effective dimension (participation ratio)</span>
+            <span class="math-display">\[N_{\text{eff}} = \frac{\big(\sum_i \lambda_i\big)^2}{\sum_i \lambda_i^2}\]</span>
+          </a>
+          <a class="kb-formula-recap-item" href="#risk-contribution-of-each-independent-direction">
+            <span class="kb-formula-recap-name">Risk contribution of each independent direction</span>
+            <span class="math-display">\[\sigma_p^2 = \sum_{i=1}^{N} \tilde v_i^2\, \lambda_i,
+\qquad
+p_i = \frac{\tilde v_i^2\, \lambda_i}{\sigma_p^2}, \qquad p_i \ge 0, \ \ \sum_i p_i = 1\]</span>
+          </a>
+          <a class="kb-formula-recap-item" href="#effective-number-of-bets-meucci-2009">
+            <span class="kb-formula-recap-name">Effective Number of Bets (Meucci, 2009)</span>
+            <span class="math-display">\[\text{ENB} = \exp\Big({-}\sum_{i=1}^{N} p_i \log p_i\Big) \in [1, N]\]</span>
+          </a>
+          <a class="kb-formula-recap-item" href="#diversification-ratio-choueifaty-coignard-2008">
+            <span class="kb-formula-recap-name">Diversification ratio (Choueifaty &amp; Coignard, 2008)</span>
+            <span class="math-display">\[\text{DR} = \frac{\sum_i |w_i| \sigma_i}{\sqrt{w^\top \Sigma w}}\]</span>
+          </a>
+          <a class="kb-formula-recap-item" href="#absorption-ratio-kritzman-page-turkington-2011">
+            <span class="kb-formula-recap-name">Absorption ratio (Kritzman, Page &amp; Turkington, 2011)</span>
+            <span class="math-display">\[\text{AR}_k = \frac{\sum_{i=1}^{k} \lambda_i}{\sum_{i=1}^{N} \lambda_i}\]</span>
+          </a></div>
+      </section>
+    <section class="kb-section" id="interview-questions">
+        <h2 class="kb-h kb-h2"><a class="kb-anchor" href="#interview-questions" aria-label="Link to this section">#</a>Interview Questions</h2>
+        <ol class="kb-questions">
+          <li class="kb-question" id="q-effective-number-of-bets-q1" data-difficulty="foundational">
+            <div class="kb-question-head">
+              <span class="kb-question-text">You hold 50 stocks, equally weighted. How many bets is that?</span>
+              <span class="kb-tagline">Foundational · diversification · intuition · classic</span>
+            </div>
+            <details class="kb-hint"><summary>Hint</summary><div><p>What is the average pairwise correlation, and what does it do to the eigenvalues?</p></div></details>
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>&quot;Fifty&quot; is the wrong answer and the interviewer knows it. The right move is to ask what the
+average pairwise correlation is, because that number — not the count — determines the answer.
+With  <span class="math-inline">\(N\)</span>  equicorrelated names at correlation  <span class="math-inline">\(\rho\)</span> , the covariance spectrum is
+ <span class="math-inline">\(\lambda_1 = 1+(N-1)\rho\)</span>  once and  <span class="math-inline">\(1-\rho\)</span>  with multiplicity  <span class="math-inline">\(N-1\)</span> , giving</p>
+<span class="math-display">\[N_{\text{eff}} = \frac{N^2}{\big[1+(N-1)\rho\big]^2 + (N-1)(1-\rho)^2}\]</span>
+<p>For  <span class="math-inline">\(N = 50\)</span> :  <span class="math-inline">\(\rho = 0.1 \Rightarrow 33.6\)</span> ;  <span class="math-inline">\(\rho = 0.3 \Rightarrow 9.2\)</span> ;
+ <span class="math-inline">\(\rho = 0.6 \Rightarrow 2.7\)</span> . A single-sector US equity book in a sell-off runs at
+ <span class="math-inline">\(\rho \approx 0.6\)</span>  — so fifty names really is about three bets.
+<strong>The line that finishes the answer:</strong> as  <span class="math-inline">\(N \to \infty\)</span>  with  <span class="math-inline">\(\rho\)</span>  fixed,
+ <span class="math-inline">\(N_{\text{eff}} \to 1/\rho^2\)</span> . Diversification has a ceiling set by correlation, and adding
+names cannot raise it. At  <span class="math-inline">\(\rho = 0.5\)</span>  that ceiling is four, whether you hold fifty names or
+five hundred.</p></div></details>
+          </li>
+          <li class="kb-question" id="q-effective-number-of-bets-q2" data-difficulty="advanced">
+            <div class="kb-question-head">
+              <span class="kb-question-text">Prove that an equally weighted portfolio of equicorrelated assets has an effective number of bets of exactly one.</span>
+              <span class="kb-tagline">Advanced · derivation · enb · eigenvectors</span>
+            </div>
+            <details class="kb-hint"><summary>Hint</summary><div><p>What is the first eigenvector of an equicorrelation matrix?</p></div></details>
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>The first eigenvector of  <span class="math-inline">\(\Sigma = (1-\rho)I + \rho\1\1^\top\)</span>  is  <span class="math-inline">\(q_1 = \1/\sqrt N\)</span> , and every
+other eigenvector is orthogonal to  <span class="math-inline">\(\1\)</span> .
+The equally weighted portfolio is  <span class="math-inline">\(w = \1/N\)</span> , which is <strong>parallel to  <span class="math-inline">\(q_1\)</span> </strong>. So the loadings
+on the principal portfolios,  <span class="math-inline">\(\tilde v = Q^\top w\)</span> , are</p>
+<span class="math-display">\[\tilde v_1 = q_1^\top w = \frac{1}{\sqrt N}\cdot N \cdot \frac 1N = \frac{1}{\sqrt N},
+\qquad \tilde v_i = 0 \ \text{ for } i \ge 2\]</span>
+<p>All risk contributions vanish except the first:  <span class="math-inline">\(p_1 = 1\)</span> ,  <span class="math-inline">\(p_{i\ge2} = 0\)</span> . Hence</p>
+<span class="math-display">\[\text{ENB} = \exp\!\big(-\textstyle\sum_i p_i \log p_i\big) = \exp(0) = 1\]</span>
+<p><strong>Exactly one bet, for any  <span class="math-inline">\(N\)</span>  and any  <span class="math-inline">\(\rho &gt; 0\)</span> .</strong> Equal weighting on an equicorrelated
+universe is a pure, undiluted bet on the market factor and nothing else.
+Note the contrast:  <span class="math-inline">\(N_{\text{eff}}\)</span> , computed from the same  <span class="math-inline">\(\Sigma\)</span> , is 9.2 at  <span class="math-inline">\(\rho=0.3\)</span> .
+The <em>risk model</em> has nine directions available. The <em>portfolio</em> uses one of them. That gap is
+the entire point of distinguishing the two measures.</p></div></details>
+          </li>
+          <li class="kb-question" id="q-effective-number-of-bets-q3" data-difficulty="intermediate">
+            <div class="kb-question-head">
+              <span class="kb-question-text">What is the difference between the effective dimension of the covariance matrix and the effective number of bets?</span>
+              <span class="kb-tagline">Intermediate · enb · definitions · risk-attribution</span>
+            </div>
+            
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>They answer different questions and are computed from different inputs.</p>
+<div class="kb-table-wrap"><table class="kb-table"><thead><tr><th></th><th><span class="math-inline">\(N_{\text{eff}}\)</span></th><th>ENB</th></tr></thead><tbody><tr><td>Input</td><td>eigenvalues of  <span class="math-inline">\(\Sigma\)</span>  only</td><td>eigenvalues <strong>and</strong> the weights  <span class="math-inline">\(w\)</span></td></tr>
+<tr><td>Question</td><td>how many independent risk directions does this <em>market</em> have?</td><td>how many of them is this <em>portfolio</em> actually betting on?</td></tr>
+<tr><td>Shares used</td><td><span class="math-inline">\(\lambda_i / \sum_j \lambda_j\)</span></td><td><span class="math-inline">\(\tilde v_i^2\lambda_i / \sigma_p^2\)</span> , with  <span class="math-inline">\(\tilde v = Q^\top w\)</span></td></tr>
+<tr><td>Aggregation</td><td>inverse sum of squares (Rényi-2)</td><td>exponential of Shannon entropy</td></tr>
+<tr><td>Depends on rotation?</td><td>no</td><td><strong>yes</strong></td></tr></tbody></table></div>
+<p> <span class="math-inline">\(N_{\text{eff}}\)</span>  is a property of the opportunity set — it tells you the most diversification
+that is <em>available</em>. ENB tells you how much of it you took. A book can sit in a market with
+ <span class="math-inline">\(N_{\text{eff}} = 20\)</span>  and still have ENB  <span class="math-inline">\(= 1.1\)</span> .
+Use  <span class="math-inline">\(N_{\text{eff}}\)</span>  to monitor the regime (it moves when correlations move) and ENB to
+monitor the portfolio (it moves when the PM does something).</p></div></details>
+          </li>
+          <li class="kb-question" id="q-effective-number-of-bets-q4" data-difficulty="intermediate">
+            <div class="kb-question-head">
+              <span class="kb-question-text">A PM&#39;s book has an ENB of 1.2 and a Sharpe ratio of 3.0. Do you make them diversify?</span>
+              <span class="kb-tagline">Intermediate · judgement · risk-limits · sharpe</span>
+            </div>
+            
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>No — and a risk manager who says yes has misunderstood what the number is for.
+<strong>ENB is a concentration measure, not a quality measure.</strong> It says nothing about expected
+return. A pure market-neutral pairs trade has ENB near 1 and can be an outstanding position;
+an equally weighted index fund also has ENB near 1 and is a completely different animal. High
+ENB with no edge is diworsification.
+What ENB = 1.2 <em>does</em> tell you, and what you should actually say:</p>
+<ol class="kb-list"><li><strong>Your risk is one number.</strong> Whatever that direction is, size it as a single position,
+ not as a fifty-name book. Gross exposure massively overstates the diversification here.</li>
+<li><strong>The Sharpe estimate has one effective observation per period, not fifty.</strong> With one
+ independent bet the standard error on Sharpe is what a single-strategy standard error
+ would be — a Sharpe of 3.0 from a short sample is far less certain than a 50-name book&#39;s.</li>
+<li><strong>Stress it as one position.</strong> Scenario losses will not diversify away.</li>
+<li><strong>Ask what the bet is.</strong> If the PM cannot name the direction, they are not intentionally
+ taking it — and unintentional concentration is the actual finding.</li></ol>
+<p>The right escalation is a <em>sizing</em> conversation, not a diversification mandate.</p></div></details>
+          </li>
+          <li class="kb-question" id="q-effective-number-of-bets-q5" data-difficulty="advanced">
+            <div class="kb-question-head">
+              <span class="kb-question-text">Your colleague computes ENB two different ways and gets 3.4 and 7.1 on the same portfolio. Who is wrong?</span>
+              <span class="kb-tagline">Advanced · rotation · minimum-torsion · identification</span>
+            </div>
+            <details class="kb-hint"><summary>Hint</summary><div><p>How unique is the set of uncorrelated factors?</p></div></details>
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>Possibly neither. <strong>ENB is not invariant to the choice of uncorrelated basis</strong>, and this is
+the metric&#39;s most serious practical weakness.
+Any rotation  <span class="math-inline">\(\tilde Q = QU\)</span>  with  <span class="math-inline">\(U\)</span>  orthogonal <em>within a degenerate eigenspace</em> produces an
+equally valid set of uncorrelated factors but different risk shares  <span class="math-inline">\(p_i\)</span>  and hence a
+different entropy. More generally, there are infinitely many uncorrelated bases (PCA, Cholesky
+in any asset ordering, symmetric whitening) and each gives its own ENB. Cholesky is the worst
+offender: reorder the assets and the number changes.
+In real covariance matrices the bulk eigenvalues are <em>nearly</em> degenerate, so the problem is
+not exotic — small sampling differences rotate the basis and swing ENB materially.
+<strong>The standard fix</strong> is Meucci, Santangelo and Deguest&#39;s <strong>minimum-torsion</strong> basis: among all
+uncorrelated bases, pick the one closest to the original assets in a least-squares sense
+(built from the symmetric square root of the correlation matrix rather than from its
+eigenvectors). It is unique, it is stable under perturbation, and its factors retain the
+identity of the underlying names, so &quot;bet 3&quot; is interpretable rather than an arbitrary
+rotation.
+What to say: *&quot;ENB is basis-dependent, so quote the basis. I use minimum-torsion for
+reporting because it is unique and stable; PCA if the question is specifically about
+variance-maximal directions. And I never compare ENB across two different conventions.&quot;*</p></div></details>
+          </li>
+          <li class="kb-question" id="q-effective-number-of-bets-q6" data-difficulty="advanced">
+            <div class="kb-question-head">
+              <span class="kb-question-text">Your risk system reports  <span class="math-inline">\(N_{\text{eff}} = 12\)</span>  for a 50-name book estimated from one year of daily returns. Do you believe it?</span>
+              <span class="kb-tagline">Advanced · estimation · marchenko-pastur · noise · bias</span>
+            </div>
+            
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>Treat it as biased, and know the direction.
+Write  <span class="math-inline">\(N_{\text{eff}} = N / \big(1 + \mathrm{CV}^2\big)\)</span> , where $\mathrm{CV}^2 =
+\Var(\lambda)/\overline{\lambda}^2$ is the dispersion of the eigenvalues. For a correlation
+matrix  <span class="math-inline">\(\overline\lambda = 1\)</span>  always, so</p>
+<span class="math-display">\[N_{\text{eff}} = \frac{N}{1 + \Var(\lambda)}\]</span>
+<p>Sampling noise <strong>spreads</strong> the spectrum, which raises  <span class="math-inline">\(\Var(\lambda)\)</span>  and therefore <em>lowers</em>
+ <span class="math-inline">\(N_{\text{eff}}\)</span> . Concretely: for genuinely independent assets, Marchenko–Pastur gives
+ <span class="math-inline">\(\Var(\lambda) = q = N/T\)</span> , so</p>
+<span class="math-display">\[\E\big[N_{\text{eff}}^{\text{sample}}\big] \approx \frac{N}{1 + N/T}\]</span>
+<p>With  <span class="math-inline">\(N = 50\)</span>  and  <span class="math-inline">\(T = 252\)</span> , a perfectly diversified book would measure $N_{\text{eff}}
+\approx 50/1.198 \approx 42$, not 50. So the estimator is <strong>pessimistic</strong>, and most
+pessimistic exactly where the portfolio looks best.
+Two more things before you trust the 12:</p>
+<ul class="kb-list"><li><strong>Denoise first.</strong> Clip the eigenvalues inside the Marchenko–Pastur band to their mean, or
+shrink, then recompute. If 12 becomes 16, the raw number was mostly noise.</li>
+<li><strong>Check stability.</strong> Recompute on overlapping windows. A number that swings between 8 and
+20 month to month is not a risk limit, it is a random variable.</li></ul>
+<p>A 50-name book at  <span class="math-inline">\(N_{\text{eff}} = 12\)</span>  is plausible for a diversified multi-sector portfolio.
+It would be surprising for a single-sector one.</p></div></details>
+          </li>
+          <li class="kb-question" id="q-effective-number-of-bets-q7" data-difficulty="intermediate">
+            <div class="kb-question-head">
+              <span class="kb-question-text">Why does diversification collapse precisely when you need it?</span>
+              <span class="kb-tagline">Intermediate · stress · correlation · crowding · tail-risk</span>
+            </div>
+            
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>Because the mechanism that causes losses is the same one that destroys independence.</p>
+<ol class="kb-list"><li><strong>Correlations rise.</strong> In a sell-off a single factor — deleveraging, liquidity demand,
+ risk-off flow — dominates return variance. Idiosyncratic share shrinks and measured
+ correlation rises towards 1.</li>
+<li><strong> <span class="math-inline">\(\lambda_1\)</span>  absorbs the spectrum.</strong> Mechanically,  <span class="math-inline">\(N_{\text{eff}} \to 1/\rho^2 \to 1\)</span> .
+ The other directions do not disappear; they are simply swamped.</li>
+<li><strong>Liquidity synchronises the selling.</strong> Forced sellers liquidate what they <em>can</em> sell, not
+ what they want to sell, which correlates assets that have no economic relationship.</li>
+<li><strong>Crowding turns other people&#39;s books into your factor.</strong> If many funds hold a similar
+ portfolio, their deleveraging is a common shock that is entirely absent from your
+ estimation window. The August 2007 quant quake is the canonical case: factor-neutral
+ market-neutral books lost together because they <em>were</em> each other&#39;s risk factor.</li></ol>
+<p>The consequence for risk management is concrete. Diversification benefit computed in calm
+markets is exactly the quantity that fails in stress, so <strong>it must never be what sets the
+leverage limit.</strong> Size to the stressed  <span class="math-inline">\(N_{\text{eff}}\)</span>  — recompute the spectrum with
+correlations shocked towards 1 and see what leverage survives.</p></div></details>
+          </li></ol>
+      </section>
+
+    <section class="kb-section" id="connections">
+      <h2 class="kb-h kb-h2"><a class="kb-anchor" href="#connections" aria-label="Link to this section">#</a>Connections</h2>
+      <div class="kb-connections">
+        <section class="kb-relgroup"><h3>Prerequisites</h3><p class="kb-relnote">Understand these first.</p><ul class="kb-rellist"><li><a href="../concepts/pca-and-eigenportfolios.html" class="kb-relitem">
+          <span class="kb-relitem-title">PCA &amp; Eigenportfolios</span>
+          <span class="kb-relitem-meta">Linear Algebra · Intermediate</span>
+          <span class="kb-relitem-sum">The spectral decomposition $\Sigma = Q\Lambda Q^\top$ rewrites a correlated universe as a set of uncorrelated principal portfolios — the eigenvectors are the independent directions of risk and the eigenvalues are how much risk lives in each.</span>
+        </a></li><li><a href="../concepts/covariance-and-correlation.html" class="kb-relitem">
+          <span class="kb-relitem-title">Covariance &amp; Correlation</span>
+          <span class="kb-relitem-meta">Statistics · Foundational</span>
+          <span class="kb-relitem-sum">Covariance measures how two variables move together in raw units; correlation normalises it to [-1, 1] — together they determine whether combining two positions reduces risk or concentrates it.</span>
+        </a></li></ul></section>
+        
+        <section class="kb-relgroup"><h3>Related</h3><ul class="kb-rellist"><li><a href="../concepts/sharpe-ratio.html" class="kb-relitem">
+          <span class="kb-relitem-title">Sharpe Ratio</span>
+          <span class="kb-relitem-meta">Portfolio Construction · Intermediate</span>
+          <span class="kb-relitem-sum">Excess return per unit of volatility — the industry&#39;s default measure of risk-adjusted performance, and an estimator noisy and gameable enough that knowing its failure modes matters more than knowing its formula.</span>
+        </a></li><li><a href="../concepts/kelly-criterion.html" class="kb-relitem">
+          <span class="kb-relitem-title">Kelly Criterion</span>
+          <span class="kb-relitem-meta">Portfolio Construction · Intermediate</span>
+          <span class="kb-relitem-sum">The bet size that maximises the long-run growth rate of wealth — obtained by maximising expected log wealth rather than expected wealth, because capital compounds multiplicatively.</span>
+        </a></li><li><a href="../concepts/pca-and-eigenportfolios.html" class="kb-relitem">
+          <span class="kb-relitem-title">PCA &amp; Eigenportfolios</span>
+          <span class="kb-relitem-meta">Linear Algebra · Intermediate</span>
+          <span class="kb-relitem-sum">The spectral decomposition $\Sigma = Q\Lambda Q^\top$ rewrites a correlated universe as a set of uncorrelated principal portfolios — the eigenvectors are the independent directions of risk and the eigenvalues are how much risk lives in each.</span>
+        </a></li></ul></section>
+        
+      </div>
+      <div class="kb-references"><h3>References</h3><ul><li>Meucci, *Managing Diversification*, Risk, 22(5) (2009)</li><li>Meucci, Santangelo &amp; Deguest, *Risk Budgeting and Diversification Based on Optimised Uncorrelated Factors* (2015)</li><li>Choueifaty &amp; Coignard, *Toward Maximum Diversification*, Journal of Portfolio Management (2008)</li><li>Kritzman, Page &amp; Turkington, *Principal Components as a Measure of Systemic Risk*, Journal of Portfolio Management (2011)</li></ul></div>
+    </section>
+
+    <nav class="kb-prevnext" aria-label="Concept navigation">
+    <span></span>
+    <a class="kb-prevnext-item kb-prevnext-up" href="../subjects/risk-management.html">
+      <span class="kb-prevnext-label">Subject</span><span>Risk Management</span></a>
+    <span></span>
+  </nav>
+    <footer class="kb-source-note">
+      Source: <code>content/concepts/effective-number-of-bets.md</code> · updated 2026-09-02
+      · edit the markdown and run <code>npm run build</code>.
+    </footer>
+  </article>
+
+  <aside class="kb-sidebar">
+    <nav class="kb-toc" aria-label="On this page"><h3>On this page</h3><ol><li><a href="#intuition">Intuition</a></li><li><a href="#mathematical-formulation">Mathematical Formulation</a></li><li><a href="#derivation">Derivation</a></li><li><a href="#assumptions-edge-cases">Assumptions &amp; Edge Cases</a></li><li><a href="#worked-example">Worked Example</a></li><li><a href="#why-it-matters-in-quant-finance">Why It Matters in Quant Finance</a></li><li><a href="#trading-research-application">Trading &amp; Research Application</a></li><li><a href="#implementation-notes">Implementation Notes</a></li><li><a href="#common-mistakes">Common Mistakes</a></li><li><a href="#30-second-revision">30-Second Revision</a></li><li><a href="#key-formulas">Key Formulas</a></li><li><a href="#interview-questions">Interview Questions</a></li><li><a href="#connections">Connections</a></li></ol></nav>
+    <section class="kb-side-card" id="side-formulas"><h3>Key formulas</h3><ul class="kb-side-formulas"><li><a href="#effective-dimension-participation-ratio">Effective dimension (participation ratio)</a></li><li><a href="#risk-contribution-of-each-independent-direction">Risk contribution of each independent direction</a></li><li><a href="#effective-number-of-bets-meucci-2009">Effective Number of Bets (Meucci, 2009)</a></li><li><a href="#diversification-ratio-choueifaty-coignard-2008">Diversification ratio (Choueifaty &amp; Coignard, 2008)</a></li><li><a href="#absorption-ratio-kritzman-page-turkington-2011">Absorption ratio (Kritzman, Page &amp; Turkington, 2011)</a></li></ul></section>
+    <section class="kb-side-card">
+      <h3>Metadata</h3>
+      <dl class="kb-meta">
+        <dt>Subject</dt><dd><a href="../subjects/risk-management.html">Risk Management</a></dd>
+        <dt>Difficulty</dt><dd>Intermediate</dd>
+        <dt>Interview</dt><dd><span class="kb-stars" title="Interview relevance 5 of 5" aria-label="Interview relevance 5 of 5"><span class="kb-stars-on">★★★★★</span><span class="kb-stars-off"></span></span></dd>
+        <dt>Status</dt><dd data-kb-status-label="effective-number-of-bets">Not started</dd>
+        <dt>Prereqs</dt><dd>2</dd>
+        <dt>Formulas</dt><dd>5</dd>
+        <dt>Questions</dt><dd>7</dd>
+      </dl>
+    </section>
+    <section class="kb-side-card kb-side-minimap">
+      <h3>Neighbourhood</h3>
+      <canvas data-kb-minimap="effective-number-of-bets" width="260" height="200" aria-label="Local knowledge graph"></canvas>
+      <a class="kb-side-more" href="../graph.html?focus=effective-number-of-bets">Open full graph →</a>
+    </section>
+  </aside>
+</main>
+<script src="../data/kb.data.js"></script>
+<script src="../data/search.index.js"></script>
+<script src="../assets/js/kb-core.js"></script>
+<script src="../assets/js/kb-ui.js"></script>
+<script src="../assets/vendor/katex/katex.min.js" defer></script>
+<script src="../assets/vendor/katex/auto-render.min.js" defer></script>
+<script src="../assets/js/math.js" defer></script>
+<script src="../assets/js/concept.js" defer></script>
+<script src="../assets/js/lib/plot.js" defer></script>
+<script src="../assets/js/modules/diversification-lab.js" defer></script>
+</body>
+</html>
