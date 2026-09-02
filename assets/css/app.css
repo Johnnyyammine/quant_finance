@@ -250,9 +250,19 @@ html[data-theme="light"] .kb-pill--research     { color: #96522a; border-color: 
 
 .kb-main--concept {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 264px;
+  grid-template-columns: 264px minmax(0, 1fr);
   gap: 44px;
   max-width: 1128px;
+}
+/* The rail sits on the left, but the article stays FIRST in the DOM: screen
+   readers, print and the no-CSS fallback all get the prose before the
+   navigation. `order` moves the boxes, not the reading order.
+   Scoped to the two-column layout on purpose -- once the grid collapses to one
+   column, order would push the whole table of contents above the article and
+   you would scroll past it to reach the prose. */
+@media (min-width: 1081px) {
+  .kb-main--concept > .kb-sidebar { order: 1; }
+  .kb-main--concept > .kb-article { order: 2; }
 }
 @media (max-width: 1080px) { .kb-main--concept { grid-template-columns: 1fr; } .kb-sidebar { display: none; } }
 
