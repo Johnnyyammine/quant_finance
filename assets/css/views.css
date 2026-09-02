@@ -159,7 +159,15 @@
 /* ------------------------------------------------------------ library ---- */
 
 .kb-library { display: grid; grid-template-columns: 216px minmax(0, 1fr); gap: 28px; }
-@media (max-width: 900px) { .kb-library { grid-template-columns: 1fr; } }
+/* `1fr` is `minmax(auto, 1fr)`, and that auto minimum is min-content -- for a
+   nowrap facet label, the whole label. `minmax(0, 1fr)` is what actually lets
+   the track shrink to the phone's width. */
+@media (max-width: 900px) {
+  .kb-library { grid-template-columns: minmax(0, 1fr); }
+  .kb-facets { min-width: 0; position: static; max-height: none; overflow: visible; }
+  .kb-facet, .kb-facet-options, .kb-facet-opt { min-width: 0; }
+  .kb-facet-opt > span:first-of-type { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+}
 
 .kb-facets { position: sticky; top: calc(var(--topbar-h) + 22px); align-self: start;
   max-height: calc(100vh - var(--topbar-h) - 44px); overflow-y: auto; display: grid; gap: 18px; }
@@ -199,6 +207,18 @@
   display: block; margin-top: 1px; font-size: 11.5px; color: var(--ink-muted);
   max-width: 70ch; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden;
 }
+/* Six columns do not fit on a phone. Rather than scroll the table sideways,
+   drop the three that are least useful for picking something to read
+   (Subject, Level, Words) and keep Concept, Interview relevance and Status. */
+@media (max-width: 700px) {
+  .kb-table-concepts th:nth-child(2), .kb-table-concepts td:nth-child(2),
+  .kb-table-concepts th:nth-child(3), .kb-table-concepts td:nth-child(3),
+  .kb-table-concepts th:nth-child(6), .kb-table-concepts td:nth-child(6) { display: none; }
+  .kb-table-concepts th { padding: 10px 6px; }
+  .kb-table-concepts td { padding: 10px 6px; }
+  .kb-cell-title .kb-cell-sum { -webkit-line-clamp: 2; }
+}
+
 .kb-cell-num { font-family: var(--font-mono); font-variant-numeric: tabular-nums;
   color: var(--ink-muted); text-align: right; white-space: nowrap; }
 
@@ -206,7 +226,10 @@
 
 .kb-main--graph { max-width: none; padding: 0; height: calc(100vh - var(--topbar-h)); display: flex; }
 .kb-graph-canvas-wrap { position: relative; flex: 1; min-width: 0; }
-.kb-graph-canvas-wrap canvas { display: block; width: 100%; height: 100%; cursor: grab; }
+/* `touch-action: none` hands every touch gesture to the canvas. Without it
+   the browser claims one-finger drags for page scrolling and two-finger
+   pinches for page zoom, and the graph never sees them. */
+.kb-graph-canvas-wrap canvas { display: block; width: 100%; height: 100%; cursor: grab; touch-action: none; }
 .kb-graph-canvas-wrap canvas.is-dragging { cursor: grabbing; }
 
 .kb-graph-panel {
@@ -278,7 +301,12 @@
 .kb-drill {
   display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 26px; margin-top: 8px;
 }
-@media (max-width: 980px) { .kb-drill { grid-template-columns: 1fr; } }
+@media (max-width: 980px) {
+  .kb-drill { grid-template-columns: minmax(0, 1fr); }
+  .kb-drill > section, .kb-section-head, .kb-section-actions { min-width: 0; }
+  .kb-section-head { flex-wrap: wrap; }
+  .kb-section-actions { flex-wrap: wrap; }
+}
 
 .kb-drillcard {
   min-height: 240px; padding: 22px 24px;

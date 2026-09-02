@@ -111,8 +111,14 @@ button, select, input { font: inherit; color: inherit; }
 }
 .kb-brand-text { font-size: 13px; letter-spacing: -0.01em; }
 
+/* The grid item itself needs `min-width: 0`, not just the list inside it.
+   Without it the nowrap trail sets a min-content floor for the middle track
+   and pushes the search box and navigation off the right edge -- which is
+   what it did at every width between 700px and about 1100px. */
+.kb-crumbs { min-width: 0; overflow: hidden; }
 .kb-crumbs ol { display: flex; align-items: center; gap: 7px; margin: 0; padding: 0; list-style: none;
   font-size: 12px; color: var(--ink-muted); min-width: 0; }
+.kb-crumbs li:last-child { flex: 0 1 auto; min-width: 0; }
 .kb-crumbs li { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 34ch; }
 .kb-crumbs a { color: var(--ink-muted); }
 .kb-crumbs a:hover { color: var(--ink); }
@@ -574,7 +580,11 @@ html[data-theme="light"] .kb-pill--research     { color: #96522a; border-color: 
 .kb-module canvas { width: 100%; display: block; border-radius: var(--r); background: var(--bg-sunken); }
 .kb-controls { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
   gap: 10px 18px; margin-bottom: 14px; }
-.kb-control { display: grid; gap: 3px; }
+/* A <select> is sized by its longest option, and a grid item defaults to a
+   min-content floor -- so one long option label ('Market neutral
+   (long/short within sector)') widened the whole module. */
+.kb-control { display: grid; gap: 3px; min-width: 0; }
+.kb-control select { width: 100%; max-width: 100%; }
 .kb-control-label { display: flex; justify-content: space-between; align-items: baseline;
   font-size: 11px; color: var(--ink-muted); }
 .kb-control-value { font-family: var(--font-mono); font-size: 11.5px; color: var(--accent-ink);
@@ -590,10 +600,122 @@ html[data-theme="light"] .kb-pill--research     { color: #96522a; border-color: 
 
 /* --------------------------------------------------------------- math ---- */
 
+/* A long equation, a wide code line or a six-column table is wider than the
+   viewport at 390px and can be wider than a narrow desktop window too, so
+   these scroll inside their own box at every width rather than taking the
+   whole page sideways with them. */
+.math-display, .katex-display { overflow-x: auto; overflow-y: hidden; -webkit-overflow-scrolling: touch; }
+pre { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.kb-article table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
 .katex { font-size: 1.04em; }
 .math-display { display: block; margin: 18px 0; text-align: center; overflow-x: auto; overflow-y: hidden; padding: 2px 0; }
 .katex-display { margin: 0 !important; }
 .kb-formula-body .math-display { margin: 0; }
+
+/* ------------------------------------------------------------- mobile ---- */
+/* The desktop layout assumes a mouse and 1200px of width. This section makes
+   the same information usable on a phone held in one hand. Nothing in here
+   changes the desktop rendering -- it is all inside the media query.
+
+   The governing rule: a page must never scroll sideways. Sideways scroll is
+   what makes a site feel broken on a phone, and every fix below traces back
+   to some element that refused to shrink below its content width. */
+
+@media (max-width: 700px) {
+  /* iOS inflates text on rotation unless told not to. */
+  html { -webkit-text-size-adjust: 100%; }
+  body { -webkit-tap-highlight-color: var(--accent-bg); }
+
+  /* -- topbar ------------------------------------------------------------
+     The breadcrumb trail is what pushed the navigation off screen: its items
+     are `white-space: nowrap`, so the middle grid track could not shrink. It
+     goes first -- the page heading already says where you are. */
+  /* `backdrop-filter` makes an element the containing block for its
+     position:fixed descendants -- so with the blur left on, the bottom nav
+     below anchored itself to the 46px topbar and rendered at the TOP of the
+     screen. Solid background on phones instead. */
+  .kb-topbar {
+    grid-template-columns: auto 1fr; gap: 10px; padding: 0 12px;
+    backdrop-filter: none; background: var(--bg-raised);
+  }
+  .kb-crumbs { display: none; }
+  .kb-topbar-actions { justify-self: end; gap: 6px; min-width: 0; }
+  /* With the label and the shortcut hint hidden there is nothing left to see,
+     so draw a magnifier. Same approach as the theme toggle: CSS shapes rather
+     than a glyph the system font may not carry. */
+  .kb-searchbtn { position: relative; width: 40px; min-width: 0; height: 40px; padding: 0; }
+  .kb-searchbtn span, .kb-searchbtn kbd { display: none; }
+  .kb-searchbtn::before {
+    content: ""; position: absolute; left: 11px; top: 11px;
+    width: 12px; height: 12px; border: 1.6px solid currentColor; border-radius: 50%;
+  }
+  .kb-searchbtn::after {
+    content: ""; position: absolute; left: 24px; top: 24px;
+    width: 7px; height: 1.6px; background: currentColor;
+    transform: rotate(45deg); transform-origin: left center; border-radius: 1px;
+  }
+  .kb-iconbtn { width: 40px; height: 40px; }
+  .kb-brand { min-height: 40px; }
+
+  /* Section links move out of the crowded topbar into a bottom bar -- the
+     standard phone pattern, and the only way four labelled links fit at 390px
+     with a comfortable tap target. Below the overlay (200) and toasts (300). */
+  .kb-toplinks {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 55;
+    display: flex; gap: 0;
+    background: var(--bg-raised);
+    border-top: 1px solid var(--line);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .kb-toplinks a {
+    flex: 1; display: grid; place-items: center;
+    min-height: 46px; padding: 0 4px; border-radius: 0;
+    font-size: 12px; text-align: center;
+  }
+  .kb-toplinks a[aria-current] {
+    background: transparent; color: var(--accent-ink);
+    box-shadow: inset 0 2px 0 var(--accent);
+  }
+  /* Clear the bar so the last line of every page stays reachable. */
+  .kb-main { padding: 16px 14px calc(78px + env(safe-area-inset-bottom)); }
+  /* Jumping to a heading must not land it behind the bottom bar. */
+  html { scroll-padding-bottom: calc(60px + env(safe-area-inset-bottom)); }
+
+  /* -- concept pages ------------------------------------------------------
+     The rail follows the article as an appendix. The neighbourhood map is
+     unreadable at this size and the graph page does it better, so it goes. */
+  .kb-main--concept { gap: 30px; }
+  .kb-side-minimap { display: none; }
+  .kb-article { font-size: 15px; }
+  .kb-concept-controls { flex-wrap: wrap; gap: 8px; }
+
+  /* -- controls ----------------------------------------------------------
+     A finger is about 9mm across. Anything you are meant to tap gets 40px. */
+  .kb-btn, .kb-select, select, .kb-facet-opt, .kb-tag { min-height: 40px; }
+  .kb-btn, .kb-select, select { padding: 0 14px; }
+  .kb-facet-opt { padding: 8px 10px; font-size: 13.5px; }
+  .kb-tag { padding: 8px 11px; }
+
+  /* Interactive module sliders: the native thumb is too small to drag. */
+  .kb-controls { grid-template-columns: 1fr; gap: 12px; }
+  .kb-controls input[type="range"] { height: 40px; }
+  .kb-toc a, .kb-side-formulas a { display: block; padding: 9px 0; }
+  .kb-formula-copy { min-height: 36px; padding: 0 12px; }
+  .kb-subject-chip { min-height: 36px; }
+  .kb-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+  /* Same `minmax(auto, 1fr)` trap as the library: a wide formula stretched
+     the track instead of scrolling inside its own card. */
+  .kb-formula-recap { grid-template-columns: minmax(0, 1fr); }
+  .kb-formula-recap-item { min-width: 0; overflow-x: auto; }
+
+  /* Title, subtitle and badge side by side leaves each about 100px, so the
+     title wraps to three lines. Stack them instead. */
+  .kb-module-header { flex-wrap: wrap; align-items: center; gap: 4px 8px; }
+  .kb-module-title { width: 100%; font-size: 13px; }
+  .kb-module-sub { flex: 1; min-width: 0; }
+}
 
 /* -------------------------------------------------------------- print ---- */
 
