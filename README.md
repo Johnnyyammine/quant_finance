@@ -72,6 +72,13 @@ Full details, including the Claude-conversation → concept-page workflow, are i
 **Dashboard** (`index.html`) — coverage by subject, interview gaps, a "continue where you left off"
 queue ranked by interview value against your own progress, and the subject grid grouped by domain.
 
+**Persistent navigation.** Concept and subject pages carry the full subject tree
+down the left: every subject that has content, its concepts underneath, the section
+you are in already open and the page you are on marked. You move between concepts
+without returning to an index — which matters more the more concepts there are.
+The page's own table of contents sits on the right and follows you as you scroll.
+Three columns above 1180px, two below it, one on a phone.
+
 **Global search** (`/` anywhere) — one index over concepts, formulas, interview questions and
 subjects. Prefix matching, so `brown` finds *Brownian Motion*, *Geometric Brownian motion* (a
 formula) and the questions that mention it. Scope with Tab.

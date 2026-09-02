@@ -185,6 +185,13 @@ function build() {
   /* ------------------------------------------------------------ output --- */
   const stats = { written: 0, unchanged: 0, pruned: [] };
 
+  // Persistent navigation tree, shared by every generated page. Only subjects
+  // that actually have concepts appear -- an empty section in a sidebar is a
+  // dead end, and the dashboard already lists the ones still to be written.
+  const navGroups = subjects
+    .filter((s) => (orderIn.get(s.id) || []).length)
+    .map((s) => ({ subject: s, concepts: orderIn.get(s.id) || [] }));
+
   // Fingerprint of the inputs. Sorted so it does not depend on directory order.
   const contentHash = crypto.createHash('sha1')
     .update(JSON.stringify([...rawBodies.entries()].sort((a, b) => a[0].localeCompare(b[0]))))
@@ -260,6 +267,7 @@ function build() {
       subject,
       byId,
       subjectName,
+      navGroups,
       prev: i > 0 ? siblings[i - 1] : null,
       next: i >= 0 && i < siblings.length - 1 ? siblings[i + 1] : null,
       moduleScripts,
@@ -277,7 +285,7 @@ function build() {
   // Subject pages
   const keepSubjects = new Set();
   for (const s of subjects) {
-    const html = page.subjectPage(s, orderIn.get(s.id) || [], { subjectName });
+    const html = page.subjectPage(s, orderIn.get(s.id) || [], { subjectName, navGroups });
     keepSubjects.add(`${s.id}.html`);
     writeIfChanged(P('subjects', `${s.id}.html`), html, stats);
   }

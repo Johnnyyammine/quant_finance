@@ -403,25 +403,104 @@ html[data-theme="light"] .kb-pill--research     { color: #8d4c25; background: rg
 
 .kb-main--concept {
   display: grid;
-  grid-template-columns: 268px minmax(0, 1fr);
-  gap: 56px;
+  /* Three columns: navigation, article, page rail. The nav is what makes this
+     a reference site rather than a set of pages -- you move between concepts
+     without going back to an index, and you can always see where you are in
+     the whole. It matters more the more concepts there are. */
+  grid-template-columns: 232px minmax(0, 1fr) 232px;
+  gap: 40px;
   /* Wide enough that tables, code and the interactive modules get real room.
-     The reading measure is no longer enforced by starving the column -- it is
-     set on the prose elements themselves, so text stays comfortable while
-     anything wider than a sentence can use the whole width. */
-  max-width: 1260px;
+     The reading measure is not enforced by starving the column -- it is set on
+     the prose elements themselves, so text stays comfortable while anything
+     wider than a sentence can use the whole width. */
+  max-width: 1420px;
 }
-/* The rail sits on the left, but the article stays FIRST in the DOM: screen
-   readers, print and the no-CSS fallback all get the prose before the
-   navigation. `order` moves the boxes, not the reading order.
-   Scoped to the two-column layout on purpose -- once the grid collapses to one
-   column, order would push the whole table of contents above the article and
-   you would scroll past it to reach the prose. */
-@media (min-width: 1081px) {
-  .kb-main--concept > .kb-sidebar { order: 1; }
-  .kb-main--concept > .kb-article { order: 2; }
+/* Subject pages get navigation plus content; they have no page rail of their
+   own, so two columns rather than three. */
+.kb-main--subject {
+  display: grid;
+  grid-template-columns: 232px minmax(0, 1fr);
+  gap: 40px;
+  max-width: 1240px;
 }
-@media (max-width: 1080px) { .kb-main--concept { grid-template-columns: 1fr; } .kb-sidebar { display: none; } }
+
+/* Below three columns the page rail folds under the article, and below two the
+   navigation goes too -- on a phone it is twenty-odd rows that would bury the
+   prose. The topbar search and the bottom bar cover navigation there. */
+@media (max-width: 1180px) {
+  .kb-main--concept, .kb-main--subject { grid-template-columns: 232px minmax(0, 1fr); }
+  .kb-main--concept > .kb-sidebar { grid-column: 2; }
+}
+@media (max-width: 900px) {
+  .kb-main--concept, .kb-main--subject { grid-template-columns: minmax(0, 1fr); }
+  .kb-main--concept > .kb-sidebar { grid-column: 1; }
+  .kb-nav { display: none; }
+}
+
+/* ------------------------------------------------------- site navigation -- */
+
+.kb-nav {
+  position: sticky; top: calc(var(--topbar-h) + 22px);
+  align-self: start;
+  max-height: calc(100vh - var(--topbar-h) - 44px);
+  overflow-y: auto; overscroll-behavior: contain;
+  padding-right: 6px;
+  font-size: 13px;
+}
+.kb-nav::-webkit-scrollbar { width: 6px; }
+.kb-nav::-webkit-scrollbar-thumb { background: var(--line-strong); border-radius: var(--r-pill); }
+
+.kb-nav-top {
+  display: block; padding: 6px 10px; margin: 0 0 1px;
+  border-radius: var(--r); color: var(--ink-muted);
+}
+.kb-nav-top:hover { background: var(--bg-raised); color: var(--ink); text-decoration: none; }
+.kb-nav-top.is-current { background: var(--accent-bg); color: var(--accent-ink); }
+
+.kb-nav-heading {
+  margin: 20px 0 6px; padding: 0 10px;
+  font-size: 10px; font-weight: 600; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--ink-faint);
+}
+
+.kb-nav-group { border: 0; }
+.kb-nav-summary {
+  display: flex; align-items: center; gap: 9px;
+  padding: 6px 10px; border-radius: var(--r);
+  color: var(--ink-muted); cursor: pointer; list-style: none;
+}
+.kb-nav-summary::-webkit-details-marker { display: none; }
+.kb-nav-summary:hover { background: var(--bg-raised); color: var(--ink); }
+/* A caret drawn from a rotated border, so no glyph and no icon file. It turns
+   with the disclosure state -- the only affordance saying these sections open. */
+.kb-nav-summary::after {
+  content: ""; flex: none;
+  width: 5px; height: 5px; margin-left: 2px;
+  border-right: 1.4px solid currentColor; border-bottom: 1.4px solid currentColor;
+  transform: rotate(-45deg) translate(-1px, 1px);
+  opacity: 0.55;
+  transition: transform var(--dur) var(--ease);
+}
+.kb-nav-group[open] > .kb-nav-summary::after { transform: rotate(45deg) translate(-1px, -1px); }
+.kb-nav-group[open] > .kb-nav-summary { color: var(--ink); }
+.kb-nav-dot { width: 7px; height: 7px; border-radius: 50%; flex: none; }
+.kb-nav-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.kb-nav-count { font-family: var(--font-mono); font-size: 10.5px; color: var(--ink-faint); }
+
+/* The concepts hang off a hairline, which is what makes the tree read as a
+   tree rather than an indented list. */
+.kb-nav-list {
+  list-style: none; margin: 2px 0 6px; padding: 0 0 0 13px;
+  border-left: 1px solid var(--line);
+}
+.kb-nav-link {
+  display: block; padding: 5px 10px; border-radius: var(--r);
+  color: var(--ink-muted); line-height: 1.4;
+}
+.kb-nav-link:hover { background: var(--bg-raised); color: var(--ink); text-decoration: none; }
+.kb-nav-link.is-current {
+  background: var(--accent-bg); color: var(--accent-ink); font-weight: 550;
+}
 
 .kb-empty { color: var(--ink-faint); font-size: 13px; padding: 14px 0; }
 
