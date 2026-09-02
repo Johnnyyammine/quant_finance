@@ -82,12 +82,12 @@ to say it in one sentence in an interview.</p></div></aside>
 <p>And the result that makes martingales the natural language of limits:</p>
 <figure class="kb-formula" id="martingale-convergence-theorem" data-formula="martingale-convergence-theorem"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">Martingale convergence theorem</span><button class="kb-formula-copy" type="button" data-latex="\sup_t \E[|X_t|] &lt; \infty \implies X_t \to X_\infty \text{ almost surely}" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[\sup_t \E[|X_t|] &lt; \infty \implies X_t \to X_\infty \text{ almost surely}\]</span> </div><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">Estimation</span><span class="kb-chip">Bayesian Updating</span></footer></figure>
 <h2 id="derivation" class="kb-h kb-h2"><a class="kb-anchor" href="#derivation" aria-label="Link to this section">#</a>Derivation</h2>
-<details class="kb-derivation"><summary>Gambler&#39;s ruin via optional stopping</summary><div class="kb-derivation-body"><p>A gambler starts at  <span class="math-inline">\(k\)</span> , bets \$1 on fair flips, stops at  <span class="math-inline">\(0\)</span>  or  <span class="math-inline">\(N\)</span> . Wealth  <span class="math-inline">\(X_n\)</span>  is a martingale
+<details class="kb-derivation"><summary>Gambler&#39;s ruin via optional stopping</summary><div class="kb-derivation-body"><p>A gambler starts at  <span class="math-inline">\(k\)</span> , bets $1 on fair flips, stops at  <span class="math-inline">\(0\)</span>  or  <span class="math-inline">\(N\)</span> . Wealth  <span class="math-inline">\(X_n\)</span>  is a martingale
 and  <span class="math-inline">\(\tau = \min\{n : X_n \in \{0,N\}\}\)</span>  is a stopping time. The process is bounded in  <span class="math-inline">\([0,N]\)</span> , so
 optional stopping applies:</p>
 <span class="math-display">\[k = \E[X_0] = \E[X_\tau] = 0\cdot\P(\text{ruin}) + N\cdot\P(\text{win})\]</span>
 <span class="math-display">\[\P(\text{reach } N \text{ before } 0) = \frac{k}{N}\]</span>
-<p>A gambler with \$100 seeking \$1,000 against an infinitely wealthy house has a 10% chance. Against a
+<p>A gambler with $100 seeking $1,000 against an infinitely wealthy house has a 10% chance. Against a
 house with any edge at all, the probability decays exponentially in  <span class="math-inline">\(N\)</span>  rather than linearly. This
 single calculation is the foundation of every risk-of-ruin and drawdown-probability formula used in
 position sizing.</p></div></details>
@@ -139,8 +139,8 @@ pricing are the same theorem viewed from two directions.</p>
 <p>Downstream:</p>
 <ul class="kb-list"><li><strong>Efficient market hypothesis</strong> in its weak form is the assertion that risk-adjusted excess
 returns are martingale differences.</li>
-<li><strong>Variance swaps</strong> trade  <span class="math-inline">\(\langle X\rangle_T\)</span>  directly, made tradeable by the $X^2 - \langle
-X\rangle$ decomposition.</li>
+<li><strong>Variance swaps</strong> trade  <span class="math-inline">\(\langle X\rangle_T\)</span>  directly, made tradeable by the  <span class="math-inline">\(X^2 - \langle
+  X\rangle\)</span>  decomposition.</li>
 <li><strong>Optimal execution</strong> treats the unaffected price as a martingale so that the only thing the
 scheduler optimises is impact versus timing risk — otherwise you would be trading a directional
 view, not executing.</li>
@@ -213,7 +213,7 @@ For <a class="kb-link" href="brownian-motion.html" data-concept="brownian-motion
 applies. It requires one of: bounded stopping time, bounded process, or integrable dominating
 variable. <strong>The doubling strategy satisfies none of them</strong> — the required stake grows as
  <span class="math-inline">\(2^n\)</span>  without bound, and the stopping time is unbounded.
-Practically: to guarantee +\$1 you must be able to survive an arbitrarily long losing streak
+Practically: to guarantee +$1 you must be able to survive an arbitrarily long losing streak
 with unbounded capital. With finite bankroll  <span class="math-inline">\(B\)</span>  you can survive  <span class="math-inline">\(\lfloor\log_2 B\rfloor\)</span> 
 losses; beyond that you are wiped out. Expected value is exactly preserved — a small
 probability of a catastrophic loss precisely offsets the near-certain small gain.

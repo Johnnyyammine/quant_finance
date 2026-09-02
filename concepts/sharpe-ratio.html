@@ -126,8 +126,8 @@ exactly the risks that Sharpe cannot see. LTCM ran a Sharpe above 4 until it did
 <p>A strategy returns 12% annually with 8% volatility, risk-free 3%.</p>
 <span class="math-display">\[SR = \frac{0.12 - 0.03}{0.08} = 1.125\]</span>
 <p>Now interrogate it properly.</p>
-<p><strong>Precision.</strong> Over 3 years, $\operatorname{SE} \approx \sqrt{(1 + 1.125^2/2)/3} = \sqrt{0.544} =
-0.74$. So  <span class="math-inline">\(SR = 1.13 \pm 0.74\)</span> : the 95% interval is roughly  <span class="math-inline">\([-0.32, 2.57]\)</span> . <strong>A three-year track
+<p><strong>Precision.</strong> Over 3 years,  <span class="math-inline">\(\operatorname{SE} \approx \sqrt{(1 + 1.125^2/2)/3} = \sqrt{0.544} =
+0.74\)</span> . So  <span class="math-inline">\(SR = 1.13 \pm 0.74\)</span> : the 95% interval is roughly  <span class="math-inline">\([-0.32, 2.57]\)</span> . <strong>A three-year track
 record cannot distinguish a Sharpe of 1.1 from zero.</strong></p>
 <p><strong>Autocorrelation.</strong> If monthly returns have  <span class="math-inline">\(\rho_1 = 0.25\)</span> , the correction factor is
  <span class="math-inline">\(\sqrt{(1-0.25)/(1+0.25)} = 0.77\)</span> , so the honest Sharpe is  <span class="math-inline">\(1.125 \times 0.77 = 0.87\)</span> .</p>
@@ -172,8 +172,8 @@ rationale for the multi-strategy platform.</p>
 <li>What is the maximum drawdown, and does it match what the Sharpe implies? For a Sharpe-1 strategy,
 expected max drawdown over a few years is roughly one annual volatility — if the reported
 drawdown is far smaller, the volatility is understated.</li></ul>
-<p><strong>Capacity is invisible to Sharpe.</strong> A backtested Sharpe of 3 at \$10m of capital may be 0.5 at
-\$500m once market impact is included. Sharpe says nothing about the size of the business, and a
+<p><strong>Capacity is invisible to Sharpe.</strong> A backtested Sharpe of 3 at $10m of capital may be 0.5 at
+$500m once market impact is included. Sharpe says nothing about the size of the business, and a
 fund cares about both.</p>
 <p><strong>Live is not backtest.</strong> Realised out-of-sample Sharpe is typically <strong>half</strong> the backtested figure
 even with honest research — the combination of overfitting, cost underestimation and alpha decay.

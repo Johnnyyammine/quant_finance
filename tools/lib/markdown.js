@@ -68,8 +68,19 @@ function protectMath(text, state) {
     .replace(/\$\$([\s\S]+?)\$\$/g, (_, m) => stash(m, true))
     .replace(/\\\[([\s\S]+?)\\\]/g, (_, m) => stash(m, true))
     .replace(/\\\(([\s\S]+?)\\\)/g, (_, m) => stash(m, false))
-    // single $...$ on one line; ignores $5bn and escaped \$
-    .replace(/(^|[^\\$\w])\$(?!\s)([^$\n]+?)(?<!\s)\$(?![\w$])/g, (_, pre, m) => pre + stash(m, false));
+    // Single $...$. Ignores $5bn (needs a non-word char before the opening $
+    // and no space after it) and escaped \$.
+    //
+    // The body may wrap across a line -- prose is hard-wrapped at 100 columns,
+    // so an inline formula near the margin routinely straddles a newline, and
+    // forbidding that silently leaked the raw LaTeX onto the page. A blank
+    // line still ends it: two unmatched $ in one paragraph should not swallow
+    // everything between them.
+    // `\$` inside the body is a literal dollar sign in LaTeX ("\$109.4"), so it
+    // must be consumed as a pair -- otherwise it is mistaken for the closing
+    // delimiter and the rest of the formula spills onto the page as source.
+    .replace(/(^|[^\\$\w])\$(?!\s)((?:\\\$|[^$\n]|\n(?!\s*\n))+?)(?<!\s)\$(?![\w$])/g,
+      (_, pre, m) => pre + stash(m, false));
 }
 
 const PLACEHOLDER = /\u0000([MC])(\d+)\u0000/g;
@@ -392,7 +403,12 @@ function inline(text, state) {
     .replace(/(^|[\s(])\*([^*\n]+)\*(?=$|[\s).,;:!?])/g, '$1<em>$2</em>')
     .replace(/(^|[\s(])_([^_\n]+)_(?=$|[\s).,;:!?])/g, '$1<em>$2</em>')
     .replace(/~~([^~]+)~~/g, '<del>$1</del>')
-    .replace(/ {2,}\n/g, '<br>\n');
+    .replace(/ {2,}\n/g, '<br>\n')
+    // Markdown backslash escapes, resolved last so the characters they were
+    // protecting have already been through every pattern above. `\$` is the
+    // one that matters here: it is how you write a dollar amount without
+    // starting a formula, and leaving it unresolved printed the backslash.
+    .replace(/\\([\\`*_{}\[\]()#+\-.!$~<>|])/g, '$1');
 }
 
 const unesc = (s) =>

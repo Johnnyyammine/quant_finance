@@ -290,6 +290,59 @@ test('build: the repository builds without errors', () => {
   });
 });
 
+test('markdown: inline maths may wrap across a line', () => {
+  // Prose is hard-wrapped, so a formula near the margin straddles a newline.
+  // Forbidding that leaked raw LaTeX onto the page.
+  const { html } = md.render('Start with $\\lambda_1 \\ge\n\\lambda_N \\ge 0$ here.', {});
+  assert.ok(!/\$/.test(html), 'a wrapped inline formula left a raw $ in the output');
+  assert.ok(/\\\(/.test(html), 'a wrapped inline formula was not handed to KaTeX');
+
+  // A blank line still ends it: two stray $ must not swallow a paragraph.
+  const two = md.render('costs $5 today\n\nand $10 tomorrow', {}).html;
+  assert.ok(/\$5/.test(two) && /\$10/.test(two), 'stray dollar amounts were eaten as maths');
+});
+
+test('markdown: backslash-escaped characters lose the backslash', () => {
+  const { html } = md.render('Winners make \\$120, losers lose \\$100.', {});
+  assert.ok(/\$120/.test(html), 'escaped dollar did not survive');
+  assert.ok(!/\\\$/.test(html), 'the backslash was printed instead of being consumed');
+});
+
+test('build: no generated page leaks unrendered maths', () => {
+  // The failure this catches is visible to every reader: a formula that never
+  // reached KaTeX shows up as raw $...$ in the middle of a sentence. Scans the
+  // committed HTML, so it tests exactly what gets deployed.
+  const fs = require('fs');
+  const root = path.join(__dirname, '..');
+  const files = [];
+  ['concepts', 'subjects'].forEach((dir) => {
+    const d = path.join(root, dir);
+    if (fs.existsSync(d)) fs.readdirSync(d).forEach((f) => {
+      if (f.endsWith('.html')) files.push(path.join(dir, f));
+    });
+  });
+  ['index.html', 'library.html', 'interview.html', 'graph.html'].forEach((f) => {
+    if (fs.existsSync(path.join(root, f))) files.push(f);
+  });
+  assert.ok(files.length > 10, 'expected generated pages to scan');
+
+  const offenders = [];
+  files.forEach((rel) => {
+    const text = fs.readFileSync(path.join(root, rel), 'utf8')
+      .replace(/<script[\s\S]*?<\/script>/g, '')     // KB_DATA carries source text
+      .replace(/\\\([\s\S]*?\\\)/g, '')             // maths correctly handed to KaTeX
+      .replace(/\\\[[\s\S]*?\\\]/g, '')
+      .replace(/<[^>]*>/g, ' ');                     // attributes legitimately hold LaTeX
+    // Two prices in a sentence ("make $120, lose $100") look like $...$ but are
+    // not a leak. Unrendered maths is identified by a backslash command -- either
+    // inside the delimiters, or loose in the prose.
+    const m = text.match(/\$[^$\n]*\\[a-zA-Z]{2,}[^$\n]*\$/)
+      || text.match(/\\(?:frac|sqrt|sum|lambda|sigma|approx|times|cdot|Sigma|operatorname|begin)\b/);
+    if (m) offenders.push(rel + ' -> ' + m[0].trim().slice(0, 70));
+  });
+  assert.deepStrictEqual(offenders, [], 'raw $...$ reached the page:\n  ' + offenders.join('\n  '));
+});
+
 test('build: the build is deterministic', () => {
   // Generated output is committed, and CI fails if it drifts from content/.
   // A wall-clock timestamp in the payload would make every build differ and
