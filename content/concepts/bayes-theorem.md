@@ -5,7 +5,6 @@ subject: probability
 summary: The rule for inverting a conditional probability — turning "how likely is this evidence if the hypothesis is true" into "how likely is the hypothesis given the evidence".
 difficulty: foundational
 interview_relevance: 5
-status: learning
 tags: [probability, bayes, inference, base-rates, updating]
 prerequisites: [conditional-probability]
 related: [expectation]

@@ -15,7 +15,7 @@ hedge-fund quant research / trading / developer interviews, and for keeping what
 │  content/tracks.json    │build │                                             │
 │                         │      │  + knowledge graph, formula index,          │
 │                         │      │    interview bank, prerequisite chains,     │
-│                         │      │    progress rollups, prev/next navigation   │
+│                         │      │    prev/next navigation                     │
 └─────────────────────────┘      └─────────────────────────────────────────────┘
 ```
 
@@ -59,8 +59,8 @@ open concepts/ito-lemma.html
 ```
 
 You edited **one file**. The concept now appears in the dashboard, the subject page, global search,
-the knowledge graph, the library table, the interview question bank and the progress bars — because
-all of those are derived from the file you just wrote.
+the knowledge graph, the library table and the interview question bank — because all of those are
+derived from the file you just wrote.
 
 Full details, including the Claude-conversation → concept-page workflow, are in
 **[CONTRIBUTING.md](CONTRIBUTING.md)**.
@@ -69,8 +69,8 @@ Full details, including the Claude-conversation → concept-page workflow, are i
 
 ## What's in the box
 
-**Dashboard** (`index.html`) — coverage by subject, interview gaps, a "continue where you left off"
-queue ranked by interview value against your own progress, and the subject grid grouped by domain.
+**Dashboard** (`index.html`) — the corpus at a glance, a "start here" queue ranked by interview
+value, the subject grid grouped by domain, and the tag cloud.
 
 **Persistent navigation.** Concept and subject pages carry the full subject tree
 down the left: every subject that has content, its concepts underneath, the section
@@ -84,13 +84,12 @@ subjects. Prefix matching, so `brown` finds *Brownian Motion*, *Geometric Browni
 formula) and the questions that mention it. Scope with Tab.
 
 **Knowledge graph** (`graph.html`) — force-directed map of the whole base. Solid edges are
-prerequisites, dashed edges are related concepts, node colour is subject, and hollow nodes are
-things you haven't started, so the graph doubles as a progress map. Focus on any concept to see its
-n-hop neighbourhood.
+prerequisites, dashed edges are related concepts, node colour is subject and node size is how
+connected the concept is. Focus on any concept to see its n-hop neighbourhood.
 
-**Library** (`library.html`) — the full table with faceted filters (subject, difficulty, status,
-interview relevance, tags, bookmarks) and sortable columns. Filter state lives in the URL, so any
-view is shareable and bookmarkable.
+**Library** (`library.html`) — the full table with faceted filters (subject, difficulty, interview
+relevance, tags, bookmarks) and sortable columns. Filter state lives in the URL, so any view is
+shareable and bookmarkable.
 
 **Interview mode** (`interview.html`) — pick a track (Quant Researcher, Quant Trader, Market Making,
 Stat Arb, …), get a cram sheet ranked by *value at risk* — interview relevance × how little you know
@@ -163,14 +162,18 @@ What the plain-script approach buys: the repository works from a double-click in
 ## Offline behaviour
 
 Everything works from `file://`: search, filters, the graph, interview mode, mathematics, the
-interactive modules, and your saved progress (in `localStorage`).
+interactive modules, and your bookmarks (in `localStorage`).
 
 The only thing that needs a server is `npm run serve`, provided for future modules that want
 `fetch()`. Nothing shipped today requires it.
 
-Personal state — learning status overrides, bookmarks, drill history, theme — lives in `localStorage`
-under the key `qfkb:v1`, separate from the generated content, so rebuilding never destroys it. Export
-it from the console with `KB.exportState()`.
+Personal state — bookmarks, drill history, theme — lives in `localStorage` under the key `qfkb:v1`,
+separate from the generated content, so rebuilding never destroys it. Export it from the console
+with `KB.exportState()`.
+
+There is deliberately **no reading-progress tracking**: no per-concept status, no percentage
+complete, no "you have read 40% of this subject". The knowledge base is a reference you dip into,
+not a course you finish, and the bars were spending interface on a number nobody acts on.
 
 ---
 
@@ -218,9 +221,9 @@ Two things to know before you share the link:
 
 - A public repository means a public site. For a private one, use Netlify or Cloudflare Pages with
   access control instead.
-- Learning progress lives in `localStorage`, so it is per-browser. Your phone and your laptop keep
-  separate progress, and anyone opening your link starts from zero. That is deliberate — there is
-  no account system and no server to hold state.
+- Bookmarks and drill history live in `localStorage`, so they are per-browser. Your phone and your
+  laptop keep separate state, and anyone opening your link starts from a clean slate. That is
+  deliberate — there is no account system and no server to hold state.
 
 ---
 
@@ -228,7 +231,7 @@ Two things to know before you share the link:
 
 The repository ships **twelve worked concepts** — deliberately few. The point of this milestone is
 the system, not the corpus; these exist to prove that navigation, search, the graph, prerequisites,
-interview mode, progress, formulas and interactive modules all work end to end.
+interview mode, formulas and interactive modules all work end to end.
 
 ```
 Probability            Expectation · Conditional Probability · Bayes' Theorem

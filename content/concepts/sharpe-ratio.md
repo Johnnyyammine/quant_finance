@@ -5,7 +5,6 @@ subject: portfolio-construction
 summary: Excess return per unit of volatility — the industry's default measure of risk-adjusted performance, and an estimator noisy and gameable enough that knowing its failure modes matters more than knowing its formula.
 difficulty: intermediate
 interview_relevance: 5
-status: learning
 tags: [performance, risk, portfolio, estimation, backtesting, allocation]
 prerequisites: [variance, expectation]
 related: [covariance-and-correlation, linear-regression]

@@ -197,7 +197,6 @@ test('model: normalisation applies defaults and clamps', () => {
   assert.strictEqual(concept.subject, 'stochastic-processes');
   assert.strictEqual(concept.interviewRelevance, 5);
   assert.strictEqual(concept.difficulty, 'intermediate');
-  assert.strictEqual(concept.status, 'not-started');
   assert.strictEqual(concept.path, 'concepts/ito-lemma.html');
 });
 
@@ -241,11 +240,17 @@ test('model: an undeclared subject is auto-stubbed, never fatal', () => {
   assert.ok(out.warnings.some((w) => /brand-new/.test(w)));
 });
 
-test('model: progress is status-weighted', () => {
-  const s = (status) => ({ status });
-  assert.strictEqual(model.progressOf([s('mastered')]), 1);
-  assert.strictEqual(model.progressOf([s('not-started')]), 0);
-  assert.strictEqual(model.progressOf([s('mastered'), s('not-started')]), 0.5);
+test('model: reading progress is not part of the model', () => {
+  // The reading-progress feature (status vocabulary, % bars, "mastered")
+  // was removed on purpose. It reappearing means a partial revert, so pin it:
+  // the model exposes no status vocabulary and normalisation invents no field.
+  assert.strictEqual(model.STATUS, undefined);
+  assert.strictEqual(model.progressOf, undefined);
+  const { concept } = model.normaliseConcept(
+    { title: 'x', subject: 'probability', status: 'mastered' },
+    { file: 'x.md', sourceId: 'x' }
+  );
+  assert.ok(!('status' in concept), 'a stray status: in frontmatter must be ignored');
 });
 
 test('model: section aliases map onto canonical ids', () => {
@@ -306,6 +311,37 @@ test('markdown: backslash-escaped characters lose the backslash', () => {
   const { html } = md.render('Winners make \\$120, losers lose \\$100.', {});
   assert.ok(/\$120/.test(html), 'escaped dollar did not survive');
   assert.ok(!/\\\$/.test(html), 'the backslash was printed instead of being consumed');
+});
+
+test('build: generated data and pages carry no progress surface', () => {
+  // Same reasoning as the model test, one layer out: the shipped kb.data.js and
+  // the committed HTML are what a reader actually loads.
+  const fs = require('fs');
+  const root = path.join(__dirname, '..');
+  const data = fs.readFileSync(path.join(root, 'data/kb.json'), 'utf8');
+  const payload = JSON.parse(data);
+  assert.ok(!('status' in payload.vocab), 'vocab.status must be gone');
+  assert.ok(!('progress' in payload.stats), 'stats.progress must be gone');
+  payload.concepts.forEach((c) => assert.ok(!('status' in c), c.id + ' still carries a status'));
+  payload.subjects.forEach((s) => assert.ok(!('progress' in s), s.id + ' still carries progress'));
+
+  const offenders = [];
+  ['index.html', 'library.html', 'interview.html', 'graph.html'].forEach((f) => {
+    const p = path.join(root, f);
+    if (fs.existsSync(p) && /kb-bar|kb-statusdot|data-kb-status|data-kb-progress/.test(fs.readFileSync(p, 'utf8'))) {
+      offenders.push(f);
+    }
+  });
+  ['concepts', 'subjects'].forEach((dir) => {
+    const d = path.join(root, dir);
+    if (!fs.existsSync(d)) return;
+    fs.readdirSync(d).filter((f) => f.endsWith('.html')).forEach((f) => {
+      if (/kb-bar|kb-statusdot|data-kb-status/.test(fs.readFileSync(path.join(d, f), 'utf8'))) {
+        offenders.push(dir + '/' + f);
+      }
+    });
+  });
+  assert.deepStrictEqual(offenders, [], 'progress markup left in generated HTML');
 });
 
 test('build: no generated page leaks unrendered maths', () => {

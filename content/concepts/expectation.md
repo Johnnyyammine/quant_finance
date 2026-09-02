@@ -5,7 +5,6 @@ subject: probability
 summary: The probability-weighted average of a random variable — the number a long-run average converges to, and the object almost every pricing and sizing argument is really about.
 difficulty: foundational
 interview_relevance: 5
-status: learned
 tags: [probability, moments, pricing, linearity]
 prerequisites: []
 related: [variance, conditional-probability]

@@ -5,7 +5,6 @@ subject: stochastic-processes
 summary: The continuous-time limit of a random walk — Gaussian, independent increments scaling with √t, nowhere differentiable, and the driving noise underneath essentially every continuous-time model in finance.
 difficulty: advanced
 interview_relevance: 4
-status: not-started
 tags: [stochastic-processes, wiener-process, diffusion, pricing, quadratic-variation]
 prerequisites: [martingales, variance]
 related: [expectation]

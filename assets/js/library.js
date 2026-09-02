@@ -7,13 +7,13 @@
   var esc = KB.util.escapeHtml;
 
   var state = {
-    q: '', subjects: [], difficulty: [], status: [], tags: [], minRel: 0,
+    q: '', subjects: [], difficulty: [], tags: [], minRel: 0,
     bookmarked: false, sort: 'relevance', dir: 'desc',
   };
 
   function readUrl() {
     var get = KB.util.param;
-    ['tag', 'subject', 'difficulty', 'status'].forEach(function (k) {
+    ['tag', 'subject', 'difficulty'].forEach(function (k) {
       var v = get(k);
       if (!v) return;
       var target = k === 'tag' ? 'tags' : k === 'subject' ? 'subjects' : k;
@@ -30,7 +30,6 @@
     if (state.tags.length) parts.push('tag=' + state.tags.join(','));
     if (state.subjects.length) parts.push('subject=' + state.subjects.join(','));
     if (state.difficulty.length) parts.push('difficulty=' + state.difficulty.join(','));
-    if (state.status.length) parts.push('status=' + state.status.join(','));
     if (state.minRel) parts.push('rel=' + state.minRel);
     if (state.bookmarked) parts.push('bookmarked=1');
     var url = global.location.pathname + (parts.length ? '?' + parts.join('&') : '');
@@ -40,7 +39,6 @@
   function matches(c) {
     if (state.subjects.length && state.subjects.indexOf(c.subject) === -1) return false;
     if (state.difficulty.length && state.difficulty.indexOf(c.difficulty) === -1) return false;
-    if (state.status.length && state.status.indexOf(KB.statusOf(c.id)) === -1) return false;
     if (state.minRel && c.interviewRelevance < state.minRel) return false;
     if (state.bookmarked && !KB.isBookmarked(c.id)) return false;
     if (state.tags.length && !state.tags.every(function (t) { return c.tags.indexOf(t) !== -1; })) return false;
@@ -68,8 +66,6 @@
         case 'title': return a.title.localeCompare(b.title) * -dir;
         case 'subject': return (a.subject.localeCompare(b.subject) || a.title.localeCompare(b.title)) * -dir;
         case 'difficulty': return ((diffRank[a.difficulty] - diffRank[b.difficulty]) || a.title.localeCompare(b.title)) * dir;
-        case 'status': return ((KB.statusMeta[KB.statusOf(a.id)].weight - KB.statusMeta[KB.statusOf(b.id)].weight)
-          || a.title.localeCompare(b.title)) * dir;
         case 'length': return (a.wordCount - b.wordCount) * dir;
         default: return ((a.interviewRelevance - b.interviewRelevance) || a.title.localeCompare(b.title) * -1) * dir;
       }
@@ -98,9 +94,6 @@
       facetGroup('Difficulty', 'difficulty', KB.vocab.difficulty.map(function (d) {
         return { id: d.id, label: d.label, count: count(function (c) { return c.difficulty === d.id; }) };
       })) +
-      facetGroup('Status', 'status', KB.vocab.status.map(function (s) {
-        return { id: s.id, label: s.label, count: count(function (c) { return KB.statusOf(c.id) === s.id; }) };
-      })) +
       '<div class="kb-facet"><h3>Interview relevance</h3><div class="kb-facet-options">' +
       [5, 4, 3, 0].map(function (n) {
         return '<button class="kb-facet-opt" type="button" data-minrel="' + n + '" aria-pressed="' +
@@ -125,7 +118,6 @@
     { id: 'subject', label: 'Subject' },
     { id: 'difficulty', label: 'Level' },
     { id: 'relevance', label: 'Interview' },
-    { id: 'status', label: 'Status' },
     { id: 'length', label: 'Words' },
   ];
 
@@ -151,12 +143,9 @@
           '<td><span class="kb-pill kb-pill--' + esc(c.difficulty) + '">' +
           esc(KB.difficultyMeta[c.difficulty].label) + '</span></td>' +
           '<td>' + KB.util.stars(c.interviewRelevance) + '</td>' +
-          '<td><span class="kb-statusdot" data-kb-status-dot="' + esc(c.id) + '" data-status="' +
-          esc(KB.statusOf(c.id)) + '"></span> <span style="font-size:11.5px;color:var(--ink-muted)">' +
-          esc(KB.statusMeta[KB.statusOf(c.id)].label) + '</span></td>' +
           '<td class="kb-cell-num">' + c.wordCount.toLocaleString() + '</td></tr>';
       }).join('')
-        : '<tr><td colspan="6" class="kb-empty">No concepts match these filters.</td></tr>') +
+        : '<tr><td colspan="5" class="kb-empty">No concepts match these filters.</td></tr>') +
       '</tbody>';
   }
 
@@ -186,7 +175,7 @@
       if (bm) { state.bookmarked = !state.bookmarked; render(); return; }
       var clear = e.target.closest('[data-kb-clear]');
       if (clear) {
-        state.subjects = []; state.difficulty = []; state.status = []; state.tags = [];
+        state.subjects = []; state.difficulty = []; state.tags = [];
         state.minRel = 0; state.bookmarked = false; state.q = '';
         if (input) input.value = '';
         render();

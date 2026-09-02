@@ -5,7 +5,6 @@ subject: linear-algebra
 summary: The spectral decomposition rewrites a correlated universe as a set of uncorrelated principal portfolios — the eigenvectors are the independent directions of risk and the eigenvalues are how much risk lives in each.
 difficulty: intermediate
 interview_relevance: 5
-status: not-started
 tags: [linear-algebra, pca, eigenvalues, factor-models, risk, dimensionality-reduction, diversification]
 prerequisites: [covariance-and-correlation]
 related: [linear-regression, effective-number-of-bets]

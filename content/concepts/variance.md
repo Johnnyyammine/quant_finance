@@ -5,7 +5,6 @@ subject: statistics
 summary: The expected squared deviation from the mean — the second moment that turns a return forecast into a position size, and the quantity that does not add when you combine assets.
 difficulty: foundational
 interview_relevance: 5
-status: learned
 tags: [statistics, moments, risk, volatility, dispersion]
 prerequisites: [expectation]
 related: [covariance-and-correlation, sharpe-ratio]

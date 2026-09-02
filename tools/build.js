@@ -210,7 +210,6 @@ function build() {
     version: 1,
     vocab: {
       difficulty: model.DIFFICULTY,
-      status: model.STATUS,
       sections: model.SECTIONS.map(({ id, label }) => ({ id, label })),
     },
     subjects,
@@ -219,7 +218,7 @@ function build() {
     edges,
     concepts: concepts.map((c) => ({
       id: c.id, title: c.title, subject: c.subject, summary: c.summary,
-      difficulty: c.difficulty, interviewRelevance: c.interviewRelevance, status: c.status,
+      difficulty: c.difficulty, interviewRelevance: c.interviewRelevance,
       tags: c.tags, prerequisites: c.prerequisites, related: c.related, builtOn: c.builtOn,
       tracks: c.tracks, path: c.path, estimatedMinutes: c.estimatedMinutes, wordCount: c.wordCount,
       updated: c.updated, modules: c.modules,
@@ -237,7 +236,6 @@ function build() {
       formulas: concepts.reduce((n, c) => n + c.formulas.length, 0),
       questions: concepts.reduce((n, c) => n + c.questions.length, 0),
       words: concepts.reduce((n, c) => n + c.wordCount, 0),
-      progress: model.progressOf(concepts),
     },
   };
 

@@ -1,7 +1,7 @@
 /* ==========================================================================
    Interview Mode.
    Two halves: a cram sheet (the highest-value concepts for a chosen track,
-   sorted by relevance and weakness) and a question drill that pulls from the
+   sorted by interview relevance) and a question drill that pulls from the
    question bank the build extracts from every concept's frontmatter.
    Tracks are data (content/tracks.json), so adding one needs no code.
    ========================================================================== */
@@ -11,7 +11,9 @@
   var KB = global.KB, UI = global.KBUI;
   var esc = KB.util.escapeHtml;
 
-  var state = { track: null, minRel: 4, difficulty: '', onlyWeak: false, queue: [], at: 0, revealed: false };
+  var state = { track: null, minRel: 4, difficulty: '', queue: [], at: 0, revealed: false };
+
+  function plural(n, word) { return n + ' ' + word + (n === 1 ? '' : 's'); }
 
   /* --------------------------------------------------------------- data -- */
 
@@ -26,12 +28,6 @@
     });
   }
 
-  function weakness(c) {
-    // Rank by "value at risk": how much interview weight is not yet learned.
-    var w = KB.statusMeta[KB.statusOf(c.id)].weight;
-    return c.interviewRelevance * (1 - w);
-  }
-
   function questionBank() {
     var ids = {};
     trackConcepts(state.track).forEach(function (c) { ids[c.id] = true; });
@@ -40,7 +36,6 @@
       if (!ids[c.id]) return;
       c.questions.forEach(function (q) {
         if (state.difficulty && q.difficulty !== state.difficulty) return;
-        if (state.onlyWeak && KB.statusMeta[KB.statusOf(c.id)].weight >= 0.75) return;
         out.push({ q: q, c: c });
       });
     });
@@ -55,33 +50,29 @@
       .concat(KB.tracks);
     host.innerHTML = all.map(function (t) {
       var cs = trackConcepts(t.id);
-      var p = KB.progress(cs.map(function (c) { return c.id; }));
+      var qs = cs.reduce(function (n, c) { return n + c.questions.length; }, 0);
       return '<button class="kb-track" type="button" data-track="' + esc(t.id || '') +
         '" aria-pressed="' + (state.track === t.id) + '">' +
         '<span class="kb-track-name">' + esc(t.name) + '</span>' +
         '<p class="kb-track-desc">' + esc(t.description) + '</p>' +
-        '<span class="kb-track-foot">' + cs.length + ' concepts' +
-        '<span class="kb-bar" style="flex:1"><span class="kb-bar-fill" style="width:' +
-        Math.round(p * 100) + '%"></span></span>' +
-        '<span class="kb-bar-num">' + Math.round(p * 100) + '%</span></span></button>';
+        '<span class="kb-track-foot">' + plural(cs.length, 'concept') +
+        '<span class="kb-track-rule"></span>' + plural(qs, 'question') + '</span></button>';
     }).join('');
   }
 
   function renderCram() {
     var host = UI.$('[data-kb-cram]');
     var cs = trackConcepts(state.track).slice().sort(function (a, b) {
-      return weakness(b) - weakness(a) || b.interviewRelevance - a.interviewRelevance;
+      return b.interviewRelevance - a.interviewRelevance || a.title.localeCompare(b.title);
     });
-    UI.$('[data-kb-cram-count]').textContent = cs.length + ' concepts · ' +
-      cs.filter(function (c) { return KB.statusMeta[KB.statusOf(c.id)].weight < 0.75; }).length + ' still weak';
+    UI.$('[data-kb-cram-count]').textContent = plural(cs.length, 'concept') + ' · ' +
+      plural(cs.reduce(function (n, c) { return n + c.questions.length; }, 0), 'question');
 
     host.innerHTML = cs.length ? cs.map(function (c) {
       return '<a class="kb-cram-item" href="' + esc(c.path) + '">' +
         '<span><strong>' + esc(c.title) + '</strong>' +
         '<small>' + esc((KB.subject(c.subject) || {}).name) + ' · ' + esc(c.summary) + '</small></span>' +
-        '<span class="kb-result-meta">' + KB.util.stars(c.interviewRelevance) +
-        '<span class="kb-statusdot" data-kb-status-dot="' + esc(c.id) + '" data-status="' +
-        esc(KB.statusOf(c.id)) + '"></span></span></a>';
+        '<span class="kb-result-meta">' + KB.util.stars(c.interviewRelevance) + '</span></a>';
     }).join('') : '<p class="kb-empty">No concepts match. Lower the relevance threshold, or add content for this track.</p>';
   }
 
@@ -165,10 +156,6 @@
       KB.vocab.difficulty.map(function (d) { return '<option value="' + d.id + '">' + d.label + '</option>'; }).join('');
     diffSel.addEventListener('change', function () { state.difficulty = diffSel.value; newQueue(); });
 
-    UI.$('[data-kb-weak]').addEventListener('change', function (e) {
-      state.onlyWeak = e.target.checked; newQueue(); renderCram();
-    });
-
     document.addEventListener('click', function (e) {
       var track = e.target.closest('[data-track]');
       if (track) {
@@ -199,8 +186,6 @@
       else if (e.key === '2' && state.revealed) advance('wrong');
       else if (e.key === 'n') advance(null);
     });
-
-    KB.on(function (type) { if (type === 'status' || type === 'reset' || type === 'import') { renderTracks(); renderCram(); } });
 
     newQueue();
     renderAll();

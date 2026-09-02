@@ -5,7 +5,6 @@ subject: portfolio-construction
 summary: The bet size that maximises the long-run growth rate of wealth — obtained by maximising expected log wealth rather than expected wealth, because capital compounds multiplicatively.
 difficulty: intermediate
 interview_relevance: 5
-status: learning
 tags: [sizing, leverage, compounding, growth, risk]
 prerequisites: [expectation, variance]
 related: [sharpe-ratio]

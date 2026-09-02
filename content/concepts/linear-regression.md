@@ -5,7 +5,6 @@ subject: statistics
 summary: The projection of a target onto the span of its predictors — the estimator behind every beta, factor loading and hedge ratio in finance, and the one whose assumptions market data violates most reliably.
 difficulty: intermediate
 interview_relevance: 5
-status: learning
 tags: [statistics, econometrics, ols, factor-models, estimation]
 prerequisites: [covariance-and-correlation, variance]
 related: [expectation, sharpe-ratio]

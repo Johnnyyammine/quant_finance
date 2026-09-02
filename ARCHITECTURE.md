@@ -92,7 +92,6 @@ The unit of knowledge. One markdown file, one record.
 | `summary` | string | One sentence. The lede, the search snippet, the card subtitle. |
 | `difficulty` | enum | `foundational` · `intermediate` · `advanced` · `research` |
 | `interviewRelevance` | 0–5 | Drives interview mode ranking and ★ display. |
-| `status` | enum | `not-started` · `learning` · `learned` · `mastered`, with weights 0 / 0.35 / 0.75 / 1. |
 | `tags` | slug[] | Cross-cutting, cross-subject. |
 | `prerequisites` | id[] | **Directed.** Generates the reverse `builtOn` edge automatically. |
 | `related` | id[] | **Symmetric.** Declaring on one side shows it on both. |
@@ -105,7 +104,7 @@ The unit of knowledge. One markdown file, one record.
 ### Subject, Track, Question, Formula
 
 **Subject** — `id`, `name`, `description`, `icon`, `color`, `group`, `order`. Declared in
-`content/subjects.json`. `conceptCount` and `progress` are derived.
+`content/subjects.json`. `conceptCount` is derived.
 
 **Track** — an interview curriculum: `id`, `name`, `description`, `subjects[]`, `tags[]`,
 `minRelevance`. Membership is *computed*: any concept whose subject or tags match, at or above the
@@ -126,11 +125,6 @@ prerequisites  ──▶ reverse edges (builtOn) ──▶ "Builds towards" sect
                ──▶ directed graph edges     ──▶ knowledge graph
                ──▶ topological depth        ──▶ prev/next order within a subject
                ──▶ subject concept map layers
-
-status         ──▶ subject progress ──▶ dashboard bars, KPIs
-               ──▶ track progress   ──▶ interview mode
-               ──▶ graph node fill  ──▶ the graph as a progress map
-               ──▶ "value at risk"  ──▶ cram-sheet ordering
 
 :::formula     ──▶ formula index ──▶ search, sidebar, Key Formulas section
 questions:     ──▶ question bank ──▶ interview drill, search
@@ -183,7 +177,7 @@ directories contain only generated files.
 
 **Static generation, JavaScript as enhancement.** Concept and subject pages are complete HTML with
 prose baked in. They are readable, printable and greppable with JavaScript disabled. JavaScript adds
-search, filters, status toggles and interactive modules — nothing load-bearing for reading.
+search, filters, faceting and interactive modules — nothing load-bearing for reading.
 
 ### Math protection
 
@@ -248,7 +242,7 @@ data/kb.data.js         window.KB_DATA      generated content
 data/search.index.js    window.KB_SEARCH    generated index
         ↓
 assets/js/kb-core.js    window.KB           lookup · search · personal state · graph helpers
-assets/js/kb-ui.js      window.KBUI         palette · shortcuts · theme · toasts · status controls
+assets/js/kb-ui.js      window.KBUI         palette · shortcuts · theme · toasts · bookmarks
         ↓
 per-view scripts        dashboard · library · graph · interview · concept · subject
 assets/js/lib/plot.js   window.KBPlot       canvas plotting + statistics (modules only)
@@ -264,13 +258,16 @@ needed. `plot.js` ships only to concept pages that actually mount a module.
 All reader-owned state lives in one localStorage blob under `qfkb:v1`:
 
 ```js
-{ status: {conceptId: status}, bookmarks: {}, notes: {}, drills: {}, theme: null, prefs: {} }
+{ bookmarks: {}, notes: {}, drills: {}, theme: null, prefs: {} }
 ```
 
-The design point: **personal state is separate from content, and content is authoritative for
-defaults.** `KB.statusOf(id)` returns the local override if one exists, otherwise the `status:` in
-the markdown. Setting a status back to the authored value *deletes* the override rather than storing
-it, so the store stays small and rebuilding never destroys progress.
+The design point: **personal state is separate from content**, so rebuilding never destroys it and
+the content files never carry anything reader-specific.
+
+There is deliberately no per-concept reading status and no percentage complete. Self-reported
+progress is a number nobody acts on, and the bars, dots and status controls that displayed it were
+spending real interface on it. Drill history stays, because a question you keep missing is evidence
+rather than self-report.
 
 Every mutation emits an event (`KB.on(fn)`) so open views repaint. `KB.exportState()` and
 `KB.importState(json)` make the state portable — the seam through which spaced repetition, notes and
@@ -394,7 +391,7 @@ within the subject — so it reads left-to-right as a study order.
 | An interactive module | one file in `assets/js/modules/` + a `:::module` directive | none |
 | A callout style | one entry in `CALLOUTS` in `markdown.js`, one CSS rule | 2 lines |
 | A metadata field | one entry in `model.js`, then use it | 1 file |
-| A difficulty or status level | one row in the `DIFFICULTY` / `STATUS` table in `model.js` | 1 file |
+| A difficulty level | one row in the `DIFFICULTY` table in `model.js` | 1 file |
 | A canonical section | one row in `SECTIONS` in `model.js` (aliases included) | 1 file |
 | A whole new view | an HTML shell + a script reading `KB` | new files only |
 

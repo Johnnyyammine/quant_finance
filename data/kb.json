@@ -25,28 +25,6 @@
         "rank": 4
       }
     ],
-    "status": [
-      {
-        "id": "not-started",
-        "label": "Not started",
-        "weight": 0
-      },
-      {
-        "id": "learning",
-        "label": "Learning",
-        "weight": 0.35
-      },
-      {
-        "id": "learned",
-        "label": "Learned",
-        "weight": 0.75
-      },
-      {
-        "id": "mastered",
-        "label": "Mastered",
-        "weight": 1
-      }
-    ],
     "sections": [
       {
         "id": "intuition",
@@ -101,7 +79,6 @@
       "order": 10,
       "path": "subjects/probability.html",
       "conceptCount": 3,
-      "progress": 0.48333333333333334,
       "interviewMax": 5
     },
     {
@@ -114,7 +91,6 @@
       "order": 20,
       "path": "subjects/statistics.html",
       "conceptCount": 3,
-      "progress": 0.48333333333333334,
       "interviewMax": 5
     },
     {
@@ -127,7 +103,6 @@
       "order": 30,
       "path": "subjects/linear-algebra.html",
       "conceptCount": 1,
-      "progress": 0,
       "interviewMax": 5
     },
     {
@@ -140,7 +115,6 @@
       "order": 40,
       "path": "subjects/calculus.html",
       "conceptCount": 0,
-      "progress": 0,
       "interviewMax": 0
     },
     {
@@ -153,7 +127,6 @@
       "order": 50,
       "path": "subjects/optimization.html",
       "conceptCount": 0,
-      "progress": 0,
       "interviewMax": 0
     },
     {
@@ -166,7 +139,6 @@
       "order": 60,
       "path": "subjects/numerical-methods.html",
       "conceptCount": 0,
-      "progress": 0,
       "interviewMax": 0
     },
     {
@@ -179,7 +151,6 @@
       "order": 110,
       "path": "subjects/stochastic-processes.html",
       "conceptCount": 2,
-      "progress": 0.175,
       "interviewMax": 4
     },
     {
@@ -192,7 +163,6 @@
       "order": 120,
       "path": "subjects/time-series.html",
       "conceptCount": 0,
-      "progress": 0,
       "interviewMax": 0
     },
     {
@@ -205,7 +175,6 @@
       "order": 130,
       "path": "subjects/econometrics.html",
       "conceptCount": 0,
-      "progress": 0,
       "interviewMax": 0
     },
     {
@@ -218,7 +187,6 @@
       "order": 140,
       "path": "subjects/statistical-learning.html",
       "conceptCount": 0,
-      "progress": 0,
       "interviewMax": 0
     },
     {
@@ -231,7 +199,6 @@
       "order": 210,
       "path": "subjects/quantitative-trading.html",
       "conceptCount": 0,
-      "progress": 0,
       "interviewMax": 0
     },
     {
@@ -244,7 +211,6 @@
       "order": 220,
       "path": "subjects/alpha-research.html",
       "conceptCount": 0,
-      "progress": 0,
       "interviewMax": 0
     },
     {
@@ -257,7 +223,6 @@
       "order": 230,
       "path": "subjects/factor-models.html",
       "conceptCount": 0,
-      "progress": 0,
       "interviewMax": 0
     },
     {
@@ -270,7 +235,6 @@
       "order": 240,
       "path": "subjects/portfolio-construction.html",
       "conceptCount": 2,
-      "progress": 0.35,
       "interviewMax": 5
     },
     {
@@ -283,7 +247,6 @@
       "order": 250,
       "path": "subjects/risk-management.html",
       "conceptCount": 1,
-      "progress": 0,
       "interviewMax": 5
     },
     {
@@ -296,7 +259,6 @@
       "order": 260,
       "path": "subjects/backtesting.html",
       "conceptCount": 0,
-      "progress": 0,
       "interviewMax": 0
     },
     {
@@ -309,7 +271,6 @@
       "order": 270,
       "path": "subjects/alternative-data.html",
       "conceptCount": 0,
-      "progress": 0,
       "interviewMax": 0
     },
     {
@@ -322,7 +283,6 @@
       "order": 310,
       "path": "subjects/derivatives.html",
       "conceptCount": 0,
-      "progress": 0,
       "interviewMax": 0
     },
     {
@@ -335,7 +295,6 @@
       "order": 320,
       "path": "subjects/options.html",
       "conceptCount": 0,
-      "progress": 0,
       "interviewMax": 0
     },
     {
@@ -348,7 +307,6 @@
       "order": 330,
       "path": "subjects/fixed-income.html",
       "conceptCount": 0,
-      "progress": 0,
       "interviewMax": 0
     },
     {
@@ -361,7 +319,6 @@
       "order": 340,
       "path": "subjects/market-microstructure.html",
       "conceptCount": 0,
-      "progress": 0,
       "interviewMax": 0
     },
     {
@@ -374,7 +331,6 @@
       "order": 350,
       "path": "subjects/execution.html",
       "conceptCount": 0,
-      "progress": 0,
       "interviewMax": 0
     },
     {
@@ -387,7 +343,6 @@
       "order": 410,
       "path": "subjects/programming.html",
       "conceptCount": 0,
-      "progress": 0,
       "interviewMax": 0
     },
     {
@@ -400,7 +355,6 @@
       "order": 420,
       "path": "subjects/mental-math.html",
       "conceptCount": 0,
-      "progress": 0,
       "interviewMax": 0
     }
   ],
@@ -435,8 +389,7 @@
         "variance",
         "brownian-motion",
         "martingales"
-      ],
-      "progress": 0.36
+      ]
     },
     {
       "id": "quant-trader",
@@ -460,8 +413,7 @@
         "effective-number-of-bets",
         "expectation",
         "sharpe-ratio"
-      ],
-      "progress": 0.36
+      ]
     },
     {
       "id": "quant-developer",
@@ -480,8 +432,7 @@
       "order": 30,
       "conceptIds": [
         "pca-and-eigenportfolios"
-      ],
-      "progress": 0
+      ]
     },
     {
       "id": "stat-arb",
@@ -508,8 +459,7 @@
         "linear-regression",
         "sharpe-ratio",
         "variance"
-      ],
-      "progress": 0.43
+      ]
     },
     {
       "id": "market-making",
@@ -533,8 +483,7 @@
         "expectation",
         "brownian-motion",
         "martingales"
-      ],
-      "progress": 0.3
+      ]
     },
     {
       "id": "systematic-macro",
@@ -555,8 +504,7 @@
         "effective-number-of-bets",
         "kelly-criterion",
         "sharpe-ratio"
-      ],
-      "progress": 0.2333333333333333
+      ]
     },
     {
       "id": "equity-long-short",
@@ -580,8 +528,7 @@
         "linear-regression",
         "sharpe-ratio",
         "variance"
-      ],
-      "progress": 0.35833333333333334
+      ]
     },
     {
       "id": "derivatives-desk",
@@ -600,8 +547,7 @@
       "conceptIds": [
         "brownian-motion",
         "martingales"
-      ],
-      "progress": 0.175
+      ]
     }
   ],
   "tags": [
@@ -984,7 +930,6 @@
       "summary": "The rule for inverting a conditional probability — turning \"how likely is this evidence if the hypothesis is true\" into \"how likely is the hypothesis given the evidence\".",
       "difficulty": "foundational",
       "interviewRelevance": 5,
-      "status": "learning",
       "tags": [
         "probability",
         "bayes",
@@ -1145,7 +1090,6 @@
       "summary": "The continuous-time limit of a random walk — Gaussian, independent increments scaling with √t, nowhere differentiable, and the driving noise underneath essentially every continuous-time model in finance.",
       "difficulty": "advanced",
       "interviewRelevance": 4,
-      "status": "not-started",
       "tags": [
         "stochastic-processes",
         "wiener-process",
@@ -1331,7 +1275,6 @@
       "summary": "The probability of an event once you restrict attention to the states of the world where another event has occurred — the formal machinery for \"given what I now know\".",
       "difficulty": "foundational",
       "interviewRelevance": 5,
-      "status": "learning",
       "tags": [
         "probability",
         "conditioning",
@@ -1496,7 +1439,6 @@
       "summary": "Covariance measures how two variables move together in raw units; correlation normalises it to [-1, 1] — together they determine whether combining two positions reduces risk or concentrates it.",
       "difficulty": "foundational",
       "interviewRelevance": 5,
-      "status": "learning",
       "tags": [
         "statistics",
         "dependence",
@@ -1684,7 +1626,6 @@
       "summary": "Diversification is not the number of assets you hold but the number of independent risks you actually bear — measured by the effective dimension of the covariance spectrum and by the entropy of a portfolio's risk contributions across uncorrelated directions.",
       "difficulty": "intermediate",
       "interviewRelevance": 5,
-      "status": "not-started",
       "tags": [
         "risk",
         "diversification",
@@ -1915,7 +1856,6 @@
       "summary": "The probability-weighted average of a random variable — the number a long-run average converges to, and the object almost every pricing and sizing argument is really about.",
       "difficulty": "foundational",
       "interviewRelevance": 5,
-      "status": "learned",
       "tags": [
         "probability",
         "moments",
@@ -2097,7 +2037,6 @@
       "summary": "The bet size that maximises the long-run growth rate of wealth — obtained by maximising expected log wealth rather than expected wealth, because capital compounds multiplicatively.",
       "difficulty": "intermediate",
       "interviewRelevance": 5,
-      "status": "learning",
       "tags": [
         "sizing",
         "leverage",
@@ -2303,7 +2242,6 @@
       "summary": "The projection of a target onto the span of its predictors — the estimator behind every beta, factor loading and hedge ratio in finance, and the one whose assumptions market data violates most reliably.",
       "difficulty": "intermediate",
       "interviewRelevance": 5,
-      "status": "learning",
       "tags": [
         "statistics",
         "econometrics",
@@ -2489,7 +2427,6 @@
       "summary": "A process whose best forecast of its own future value is its present value — the formal statement of \"no predictable edge\", and the object that makes arbitrage-free pricing work.",
       "difficulty": "advanced",
       "interviewRelevance": 4,
-      "status": "learning",
       "tags": [
         "stochastic-processes",
         "conditioning",
@@ -2659,7 +2596,6 @@
       "summary": "The spectral decomposition rewrites a correlated universe as a set of uncorrelated principal portfolios — the eigenvectors are the independent directions of risk and the eigenvalues are how much risk lives in each.",
       "difficulty": "intermediate",
       "interviewRelevance": 5,
-      "status": "not-started",
       "tags": [
         "linear-algebra",
         "pca",
@@ -2861,7 +2797,6 @@
       "summary": "Excess return per unit of volatility — the industry's default measure of risk-adjusted performance, and an estimator noisy and gameable enough that knowing its failure modes matters more than knowing its formula.",
       "difficulty": "intermediate",
       "interviewRelevance": 5,
-      "status": "learning",
       "tags": [
         "performance",
         "risk",
@@ -3076,7 +3011,6 @@
       "summary": "The expected squared deviation from the mean — the second moment that turns a return forecast into a position size, and the quantity that does not add when you combine assets.",
       "difficulty": "foundational",
       "interviewRelevance": 5,
-      "status": "learned",
       "tags": [
         "statistics",
         "moments",
@@ -3261,7 +3195,6 @@
     "subjects": 24,
     "formulas": 50,
     "questions": 62,
-    "words": 18256,
-    "progress": 0.32916666666666666
+    "words": 18256
   }
 }

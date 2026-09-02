@@ -5,7 +5,6 @@ subject: statistics
 summary: Covariance measures how two variables move together in raw units; correlation normalises it to [-1, 1] — together they determine whether combining two positions reduces risk or concentrates it.
 difficulty: foundational
 interview_relevance: 5
-status: learning
 tags: [statistics, dependence, risk, diversification, linear-algebra]
 prerequisites: [variance, expectation]
 related: [linear-regression, sharpe-ratio]

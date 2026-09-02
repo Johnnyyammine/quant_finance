@@ -5,7 +5,6 @@ subject: stochastic-processes
 summary: A process whose best forecast of its own future value is its present value — the formal statement of "no predictable edge", and the object that makes arbitrage-free pricing work.
 difficulty: advanced
 interview_relevance: 4
-status: learning
 tags: [stochastic-processes, conditioning, pricing, no-arbitrage, efficiency]
 prerequisites: [expectation, conditional-probability]
 related: [brownian-motion]

@@ -85,11 +85,8 @@
 /* ---------------------------------------------------------- dashboard ---- */
 
 .kb-hero {
-  display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(300px, 1fr);
-  gap: 36px; align-items: start;
   padding: 4px 0 28px; margin-bottom: 26px; border-bottom: 1px solid var(--line);
 }
-@media (max-width: 940px) { .kb-hero { grid-template-columns: 1fr; gap: 24px; } }
 
 /* The masthead. It is the first thing anyone sees, so it carries the type at
    a size that lets Inter's display cut show -- tight tracking, real weight. */
@@ -115,6 +112,9 @@
 .kb-kpis {
   display: grid; grid-template-columns: repeat(auto-fit, minmax(124px, 1fr));
   gap: 10px;
+  /* The strip is the full width of the page now that the coverage panel is
+     gone; cap it so five cards stay card-shaped instead of stretching. */
+  max-width: 960px;
 }
 .kb-kpi {
   display: flex; flex-direction: column;
@@ -134,22 +134,6 @@
 }
 .kb-kpi-note { display: block; margin-top: 6px; font-size: 10.5px; line-height: 1.45;
   color: var(--ink-faint); }
-
-.kb-progress-panel { padding: 20px 22px 22px; background: var(--bg-raised);
-  border: 0; border-radius: var(--r-xl);
-  box-shadow: inset 0 1px 0 var(--edge); }
-.kb-progress-panel h2 { margin: 0 0 3px; font-size: 12px; letter-spacing: 0.08em;
-  text-transform: uppercase; color: var(--ink-muted); }
-.kb-progress-panel .kb-panel-sub { margin: 0 0 14px; font-size: 11.5px; color: var(--ink-faint); }
-.kb-progress-rows { display: grid; gap: 7px; }
-.kb-progress-row {
-  display: grid; grid-template-columns: 132px 1fr 34px; align-items: center; gap: 10px;
-  font-size: 12px; color: inherit;
-}
-.kb-progress-row:hover { text-decoration: none; }
-.kb-progress-row:hover .kb-progress-name { color: var(--accent-ink); }
-.kb-progress-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--ink-muted); }
-.kb-progress-row .kb-bar-num { text-align: right; }
 
 .kb-section-head {
   display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap;
@@ -190,7 +174,6 @@
   margin: 0; font-size: 11.5px; line-height: 1.5; color: var(--ink-muted);
   display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
 }
-.kb-subject-card-foot { display: flex; align-items: center; gap: 9px; margin-top: auto; }
 
 /* ------------------------------------------------------------ library ---- */
 
@@ -344,6 +327,9 @@
   display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
 .kb-track-foot { display: flex; align-items: center; gap: 9px; margin-top: auto;
   font-size: 11px; color: var(--ink-faint); }
+/* A hairline between the two counts, so the foot reads as one line of metadata
+   rather than two numbers that happen to share a row. */
+.kb-track-rule { flex: 1; height: 1px; background: var(--line); }
 
 .kb-drill {
   display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 26px; margin-top: 8px;
@@ -408,7 +394,6 @@
 .kb-subject-stats { display: flex; flex-wrap: wrap; align-items: center; gap: 18px;
   font-size: 12px; color: var(--ink-muted); }
 .kb-subject-stats strong { font-family: var(--font-mono); color: var(--ink-strong); font-weight: 600; }
-.kb-subject-progress { display: flex; align-items: center; gap: 8px; min-width: 150px; }
 
 .kb-filterbar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-bottom: 14px; }
 .kb-filter-input { flex: 1; min-width: 200px; }

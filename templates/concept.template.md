@@ -25,9 +25,6 @@ difficulty: intermediate
 # 0–5. Drives Interview Mode ranking and the ★ display.
 interview_relevance: 3
 
-# not-started | learning | learned | mastered   (drives progress bars)
-status: not-started
-
 # Free-form. Tags are indexed, filterable and cross-subject.
 tags: [tag-one, tag-two]
 

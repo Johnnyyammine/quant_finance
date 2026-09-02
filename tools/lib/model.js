@@ -15,14 +15,6 @@ const DIFFICULTY = [
   { id: 'research', label: 'Research', rank: 4 },
 ];
 
-/** Learning status doubles as the progress model: weight drives % complete. */
-const STATUS = [
-  { id: 'not-started', label: 'Not started', weight: 0 },
-  { id: 'learning', label: 'Learning', weight: 0.35 },
-  { id: 'learned', label: 'Learned', weight: 0.75 },
-  { id: 'mastered', label: 'Mastered', weight: 1 },
-];
-
 /**
  * Canonical concept sections. `aliases` let authors write natural headings;
  * the build maps them onto stable ids so the template stays consistent even
@@ -120,7 +112,6 @@ function normaliseConcept(raw, { file, sourceId }) {
       summary: String(raw.summary || '').trim(),
       difficulty: oneOf(raw.difficulty, DIFFICULTY, 'intermediate'),
       interviewRelevance: clampInt(raw.interview_relevance ?? raw.interviewRelevance, 0, 5, 3),
-      status: oneOf(raw.status, STATUS, 'not-started'),
       tags: asArray(raw.tags).map(slugify),
       prerequisites: asArray(raw.prerequisites || raw.prereqs).map(slugify),
       related: asArray(raw.related || raw.related_concepts).map(slugify),
@@ -157,7 +148,6 @@ function normaliseSubject(raw, order) {
     order: Number.isFinite(Number(raw.order)) ? Number(raw.order) : order * 10,
     path: `subjects/${id}.html`,
     conceptCount: 0,
-    progress: 0,
   };
 }
 
@@ -171,13 +161,6 @@ const ICONS = {
   backtesting: 'K', 'numerical-methods': 'N', programming: 'I', 'mental-math': 'x',
 };
 const defaultIcon = (id) => ICONS[id] || (id[0] || '?').toUpperCase();
-
-/** Weighted completion of a set of concepts, 0..1. */
-function progressOf(concepts) {
-  if (!concepts.length) return 0;
-  const w = new Map(STATUS.map((s) => [s.id, s.weight]));
-  return concepts.reduce((sum, c) => sum + (w.get(c.status) || 0), 0) / concepts.length;
-}
 
 /**
  * Derive the graph, reverse dependencies and per-subject rollups.
@@ -239,7 +222,6 @@ function buildIndexes(concepts, subjects, tracks) {
   subjects.forEach((s) => {
     const own = concepts.filter((c) => c.subject === s.id);
     s.conceptCount = own.length;
-    s.progress = progressOf(own);
     s.interviewMax = own.reduce((m, c) => Math.max(m, c.interviewRelevance), 0);
   });
 
@@ -254,7 +236,6 @@ function buildIndexes(concepts, subjects, tracks) {
       .filter((c) => c.interviewRelevance >= (t.minRelevance || 0))
       .sort((a, b) => b.interviewRelevance - a.interviewRelevance || a.title.localeCompare(b.title))
       .map((c) => c.id);
-    t.progress = progressOf(t.conceptIds.map((id) => byId.get(id)));
   });
 
   return {
@@ -279,12 +260,11 @@ function normaliseTrack(raw, order) {
     minRelevance: clampInt(raw.min_relevance ?? raw.minRelevance, 0, 5, 3),
     order: Number.isFinite(Number(raw.order)) ? Number(raw.order) : order * 10,
     conceptIds: [],
-    progress: 0,
   };
 }
 
 module.exports = {
-  DIFFICULTY, STATUS, SECTIONS, SECTION_BY_ALIAS, DERIVED_SECTIONS, RECOMMENDED,
-  slugify, asArray, titleCase, progressOf,
+  DIFFICULTY, SECTIONS, SECTION_BY_ALIAS, DERIVED_SECTIONS, RECOMMENDED,
+  slugify, asArray, titleCase,
   normaliseConcept, normaliseSubject, normaliseTrack, buildIndexes,
 };
