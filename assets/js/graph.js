@@ -74,7 +74,7 @@
         var dx = b.x - a.x, dy = b.y - a.y;
         var d2 = dx * dx + dy * dy || 0.01;
         if (d2 > 90000) continue;
-        var f = 2400 / d2 * k;
+        var f = 4200 / d2 * k;
         var d = Math.sqrt(d2);
         var fx = dx / d * f, fy = dy / d * f;
         a.vx -= fx; a.vy -= fy;
@@ -86,14 +86,14 @@
     links.forEach(function (l) {
       var dx = l.target.x - l.source.x, dy = l.target.y - l.source.y;
       var d = Math.sqrt(dx * dx + dy * dy) || 0.01;
-      var rest = l.type === 'prerequisite' ? 90 : 130;
-      var f = (d - rest) * (l.type === 'prerequisite' ? 0.035 : 0.018) * k;
+      var rest = l.type === 'prerequisite' ? 120 : 175;
+      var f = (d - rest) * (l.type === 'prerequisite' ? 0.035 : 0.016) * k;
       var fx = dx / d * f, fy = dy / d * f;
       l.source.vx += fx; l.source.vy += fy;
       l.target.vx -= fx; l.target.vy -= fy;
       if (l.type === 'prerequisite') {
         // gentle hierarchy: prerequisite sits above its dependant
-        var want = (l.source.y + 60) - l.target.y;
+        var want = (l.source.y + 85) - l.target.y;
         l.source.vy -= want * 0.006 * k;
         l.target.vy += want * 0.006 * k;
       }
@@ -116,6 +116,42 @@
     return (v && v.trim()) || fallback;
   }
 
+  /* ---------------------------------------------------------------- paint --
+
+     Everything below is drawn in world coordinates inside a translate+scale,
+     so anything that should keep a constant size on screen -- line widths,
+     fonts, arrowheads -- is divided by view.k. */
+
+  /** Mix two hex colours. Used to tint an edge from its source to its target. */
+  function mix(a, bcol, t) {
+    var pa = parseInt(a.slice(1), 16), pb = parseInt(bcol.slice(1), 16);
+    var r = Math.round((pa >> 16 & 255) * (1 - t) + (pb >> 16 & 255) * t);
+    var g = Math.round((pa >> 8 & 255) * (1 - t) + (pb >> 8 & 255) * t);
+    var bl = Math.round((pa & 255) * (1 - t) + (pb & 255) * t);
+    return 'rgb(' + r + ',' + g + ',' + bl + ')';
+  }
+
+  function nodeColour(n) {
+    var subject = KB.subject(n.c.subject) || {};
+    return subject.color || css('--accent', '#4f8fd6');
+  }
+
+  /** Quadratic control point: bow the edge sideways so parallel links separate
+      and the whole graph reads as a diagram rather than a ball of string. */
+  function controlPoint(l) {
+    var mx = (l.source.x + l.target.x) / 2, my = (l.source.y + l.target.y) / 2;
+    var dx = l.target.x - l.source.x, dy = l.target.y - l.source.y;
+    return { x: mx - dy * 0.13, y: my + dx * 0.13 };
+  }
+
+  function quadAt(p0, c, p1, t) {
+    var u = 1 - t;
+    return { x: u * u * p0.x + 2 * u * t * c.x + t * t * p1.x,
+             y: u * u * p0.y + 2 * u * t * c.y + t * t * p1.y,
+             tx: 2 * u * (c.x - p0.x) + 2 * t * (p1.x - c.x),
+             ty: 2 * u * (c.y - p0.y) + 2 * t * (p1.y - c.y) };
+  }
+
   function draw() {
     var dpr = global.devicePixelRatio || 1;
     var w = wrap.clientWidth, h = wrap.clientHeight;
@@ -124,6 +160,18 @@
     }
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.clearRect(0, 0, w, h);
+
+    // A faint vignette centred on the graph, drawn in screen space. Gives the
+    // canvas a middle and keeps the corners from reading as dead space.
+    var vg = ctx.createRadialGradient(w / 2 + view.x, h / 2 + view.y, 0,
+                                      w / 2 + view.x, h / 2 + view.y, Math.max(w, h) * 0.62);
+    vg.addColorStop(0, css('--bg-raised', '#151a22'));
+    vg.addColorStop(1, css('--bg', '#0c0f14'));
+    ctx.globalAlpha = 0.55;
+    ctx.fillStyle = vg;
+    ctx.fillRect(0, 0, w, h);
+    ctx.globalAlpha = 1;
+
     ctx.save();
     ctx.translate(w / 2 + view.x, h / 2 + view.y);
     ctx.scale(view.k, view.k);
@@ -131,7 +179,7 @@
     var focusSet = null;
     var active = hover || selected;
     if (active) {
-      focusSet = { };
+      focusSet = {};
       focusSet[active.id] = true;
       links.forEach(function (l) {
         if (l.source.id === active.id) focusSet[l.target.id] = true;
@@ -139,72 +187,165 @@
       });
     }
 
-    var lineCol = css('--line-strong', '#323d4c');
     var accent = css('--accent', '#4f8fd6');
+    var inv = 1 / view.k;
 
+    /* ------------------------------------------------------------- edges -- */
+
+    ctx.lineCap = 'round';
     links.forEach(function (l) {
-      var lit = focusSet && (focusSet[l.source.id] && focusSet[l.target.id]);
-      ctx.globalAlpha = focusSet ? (lit ? 0.95 : 0.07) : (l.type === 'prerequisite' ? 0.5 : 0.22);
-      ctx.strokeStyle = lit ? accent : lineCol;
-      ctx.lineWidth = (l.type === 'prerequisite' ? 1.2 : 0.9) / Math.sqrt(view.k);
-      if (l.type === 'related') ctx.setLineDash([3 / view.k, 3 / view.k]); else ctx.setLineDash([]);
+      var lit = focusSet && focusSet[l.source.id] && focusSet[l.target.id];
+      var p0 = l.source, p1 = l.target, c = controlPoint(l);
+      var prereq = l.type === 'prerequisite';
+
+      ctx.globalAlpha = focusSet ? (lit ? 1 : 0.05) : (prereq ? 0.55 : 0.3);
+
+      if (lit) {
+        ctx.strokeStyle = accent;
+      } else {
+        // Tinted from source subject to target subject: a cross-subject link
+        // is visibly a bridge between two colours.
+        var grad = ctx.createLinearGradient(p0.x, p0.y, p1.x, p1.y);
+        grad.addColorStop(0, nodeColour(p0));
+        grad.addColorStop(1, nodeColour(p1));
+        ctx.strokeStyle = prereq ? grad : mix(nodeColour(p0), nodeColour(p1), 0.5);
+      }
+
+      ctx.lineWidth = (lit ? 2.2 : prereq ? 1.6 : 1.1) * inv;
+      ctx.setLineDash(prereq ? [] : [4 * inv, 5 * inv]);
       ctx.beginPath();
-      ctx.moveTo(l.source.x, l.source.y);
-      ctx.lineTo(l.target.x, l.target.y);
+      ctx.moveTo(p0.x, p0.y);
+      ctx.quadraticCurveTo(c.x, c.y, p1.x, p1.y);
       ctx.stroke();
+      ctx.setLineDash([]);
+
+      // Prerequisites are directed -- "learn this first" -- so they get a head.
+      if (prereq) {
+        var dist = Math.sqrt((p1.x - p0.x) * (p1.x - p0.x) + (p1.y - p0.y) * (p1.y - p0.y)) || 1;
+        var t = Math.max(0.05, 1 - (radius(p1) + 5 * inv) / dist);
+        var pt = quadAt(p0, c, p1, t);
+        var a = Math.atan2(pt.ty, pt.tx);
+        var size = 7 * inv;
+        ctx.fillStyle = lit ? accent : nodeColour(p1);
+        ctx.beginPath();
+        ctx.moveTo(pt.x, pt.y);
+        ctx.lineTo(pt.x - size * Math.cos(a - 0.42), pt.y - size * Math.sin(a - 0.42));
+        ctx.lineTo(pt.x - size * Math.cos(a + 0.42), pt.y - size * Math.sin(a + 0.42));
+        ctx.closePath();
+        ctx.fill();
+      }
     });
-    ctx.setLineDash([]);
     ctx.globalAlpha = 1;
 
-    var showLabels = opts.label === 'all' || (opts.label === 'auto' && (view.k > 0.75 || nodes.length < 60));
+    /* ------------------------------------------------------------- nodes -- */
+
+    // Automatic labelling keys off zoom, not node count. A dozen nodes fitted
+    // into a phone-sized canvas sits near 0.55x, where the labels are longer
+    // than the gaps between nodes and collide into an unreadable mess; the
+    // user zooms in, or picks "All" in the Labels control.
+    var showLabels = opts.label === 'all' || (opts.label === 'auto' && view.k >= 0.8);
+    var labelled = [];
 
     nodes.forEach(function (n) {
       var dim = focusSet && !focusSet[n.id];
       var r = radius(n);
-      var subject = KB.subject(n.c.subject) || {};
+      var col = nodeColour(n);
       var weight = KB.statusMeta[KB.statusOf(n.id)].weight;
+      var isActive = n === selected || n === hover;
 
-      ctx.globalAlpha = dim ? 0.16 : 1;
+      // Soft halo. This is what stops the nodes reading as flat dots.
+      if (!dim) {
+        var halo = ctx.createRadialGradient(n.x, n.y, r * 0.7, n.x, n.y, r * 2.6);
+        halo.addColorStop(0, col);
+        halo.addColorStop(1, 'rgba(0,0,0,0)');
+        ctx.globalAlpha = isActive ? 0.34 : 0.16;
+        ctx.fillStyle = halo;
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, r * 2.6, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      // Opaque backing first. The body fill below is translucent so that status
+      // reads through it, and without this the edges running underneath showed
+      // through the node as a cross.
+      if (!dim) {
+        ctx.globalAlpha = 1;
+        ctx.fillStyle = css('--bg', '#0c0f14');
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, r, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      // Body. Unstarted concepts stay hollow: the graph doubles as a progress map.
+      ctx.globalAlpha = dim ? 0.12 : 1;
       ctx.beginPath();
       ctx.arc(n.x, n.y, r, 0, Math.PI * 2);
-      ctx.fillStyle = subject.color || accent;
-      // Unstarted concepts are hollow: the graph doubles as a progress map.
       if (weight === 0) {
-        ctx.globalAlpha = dim ? 0.1 : 0.22;
+        ctx.fillStyle = css('--bg', '#0c0f14');
         ctx.fill();
-        ctx.globalAlpha = dim ? 0.16 : 0.9;
-        ctx.lineWidth = 1.2 / view.k;
-        ctx.strokeStyle = subject.color || accent;
+        ctx.globalAlpha = dim ? 0.12 : 0.75;
+        ctx.lineWidth = 1.6 * inv;
+        ctx.strokeStyle = col;
         ctx.stroke();
       } else {
-        ctx.globalAlpha = dim ? 0.16 : 0.45 + weight * 0.55;
+        var body = ctx.createRadialGradient(n.x - r * 0.35, n.y - r * 0.45, r * 0.1, n.x, n.y, r);
+        body.addColorStop(0, mix(col, '#ffffff', 0.26));
+        body.addColorStop(1, col);
+        ctx.globalAlpha = dim ? 0.12 : 0.55 + weight * 0.45;
+        ctx.fillStyle = body;
         ctx.fill();
       }
 
-      if (n === selected || n === hover) {
-        ctx.globalAlpha = 1;
-        ctx.strokeStyle = css('--ink-strong', '#f2f5f8');
-        ctx.lineWidth = 1.6 / view.k;
+      // Progress ring: how far round the circle you have got with this concept.
+      // Deliberately quiet -- the fill already carries the same information
+      // roughly, and a bright white arc on every node reads as an artefact.
+      if (weight > 0 && weight < 1 && !dim) {
+        ctx.globalAlpha = 0.5;
+        ctx.strokeStyle = css('--ink-muted', '#8d99aa');
+        ctx.lineWidth = 1.5 * inv;
+        ctx.lineCap = 'round';
         ctx.beginPath();
-        ctx.arc(n.x, n.y, r + 3 / view.k, 0, Math.PI * 2);
+        ctx.arc(n.x, n.y, r + 5 * inv, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * weight);
         ctx.stroke();
       }
 
-      if (showLabels && !dim) {
+      // Selection is the accent, so it can never be confused with progress.
+      if (isActive) {
         ctx.globalAlpha = 1;
-        ctx.fillStyle = css('--ink', '#dde3ea');
-        ctx.font = (11 / view.k).toFixed(1) + 'px system-ui, -apple-system, sans-serif';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'top';
-        ctx.fillText(n.c.title, n.x, n.y + r + 3 / view.k);
+        ctx.strokeStyle = accent;
+        ctx.lineWidth = 2 * inv;
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, r + 8 * inv, 0, Math.PI * 2);
+        ctx.stroke();
       }
+
+      if ((showLabels || isActive) && !dim) labelled.push({ n: n, r: r, active: isActive });
+    });
+
+    /* ------------------------------------------------------------ labels -- */
+    // Drawn last so no edge or node crosses them, each with a dark outline so
+    // the text survives wherever it lands.
+    ctx.globalAlpha = 1;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'top';
+    ctx.lineJoin = 'round';
+    labelled.forEach(function (item) {
+      var size = (item.active ? 12.5 : 11.5) * inv;
+      ctx.font = (item.active ? '600 ' : '') + size.toFixed(2) +
+        'px "Inter Variable", Inter, system-ui, sans-serif';
+      var y = item.n.y + item.r + 7 * inv;
+      ctx.strokeStyle = css('--bg', '#0c0f14');
+      ctx.lineWidth = 3.5 * inv;
+      ctx.strokeText(item.n.c.title, item.n.x, y);
+      ctx.fillStyle = item.active ? css('--ink-strong', '#f4f6fa') : css('--ink', '#dfe4ec');
+      ctx.fillText(item.n.c.title, item.n.x, y);
     });
 
     ctx.restore();
     ctx.globalAlpha = 1;
   }
 
-  function radius(n) { return 4 + Math.min(7, Math.sqrt(n.deg) * 1.7) + n.c.interviewRelevance * 0.35; }
+  function radius(n) { return 5.5 + Math.min(9, Math.sqrt(n.deg) * 2.1) + n.c.interviewRelevance * 0.5; }
 
   /** Frame the whole graph: the layout's absolute scale is arbitrary, so the
       only sensible default zoom is whatever makes every node visible. */
@@ -212,14 +353,23 @@
     if (!nodes.length) return;
     var minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
     nodes.forEach(function (n) {
-      var r = radius(n) + 26;              // leave room for the label
+      var r = radius(n);
       minX = Math.min(minX, n.x - r); maxX = Math.max(maxX, n.x + r);
       minY = Math.min(minY, n.y - r); maxY = Math.max(maxY, n.y + r);
     });
-    var pad = padding == null ? 40 : padding;
+    // Padding is in screen pixels and covers the label under the lowest node,
+    // so it must not be scaled with the graph -- the old version added a
+    // world-space allowance for labels, which grew with the zoom and left the
+    // graph sitting in a third of the canvas.
+    // Padding scales with the canvas: a fixed 76px eats most of a phone.
+    var pad = padding == null ? Math.min(76, wrap.clientWidth * 0.09) : padding;
     var w = Math.max(1, wrap.clientWidth - pad * 2);
     var h = Math.max(1, wrap.clientHeight - pad * 2);
-    view.k = Math.max(0.2, Math.min(1.6, Math.min(w / (maxX - minX || 1), h / (maxY - minY || 1))));
+    // Cap raised from 1.6: a dozen concepts should fill the space they are
+    // given rather than huddle in the middle of an empty canvas. The floor
+    // matters on a phone -- fitting everything there would shrink the nodes to
+    // specks, so below it the graph overflows and the user pans instead.
+    view.k = Math.max(0.55, Math.min(3.2, Math.min(w / (maxX - minX || 1), h / (maxY - minY || 1))));
     view.x = -((minX + maxX) / 2) * view.k;
     view.y = -((minY + maxY) / 2) * view.k;
     var zoomHud = UI.$('[data-kb-graph-zoom]');
