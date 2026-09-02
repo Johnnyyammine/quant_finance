@@ -4,15 +4,14 @@
  *
  * Concept and subject pages are generated as complete HTML: the prose is baked
  * in so a page is readable, printable and greppable with JavaScript disabled.
- * JavaScript only *enhances* -- search, status toggles, interactive modules.
+ * JavaScript only *enhances* -- search, filtering, interactive modules.
  */
 
 const { escapeHtml } = require('./markdown');
-const { DIFFICULTY, STATUS } = require('./model');
+const { DIFFICULTY } = require('./model');
 
 const attr = escapeHtml;
 const DIFF_LABEL = new Map(DIFFICULTY.map((d) => [d.id, d.label]));
-const STATUS_LABEL = new Map(STATUS.map((s) => [s.id, s.label]));
 
 function stars(n) {
   const full = '★'.repeat(n);
@@ -217,11 +216,6 @@ function conceptPage(c, ctx) {
       <h1 class="kb-concept-title">${escapeHtml(c.title)}</h1>
       <p class="kb-concept-summary">${ctx.inlineMd(c.summary)}</p>
       <div class="kb-concept-controls">
-        <label class="kb-statusctl">Status
-          <select data-kb-status="${attr(c.id)}" data-default="${attr(c.status)}">
-            ${STATUS.map((s) => `<option value="${s.id}"${s.id === c.status ? ' selected' : ''}>${s.label}</option>`).join('')}
-          </select>
-        </label>
         <button class="kb-btn kb-btn--ghost" type="button" data-kb-bookmark="${attr(c.id)}">☆ Bookmark</button>
         <button class="kb-btn kb-btn--ghost" type="button" data-kb-flashcards>Revision card</button>
         <a class="kb-btn kb-btn--ghost" href="${base}graph.html?focus=${attr(c.id)}">Show in graph</a>
@@ -264,7 +258,6 @@ function conceptPage(c, ctx) {
         <dt>Subject</dt><dd><a href="${base}subjects/${attr(subject.id)}.html">${escapeHtml(subject.name)}</a></dd>
         <dt>Difficulty</dt><dd>${escapeHtml(DIFF_LABEL.get(c.difficulty))}</dd>
         <dt>Interview</dt><dd>${stars(c.interviewRelevance)}</dd>
-        <dt>Status</dt><dd data-kb-status-label="${attr(c.id)}">${escapeHtml(STATUS_LABEL.get(c.status))}</dd>
         <dt>Prereqs</dt><dd>${c.prerequisites.length || '—'}</dd>
         <dt>Formulas</dt><dd>${c.formulas.length || '—'}</dd>
         <dt>Questions</dt><dd>${c.questions.length || '—'}</dd>
@@ -294,7 +287,7 @@ function conceptPage(c, ctx) {
 function subjectPage(s, concepts, ctx) {
   const base = '../';
   const rows = concepts.map((c) => `
-    <li class="kb-conceptrow" data-difficulty="${attr(c.difficulty)}" data-status="${attr(c.status)}"
+    <li class="kb-conceptrow" data-difficulty="${attr(c.difficulty)}"
         data-relevance="${c.interviewRelevance}" data-tags="${attr(c.tags.join(' '))}" data-id="${attr(c.id)}">
       <a class="kb-conceptrow-link" href="${base}concepts/${attr(c.id)}.html">
         <span class="kb-conceptrow-main">
@@ -304,8 +297,6 @@ function subjectPage(s, concepts, ctx) {
         <span class="kb-conceptrow-meta">
           <span class="kb-pill kb-pill--${attr(c.difficulty)}">${escapeHtml(DIFF_LABEL.get(c.difficulty))}</span>
           ${stars(c.interviewRelevance)}
-          <span class="kb-statusdot" data-kb-status-dot="${attr(c.id)}" data-status="${attr(c.status)}"
-                title="${escapeHtml(STATUS_LABEL.get(c.status))}"></span>
         </span>
       </a>
     </li>`).join('');
@@ -326,10 +317,6 @@ function subjectPage(s, concepts, ctx) {
           <span><strong>${concepts.length}</strong> concepts</span>
           <span><strong>${concepts.reduce((n, c) => n + c.formulas.length, 0)}</strong> formulas</span>
           <span><strong>${concepts.reduce((n, c) => n + c.questions.length, 0)}</strong> questions</span>
-          <span class="kb-subject-progress" data-kb-subject-progress="${attr(s.id)}">
-            <span class="kb-bar"><span class="kb-bar-fill" style="width:${Math.round(s.progress * 100)}%"></span></span>
-            <span class="kb-bar-num">${Math.round(s.progress * 100)}%</span>
-          </span>
         </div>
       </div>
     </header>
@@ -338,8 +325,6 @@ function subjectPage(s, concepts, ctx) {
       <input class="kb-filter-input" type="search" placeholder="Filter concepts in this subject…" data-kb-filter-text>
       <select data-kb-filter="difficulty"><option value="">All difficulty</option>${
         DIFFICULTY.map((d) => `<option value="${d.id}">${d.label}</option>`).join('')}</select>
-      <select data-kb-filter="status"><option value="">All status</option>${
-        STATUS.map((d) => `<option value="${d.id}">${d.label}</option>`).join('')}</select>
       <select data-kb-filter="relevance"><option value="">Any relevance</option>${
         [5, 4, 3, 2, 1].map((n) => `<option value="${n}">${'★'.repeat(n)} and up</option>`).join('')}</select>
       <span class="kb-filter-count" data-kb-filter-count></span>

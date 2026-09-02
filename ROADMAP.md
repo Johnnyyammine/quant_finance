@@ -11,8 +11,8 @@ extension point, or a contained change to one module. That was the point of the 
 
 ### Content
 
-The system is proven; the corpus is not. Nine concepts exist to demonstrate that navigation, search,
-the graph, prerequisites, interview mode, progress and modules work end to end. Twenty subjects are
+The system is proven; the corpus is not. Twelve concepts exist to demonstrate that navigation,
+search, the graph, prerequisites, interview mode and modules work end to end. Eighteen subjects are
 empty.
 
 **No feature on this page is worth more than the next fifty concepts.** Suggested order, chosen so
@@ -68,14 +68,15 @@ into `content/` — the separation between authored content and personal state i
 ### Learning paths
 
 `KB.learningPath(id)` already returns a topologically ordered prerequisite chain. Surface it: "what
-do I need to learn before Black–Scholes?" as an ordered checklist with progress, on the concept page
-and as a standalone view. This is derived data that already exists and is currently invisible.
+do I need to learn before Black–Scholes?" as an ordered checklist, on the concept page and as a
+standalone view. This is derived data that already exists and is currently invisible.
 
-### Weak-concept detection
+### Weak-concept detection, from evidence rather than self-report
 
-The pieces are there — drill history, status, interview relevance. Combine into an explicit "your
-gaps" view: concepts you have marked learned but keep failing questions on, high-relevance concepts
-you have never opened, prerequisites of things you are studying that you skipped.
+Per-concept reading status was removed: self-reported "learned" is a number nobody acts on, and it
+cost real interface. Drill history is different — it is evidence. A "your gaps" view built only on
+questions you keep missing, weighted by interview relevance, would earn its place; a percentage
+complete would not.
 
 ### More interactive modules
 
@@ -113,8 +114,9 @@ Cheap version: the `updated:` field plus git history. Expensive version: structu
 **Full-text search over `raw/`.** Sometimes the conversation has a detail the page dropped. Would
 need a second index and a clear visual separation from published content.
 
-**Confidence tracking, separate from status.** "I know this" and "I could explain this at a
-whiteboard" are different claims, and the second is the one interviews test.
+**Confidence tracking, earned rather than declared.** "I know this" and "I could explain this at a
+whiteboard" are different claims, and the second is the one interviews test — so it should be
+inferred from drill answers, not from a dropdown.
 
 **Multi-device sync.** The state blob is already a portable JSON document. A file-based sync (export
 to a synced folder, import on the other machine) is a day's work and needs no server. Anything

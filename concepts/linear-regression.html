@@ -107,11 +107,6 @@
       <h1 class="kb-concept-title">Linear Regression</h1>
       <p class="kb-concept-summary">The projection of a target onto the span of its predictors — the estimator behind every beta, factor loading and hedge ratio in finance, and the one whose assumptions market data violates most reliably.</p>
       <div class="kb-concept-controls">
-        <label class="kb-statusctl">Status
-          <select data-kb-status="linear-regression" data-default="learning">
-            <option value="not-started">Not started</option><option value="learning" selected>Learning</option><option value="learned">Learned</option><option value="mastered">Mastered</option>
-          </select>
-        </label>
         <button class="kb-btn kb-btn--ghost" type="button" data-kb-bookmark="linear-regression">☆ Bookmark</button>
         <button class="kb-btn kb-btn--ghost" type="button" data-kb-flashcards>Revision card</button>
         <a class="kb-btn kb-btn--ghost" href="../graph.html?focus=linear-regression">Show in graph</a>
@@ -322,9 +317,9 @@ In matrix form  <span class="math-inline">\(\hat{\boldsymbol\beta} = (X^\top X)^
 term, not a violation of  <span class="math-inline">\(\E[\varepsilon\mid X]=0\)</span> . What breaks is <strong>inference</strong>: the usual
 standard error formula  <span class="math-inline">\(\sigma^2(X^\top X)^{-1}\)</span>  assumes i.i.d. errors and understates the true
 variance when errors are positively autocorrelated. Your t-stats are inflated, sometimes by
-several times.
-Fix with Newey–West (HAC) standard errors, or model the dependence directly (GLS, ARMA errors).
-<strong>The finance instance that matters:</strong> overlapping return windows. Regressing 12-month forward
+several times.</p>
+<p>Fix with Newey–West (HAC) standard errors, or model the dependence directly (GLS, ARMA errors).</p>
+<p><strong>The finance instance that matters:</strong> overlapping return windows. Regressing 12-month forward
 returns on monthly-sampled predictors induces mechanical autocorrelation of order 11 in the
 residuals. A large fraction of published return-predictability results shrink to
 insignificance under Hodrick or Newey–West standard errors with proper lag selection.</p></div></details>
@@ -358,8 +353,8 @@ many specifications were tried.</p></div></details>
  <span class="math-inline">\(R^2 = 0.4\%\)</span>  can support a very good strategy, because the information ratio scales with
  <span class="math-inline">\(\sqrt{\text{breadth}}\)</span> : apply a weak signal across 2,000 names every day and the aggregate
 edge is substantial. Roughly,  <span class="math-inline">\(\text{IR} \approx \text{IC}\sqrt{N}\)</span>  (the fundamental law of
-active management), and  <span class="math-inline">\(\text{IC}\approx\sqrt{R^2} = 0.063\)</span> .
-The real questions are elsewhere:</p>
+active management), and  <span class="math-inline">\(\text{IC}\approx\sqrt{R^2} = 0.063\)</span> .</p>
+<p>The real questions are elsewhere:</p>
 <ul class="kb-list"><li><strong>t = 2.1 is weak</strong> for a searched result. How many signals were tested?</li>
 <li><strong>Are the standard errors right?</strong> Clustered by date, or the cross-sectional correlation of
 residuals will inflate t-stats several-fold.</li>
@@ -377,11 +372,11 @@ signal that is 90% short-term reversal is not new.</li></ul></div></details>
             <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p><strong>Time-series:</strong> for each asset  <span class="math-inline">\(i\)</span> , regress its excess returns on factor realisations
  <span class="math-inline">\(r_{i,t} = \alpha_i + \boldsymbol\beta_i^\top f_t + \varepsilon_{i,t}\)</span> . This *estimates
 exposures*  <span class="math-inline">\(\boldsymbol\beta_i\)</span> , and  <span class="math-inline">\(\alpha_i\)</span>  is the pricing error — the thing an equity
-long/short manager is trying to capture.
-<strong>Cross-sectional:</strong> at each date  <span class="math-inline">\(t\)</span> , regress the panel of returns on the (previously
+long/short manager is trying to capture.</p>
+<p><strong>Cross-sectional:</strong> at each date  <span class="math-inline">\(t\)</span> , regress the panel of returns on the (previously
 estimated) betas or characteristics:  <span class="math-inline">\(r_{i,t} = \gamma_{0,t} + \boldsymbol\gamma_t^\top
-\boldsymbol\beta_i + u_{i,t}\)</span> . This <em>estimates factor risk premia</em>  <span class="math-inline">\(\boldsymbol\gamma_t\)</span> .
-<strong>Fama–MacBeth</strong> runs the cross-sectional regression period by period and averages the
+\boldsymbol\beta_i + u_{i,t}\)</span> . This <em>estimates factor risk premia</em>  <span class="math-inline">\(\boldsymbol\gamma_t\)</span> .</p>
+<p><strong>Fama–MacBeth</strong> runs the cross-sectional regression period by period and averages the
  <span class="math-inline">\(\hat\gamma_t\)</span>  over time, taking the standard error from the time series of estimates. That
 procedure handles cross-sectional correlation of residuals automatically — which is precisely
 the correlation that makes a pooled OLS t-stat wildly overstated.</p></div></details>
@@ -453,7 +448,6 @@ the correlation that makes a pooled OLS t-stat wildly overstated.</p></div></det
         <dt>Subject</dt><dd><a href="../subjects/statistics.html">Statistics</a></dd>
         <dt>Difficulty</dt><dd>Intermediate</dd>
         <dt>Interview</dt><dd><span class="kb-stars" title="Interview relevance 5 of 5" aria-label="Interview relevance 5 of 5"><span class="kb-stars-on">★★★★★</span><span class="kb-stars-off"></span></span></dd>
-        <dt>Status</dt><dd data-kb-status-label="linear-regression">Learning</dd>
         <dt>Prereqs</dt><dd>2</dd>
         <dt>Formulas</dt><dd>4</dd>
         <dt>Questions</dt><dd>5</dd>

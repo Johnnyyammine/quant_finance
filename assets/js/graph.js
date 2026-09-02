@@ -250,7 +250,6 @@
       var dim = focusSet && !focusSet[n.id];
       var r = radius(n);
       var col = nodeColour(n);
-      var weight = KB.statusMeta[KB.statusOf(n.id)].weight;
       var isActive = n === selected || n === hover;
 
       // Soft halo. This is what stops the nodes reading as flat dots.
@@ -265,8 +264,8 @@
         ctx.fill();
       }
 
-      // Opaque backing first. The body fill below is translucent so that status
-      // reads through it, and without this the edges running underneath showed
+      // Opaque backing first. The body fill below can be translucent when the
+      // node is dimmed, and without this the edges running underneath showed
       // through the node as a cross.
       if (!dim) {
         ctx.globalAlpha = 1;
@@ -276,40 +275,18 @@
         ctx.fill();
       }
 
-      // Body. Unstarted concepts stay hollow: the graph doubles as a progress map.
+      // Body: a lit sphere in the subject colour, so size reads as importance
+      // and hue reads as subject.
       ctx.globalAlpha = dim ? 0.12 : 1;
       ctx.beginPath();
       ctx.arc(n.x, n.y, r, 0, Math.PI * 2);
-      if (weight === 0) {
-        ctx.fillStyle = css('--bg', '#0c0f14');
-        ctx.fill();
-        ctx.globalAlpha = dim ? 0.12 : 0.75;
-        ctx.lineWidth = 1.6 * inv;
-        ctx.strokeStyle = col;
-        ctx.stroke();
-      } else {
-        var body = ctx.createRadialGradient(n.x - r * 0.35, n.y - r * 0.45, r * 0.1, n.x, n.y, r);
-        body.addColorStop(0, mix(col, '#ffffff', 0.26));
-        body.addColorStop(1, col);
-        ctx.globalAlpha = dim ? 0.12 : 0.55 + weight * 0.45;
-        ctx.fillStyle = body;
-        ctx.fill();
-      }
+      var body = ctx.createRadialGradient(n.x - r * 0.35, n.y - r * 0.45, r * 0.1, n.x, n.y, r);
+      body.addColorStop(0, mix(col, '#ffffff', 0.26));
+      body.addColorStop(1, col);
+      ctx.fillStyle = body;
+      ctx.fill();
 
-      // Progress ring: how far round the circle you have got with this concept.
-      // Deliberately quiet -- the fill already carries the same information
-      // roughly, and a bright white arc on every node reads as an artefact.
-      if (weight > 0 && weight < 1 && !dim) {
-        ctx.globalAlpha = 0.5;
-        ctx.strokeStyle = css('--ink-muted', '#8d99aa');
-        ctx.lineWidth = 1.5 * inv;
-        ctx.lineCap = 'round';
-        ctx.beginPath();
-        ctx.arc(n.x, n.y, r + 5 * inv, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * weight);
-        ctx.stroke();
-      }
-
-      // Selection is the accent, so it can never be confused with progress.
+      // Selection ring, in the accent.
       if (isActive) {
         ctx.globalAlpha = 1;
         ctx.strokeStyle = accent;

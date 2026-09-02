@@ -129,9 +129,24 @@
     return this;
   };
 
+  // Math.min.apply spreads the array across the argument list, which overflows
+  // the call stack somewhere past ~125k values -- and a module at max sliders
+  // (200 paths x 2000 steps) hands us 400k. Loop instead: no limit, and no
+  // intermediate array.
+  function extent(a) {
+    var lo = Infinity, hi = -Infinity;
+    for (var i = 0; i < a.length; i += 1) {
+      var v = a[i];
+      if (v < lo) lo = v;
+      if (v > hi) hi = v;
+    }
+    return [lo, hi];
+  }
+
   Plot.prototype.domain = function (xs, ys) {
-    var xmin = Math.min.apply(null, xs), xmax = Math.max.apply(null, xs);
-    var ymin = Math.min.apply(null, ys), ymax = Math.max.apply(null, ys);
+    var ex = extent(xs), ey = extent(ys);
+    var xmin = ex[0], xmax = ex[1];
+    var ymin = ey[0], ymax = ey[1];
     if (xmin === xmax) { xmin -= 0.5; xmax += 0.5; }
     if (ymin === ymax) { ymin -= 0.5; ymax += 0.5; }
     var padY = (ymax - ymin) * 0.06;

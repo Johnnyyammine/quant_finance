@@ -5,7 +5,6 @@ subject: risk-management
 summary: Diversification is not the number of assets you hold but the number of independent risks you actually bear — measured by the effective dimension of the covariance spectrum and by the entropy of a portfolio's risk contributions across uncorrelated directions.
 difficulty: intermediate
 interview_relevance: 5
-status: not-started
 tags: [risk, diversification, pca, eigenvalues, concentration, factor-models, portfolio-construction, crowding, stress-testing]
 prerequisites: [pca-and-eigenportfolios, covariance-and-correlation]
 related: [sharpe-ratio, kelly-criterion]

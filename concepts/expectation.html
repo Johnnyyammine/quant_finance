@@ -107,11 +107,6 @@
       <h1 class="kb-concept-title">Expectation</h1>
       <p class="kb-concept-summary">The probability-weighted average of a random variable — the number a long-run average converges to, and the object almost every pricing and sizing argument is really about.</p>
       <div class="kb-concept-controls">
-        <label class="kb-statusctl">Status
-          <select data-kb-status="expectation" data-default="learned">
-            <option value="not-started">Not started</option><option value="learning">Learning</option><option value="learned" selected>Learned</option><option value="mastered">Mastered</option>
-          </select>
-        </label>
         <button class="kb-btn kb-btn--ghost" type="button" data-kb-bookmark="expectation">☆ Bookmark</button>
         <button class="kb-btn kb-btn--ghost" type="button" data-kb-flashcards>Revision card</button>
         <a class="kb-btn kb-btn--ghost" href="../graph.html?focus=expectation">Show in graph</a>
@@ -284,8 +279,8 @@ the structure of an American option exercise decision.</p></div></details>
             </div>
             
             <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>Not in general.  <span class="math-inline">\(\E[XY] = \E[X]\E[Y] + \Cov(X,Y)\)</span> , so the factorisation holds only when
- <span class="math-inline">\(\Cov(X,Y)=0\)</span>  — which independence implies but does not require.
-The trap runs the other way too: <strong>linearity</strong>  <span class="math-inline">\(\E[X+Y]=\E[X]+\E[Y]\)</span>  needs <em>no</em> independence
+ <span class="math-inline">\(\Cov(X,Y)=0\)</span>  — which independence implies but does not require.</p>
+<p>The trap runs the other way too: <strong>linearity</strong>  <span class="math-inline">\(\E[X+Y]=\E[X]+\E[Y]\)</span>  needs <em>no</em> independence
 assumption at all. Candidates routinely add an independence caveat where none is needed and
 omit it where it is essential.</p></div></details>
           </li>
@@ -298,8 +293,8 @@ omit it where it is essential.</p></div></details>
             <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>Let  <span class="math-inline">\(a\)</span>  = expected flips from &quot;0 consecutive heads&quot;,  <span class="math-inline">\(b\)</span>  = from &quot;1 consecutive head&quot;.</p>
 <span class="math-display">\[a = 1 + \tfrac12 b + \tfrac12 a, \qquad b = 1 + \tfrac12 \cdot 0 + \tfrac12 a\]</span>
 <p>From the first,  <span class="math-inline">\(\tfrac12 a = 1 + \tfrac12 b \Rightarrow a = 2 + b\)</span> . Substituting:
- <span class="math-inline">\(b = 1 + \tfrac12(2+b) \Rightarrow \tfrac12 b = 2 \Rightarrow b = 4\)</span> , so  <span class="math-inline">\(a = 6\)</span> .
-<strong>Answer: 6 flips.</strong> The generalisation to  <span class="math-inline">\(k\)</span>  consecutive heads is  <span class="math-inline">\(2^{k+1}-2\)</span> .</p></div></details>
+ <span class="math-inline">\(b = 1 + \tfrac12(2+b) \Rightarrow \tfrac12 b = 2 \Rightarrow b = 4\)</span> , so  <span class="math-inline">\(a = 6\)</span> .</p>
+<p><strong>Answer: 6 flips.</strong> The generalisation to  <span class="math-inline">\(k\)</span>  consecutive heads is  <span class="math-inline">\(2^{k+1}-2\)</span> .</p></div></details>
           </li>
           <li class="kb-question" id="q-expectation-q4" data-difficulty="intermediate">
             <div class="kb-question-head">
@@ -308,8 +303,8 @@ omit it where it is essential.</p></div></details>
             </div>
             
             <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>Prices multiply, so  <span class="math-inline">\(\E[S_2] = 100 \cdot \E[R]^2\)</span>  with  <span class="math-inline">\(\E[R] = \tfrac12(1.1) + \tfrac12(0.9) = 1.0\)</span> ,
-giving  <span class="math-inline">\(\E[S_2] = 100\)</span> . Yet the <em>median</em> path is down: up-then-down gives  <span class="math-inline">\(100 \times 1.1 \times 0.9 = 99\)</span> .
-In logs,  <span class="math-inline">\(\E[\ln R] = \tfrac12\ln 1.1 + \tfrac12 \ln 0.9 = -0.00501\)</span> , so
+giving  <span class="math-inline">\(\E[S_2] = 100\)</span> . Yet the <em>median</em> path is down: up-then-down gives  <span class="math-inline">\(100 \times 1.1 \times 0.9 = 99\)</span> .</p>
+<p>In logs,  <span class="math-inline">\(\E[\ln R] = \tfrac12\ln 1.1 + \tfrac12 \ln 0.9 = -0.00501\)</span> , so
  <span class="math-inline">\(\E[\ln S_2] = \ln 100 - 0.01 &lt; \ln 100\)</span> . This gap is Jensen&#39;s inequality and it is
 the entire content of <em>volatility drag</em>: arithmetic mean return exceeds geometric mean return
 by roughly  <span class="math-inline">\(\sigma^2/2\)</span> .</p></div></details>
@@ -390,7 +385,6 @@ by roughly  <span class="math-inline">\(\sigma^2/2\)</span> .</p></div></details
         <dt>Subject</dt><dd><a href="../subjects/probability.html">Probability</a></dd>
         <dt>Difficulty</dt><dd>Foundational</dd>
         <dt>Interview</dt><dd><span class="kb-stars" title="Interview relevance 5 of 5" aria-label="Interview relevance 5 of 5"><span class="kb-stars-on">★★★★★</span><span class="kb-stars-off"></span></span></dd>
-        <dt>Status</dt><dd data-kb-status-label="expectation">Learned</dd>
         <dt>Prereqs</dt><dd>—</dd>
         <dt>Formulas</dt><dd>5</dd>
         <dt>Questions</dt><dd>4</dd>

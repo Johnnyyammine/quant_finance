@@ -128,13 +128,12 @@
     }
 
     function defaultSuggestions() {
-      // With no query, show the highest-value unfinished concepts: the thing
-      // you most plausibly wanted when you hit "/".
+      // With no query, show the highest-value concepts: the thing you most
+      // plausibly wanted when you hit "/".
       return KB.concepts.slice()
         .sort(function (a, b) {
-          var sa = KB.statusMeta[KB.statusOf(a.id)].weight;
-          var sb = KB.statusMeta[KB.statusOf(b.id)].weight;
-          return (b.interviewRelevance - a.interviewRelevance) || (sa - sb);
+          return (b.interviewRelevance - a.interviewRelevance) ||
+            a.title.localeCompare(b.title);
         })
         .slice(0, 8)
         .map(function (c) {
@@ -314,31 +313,6 @@
   $$('[data-kb-bookmark]').forEach(function (n) {
     paintBookmark(n, KB.isBookmarked(n.getAttribute('data-kb-bookmark')));
   });
-
-  // Status selects appear on concept pages; dots appear in lists.
-  doc.addEventListener('change', function (e) {
-    var sel = e.target.closest('[data-kb-status]');
-    if (!sel) return;
-    var id = sel.getAttribute('data-kb-status');
-    KB.setStatus(id, sel.value);
-    toast('Marked "' + (KB.concept(id) || {}).title + '" as ' + KB.statusMeta[sel.value].label);
-  });
-
-  function paintStatus() {
-    $$('[data-kb-status]').forEach(function (sel) {
-      sel.value = KB.statusOf(sel.getAttribute('data-kb-status'));
-    });
-    $$('[data-kb-status-label]').forEach(function (n) {
-      n.textContent = KB.statusMeta[KB.statusOf(n.getAttribute('data-kb-status-label'))].label;
-    });
-    $$('[data-kb-status-dot]').forEach(function (n) {
-      var s = KB.statusOf(n.getAttribute('data-kb-status-dot'));
-      n.setAttribute('data-status', s);
-      n.setAttribute('title', KB.statusMeta[s].label);
-    });
-  }
-  paintStatus();
-  KB.on(function (type) { if (type === 'status' || type === 'import' || type === 'reset') paintStatus(); });
 
   // Mark the active top-level section.
   var page = doc.documentElement.getAttribute('data-page');

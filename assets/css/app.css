@@ -167,7 +167,7 @@ p { text-wrap: pretty; }
 
 /* Every figure in the interface is a quantity to be compared down a column,
    so lock the digits to one width. */
-.kb-kpi-value, .kb-bar-num, .kb-stat-value, .kb-cell-num, .kb-count,
+.kb-kpi-value, .kb-stat-value, .kb-cell-num, .kb-count,
 .kb-facet-count, .kb-subject-card-count, .kb-control-value, kbd, code {
   font-variant-numeric: tabular-nums;
 }
@@ -184,7 +184,7 @@ code, kbd, pre, .kb-mono { font-family: var(--font-mono); }
    catch the light there; without it a lighter rectangle just looks like paint. */
 .kb-kpi, .kb-side-card, .kb-subject-card, .kb-module, .kb-formula,
 .kb-callout, .kb-drillcard, .kb-formula-recap-item, .kb-graph-panel,
-.kb-progress-panel, .kb-cram, .kb-track, .kb-conceptrow-link {
+.kb-cram, .kb-track, .kb-conceptrow-link {
   box-shadow: inset 0 1px 0 var(--edge);
 }
 
@@ -200,7 +200,6 @@ html[data-theme="light"] .kb-callout,
 html[data-theme="light"] .kb-drillcard,
 html[data-theme="light"] .kb-formula-recap-item,
 html[data-theme="light"] .kb-graph-panel,
-html[data-theme="light"] .kb-progress-panel,
 html[data-theme="light"] .kb-cram,
 html[data-theme="light"] .kb-track,
 html[data-theme="light"] .kb-conceptrow-link,
@@ -215,7 +214,7 @@ html[data-theme="light"] .kb-conceptrow-link:hover {
 /* One motion vocabulary, applied where state actually changes. Short enough to
    feel like response rather than animation. */
 a, button, .kb-btn, .kb-iconbtn, .kb-searchbtn, .kb-tag, .kb-facet-opt,
-.kb-subject-card, .kb-cram-item, .kb-progress-row, .kb-conceptrow-link,
+.kb-subject-card, .kb-cram-item, .kb-conceptrow-link,
 .kb-formula-recap-item, .kb-result {
   transition: background-color var(--dur) var(--ease),
               border-color var(--dur) var(--ease),
@@ -377,25 +376,6 @@ html[data-theme="light"] .kb-pill--research     { color: #8d4c25; background: rg
 }
 .kb-tag:hover { background: var(--accent-bg); color: var(--accent-ink); text-decoration: none; }
 .kb-taglist { display: flex; flex-wrap: wrap; gap: 6px; margin: 16px 0 0; padding: 0; list-style: none; }
-
-.kb-statusdot {
-  display: inline-block; width: 8px; height: 8px; border-radius: 50%;
-  border: 1px solid var(--line-strong); background: transparent; flex: none;
-}
-.kb-statusdot[data-status="learning"] { background: var(--warn); border-color: var(--warn); }
-.kb-statusdot[data-status="learned"]  { background: var(--accent); border-color: var(--accent); }
-.kb-statusdot[data-status="mastered"] { background: var(--pos); border-color: var(--pos); }
-
-/* ---------------------------------------------------------- progress ----- */
-
-.kb-bar {
-  display: inline-block; position: relative;
-  width: 100%; height: 4px; min-width: 60px;
-  background: var(--bg-active); border-radius: var(--r-pill); overflow: hidden; vertical-align: middle;
-}
-.kb-bar-fill { display: block; height: 100%; background: var(--accent); border-radius: var(--r-pill);
-  transition: width 0.25s ease; }
-.kb-bar-num { font-family: var(--font-mono); font-size: 11px; color: var(--ink-muted); font-variant-numeric: tabular-nums; }
 
 /* ------------------------------------------------------------- layout ---- */
 
@@ -598,7 +578,6 @@ html[data-theme="light"] .kb-pill--research     { color: #8d4c25; background: rg
   max-width: 74ch;
 }
 .kb-concept-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 18px; }
-.kb-statusctl { display: inline-flex; align-items: center; gap: 6px; font-size: 11.5px; color: var(--ink-muted); }
 
 .kb-content { font-size: 15px; line-height: 1.68; }
 .kb-content > p:first-child { margin-top: 0; }

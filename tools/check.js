@@ -14,11 +14,6 @@ const C = process.stdout.isTTY
   ? { dim: '\u001b[2m', red: '\u001b[31m', yellow: '\u001b[33m', green: '\u001b[32m', bold: '\u001b[1m', off: '\u001b[0m' }
   : { dim: '', red: '', yellow: '', green: '', bold: '', off: '' };
 
-const bar = (p, width = 24) => {
-  const n = Math.round(p * width);
-  return '█'.repeat(n) + '░'.repeat(width - n);
-};
-
 const { problems, payload } = build();
 const { concepts, subjects, tracks, stats } = payload;
 const linked = new Set();
@@ -44,20 +39,19 @@ console.log(`\n${C.bold}Knowledge base health${C.off}`);
 console.log(`${C.dim}${'─'.repeat(64)}${C.off}`);
 console.log(`  ${stats.concepts} concepts · ${stats.formulas} formulas · ${stats.questions} questions · ` +
   `${stats.words.toLocaleString()} words`);
-console.log(`  overall progress  ${bar(stats.progress)} ${(stats.progress * 100).toFixed(0)}%\n`);
 
-console.log(`${C.bold}Coverage by subject${C.off}`);
+console.log(`\n${C.bold}Coverage by subject${C.off}`);
 subjects.slice().sort((a, b) => b.conceptCount - a.conceptCount).forEach((s) => {
-  const flag = s.conceptCount === 0 ? `${C.dim}(empty)${C.off}` : '';
-  console.log(`  ${s.name.padEnd(28)} ${String(s.conceptCount).padStart(3)}  ${bar(s.progress, 14)} ` +
-    `${String(Math.round(s.progress * 100)).padStart(3)}%  ${flag}`);
+  const n = s.conceptCount;
+  console.log(`  ${s.name.padEnd(28)} ${String(n).padStart(3)} ` +
+    (n === 0 ? `${C.dim}(empty)${C.off}` : n === 1 ? 'concept' : 'concepts'));
 });
 
 if (tracks.length) {
   console.log(`\n${C.bold}Interview tracks${C.off}`);
   tracks.forEach((t) => {
-    console.log(`  ${t.name.padEnd(28)} ${String(t.conceptIds.length).padStart(3)} concepts  ` +
-      `${bar(t.progress, 14)} ${String(Math.round(t.progress * 100)).padStart(3)}%`);
+    const n = t.conceptIds.length;
+    console.log(`  ${t.name.padEnd(28)} ${String(n).padStart(3)} ${n === 1 ? 'concept' : 'concepts'}`);
   });
 }
 

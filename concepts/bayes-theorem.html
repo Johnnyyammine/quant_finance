@@ -107,11 +107,6 @@
       <h1 class="kb-concept-title">Bayes&#39; Theorem</h1>
       <p class="kb-concept-summary">The rule for inverting a conditional probability — turning &quot;how likely is this evidence if the hypothesis is true&quot; into &quot;how likely is the hypothesis given the evidence&quot;.</p>
       <div class="kb-concept-controls">
-        <label class="kb-statusctl">Status
-          <select data-kb-status="bayes-theorem" data-default="learning">
-            <option value="not-started">Not started</option><option value="learning" selected>Learning</option><option value="learned">Learned</option><option value="mastered">Mastered</option>
-          </select>
-        </label>
         <button class="kb-btn kb-btn--ghost" type="button" data-kb-bookmark="bayes-theorem">☆ Bookmark</button>
         <button class="kb-btn kb-btn--ghost" type="button" data-kb-flashcards>Revision card</button>
         <a class="kb-btn kb-btn--ghost" href="../graph.html?focus=bayes-theorem">Show in graph</a>
@@ -278,11 +273,11 @@ whether you reason about base rates automatically or only when prompted.</p></di
             </div>
             
             <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>Lift is  <span class="math-inline">\(0.65/0.55 = 1.18\times\)</span>  — a real but thin edge, so the question becomes whether it
-survives costs and whether 65% is estimated precisely enough.
-With  <span class="math-inline">\(n=200\)</span> /month over a year ( <span class="math-inline">\(N=2400\)</span> ), the standard error on a proportion is
+survives costs and whether 65% is estimated precisely enough.</p>
+<p>With  <span class="math-inline">\(n=200\)</span> /month over a year ( <span class="math-inline">\(N=2400\)</span> ), the standard error on a proportion is
  <span class="math-inline">\(\sqrt{p(1-p)/N} = \sqrt{0.65\cdot0.35/2400} \approx 0.97\%\)</span> . So 65% ± 2% at two standard
-errors, comfortably above 55%. <strong>Statistically real.</strong>
-The economic question is separate: an 18% lift on a binary event converts to a small expected
+errors, comfortably above 55%. <strong>Statistically real.</strong></p>
+<p>The economic question is separate: an 18% lift on a binary event converts to a small expected
 return, and if the flagged names are the crowded ones, realised alpha after impact may be zero.
 Always answer both the statistical and the economic question.</p></div></details>
           </li>
@@ -292,9 +287,9 @@ Always answer both the statistical and the economic question.</p></div></details
               <span class="kb-tagline">Intermediate · likelihood-ratio · classic</span>
             </div>
             
-            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>Prior odds 1:1. Likelihood ratio per flip is  <span class="math-inline">\(1 / 0.5 = 2\)</span> , so three flips give  <span class="math-inline">\(2^3 = 8\)</span> .
-<strong>Posterior odds 8:1</strong>, i.e.  <span class="math-inline">\(\P = 8/9 \approx 88.9\%\)</span> .
-Doing it in odds form avoids the normalising constant entirely — this is how you should do
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>Prior odds 1:1. Likelihood ratio per flip is  <span class="math-inline">\(1 / 0.5 = 2\)</span> , so three flips give  <span class="math-inline">\(2^3 = 8\)</span> .</p>
+<p><strong>Posterior odds 8:1</strong>, i.e.  <span class="math-inline">\(\P = 8/9 \approx 88.9\%\)</span> .</p>
+<p>Doing it in odds form avoids the normalising constant entirely — this is how you should do
 every Bayes question under time pressure.</p></div></details>
           </li>
           <li class="kb-question" id="q-bayes-theorem-q4" data-difficulty="advanced">
@@ -304,10 +299,10 @@ every Bayes question under time pressure.</p></div></details>
             </div>
             
             <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>Prior odds good:bad  <span class="math-inline">\(= 1:9\)</span> . Assume a genuinely good strategy shows Sharpe  <span class="math-inline">\(\ge 2\)</span>  with
-probability  <span class="math-inline">\(0.5\)</span> . Likelihood ratio  <span class="math-inline">\(= 0.5/0.05 = 10\)</span> .
-Posterior odds  <span class="math-inline">\(= (1/9)\times 10 = 10/9\)</span> , so  <span class="math-inline">\(\P(\text{real}) \approx 53\%\)</span>  — <strong>a coin flip</strong>,
-from what looked like an outstanding backtest.
-Now the killer follow-up: if you tested 100 variants and reported the best, the relevant
+probability  <span class="math-inline">\(0.5\)</span> . Likelihood ratio  <span class="math-inline">\(= 0.5/0.05 = 10\)</span> .</p>
+<p>Posterior odds  <span class="math-inline">\(= (1/9)\times 10 = 10/9\)</span> , so  <span class="math-inline">\(\P(\text{real}) \approx 53\%\)</span>  — <strong>a coin flip</strong>,
+from what looked like an outstanding backtest.</p>
+<p>Now the killer follow-up: if you tested 100 variants and reported the best, the relevant
 likelihood is  <span class="math-inline">\(\P(\max \text{Sharpe} \ge 2 \mid \text{all worthless}) \approx 1 - 0.95^{100}
 \approx 99.4\%\)</span> , so the likelihood ratio collapses to  <span class="math-inline">\(0.5/0.994 \approx 0.5\)</span>  and the
 posterior odds fall to  <span class="math-inline">\(1:18\)</span>  — <strong>about 5%</strong>. This is why the number of trials is the single
@@ -364,7 +359,6 @@ most important thing to disclose in a research meeting, and why deflated Sharpe 
         <dt>Subject</dt><dd><a href="../subjects/probability.html">Probability</a></dd>
         <dt>Difficulty</dt><dd>Foundational</dd>
         <dt>Interview</dt><dd><span class="kb-stars" title="Interview relevance 5 of 5" aria-label="Interview relevance 5 of 5"><span class="kb-stars-on">★★★★★</span><span class="kb-stars-off"></span></span></dd>
-        <dt>Status</dt><dd data-kb-status-label="bayes-theorem">Learning</dd>
         <dt>Prereqs</dt><dd>1</dd>
         <dt>Formulas</dt><dd>3</dd>
         <dt>Questions</dt><dd>4</dd>

@@ -27,7 +27,6 @@
         var hay = ((c.title || '') + ' ' + (c.summary || '') + ' ' + (c.tags || []).join(' ')).toLowerCase();
         var ok = (!q || hay.indexOf(q) !== -1) &&
           (!want.difficulty || row.getAttribute('data-difficulty') === want.difficulty) &&
-          (!want.status || KB.statusOf(id) === want.status) &&
           (!want.relevance || Number(row.getAttribute('data-relevance')) >= Number(want.relevance));
         row.hidden = !ok;
         if (ok) shown += 1;
@@ -38,16 +37,6 @@
     if (text) text.addEventListener('input', apply);
     selects.forEach(function (s) { s.addEventListener('change', apply); });
     apply();
-
-    /* ----------------------------------------------------- live progress -- */
-    function repaintProgress() {
-      var host = UI.$('[data-kb-subject-progress]');
-      if (!host) return;
-      var p = KB.subjectProgress(subjectId);
-      host.querySelector('.kb-bar-fill').style.width = Math.round(p * 100) + '%';
-      host.querySelector('.kb-bar-num').textContent = Math.round(p * 100) + '%';
-    }
-    KB.on(function (t) { if (t === 'status' || t === 'import' || t === 'reset') { repaintProgress(); apply(); } });
 
     drawMap(subjectId);
     KB.on(function (t) { if (t === 'theme') drawMap(subjectId); });
@@ -98,7 +87,6 @@
     var colLine = css.getPropertyValue('--line-strong').trim() || '#323d4c';
     var colInk = css.getPropertyValue('--ink').trim() || '#dde3ea';
     var colCard = css.getPropertyValue('--bg-sunken').trim() || '#0a0d12';
-    var accent = css.getPropertyValue('--accent').trim() || '#4f8fd6';
 
     var colW = w / Math.max(1, layers.length);
     var boxW = Math.min(190, colW - 26);
@@ -135,9 +123,8 @@
     hits.length = 0;
     own.forEach(function (c) {
       var p = pos[c.id];
-      var status = KB.statusOf(c.id);
       ctx.fillStyle = colCard;
-      ctx.strokeStyle = status === 'not-started' ? colLine : accent;
+      ctx.strokeStyle = colLine;
       ctx.lineWidth = 1;
       roundRect(ctx, p.x - boxW / 2, p.y - 14, boxW, 28, 3);
       ctx.fill(); ctx.stroke();

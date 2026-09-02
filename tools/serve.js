@@ -21,10 +21,22 @@ const TYPES = {
 };
 
 http.createServer((req, res) => {
-  const url = decodeURIComponent(req.url.split('?')[0]);
+  let url;
+  try {
+    // A malformed escape ("/%") makes this throw, and an uncaught throw in the
+    // request handler takes the whole dev server down.
+    url = decodeURIComponent(req.url.split('?')[0]);
+  } catch (e) {
+    res.writeHead(400, { 'Content-Type': 'text/plain' }).end('Bad request');
+    return;
+  }
   let file = path.join(ROOT, url === '/' ? 'index.html' : url);
-  // Never serve outside the repository.
-  if (!file.startsWith(ROOT)) { res.writeHead(403).end('Forbidden'); return; }
+  // Never serve outside the repository. The separator matters: a bare prefix
+  // test also accepts a sibling directory whose name starts with ROOT's.
+  if (file !== ROOT && !file.startsWith(ROOT + path.sep)) {
+    res.writeHead(403, { 'Content-Type': 'text/plain' }).end('Forbidden');
+    return;
+  }
   if (fs.existsSync(file) && fs.statSync(file).isDirectory()) file = path.join(file, 'index.html');
   if (!fs.existsSync(file)) { res.writeHead(404, { 'Content-Type': 'text/plain' }).end('Not found: ' + url); return; }
   res.writeHead(200, {

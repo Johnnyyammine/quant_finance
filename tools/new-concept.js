@@ -22,7 +22,6 @@ const FLAGS = {
   subject: ['--subject', '-s'],
   difficulty: ['--difficulty', '-d'],
   relevance: ['--relevance', '-r'],
-  status: ['--status'],
   tags: ['--tags', '-t'],
   prereqs: ['--prereqs', '-p'],
   related: ['--related'],
@@ -67,7 +66,6 @@ Usage: npm run new -- "Concept Title" --subject <subject-id> [options]
   -t, --tags        comma,separated
   -p, --prereqs     comma,separated concept ids
       --related     comma,separated concept ids
-      --status      not-started|learning|learned|mastered
       --id          override the generated id
       --from        seed the body from a file (e.g. a Claude conversation)
       --force       overwrite an existing file
@@ -104,7 +102,6 @@ Usage: npm run new -- "Concept Title" --subject <subject-id> [options]
     .replace(/^subject: .*$/m, `subject: ${subject}`)
     .replace(/^difficulty: .*$/m, `difficulty: ${a.difficulty || 'intermediate'}`)
     .replace(/^interview_relevance: .*$/m, `interview_relevance: ${a.relevance || 3}`)
-    .replace(/^status: .*$/m, `status: ${a.status || 'not-started'}`)
     .replace(/^tags: .*$/m, `tags: ${yamlList(list(a.tags))}`)
     .replace(/^prerequisites: .*$/m, `prerequisites: ${yamlList(list(a.prereqs))}`)
     .replace(/^related: .*$/m, `related: ${yamlList(list(a.related))}`)

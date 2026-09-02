@@ -1,5 +1,5 @@
 /* ==========================================================================
-   KB core — data access, search, personal state.
+   KB core — data access, search, personal state (bookmarks, drills, theme).
    Plain script (no modules): ES modules are blocked by CORS over file://,
    and this knowledge base must work from a double-click.
    ========================================================================== */
@@ -18,20 +18,18 @@
   var trackById = Object.create(null);
   (DATA.tracks || []).forEach(function (t) { trackById[t.id] = t; });
 
-  var STATUS_META = Object.create(null);
-  (DATA.vocab.status || []).forEach(function (s) { STATUS_META[s.id] = s; });
   var DIFF_META = Object.create(null);
   (DATA.vocab.difficulty || []).forEach(function (d) { DIFF_META[d.id] = d; });
 
   /* ------------------------------------------------- personal state store -- */
   /**
-   * Everything the reader changes (status overrides, bookmarks, drill history)
-   * lives in one localStorage blob, separate from the generated content. That
+   * Everything the reader changes (bookmarks, drill history, theme) lives in
+   * one localStorage blob, separate from the generated content. That
    * keeps `npm run build` non-destructive and makes the state exportable —
    * the seam through which spaced repetition and notes will later plug in.
    */
   var KEY = 'qfkb:v1';
-  var state = { status: {}, bookmarks: {}, notes: {}, drills: {}, theme: null, prefs: {} };
+  var state = { bookmarks: {}, notes: {}, drills: {}, theme: null, prefs: {} };
 
   function load() {
     try {
@@ -60,21 +58,6 @@
     listeners.forEach(function (fn) { try { fn(type, detail); } catch (e) { console.error(e); } });
   }
 
-  /** Effective status = authored status in the markdown, overridden locally. */
-  function statusOf(id) {
-    if (Object.prototype.hasOwnProperty.call(state.status, id)) return state.status[id];
-    var c = conceptById[id];
-    return c ? c.status : 'not-started';
-  }
-
-  function setStatus(id, value) {
-    var c = conceptById[id];
-    if (c && c.status === value) delete state.status[id];
-    else state.status[id] = value;
-    save();
-    emit('status', { id: id, status: value });
-  }
-
   function isBookmarked(id) { return Boolean(state.bookmarks[id]); }
   function toggleBookmark(id) {
     if (state.bookmarks[id]) delete state.bookmarks[id];
@@ -94,22 +77,6 @@
     save();
   }
 
-  /** Weighted progress over a list of concept ids, honouring local overrides. */
-  function progress(ids) {
-    if (!ids.length) return 0;
-    var total = 0;
-    ids.forEach(function (id) {
-      var meta = STATUS_META[statusOf(id)];
-      total += meta ? meta.weight : 0;
-    });
-    return total / ids.length;
-  }
-
-  function subjectProgress(subjectId) {
-    return progress(DATA.concepts.filter(function (c) { return c.subject === subjectId; })
-      .map(function (c) { return c.id; }));
-  }
-
   function exportState() {
     return JSON.stringify({ exported: new Date().toISOString(), state: state }, null, 2);
   }
@@ -121,7 +88,7 @@
     emit('import', {});
   }
   function resetState() {
-    state = { status: {}, bookmarks: {}, notes: {}, drills: {}, theme: state.theme, prefs: {} };
+    state = { bookmarks: {}, notes: {}, drills: {}, theme: state.theme, prefs: {} };
     save();
     emit('reset', {});
   }
@@ -253,14 +220,23 @@
     });
   }
 
+  // Match against the raw text and escape each piece afterwards. Marking the
+  // already-escaped string meant a query of "amp", "quot", "lt" or "gt" hit the
+  // entities themselves and tore them apart on screen.
   function highlight(text, query) {
-    var safe = escapeHtml(text);
+    var raw = String(text == null ? '' : text);
     var toks = tokenizeQuery(query).filter(function (t) { return t.length > 1; });
-    if (!toks.length) return safe;
+    if (!toks.length) return escapeHtml(raw);
     var re = new RegExp('(' + toks.map(function (t) {
       return t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     }).join('|') + ')', 'ig');
-    return safe.replace(re, '<mark>$1</mark>');
+    var out = '', last = 0, m;
+    while ((m = re.exec(raw)) !== null) {
+      out += escapeHtml(raw.slice(last, m.index)) + '<mark>' + escapeHtml(m[0]) + '</mark>';
+      last = m.index + m[0].length;
+      if (m[0] === '') re.lastIndex += 1;
+    }
+    return out + escapeHtml(raw.slice(last));
   }
 
   function stars(n) {
@@ -291,19 +267,16 @@
     tags: DATA.tags,
     stats: DATA.stats,
     vocab: DATA.vocab,
-    statusMeta: STATUS_META,
     difficultyMeta: DIFF_META,
-    statusOf: statusOf,
-    setStatus: setStatus,
     isBookmarked: isBookmarked,
     toggleBookmark: toggleBookmark,
     bookmarks: function () { return Object.keys(state.bookmarks); },
     recordDrill: recordDrill,
     drills: function () { return state.drills; },
-    prefs: state.prefs,
+    // A getter, not a snapshot: resetState() and importState() rebind `state`,
+    // which would leave a plain reference pointing at the discarded object.
+    get prefs() { return state.prefs; },
     savePrefs: save,
-    progress: progress,
-    subjectProgress: subjectProgress,
     neighbours: neighbours,
     learningPath: learningPath,
     exportState: exportState,

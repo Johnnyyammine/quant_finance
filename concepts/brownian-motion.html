@@ -107,11 +107,6 @@
       <h1 class="kb-concept-title">Brownian Motion</h1>
       <p class="kb-concept-summary">The continuous-time limit of a random walk — Gaussian, independent increments scaling with √t, nowhere differentiable, and the driving noise underneath essentially every continuous-time model in finance.</p>
       <div class="kb-concept-controls">
-        <label class="kb-statusctl">Status
-          <select data-kb-status="brownian-motion" data-default="not-started">
-            <option value="not-started" selected>Not started</option><option value="learning">Learning</option><option value="learned">Learned</option><option value="mastered">Mastered</option>
-          </select>
-        </label>
         <button class="kb-btn kb-btn--ghost" type="button" data-kb-bookmark="brownian-motion">☆ Bookmark</button>
         <button class="kb-btn kb-btn--ghost" type="button" data-kb-flashcards>Revision card</button>
         <a class="kb-btn kb-btn--ghost" href="../graph.html?focus=brownian-motion">Show in graph</a>
@@ -306,11 +301,11 @@ S_t = S_0 \exp\!\left[\left(\mu - \tfrac{\sigma^2}{2}\right)t + \sigma W_t\right
             </div>
             <details class="kb-hint"><summary>Hint</summary><div><p>Variances add for independent increments; standard deviations do not.</p></div></details>
             <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>Increments are independent, so <strong>variances</strong> add:
- <span class="math-inline">\(\Var(W_t) = \sum \Var(\Delta W) = t\)</span> . The standard deviation is therefore  <span class="math-inline">\(\sqrt{t}\)</span> .
-Contrast with a deterministic drift, where displacements add linearly. This is why over long
+ <span class="math-inline">\(\Var(W_t) = \sum \Var(\Delta W) = t\)</span> . The standard deviation is therefore  <span class="math-inline">\(\sqrt{t}\)</span> .</p>
+<p>Contrast with a deterministic drift, where displacements add linearly. This is why over long
 horizons drift dominates noise ( <span class="math-inline">\(\mu t\)</span>  vs  <span class="math-inline">\(\sigma\sqrt t\)</span> ) and over short horizons noise
-dominates drift — the single most important scaling fact in finance.
-<strong>Consequences that follow immediately:</strong> volatility annualises by  <span class="math-inline">\(\sqrt{252}\)</span> ; the
+dominates drift — the single most important scaling fact in finance.</p>
+<p><strong>Consequences that follow immediately:</strong> volatility annualises by  <span class="math-inline">\(\sqrt{252}\)</span> ; the
 signal-to-noise ratio of a return estimate grows only as  <span class="math-inline">\(\sqrt{T}\)</span> , which is why estimating
 expected returns takes decades; and Sharpe ratio scales as  <span class="math-inline">\(\sqrt{T}\)</span> , which is why it must
 always be quoted with its horizon.</p></div></details>
@@ -321,8 +316,8 @@ always be quoted with its horizon.</p></div></details>
               <span class="kb-tagline">Intermediate · covariance · core</span>
             </div>
             
-            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p> <span class="math-inline">\(\Cov(W_s, W_t) = \min(s,t)\)</span> .
-For  <span class="math-inline">\(s &lt; t\)</span> , write  <span class="math-inline">\(W_t = W_s + (W_t - W_s)\)</span>  where the increment is independent of  <span class="math-inline">\(W_s\)</span> :</p>
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p> <span class="math-inline">\(\Cov(W_s, W_t) = \min(s,t)\)</span> .</p>
+<p>For  <span class="math-inline">\(s &lt; t\)</span> , write  <span class="math-inline">\(W_t = W_s + (W_t - W_s)\)</span>  where the increment is independent of  <span class="math-inline">\(W_s\)</span> :</p>
 <span class="math-display">\[\E[W_sW_t] = \E[W_s^2] + \E[W_s]\,\E[W_t-W_s] = s + 0 = s = \min(s,t)\]</span>
 <p>Only the shared history contributes. This covariance kernel <em>defines</em> Brownian motion among
 Gaussian processes, and it is the reason a Brownian bridge (conditioning on  <span class="math-inline">\(W_T\)</span> ) has
@@ -336,8 +331,8 @@ covariance  <span class="math-inline">\(\min(s,t) - st/T\)</span> .</p></div></d
             
             <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>Over  <span class="math-inline">\([t, t+\d t]\)</span>  the path moves  <span class="math-inline">\(O(\sqrt{\d t})\)</span> , so the difference quotient
  <span class="math-inline">\(\Delta W/\Delta t \sim 1/\sqrt{\Delta t} \to \infty\)</span> . There is no velocity, so ordinary
-calculus does not apply — hence Itô calculus.
-<strong>For a hedger this is not abstract.</strong> Total path length is infinite, so continuous rebalancing
+calculus does not apply — hence Itô calculus.</p>
+<p><strong>For a hedger this is not abstract.</strong> Total path length is infinite, so continuous rebalancing
 would require infinite trading and infinite cost. Discrete hedging at interval  <span class="math-inline">\(\Delta t\)</span> 
 leaves a residual whose standard deviation scales as  <span class="math-inline">\(\sqrt{\Delta t}\)</span> , and the P&amp;L of that
 residual is the gamma term:</p>
@@ -354,8 +349,8 @@ frequency trades this variance against transaction costs, and the fact that both
             
             <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p> <span class="math-inline">\(\langle W\rangle_T = T\)</span> , <strong>almost surely</strong> — not merely in expectation. Sum the squared
 increments over a partition of mesh  <span class="math-inline">\(\Delta t\)</span> : there are  <span class="math-inline">\(T/\Delta t\)</span>  terms each with mean
- <span class="math-inline">\(\Delta t\)</span> , so the sum has mean  <span class="math-inline">\(T\)</span>  and variance  <span class="math-inline">\(O(\Delta t) \to 0\)</span> .
-Why it matters: in a Taylor expansion of  <span class="math-inline">\(f(W_t)\)</span>  the second-order term carries  <span class="math-inline">\((\d W)^2\)</span> .
+ <span class="math-inline">\(\Delta t\)</span> , so the sum has mean  <span class="math-inline">\(T\)</span>  and variance  <span class="math-inline">\(O(\Delta t) \to 0\)</span> .</p>
+<p>Why it matters: in a Taylor expansion of  <span class="math-inline">\(f(W_t)\)</span>  the second-order term carries  <span class="math-inline">\((\d W)^2\)</span> .
 For a smooth path that would be  <span class="math-inline">\(O(\d t^2)\)</span>  and negligible; here  <span class="math-inline">\((\d W)^2 = \d t\)</span> , which is
 first order. That surviving term is the entire difference between ordinary and Itô calculus:</p>
 <span class="math-display">\[\d f(W_t) = f&#39;(W_t)\,\d W_t + \tfrac12 f&#39;&#39;(W_t)\,\d t\]</span>
@@ -368,8 +363,8 @@ returns, the value of a variance swap — is that  <span class="math-inline">\(\
               <span class="kb-tagline">Advanced · gbm · lognormal · drift</span>
             </div>
             
-            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>Under GBM,  <span class="math-inline">\(\ln(S_T/S_0) \sim N\!\big((\mu - \sigma^2/2)T,\ \sigma^2 T\big)\)</span> .
-Log-drift  <span class="math-inline">\(= 0.10 - 0.045 = 0.055\)</span> ; log-vol  <span class="math-inline">\(= 0.30\)</span> .</p>
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>Under GBM,  <span class="math-inline">\(\ln(S_T/S_0) \sim N\!\big((\mu - \sigma^2/2)T,\ \sigma^2 T\big)\)</span> .</p>
+<p>Log-drift  <span class="math-inline">\(= 0.10 - 0.045 = 0.055\)</span> ; log-vol  <span class="math-inline">\(= 0.30\)</span> .</p>
 <span class="math-display">\[\P(S_1 &gt; S_0) = \P(Z &gt; -0.055/0.30) = \Phi(0.183) \approx 57\%\]</span>
 <p><strong>The trap:</strong> the expected price is  <span class="math-inline">\(S_0 e^{0.10} = 1.105 S_0\)</span> , a 10.5% gain, yet the stock
 finishes down 43% of the time and the <em>median</em> outcome is only  <span class="math-inline">\(+5.7\%\)</span> . The  <span class="math-inline">\(-\sigma^2/2\)</span> 
@@ -436,7 +431,6 @@ majority of scenarios — the exact arithmetic behind the long-run decay of leve
         <dt>Subject</dt><dd><a href="../subjects/stochastic-processes.html">Stochastic Processes</a></dd>
         <dt>Difficulty</dt><dd>Advanced</dd>
         <dt>Interview</dt><dd><span class="kb-stars" title="Interview relevance 4 of 5" aria-label="Interview relevance 4 of 5"><span class="kb-stars-on">★★★★</span><span class="kb-stars-off">☆</span></span></dd>
-        <dt>Status</dt><dd data-kb-status-label="brownian-motion">Not started</dd>
         <dt>Prereqs</dt><dd>2</dd>
         <dt>Formulas</dt><dd>4</dd>
         <dt>Questions</dt><dd>5</dd>

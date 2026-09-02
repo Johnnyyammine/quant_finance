@@ -310,16 +310,10 @@
       ' · ' + KB.util.stars(c.interviewRelevance) + '</p>' +
       '<div class="kb-flashcard-body">' + html + '</div>' +
       '<div class="kb-flashcard-foot">' +
-      '<button class="kb-btn kb-btn--primary" data-fc="mastered">Mark mastered</button>' +
-      '<button class="kb-btn" data-fc="learning">Needs work</button>' +
-      '<button class="kb-btn kb-btn--ghost" data-fc="close">Close</button></div>';
+      '<button class="kb-btn kb-btn--primary" data-fc="close">Close</button></div>';
 
     node.addEventListener('click', function (e) {
-      var btn = e.target.closest('[data-fc]');
-      if (!btn) return;
-      var action = btn.getAttribute('data-fc');
-      if (action !== 'close') { KB.setStatus(c.id, action); UI.toast('Marked ' + KB.statusMeta[action].label); }
-      UI.closeOverlay();
+      if (e.target.closest('[data-fc]')) UI.closeOverlay();
     });
 
     UI.openOverlay(node);

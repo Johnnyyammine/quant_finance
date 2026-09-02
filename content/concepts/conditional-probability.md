@@ -5,7 +5,6 @@ subject: probability
 summary: The probability of an event once you restrict attention to the states of the world where another event has occurred — the formal machinery for "given what I now know".
 difficulty: foundational
 interview_relevance: 5
-status: learning
 tags: [probability, conditioning, information, bayes]
 prerequisites: []
 related: [bayes-theorem, expectation]

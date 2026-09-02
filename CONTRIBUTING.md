@@ -15,8 +15,7 @@ open concepts/ito-lemma.html
 
 That's the whole workflow. You never touch application code, never register the page anywhere, never
 update an index. The build discovers the file, extracts its metadata, formulas, questions and links,
-and wires it into the dashboard, search, the graph, the library, interview mode and the progress
-bars.
+and wires it into the dashboard, search, the graph, the library and interview mode.
 
 ---
 
@@ -34,7 +33,6 @@ npm run new -- "Concept Title" --subject <subject-id> [options]
 | `-t, --tags` | `comma,separated` |
 | `-p, --prereqs` | `comma,separated` concept ids you should learn first |
 | `--related` | `comma,separated` sibling concepts |
-| `--status` | `not-started` · `learning` · `learned` · `mastered` |
 | `--id` | Override the generated id |
 | `--from <file>` | Seed the body from a file — see the Claude workflow below |
 | `--force` | Overwrite an existing file |
@@ -62,7 +60,6 @@ summary: >                    # ONE sentence. Shown under the title, in search
 
 difficulty: advanced          # foundational | intermediate | advanced | research
 interview_relevance: 4        # 0-5 → ★ rating, interview-mode ranking
-status: learning              # not-started | learning | learned | mastered
 
 tags: [stochastic-calculus, derivatives, pricing]
 prerequisites: [brownian-motion]      # directed edge; reverse is AUTOMATIC
@@ -96,7 +93,6 @@ questions:                            # the interview bank lives HERE
 | `[[some-concept]]` in prose | A link, a graph edge, and a related-concept entry |
 | `:::formula` blocks | The Key Formulas section, the sidebar list, and formula search |
 | `questions:` | Interview mode's drill, the question search index, and the page's Q&A section |
-| `status:` | Subject progress bars, dashboard KPIs, graph node fill, interview "still weak" counts |
 | `## Headings` | The table of contents and the scroll-spy |
 | Nothing | Prev/next navigation, ordered by prerequisite depth then difficulty |
 
@@ -214,7 +210,7 @@ npm run check     # coverage, gaps, thin pages, orphans, missing questions
 
 `npm run check` is the useful one before a study session. It reports:
 
-- coverage and weighted progress per subject and per interview track
+- concept counts per subject and per interview track
 - **orphans** — concepts with no prerequisites, relations or inbound links
 - **thin pages** under 250 words
 - interview-relevant concepts (4★+) with **no questions**

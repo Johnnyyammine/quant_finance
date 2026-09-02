@@ -197,7 +197,6 @@ test('model: normalisation applies defaults and clamps', () => {
   assert.strictEqual(concept.subject, 'stochastic-processes');
   assert.strictEqual(concept.interviewRelevance, 5);
   assert.strictEqual(concept.difficulty, 'intermediate');
-  assert.strictEqual(concept.status, 'not-started');
   assert.strictEqual(concept.path, 'concepts/ito-lemma.html');
 });
 
@@ -241,11 +240,17 @@ test('model: an undeclared subject is auto-stubbed, never fatal', () => {
   assert.ok(out.warnings.some((w) => /brand-new/.test(w)));
 });
 
-test('model: progress is status-weighted', () => {
-  const s = (status) => ({ status });
-  assert.strictEqual(model.progressOf([s('mastered')]), 1);
-  assert.strictEqual(model.progressOf([s('not-started')]), 0);
-  assert.strictEqual(model.progressOf([s('mastered'), s('not-started')]), 0.5);
+test('model: reading progress is not part of the model', () => {
+  // The reading-progress feature (status vocabulary, % bars, "mastered")
+  // was removed on purpose. It reappearing means a partial revert, so pin it:
+  // the model exposes no status vocabulary and normalisation invents no field.
+  assert.strictEqual(model.STATUS, undefined);
+  assert.strictEqual(model.progressOf, undefined);
+  const { concept } = model.normaliseConcept(
+    { title: 'x', subject: 'probability', status: 'mastered' },
+    { file: 'x.md', sourceId: 'x' }
+  );
+  assert.ok(!('status' in concept), 'a stray status: in frontmatter must be ignored');
 });
 
 test('model: section aliases map onto canonical ids', () => {
@@ -302,10 +307,118 @@ test('markdown: inline maths may wrap across a line', () => {
   assert.ok(/\$5/.test(two) && /\$10/.test(two), 'stray dollar amounts were eaten as maths');
 });
 
+test('yaml: a block scalar keeps its blank lines and "#" lines', () => {
+  // Every interview answer is a "|" block written as several paragraphs. The
+  // parser used to drop blank lines globally before parsing, so all 62 of them
+  // rendered as one fused wall of text; an indented "# heading" vanished too.
+  const d = parse(['a: |', '  One.', '', '  Two.', '', '  # Heading', '  Three.', 'b: after'].join('\n'));
+  assert.strictEqual(d.a, 'One.\n\nTwo.\n\n# Heading\nThree.\n');
+  assert.strictEqual(d.b, 'after', 'the key after the block scalar was lost');
+});
+
+test('yaml: a folded scalar folds lines but keeps paragraph breaks', () => {
+  const d = parse(['s: >', '  one', '  two', '', '  three', 'k: 1'].join('\n'));
+  assert.strictEqual(d.s, 'one two\nthree\n');
+  assert.strictEqual(d.k, 1);
+});
+
+test('yaml: comments outside a block scalar are still comments', () => {
+  const d = parse(['# leading note', 'a: 1', '', '# another', 'b: 2'].join('\n'));
+  assert.deepStrictEqual(d, { a: 1, b: 2 });
+});
+
+test('markdown: an HTML comment inside code is not stripped', () => {
+  // Comments were removed before code was protected, so a paired comment in a
+  // sample vanished and an unpaired opener ate everything up to the next
+  // "-->" anywhere later in the document, across block boundaries.
+  const paired = md.render(['```html', '<p><!-- keep me --></p>', '```'].join('\n'), {}).html;
+  assert.ok(/keep me/.test(paired), 'a comment inside a code sample was deleted');
+
+  const spanning = md.render(
+    ['```html', '<!-- start', '```', '', 'Middle paragraph.', '', 'Tail --> end.'].join('\n'), {}).html;
+  assert.ok(/&lt;!-- start/.test(spanning), 'an unpaired comment opener ate the code sample');
+  assert.ok(/Middle paragraph\./.test(spanning), 'the comment swallowed the paragraph between');
+
+  // A real authoring note is still removed.
+  assert.ok(!/note/.test(md.render('Before <!-- note --> after.', {}).html));
+});
+
+test('markdown: a link with a title renders as a link', () => {
+  // inline() escapes first, so by this point the title quotes are &quot; and
+  // the titled form never matched -- the raw source leaked onto the page.
+  const { html } = md.render('See [docs](https://example.com "Tip") now.', {});
+  assert.ok(/<a href="https:\/\/example\.com" title="Tip"/.test(html), html);
+  assert.ok(!/\[docs\]/.test(html), 'the raw link source leaked through');
+});
+
+test('markdown: an escaped pipe stays inside its table cell', () => {
+  const { html } = md.render(['| a | b |', '|---|---|', '| x \\| y | z |'].join('\n'), {});
+  const cells = html.match(/<td[^>]*>(.*?)<\/td>/g) || [];
+  assert.strictEqual(cells.length, 2, 'the escaped pipe split the row into an extra column');
+  assert.ok(/x \| y/.test(cells[0]), cells[0]);
+});
+
+test('markdown: "___" is a rule wherever "---" is', () => {
+  ['---', '***', '___'].forEach((rule) => {
+    const { html } = md.render(['Para one.', rule, 'Para two.'].join('\n'), {});
+    assert.ok(/<hr>/.test(html), rule + ' did not produce a rule');
+    assert.ok(!new RegExp(rule.replace(/[*]/g, '\\$&')).test(html.replace(/<[^>]*>/g, '')),
+      rule + ' rendered as literal text');
+  });
+});
+
+test('markdown: a heading after a blockquote is not swallowed by it', () => {
+  // Lazy continuation is for prose. Absorbing the heading also put a table-of-
+  // contents entry inside the quotation.
+  const { html, headings } = md.render(['> A quotation.', '## Next Section', '', 'Body.'].join('\n'), {});
+  assert.ok(/<\/blockquote>\s*<h2/.test(html), html);
+  assert.ok((headings || []).some((h) => /Next Section/.test(h.text || h.title || '')) ||
+    /id="next-section"/.test(html));
+});
+
+test('markdown: formulas sharing a name get distinct ids', () => {
+  const src = [':::formula {name="Variance"}', '$$x$$', ':::', '',
+    ':::formula {name="Variance"}', '$$y$$', ':::'].join('\n');
+  const { formulas } = md.render(src, {});
+  assert.strictEqual(formulas.length, 2);
+  assert.notStrictEqual(formulas[0].id, formulas[1].id, 'duplicate ids make the second unreachable');
+});
+
 test('markdown: backslash-escaped characters lose the backslash', () => {
   const { html } = md.render('Winners make \\$120, losers lose \\$100.', {});
   assert.ok(/\$120/.test(html), 'escaped dollar did not survive');
   assert.ok(!/\\\$/.test(html), 'the backslash was printed instead of being consumed');
+});
+
+test('build: generated data and pages carry no progress surface', () => {
+  // Same reasoning as the model test, one layer out: the shipped kb.data.js and
+  // the committed HTML are what a reader actually loads.
+  const fs = require('fs');
+  const root = path.join(__dirname, '..');
+  const data = fs.readFileSync(path.join(root, 'data/kb.json'), 'utf8');
+  const payload = JSON.parse(data);
+  assert.ok(!('status' in payload.vocab), 'vocab.status must be gone');
+  assert.ok(!('progress' in payload.stats), 'stats.progress must be gone');
+  payload.concepts.forEach((c) => assert.ok(!('status' in c), c.id + ' still carries a status'));
+  payload.subjects.forEach((s) => assert.ok(!('progress' in s), s.id + ' still carries progress'));
+
+  const offenders = [];
+  ['index.html', 'library.html', 'interview.html', 'graph.html'].forEach((f) => {
+    const p = path.join(root, f);
+    if (fs.existsSync(p) && /kb-bar|kb-statusdot|data-kb-status|data-kb-progress/.test(fs.readFileSync(p, 'utf8'))) {
+      offenders.push(f);
+    }
+  });
+  ['concepts', 'subjects'].forEach((dir) => {
+    const d = path.join(root, dir);
+    if (!fs.existsSync(d)) return;
+    fs.readdirSync(d).filter((f) => f.endsWith('.html')).forEach((f) => {
+      if (/kb-bar|kb-statusdot|data-kb-status/.test(fs.readFileSync(path.join(d, f), 'utf8'))) {
+        offenders.push(dir + '/' + f);
+      }
+    });
+  });
+  assert.deepStrictEqual(offenders, [], 'progress markup left in generated HTML');
 });
 
 test('build: no generated page leaks unrendered maths', () => {
