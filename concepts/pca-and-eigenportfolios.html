@@ -352,8 +352,8 @@ sample period you get:</p>
 <tr><td>3</td><td>U-shaped: wings vs belly</td><td><strong>curvature</strong></td><td>~1–3%</td></tr></tbody></table></div>
 <p>Together they routinely explain more than 99% of daily variance, which is why a rates book is
 hedged with three instruments rather than one per tenor, and why &quot;PC01&quot; risk limits exist
-alongside DV01.
-<strong>The follow-up you should expect:</strong> <em>why</em> is the level component so dominant? Because
+alongside DV01.</p>
+<p><strong>The follow-up you should expect:</strong> <em>why</em> is the level component so dominant? Because
 adjacent tenors are correlated around 0.95–0.99 — the curve is nearly a one-dimensional object.
 And the trap: these are statistical artefacts of the covariance matrix, not economic
 quantities. The &quot;slope&quot; PC rotates between samples, so a hedge built on last year&#39;s
@@ -368,12 +368,12 @@ eigenvectors is not exactly slope-neutral today.</p></div></details>
             <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>Because  <span class="math-inline">\(\Sigma\)</span>  is <strong>real symmetric</strong>, and the spectral theorem then guarantees that its
 eigenvalues are real and that an orthonormal eigenbasis exists.  <code>eigh</code>  exploits that: it uses
 a symmetric algorithm (tridiagonalisation + QL/divide-and-conquer), returns <em>sorted real</em>
-eigenvalues, and guarantees an orthogonal  <span class="math-inline">\(Q\)</span>  to machine precision.
- <code>eig</code>  is the general non-symmetric routine. Fed a symmetric matrix it will still work, but it
+eigenvalues, and guarantees an orthogonal  <span class="math-inline">\(Q\)</span>  to machine precision.</p>
+<p> <code>eig</code>  is the general non-symmetric routine. Fed a symmetric matrix it will still work, but it
 returns complex dtypes with tiny imaginary residues, gives unsorted eigenvalues, and does not
 guarantee orthogonality of the returned vectors. You then spend the next hour debugging why
- <span class="math-inline">\(Q^\top Q \ne I\)</span>  and why your &quot;uncorrelated&quot; principal portfolios have a correlation of 0.02.
-It is also roughly twice as fast. There is no argument for  <code>eig</code>  here.</p></div></details>
+ <span class="math-inline">\(Q^\top Q \ne I\)</span>  and why your &quot;uncorrelated&quot; principal portfolios have a correlation of 0.02.</p>
+<p>It is also roughly twice as fast. There is no argument for  <code>eig</code>  here.</p></div></details>
           </li>
           <li class="kb-question" id="q-pca-and-eigenportfolios-q3" data-difficulty="intermediate">
             <div class="kb-question-head">
@@ -400,15 +400,15 @@ does not distinguish them has not run PCA on real data.</p></div></details>
               <span class="kb-tagline">Advanced · marchenko-pastur · random-matrix-theory · noise</span>
             </div>
             <details class="kb-hint"><summary>Hint</summary><div><p>What would the spectrum look like if the assets were genuinely independent?</p></div></details>
-            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>Yes — and the way to know is to compute what pure noise would have produced.
-For  <span class="math-inline">\(N\)</span>  independent unit-variance series and  <span class="math-inline">\(T\)</span>  observations with  <span class="math-inline">\(q = N/T\)</span> , the sample
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>Yes — and the way to know is to compute what pure noise would have produced.</p>
+<p>For  <span class="math-inline">\(N\)</span>  independent unit-variance series and  <span class="math-inline">\(T\)</span>  observations with  <span class="math-inline">\(q = N/T\)</span> , the sample
 correlation eigenvalues fill the <strong>Marchenko–Pastur</strong> band</p>
 <span class="math-display">\[\lambda \in \big[(1-\sqrt{q})^2,\ (1+\sqrt{q})^2\big]\]</span>
 <p>Here  <span class="math-inline">\(N = 100\)</span> ,  <span class="math-inline">\(T \approx 504\)</span> , so  <span class="math-inline">\(q \approx 0.198\)</span> ,  <span class="math-inline">\(\sqrt q \approx 0.445\)</span> , and the noise
 band is  <span class="math-inline">\([0.308,\ 2.09]\)</span> . An eigenvalue explaining 40% of a 100-asset correlation matrix is
  <span class="math-inline">\(\lambda_1 = 40\)</span>  — twenty times the upper edge. That is unambiguously a real common factor,
-almost certainly the market.
-The useful direction is the other one: <strong>most of the spectrum is inside the band and is
+almost certainly the market.</p>
+<p>The useful direction is the other one: <strong>most of the spectrum is inside the band and is
 therefore noise.</strong> Laloux et al. (1999) found that only a handful of S&amp;P eigenvalues escape
 the bulk; the rest are indistinguishable from random. So keep the escaping eigenvalues,
 replace the bulk with its average (eigenvalue clipping), and you have a covariance matrix
@@ -426,8 +426,8 @@ gives, for a perturbation  <span class="math-inline">\(\delta\Sigma\)</span> ,</
 <p>The denominator is the whole story: when  <span class="math-inline">\(\lambda_i \approx \lambda_j\)</span>  the coefficient blows
 up and the two eigenvectors rotate freely inside their shared subspace. Sampling noise alone
 is enough to reorder them. In the exactly degenerate case the individual eigenvectors are not
-even defined — only the subspace is.
-<strong>Does it matter?</strong> It depends what you use them for.</p>
+even defined — only the subspace is.</p>
+<p><strong>Does it matter?</strong> It depends what you use them for.</p>
 <ul class="kb-list"><li>Risk <em>measurement</em> is fine.  <span class="math-inline">\(\Sigma\)</span> , the total variance and the variance carried by the
 top- <span class="math-inline">\(k\)</span>  subspace are all invariant to rotation inside a degenerate block.</li>
 <li>Risk <em>attribution</em> is not. &quot;PC4 contributed 8% of today&#39;s PnL&quot; is meaningless if PC4 is an
@@ -451,8 +451,8 @@ component; or abandon the eigenbasis for a rotation chosen to be stable and inte
 <span class="math-display">\[\Sigma w = \lambda w\]</span>
 <p>So every stationary point is an eigenvector. At such a point the objective is
  <span class="math-inline">\(w^\top \Sigma w = \lambda w^\top w = \lambda\)</span> , so the maximum is attained at the <strong>largest</strong>
-eigenvalue and the minimum at the smallest.
-Two consequences worth stating out loud: the smallest eigenvector is the
+eigenvalue and the minimum at the smallest.</p>
+<p>Two consequences worth stating out loud: the smallest eigenvector is the
 <strong>minimum-variance direction</strong> among unit-norm portfolios, which is why it is the one an
 optimiser loads on and the one estimation noise ruins; and repeating the argument on the
 subspace orthogonal to  <span class="math-inline">\(q_1\)</span>  produces  <span class="math-inline">\(q_2\)</span> , which is the deflation view of PCA.</p></div></details>

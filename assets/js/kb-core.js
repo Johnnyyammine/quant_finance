@@ -220,14 +220,23 @@
     });
   }
 
+  // Match against the raw text and escape each piece afterwards. Marking the
+  // already-escaped string meant a query of "amp", "quot", "lt" or "gt" hit the
+  // entities themselves and tore them apart on screen.
   function highlight(text, query) {
-    var safe = escapeHtml(text);
+    var raw = String(text == null ? '' : text);
     var toks = tokenizeQuery(query).filter(function (t) { return t.length > 1; });
-    if (!toks.length) return safe;
+    if (!toks.length) return escapeHtml(raw);
     var re = new RegExp('(' + toks.map(function (t) {
       return t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     }).join('|') + ')', 'ig');
-    return safe.replace(re, '<mark>$1</mark>');
+    var out = '', last = 0, m;
+    while ((m = re.exec(raw)) !== null) {
+      out += escapeHtml(raw.slice(last, m.index)) + '<mark>' + escapeHtml(m[0]) + '</mark>';
+      last = m.index + m[0].length;
+      if (m[0] === '') re.lastIndex += 1;
+    }
+    return out + escapeHtml(raw.slice(last));
   }
 
   function stars(n) {
@@ -264,7 +273,9 @@
     bookmarks: function () { return Object.keys(state.bookmarks); },
     recordDrill: recordDrill,
     drills: function () { return state.drills; },
-    prefs: state.prefs,
+    // A getter, not a snapshot: resetState() and importState() rebind `state`,
+    // which would leave a plain reference pointing at the discarded object.
+    get prefs() { return state.prefs; },
     savePrefs: save,
     neighbours: neighbours,
     learningPath: learningPath,

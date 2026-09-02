@@ -59,12 +59,14 @@ function protectMath(text, state) {
     return ' \u0000C' + (state.code.length - 1) + '\u0000 ';
   };
   return text
-    // Authoring notes never reach the page. Stripped before anything else so a
-    // commented-out [[link]] or $formula$ is not parsed either.
-    .replace(/<!--[\s\S]*?-->/g, '')
-    // fenced code is protected first so $ inside code stays literal
+    // Code is protected first so $ inside it stays literal -- and so that an
+    // "<!--" in a code sample is not read as an authoring note below. An
+    // unpaired one used to delete everything up to the next "-->".
     .replace(/```[\s\S]*?```|~~~[\s\S]*?~~~/g, stashCode)
     .replace(/`[^`\n]*`/g, stashCode)
+    // Authoring notes never reach the page. Stripped before links and maths so
+    // a commented-out [[link]] or $formula$ is not parsed either.
+    .replace(/<!--[\s\S]*?-->/g, '')
     .replace(/\$\$([\s\S]+?)\$\$/g, (_, m) => stash(m, true))
     .replace(/\\\[([\s\S]+?)\\\]/g, (_, m) => stash(m, true))
     .replace(/\\\(([\s\S]+?)\\\)/g, (_, m) => stash(m, false))
@@ -170,7 +172,15 @@ function blocks(lines, state) {
 
     if (/^>\s?/.test(line)) {
       const buf = [];
-      while (i < lines.length && (/^>\s?/.test(lines[i]) || (buf.length && lines[i].trim()))) {
+      // Lazy continuation carries plain prose into the quote, but a heading,
+      // rule, directive, list, table or fence begins a new block -- otherwise a
+      // "## Heading" right after a quotation ends up inside it, and the table of
+      // contents links into the quotation.
+      const interrupts = (l, k) =>
+        /^(?:#{1,6}\s|:{3,}\s*[a-z]|(?:---|\*\*\*|___)\s*$|```|~~~)/i.test(l) ||
+        isListItem(l) || isTableStart(lines, k);
+      while (i < lines.length &&
+             (/^>\s?/.test(lines[i]) || (buf.length && lines[i].trim() && !interrupts(lines[i], i)))) {
         buf.push(lines[i].replace(/^>\s?/, ''));
         i += 1;
       }
@@ -195,7 +205,7 @@ function blocks(lines, state) {
     const buf = [];
     while (
       i < lines.length && lines[i].trim() &&
-      !/^(?:#{1,6}\s|>|:{3,}\s*[a-z]|---\s*$|\*\*\*\s*$)/i.test(lines[i]) &&
+      !/^(?:#{1,6}\s|>|:{3,}\s*[a-z]|(?:---|\*\*\*|___)\s*$)/i.test(lines[i]) &&
       !isListItem(lines[i]) && !isTableStart(lines, i) && !isPlaceholderLine(lines[i])
     ) { buf.push(lines[i]); i += 1; }
     if (buf.length) out.push('<p>' + inline(buf.join('\n'), state) + '</p>');
@@ -257,7 +267,7 @@ function list(lines, start, state) {
 }
 
 function table(buf, state) {
-  const cells = (row) => row.trim().replace(/^\||\|$/g, '').split(/\s*\|\s*/).map((c) => c.trim());
+  const cells = (row) => row.trim().replace(/^\||(?<!\\)\|$/g, '').split(/\s*(?<!\\)\|\s*/).map((c) => c.trim());
   const align = cells(buf[1]).map((c) =>
     /^:-+:$/.test(c.trim()) ? 'center' : /-+:$/.test(c.trim()) ? 'right' : ''
   );
@@ -302,7 +312,12 @@ function directive(kind, spec, body, state) {
       : body.trim().replace(PLACEHOLDER, (_, k, i) => (k === 'M' ? state.math[Number(i)].raw : '')).trim();
     const name = a.name || a._ || '';
     const usedIn = String(a['used-in'] || a.usedin || '').split(',').map((s) => s.trim()).filter(Boolean);
-    const id = a.id || slug(name) || 'formula-' + (state.formulas.length + 1);
+    let id = a.id || slug(name) || 'formula-' + (state.formulas.length + 1);
+    if (state.formulas.some((f) => f.id === id)) {
+      let n = 2;
+      while (state.formulas.some((f) => f.id === id + '-' + n)) n += 1;
+      id = id + '-' + n;
+    }
     state.formulas.push({ id, name, latex: rawLatex, usedIn, note: a.note || '' });
     const idx = state.math.push({ raw: rawLatex, display: true }) - 1;
     return [
@@ -390,7 +405,7 @@ function inline(text, state) {
       (label || escapeHtml(resolved.title)) + '</a>';
   });
 
-  s = s.replace(/\[([^\]]+)\]\(([^)\s]+)(?:\s+"([^"]*)")?\)/g, (_, t, href, title) => {
+  s = s.replace(/\[([^\]]+)\]\(([^)\s]+)(?:\s+&quot;(.*?)&quot;)?\)/g, (_, t, href, title) => {
     const url = unesc(href);
     const ext = /^https?:/i.test(url);
     return '<a href="' + attr(url) + '"' + (title ? ' title="' + attr(title) + '"' : '') +

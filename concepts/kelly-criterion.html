@@ -306,14 +306,14 @@ the scale.</li>
               <span class="kb-tagline">Intermediate · classic · compounding · ruin</span>
             </div>
             <details class="kb-hint"><summary>Hint</summary><div><p>Compute the typical path, not the average path.</p></div></details>
-            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p><strong>No — you go broke almost surely.</strong>
-Expected wealth per round is  <span class="math-inline">\(\tfrac12(2.0) + \tfrac12(0.4) = 1.2\)</span> , so betting everything
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p><strong>No — you go broke almost surely.</strong></p>
+<p>Expected wealth per round is  <span class="math-inline">\(\tfrac12(2.0) + \tfrac12(0.4) = 1.2\)</span> , so betting everything
 maximises  <span class="math-inline">\(\E[W]\)</span> . But wealth compounds, so the realised growth rate is governed by the
 <em>geometric</em> mean:</p>
 <span class="math-display">\[\E[\ln R] = \tfrac12\ln 2.0 + \tfrac12\ln 0.4 = \tfrac12(0.693) + \tfrac12(-0.916) = -0.112\]</span>
 <p>Negative. A typical pair of rounds gives  <span class="math-inline">\(2.0 \times 0.4 = 0.8\)</span>  — a 20% loss. By the law of
-large numbers  <span class="math-inline">\(W_n \approx W_0 e^{-0.112n} \to 0\)</span>  almost surely.
-The expectation still grows without bound, carried by the vanishing set of paths that win
+large numbers  <span class="math-inline">\(W_n \approx W_0 e^{-0.112n} \to 0\)</span>  almost surely.</p>
+<p>The expectation still grows without bound, carried by the vanishing set of paths that win
 every round. <strong>The mean is not where you live.</strong> Kelly asks what fraction  <span class="math-inline">\(f\)</span>  of wealth to
 stake; here  <span class="math-inline">\(f^\star = (0.5)(1.0)/(1.0) \cdot \ldots\)</span>  works out well below 1, and at any
  <span class="math-inline">\(f\)</span>  above roughly 0.4 the growth rate turns negative.</p></div></details>
@@ -333,8 +333,8 @@ the expected log growth:</p>
 <p>Read it as <strong>edge over odds</strong>: the numerator  <span class="math-inline">\(pb - q\)</span>  is the expected profit per unit staked,
 and dividing by  <span class="math-inline">\(b\)</span>  converts it to a fraction of capital. If the edge is zero,  <span class="math-inline">\(f^\star = 0\)</span> ;
 if it is negative,  <span class="math-inline">\(f^\star &lt; 0\)</span>  and the correct action is the other side of the bet, or no
-bet at all.
- <span class="math-inline">\(g\)</span>  is strictly concave on  <span class="math-inline">\((0, 1)\)</span> , so the stationary point is the maximum.</p></div></details>
+bet at all.</p>
+<p> <span class="math-inline">\(g\)</span>  is strictly concave on  <span class="math-inline">\((0, 1)\)</span> , so the stationary point is the maximum.</p></div></details>
           </li>
           <li class="kb-question" id="q-kelly-criterion-q3" data-difficulty="advanced">
             <div class="kb-question-head">
@@ -363,8 +363,8 @@ bet at all.
             
             <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p><strong>Zero growth rate.</strong> Since  <span class="math-inline">\(g(k f^\star) = k(2-k)\,g(f^\star)\)</span> , at  <span class="math-inline">\(k=2\)</span>  we get
  <span class="math-inline">\(2(2-2) = 0\)</span> . Beyond  <span class="math-inline">\(2\times\)</span>  Kelly the growth rate is <em>negative</em>: you lose money in the long
-run despite every individual bet having positive expected value.
-This is the cleanest statement of why leverage is not free. The expectation is linear in size;
+run despite every individual bet having positive expected value.</p>
+<p>This is the cleanest statement of why leverage is not free. The expectation is linear in size;
 the growth rate is not, because the variance drag  <span class="math-inline">\(-\tfrac12 f^2\sigma^2\)</span>  grows quadratically
 while the drift term  <span class="math-inline">\(f\mu\)</span>  grows linearly. It also explains the long-run decay of leveraged
 ETFs: a 3× daily-rebalanced product on an index is often past its own  <span class="math-inline">\(2\times\)</span> -Kelly point.</p></div></details>
@@ -381,8 +381,8 @@ volatility  <span class="math-inline">\(\sigma\)</span> :</p>
 <p><strong>The optimal growth rate is half the squared Sharpe ratio.</strong> That is a strikingly useful
 identity: a Sharpe of 1 supports at most 50% annual log growth <em>at full Kelly</em>, which
 immediately tells you that a strategy claiming 30% returns at Sharpe 0.5 is claiming
-leverage well beyond Kelly, not skill.
-It also links directly to <a class="kb-link" href="sharpe-ratio.html" data-concept="sharpe-ratio">Sharpe Ratio</a>: since Sharpe is leverage-invariant and Kelly
+leverage well beyond Kelly, not skill.</p>
+<p>It also links directly to <a class="kb-link" href="sharpe-ratio.html" data-concept="sharpe-ratio">Sharpe Ratio</a>: since Sharpe is leverage-invariant and Kelly
 growth is not, Sharpe measures the <em>quality</em> of an opportunity and Kelly turns that quality
 into a <em>size</em>.</p></div></details>
           </li>
@@ -396,8 +396,8 @@ into a <em>size</em>.</p></div></details>
 for a vector of excess returns is</p>
 <span class="math-display">\[\mathbf f^\star = \Sigma^{-1}\boldsymbol\mu\]</span>
 <p>which is the <strong>same direction as the mean–variance tangency portfolio</strong>; Kelly picks the point
-on that ray, where mean–variance leaves the scale to a risk-aversion parameter.
-For genuinely uncorrelated strategies  <span class="math-inline">\(\Sigma\)</span>  is diagonal and the individual fractions <em>are</em>
+on that ray, where mean–variance leaves the scale to a risk-aversion parameter.</p>
+<p>For genuinely uncorrelated strategies  <span class="math-inline">\(\Sigma\)</span>  is diagonal and the individual fractions <em>are</em>
 the joint solution, so you can run both at full Kelly — and the growth rates add:
  <span class="math-inline">\(g = \sum SR_i^2/2\)</span> . With correlation,  <span class="math-inline">\(\Sigma^{-1}\)</span>  shrinks the combined exposure below the
 sum of the individual fractions, and it does so most aggressively for the pairs that look most

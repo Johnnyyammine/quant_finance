@@ -269,12 +269,12 @@ For <a class="kb-link" href="brownian-motion.html" data-concept="brownian-motion
             <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>Wealth  <span class="math-inline">\(W_n\)</span>  is a martingale, so  <span class="math-inline">\(\E[W_\tau]=W_0\)</span>  <em>provided</em> the optional stopping theorem
 applies. It requires one of: bounded stopping time, bounded process, or integrable dominating
 variable. <strong>The doubling strategy satisfies none of them</strong> — the required stake grows as
- <span class="math-inline">\(2^n\)</span>  without bound, and the stopping time is unbounded.
-Practically: to guarantee +$1 you must be able to survive an arbitrarily long losing streak
+ <span class="math-inline">\(2^n\)</span>  without bound, and the stopping time is unbounded.</p>
+<p>Practically: to guarantee +$1 you must be able to survive an arbitrarily long losing streak
 with unbounded capital. With finite bankroll  <span class="math-inline">\(B\)</span>  you can survive  <span class="math-inline">\(\lfloor\log_2 B\rfloor\)</span> 
 losses; beyond that you are wiped out. Expected value is exactly preserved — a small
-probability of a catastrophic loss precisely offsets the near-certain small gain.
-<strong>The trading version:</strong> every strategy that &quot;never loses&quot; (short deep OTM options, martingale
+probability of a catastrophic loss precisely offsets the near-certain small gain.</p>
+<p><strong>The trading version:</strong> every strategy that &quot;never loses&quot; (short deep OTM options, martingale
 grid systems, averaging down) is this bet. The P&amp;L distribution is left-skewed to the point
 where the mean is uninformative, and the failure mode arrives as a single terminal event.</p></div></details>
           </li>
@@ -286,14 +286,14 @@ where the mean is uninformative, and the failure mode arrives as a single termin
             
             <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>Not under the real-world measure  <span class="math-inline">\(\P\)</span>  — equities have a positive expected return, so
  <span class="math-inline">\(\E^\P[S_{t+1}\mid\mathcal F_t] &gt; S_t\)</span> . That is a <em>submartingale</em>, and it must be, or nobody
-would hold equity risk.
-Under the <strong>risk-neutral measure</strong>  <span class="math-inline">\(\Q\)</span> , the <em>discounted</em> price  <span class="math-inline">\(\tilde S_t = e^{-rt}S_t\)</span>  is a
+would hold equity risk.</p>
+<p>Under the <strong>risk-neutral measure</strong>  <span class="math-inline">\(\Q\)</span> , the <em>discounted</em> price  <span class="math-inline">\(\tilde S_t = e^{-rt}S_t\)</span>  is a
 martingale:</p>
 <span class="math-display">\[\E^\Q\!\left[e^{-r(T-t)}S_T \mid \mathcal F_t\right] = S_t\]</span>
 <p>That is the first fundamental theorem of asset pricing: <strong>no arbitrage  <span class="math-inline">\(\iff\)</span>  there exists an
 equivalent measure under which discounted prices are martingales.</strong> Girsanov&#39;s theorem
-constructs it by changing the drift while leaving the volatility (and the null sets) alone.
-The distinction is the whole subject.  <span class="math-inline">\(\P\)</span>  tells you what will happen;  <span class="math-inline">\(\Q\)</span>  tells you what
+constructs it by changing the drift while leaving the volatility (and the null sets) alone.</p>
+<p>The distinction is the whole subject.  <span class="math-inline">\(\P\)</span>  tells you what will happen;  <span class="math-inline">\(\Q\)</span>  tells you what
 things cost.</p></div></details>
           </li>
           <li class="kb-question" id="q-martingales-q3" data-difficulty="advanced">
@@ -304,8 +304,8 @@ things cost.</p></div></details>
             
             <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>No —  <span class="math-inline">\(X^2\)</span>  is a <strong>submartingale</strong>. By conditional Jensen with the convex function  <span class="math-inline">\(x^2\)</span> :</p>
 <span class="math-display">\[\E[X_{t+1}^2 \mid \mathcal F_t] \ge \big(\E[X_{t+1}\mid \mathcal F_t]\big)^2 = X_t^2\]</span>
-<p>with equality only if  <span class="math-inline">\(X_{t+1}\)</span>  is  <span class="math-inline">\(\mathcal F_t\)</span> -measurable (no new randomness).
-The gap is exactly the conditional variance, and correcting for it gives a genuine martingale:
+<p>with equality only if  <span class="math-inline">\(X_{t+1}\)</span>  is  <span class="math-inline">\(\mathcal F_t\)</span> -measurable (no new randomness).</p>
+<p>The gap is exactly the conditional variance, and correcting for it gives a genuine martingale:
  <span class="math-inline">\(X_t^2 - \langle X\rangle_t\)</span> , where  <span class="math-inline">\(\langle X \rangle\)</span>  is the quadratic variation. For
 Brownian motion this is the famous  <span class="math-inline">\(W_t^2 - t\)</span> . This construction is the discrete ancestor of
 Itô&#39;s lemma&#39;s second-order term, and it is why realised variance is tradeable: a variance swap
@@ -319,8 +319,8 @@ is a bet on  <span class="math-inline">\(\langle X\rangle_T\)</span> .</p></div>
             
             <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>By the tower property of <a class="kb-link" href="conditional-probability.html" data-concept="conditional-probability">conditional expectation</a>:</p>
 <span class="math-display">\[\E[X_{t+1}] = \E\big[\E[X_{t+1}\mid \mathcal F_t]\big] = \E[X_t]\]</span>
-<p>Induction gives  <span class="math-inline">\(\E[X_t] = \E[X_0]\)</span>  for all  <span class="math-inline">\(t\)</span> .
-This is a good sanity check but a weak one: constant expectation does <strong>not</strong> imply the
+<p>Induction gives  <span class="math-inline">\(\E[X_t] = \E[X_0]\)</span>  for all  <span class="math-inline">\(t\)</span> .</p>
+<p>This is a good sanity check but a weak one: constant expectation does <strong>not</strong> imply the
 martingale property, which is a statement about every conditional expectation, not just the
 unconditional one.</p></div></details>
           </li>
@@ -330,11 +330,11 @@ unconditional one.</p></div></details>
               <span class="kb-tagline">Advanced · alpha · research-process</span>
             </div>
             
-            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p><strong>Bad — a martingale P&amp;L has zero expected profit.</strong> You want a submartingale: positive drift.
-What you <em>do</em> want to be a martingale is the sequence of <em>forecast errors</em>. If
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p><strong>Bad — a martingale P&amp;L has zero expected profit.</strong> You want a submartingale: positive drift.</p>
+<p>What you <em>do</em> want to be a martingale is the sequence of <em>forecast errors</em>. If
  <span class="math-inline">\(\E[r_{t+1} - \hat r_{t+1} \mid \mathcal F_t] \ne 0\)</span> , there is exploitable structure left in
-your residuals and your model is misspecified.
-The useful diagnostic: cumulative residuals should look like a driftless random walk, while
+your residuals and your model is misspecified.</p>
+<p>The useful diagnostic: cumulative residuals should look like a driftless random walk, while
 cumulative P&amp;L should not. Confusing the two is a real and common analytical mistake in
 research reviews.</p></div></details>
           </li></ol>

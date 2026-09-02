@@ -307,6 +307,83 @@ test('markdown: inline maths may wrap across a line', () => {
   assert.ok(/\$5/.test(two) && /\$10/.test(two), 'stray dollar amounts were eaten as maths');
 });
 
+test('yaml: a block scalar keeps its blank lines and "#" lines', () => {
+  // Every interview answer is a "|" block written as several paragraphs. The
+  // parser used to drop blank lines globally before parsing, so all 62 of them
+  // rendered as one fused wall of text; an indented "# heading" vanished too.
+  const d = parse(['a: |', '  One.', '', '  Two.', '', '  # Heading', '  Three.', 'b: after'].join('\n'));
+  assert.strictEqual(d.a, 'One.\n\nTwo.\n\n# Heading\nThree.\n');
+  assert.strictEqual(d.b, 'after', 'the key after the block scalar was lost');
+});
+
+test('yaml: a folded scalar folds lines but keeps paragraph breaks', () => {
+  const d = parse(['s: >', '  one', '  two', '', '  three', 'k: 1'].join('\n'));
+  assert.strictEqual(d.s, 'one two\nthree\n');
+  assert.strictEqual(d.k, 1);
+});
+
+test('yaml: comments outside a block scalar are still comments', () => {
+  const d = parse(['# leading note', 'a: 1', '', '# another', 'b: 2'].join('\n'));
+  assert.deepStrictEqual(d, { a: 1, b: 2 });
+});
+
+test('markdown: an HTML comment inside code is not stripped', () => {
+  // Comments were removed before code was protected, so a paired comment in a
+  // sample vanished and an unpaired opener ate everything up to the next
+  // "-->" anywhere later in the document, across block boundaries.
+  const paired = md.render(['```html', '<p><!-- keep me --></p>', '```'].join('\n'), {}).html;
+  assert.ok(/keep me/.test(paired), 'a comment inside a code sample was deleted');
+
+  const spanning = md.render(
+    ['```html', '<!-- start', '```', '', 'Middle paragraph.', '', 'Tail --> end.'].join('\n'), {}).html;
+  assert.ok(/&lt;!-- start/.test(spanning), 'an unpaired comment opener ate the code sample');
+  assert.ok(/Middle paragraph\./.test(spanning), 'the comment swallowed the paragraph between');
+
+  // A real authoring note is still removed.
+  assert.ok(!/note/.test(md.render('Before <!-- note --> after.', {}).html));
+});
+
+test('markdown: a link with a title renders as a link', () => {
+  // inline() escapes first, so by this point the title quotes are &quot; and
+  // the titled form never matched -- the raw source leaked onto the page.
+  const { html } = md.render('See [docs](https://example.com "Tip") now.', {});
+  assert.ok(/<a href="https:\/\/example\.com" title="Tip"/.test(html), html);
+  assert.ok(!/\[docs\]/.test(html), 'the raw link source leaked through');
+});
+
+test('markdown: an escaped pipe stays inside its table cell', () => {
+  const { html } = md.render(['| a | b |', '|---|---|', '| x \\| y | z |'].join('\n'), {});
+  const cells = html.match(/<td[^>]*>(.*?)<\/td>/g) || [];
+  assert.strictEqual(cells.length, 2, 'the escaped pipe split the row into an extra column');
+  assert.ok(/x \| y/.test(cells[0]), cells[0]);
+});
+
+test('markdown: "___" is a rule wherever "---" is', () => {
+  ['---', '***', '___'].forEach((rule) => {
+    const { html } = md.render(['Para one.', rule, 'Para two.'].join('\n'), {});
+    assert.ok(/<hr>/.test(html), rule + ' did not produce a rule');
+    assert.ok(!new RegExp(rule.replace(/[*]/g, '\\$&')).test(html.replace(/<[^>]*>/g, '')),
+      rule + ' rendered as literal text');
+  });
+});
+
+test('markdown: a heading after a blockquote is not swallowed by it', () => {
+  // Lazy continuation is for prose. Absorbing the heading also put a table-of-
+  // contents entry inside the quotation.
+  const { html, headings } = md.render(['> A quotation.', '## Next Section', '', 'Body.'].join('\n'), {});
+  assert.ok(/<\/blockquote>\s*<h2/.test(html), html);
+  assert.ok((headings || []).some((h) => /Next Section/.test(h.text || h.title || '')) ||
+    /id="next-section"/.test(html));
+});
+
+test('markdown: formulas sharing a name get distinct ids', () => {
+  const src = [':::formula {name="Variance"}', '$$x$$', ':::', '',
+    ':::formula {name="Variance"}', '$$y$$', ':::'].join('\n');
+  const { formulas } = md.render(src, {});
+  assert.strictEqual(formulas.length, 2);
+  assert.notStrictEqual(formulas[0].id, formulas[1].id, 'duplicate ids make the second unreachable');
+});
+
 test('markdown: backslash-escaped characters lose the backslash', () => {
   const { html } = md.render('Winners make \\$120, losers lose \\$100.', {});
   assert.ok(/\$120/.test(html), 'escaped dollar did not survive');

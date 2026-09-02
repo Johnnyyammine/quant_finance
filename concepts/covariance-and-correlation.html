@@ -282,8 +282,8 @@ equicorrelation can be at  <span class="math-inline">\(-1/(n-1)\)</span> .</li>
             <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>No. Correlation measures <strong>linear</strong> dependence only. Take  <span class="math-inline">\(X \sim N(0,1)\)</span>  and  <span class="math-inline">\(Y = X^2\)</span> :</p>
 <span class="math-display">\[\Cov(X, X^2) = \E[X^3] - \E[X]\E[X^2] = 0 - 0 = 0\]</span>
 <p>yet  <span class="math-inline">\(Y\)</span>  is a deterministic function of  <span class="math-inline">\(X\)</span> . Independence implies zero correlation; the
-converse fails.
-<strong>The finance version:</strong> a long straddle has near-zero correlation to the underlying but is
+converse fails.</p>
+<p><strong>The finance version:</strong> a long straddle has near-zero correlation to the underlying but is
 completely dependent on it. Any risk system that measures exposure by correlation alone will
 report an options book as market-neutral while it is anything but. The exception:
 for <em>jointly normal</em> variables, zero correlation does imply independence — which is exactly
@@ -299,8 +299,8 @@ why the normality assumption is so seductive and so dangerous.</p></div></detail
  <span class="math-inline">\(1-\rho\)</span>  ( <span class="math-inline">\(n-1\)</span>  times). Positive semi-definiteness requires  <span class="math-inline">\(1 + (n-1)\rho \ge 0\)</span> , i.e.</p>
 <span class="math-display">\[\rho \ge -\frac{1}{n-1}\]</span>
 <p>For  <span class="math-inline">\(n=3\)</span>  the floor is  <span class="math-inline">\(-0.5\)</span> , so  <span class="math-inline">\(-0.9\)</span>  is impossible. Intuitively: if A hedges B and B
-hedges C, then A and C must move <em>together</em>. You cannot have everything hedging everything.
-This matters practically — correlation matrices estimated pairwise from unequal samples are
+hedges C, then A and C must move <em>together</em>. You cannot have everything hedging everything.</p>
+<p>This matters practically — correlation matrices estimated pairwise from unequal samples are
 frequently non-PSD, which makes an optimiser return nonsense or fail outright. Nearest-PSD
 projection or shrinkage is a routine production step, not an edge case.</p></div></details>
           </li>
@@ -326,12 +326,12 @@ that is often missed.</p></div></details>
             
             <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>You have  <span class="math-inline">\(T = 504\)</span>  observations and  <span class="math-inline">\(N(N+1)/2 = 125{,}250\)</span>  parameters. The sample covariance
 matrix is <strong>singular</strong> whenever  <span class="math-inline">\(T &lt; N\)</span>  and severely ill-conditioned when  <span class="math-inline">\(T \approx N\)</span> .
-Here  <span class="math-inline">\(T \approx N\)</span> , so the smallest eigenvalues are essentially noise.
-Why it matters: mean–variance optimisation inverts  <span class="math-inline">\(\Sigma\)</span> , so it loads maximally on the
+Here  <span class="math-inline">\(T \approx N\)</span> , so the smallest eigenvalues are essentially noise.</p>
+<p>Why it matters: mean–variance optimisation inverts  <span class="math-inline">\(\Sigma\)</span> , so it loads maximally on the
 smallest eigenvalues — the ones that are pure estimation error. The optimiser reliably
 produces enormous offsetting positions in whatever pair happened to look most correlated by
-chance. This is why Markowitz &quot;error maximises&quot;.
-<strong>Fixes:</strong> factor models (impose structure,  <span class="math-inline">\(\Sigma = B\Omega B^\top + D\)</span> ), Ledoit–Wolf
+chance. This is why Markowitz &quot;error maximises&quot;.</p>
+<p><strong>Fixes:</strong> factor models (impose structure,  <span class="math-inline">\(\Sigma = B\Omega B^\top + D\)</span> ), Ledoit–Wolf
 shrinkage towards a structured target, random-matrix-theory eigenvalue clipping, or simply
 constraining the optimiser. In practice most funds use all four.</p></div></details>
           </li>
@@ -343,13 +343,13 @@ constraining the optimiser. In practice most funds use all four.</p></div></deta
             
             <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>Mechanically, in a sell-off a single common factor (deleveraging, liquidity demand,
 risk-off flow) dominates the return variance, so the idiosyncratic share shrinks and measured
-correlation rises towards 1.
-Consequences: the diversification floor  <span class="math-inline">\(\rho\sigma^2\)</span>  rises just as  <span class="math-inline">\(\sigma\)</span>  itself is
+correlation rises towards 1.</p>
+<p>Consequences: the diversification floor  <span class="math-inline">\(\rho\sigma^2\)</span>  rises just as  <span class="math-inline">\(\sigma\)</span>  itself is
 rising, so portfolio variance increases <em>superlinearly</em> exactly when you can least afford it.
 A Gaussian copula risk model — which has zero tail dependence by construction — will
 systematically understate joint tail losses. This is not a subtle modelling point; it is what
-made 2008 CDO models fail.
-Practical responses: stress correlations to 1 in scenario analysis, use tail-dependent copulas
+made 2008 CDO models fail.</p>
+<p>Practical responses: stress correlations to 1 in scenario analysis, use tail-dependent copulas
 (t, Clayton), measure exceedance correlation, and never let a diversification benefit
 computed in calm markets set the leverage limit.</p></div></details>
           </li></ol>

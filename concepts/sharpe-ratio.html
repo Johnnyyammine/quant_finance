@@ -331,8 +331,8 @@ metric and deserve it least.</li>
             <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>For i.i.d. normal returns,  <span class="math-inline">\(\operatorname{SE}(\widehat{SR}) \approx \sqrt{(1 + SR^2/2)/T}\)</span> 
 with  <span class="math-inline">\(T\)</span>  in <strong>years</strong>. With  <span class="math-inline">\(T = 1\)</span>  and  <span class="math-inline">\(SR=2\)</span> :</p>
 <span class="math-display">\[\operatorname{SE} \approx \sqrt{(1 + 2)/1} = \sqrt{3} = 1.73\]</span>
-<p>So the 95% confidence interval is roughly  <span class="math-inline">\([-1.4, 5.4]\)</span> . <strong>You cannot even reject zero.</strong>
-This is the most important practical fact about the Sharpe ratio, and it surprises people:
+<p>So the 95% confidence interval is roughly  <span class="math-inline">\([-1.4, 5.4]\)</span> . <strong>You cannot even reject zero.</strong></p>
+<p>This is the most important practical fact about the Sharpe ratio, and it surprises people:
 sampling frequency does not help. Going from daily to 5-minute data multiplies the number of
 observations by 78 and leaves the precision of the Sharpe estimate essentially unchanged,
 because both the numerator and the denominator scale together. <strong>Only calendar time helps.</strong>
@@ -345,12 +345,12 @@ To establish  <span class="math-inline">\(SR = 1\)</span>  at  <span class="math
             </div>
             
             <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>Naively  <span class="math-inline">\(SR_{\text{annual}} = SR_{\text{monthly}} \times \sqrt{12}\)</span> , because mean scales with
- <span class="math-inline">\(T\)</span>  and volatility with  <span class="math-inline">\(\sqrt T\)</span> .
-This assumes <strong>i.i.d. returns</strong>. With AR(1) autocorrelation  <span class="math-inline">\(\rho_1\)</span> , Lo (2002) gives the
+ <span class="math-inline">\(T\)</span>  and volatility with  <span class="math-inline">\(\sqrt T\)</span> .</p>
+<p>This assumes <strong>i.i.d. returns</strong>. With AR(1) autocorrelation  <span class="math-inline">\(\rho_1\)</span> , Lo (2002) gives the
 correction factor</p>
 <span class="math-display">\[\sqrt{\frac{T}{1 + 2\sum_{k=1}^{T-1}\frac{T-k}{T}\rho_k}}\]</span>
-<p>which for AR(1) is approximately  <span class="math-inline">\(\sqrt{T}\cdot\sqrt{\frac{1-\rho_1}{1+\rho_1}}\)</span> .
-With  <span class="math-inline">\(\rho_1 = 0.3\)</span>  (typical of a smoothed credit or private-asset book), the naive  <span class="math-inline">\(\sqrt{12}\)</span> 
+<p>which for AR(1) is approximately  <span class="math-inline">\(\sqrt{T}\cdot\sqrt{\frac{1-\rho_1}{1+\rho_1}}\)</span> .</p>
+<p>With  <span class="math-inline">\(\rho_1 = 0.3\)</span>  (typical of a smoothed credit or private-asset book), the naive  <span class="math-inline">\(\sqrt{12}\)</span> 
 overstates the annual Sharpe by about 35%. Trend-following strategies with positive
 autocorrelation are similarly overstated; short-horizon mean reversion with  <span class="math-inline">\(\rho_1 &lt; 0\)</span>  is
 <em>understated</em>.</p></div></details>
@@ -382,13 +382,13 @@ excluding financing costs achieves it.</p></div></details>
             </div>
             <details class="kb-hint"><summary>Hint</summary><div><p>The question is incomplete as asked. What is missing?</p></div></details>
             <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p><strong>Insufficient information — you need the correlation to the existing book.</strong> Sharpe is a
-standalone statistic, and allocation is a marginal decision.
-For a two-asset combination the optimal risk-weight ratio is</p>
+standalone statistic, and allocation is a marginal decision.</p>
+<p>For a two-asset combination the optimal risk-weight ratio is</p>
 <span class="math-display">\[\frac{w_A}{w_B} \propto \frac{SR_A - \rho\,SR_B}{SR_B - \rho\,SR_A}\]</span>
 <p>If B is uncorrelated with the existing portfolio and A is 0.8 correlated with it, B may well
 deserve the larger allocation despite the worse standalone number. The right quantity is the
-<strong>marginal</strong> contribution to portfolio Sharpe, not the standalone Sharpe.
-This is why multi-strategy funds pay for uncorrelated mediocrity over correlated excellence,
+<strong>marginal</strong> contribution to portfolio Sharpe, not the standalone Sharpe.</p>
+<p>This is why multi-strategy funds pay for uncorrelated mediocrity over correlated excellence,
 and it is the answer interviewers are listening for.</p></div></details>
           </li>
           <li class="kb-question" id="q-sharpe-ratio-q5" data-difficulty="intermediate">
@@ -401,8 +401,8 @@ and it is the answer interviewers are listening for.</p></div></details>
 <em>benchmark</em> rather than the risk-free rate:</p>
 <span class="math-display">\[IR = \frac{\E[r_p - r_b]}{\sigma(r_p - r_b)}\]</span>
 <p>It isolates skill from beta. A long-only manager with a Sharpe of 0.9 in a bull market has
-demonstrated nothing if the benchmark&#39;s Sharpe was 0.9; their IR is zero.
-Sharpe and IR coincide when the benchmark is cash. Grinold&#39;s <strong>fundamental law of active
+demonstrated nothing if the benchmark&#39;s Sharpe was 0.9; their IR is zero.</p>
+<p>Sharpe and IR coincide when the benchmark is cash. Grinold&#39;s <strong>fundamental law of active
 management</strong> connects IR to its drivers:  <span class="math-inline">\(IR \approx IC\sqrt{\text{breadth}}\)</span>  — skill per bet
 times the square root of the number of independent bets. That decomposition is why a weak
 signal applied to 3,000 stocks can beat a strong signal applied to 10.</p></div></details>
@@ -419,8 +419,8 @@ has expectation approximately</p>
 \gamma\,\Phi^{-1}\!\left(1 - \tfrac{1}{Ne}\right)\right]\]</span>
 <p>( <span class="math-inline">\(\gamma \approx 0.577\)</span> , Euler–Mascheroni). With  <span class="math-inline">\(N=500\)</span>  and  <span class="math-inline">\(\sigma_{SR}=0.7\)</span>  this is roughly
  <span class="math-inline">\(0.7 \times 3.2 \approx 2.2\)</span>  — so <strong>a best-of-500 Sharpe of 2.5 is barely distinguishable from
-pure noise.</strong>
-Bailey and López de Prado&#39;s <em>deflated Sharpe ratio</em> formalises this: report the probability
+pure noise.</strong></p>
+<p>Bailey and López de Prado&#39;s <em>deflated Sharpe ratio</em> formalises this: report the probability
 that the observed Sharpe exceeds what the search itself would have produced. In practice:
 pre-register the hypothesis, hold out data you genuinely do not look at, and disclose the
 number of trials. The number of trials is the most important number in any backtest and the

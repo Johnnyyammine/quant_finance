@@ -11,18 +11,49 @@
  */
 
 function parse(src) {
+  // Blank and "#" lines are kept, not dropped. They are noise to the structural
+  // parser but content to a block scalar: an answer written as three paragraphs
+  // must come out as three paragraphs, and a "# heading" indented inside a "|"
+  // block is a markdown heading, not a YAML comment. Only the readers below
+  // decide which they are -- this pass no longer guesses.
   const lines = [];
   src.split(/\r?\n/).forEach((raw, i) => {
     const line = raw.replace(/\t/g, '  ');
-    if (!line.trim() || /^\s*#/.test(line)) return;
-    lines.push({ indent: line.match(/^ */)[0].length, text: line.trim(), n: i + 1, raw: line });
+    const text = line.trim();
+    lines.push({
+      indent: line.match(/^ */)[0].length,
+      text,
+      blank: text === '',
+      comment: text.startsWith('#'),
+      n: i + 1,
+      raw: line,
+    });
   });
-  if (!lines.length) return {};
-  const [value] = parseBlock(lines, 0, lines[0].indent);
+  const first = nextStructural(lines, 0);
+  if (first >= lines.length) return {};
+  const [value] = parseBlock(lines, first, lines[first].indent);
   return value;
 }
 
+/** Index of the next line the structural parser should look at. */
+function nextStructural(lines, pos) {
+  let i = pos;
+  while (i < lines.length && (lines[i].blank || lines[i].comment)) i += 1;
+  return i;
+}
+
+/**
+ * Blank lines carry no indentation of their own, so they belong to whatever
+ * block resumes after them. True when the run at `pos` is followed by a line
+ * still deeper than `indent` -- i.e. the enclosing block continues.
+ */
+function continuesBelow(lines, pos, indent) {
+  const i = nextStructural(lines, pos);
+  return i < lines.length && lines[i].indent > indent;
+}
+
 function parseBlock(lines, pos, indent) {
+  pos = nextStructural(lines, pos);
   if (pos >= lines.length) return [null, pos];
   return lines[pos].text.startsWith('- ') || lines[pos].text === '-'
     ? parseSeq(lines, pos, indent)
@@ -31,7 +62,9 @@ function parseBlock(lines, pos, indent) {
 
 function parseSeq(lines, pos, indent) {
   const out = [];
-  while (pos < lines.length && lines[pos].indent === indent) {
+  for (;;) {
+    pos = nextStructural(lines, pos);
+    if (pos >= lines.length || lines[pos].indent !== indent) break;
     const line = lines[pos];
     if (!(line.text === '-' || line.text.startsWith('- '))) break;
     const rest = line.text === '-' ? '' : line.text.slice(2).trim();
@@ -42,9 +75,14 @@ function parseSeq(lines, pos, indent) {
       pos = next;
     } else if (isMapEntry(rest)) {
       // "- key: value" opens an inline map whose members align past the dash.
-      const virtual = [{ indent: indent + 2, text: rest, n: line.n }];
+      const virtual = [{ indent: indent + 2, text: rest, n: line.n, blank: false, comment: false }];
       let scan = pos;
-      while (scan < lines.length && lines[scan].indent > indent) virtual.push(lines[scan++]);
+      while (scan < lines.length &&
+             (lines[scan].blank || lines[scan].comment
+               ? continuesBelow(lines, scan, indent)
+               : lines[scan].indent > indent)) {
+        virtual.push(lines[scan++]);
+      }
       const [val] = parseMap(virtual, 0, indent + 2);
       out.push(val);
       pos = scan;
@@ -59,7 +97,9 @@ function parseSeq(lines, pos, indent) {
 
 function parseMap(lines, pos, indent) {
   const out = {};
-  while (pos < lines.length && lines[pos].indent === indent) {
+  for (;;) {
+    pos = nextStructural(lines, pos);
+    if (pos >= lines.length || lines[pos].indent !== indent) break;
     const line = lines[pos];
     if (line.text.startsWith('- ')) break;
     const m = line.text.match(/^([^:]+):(?:\s+(.*))?$/);
@@ -86,8 +126,9 @@ function parseMap(lines, pos, indent) {
 
 /** A nested block belonging to a key/dash that had no inline value. */
 function childBlock(lines, pos, indent) {
-  if (pos < lines.length && lines[pos].indent > indent) {
-    return parseBlock(lines, pos, lines[pos].indent);
+  const at = nextStructural(lines, pos);
+  if (at < lines.length && lines[at].indent > indent) {
+    return parseBlock(lines, at, lines[at].indent);
   }
   return [null, pos];
 }
@@ -97,14 +138,33 @@ function blockScalar(lines, pos, indent, marker) {
   const chomp = marker[1] || '';
   const body = [];
   let base = null;
-  while (pos < lines.length && lines[pos].indent > indent) {
+  while (pos < lines.length) {
+    if (lines[pos].blank) {
+      // Absorb the blank run only if the block continues past it; otherwise it
+      // is the gap before the next key and the scalar ends here.
+      if (!continuesBelow(lines, pos, indent)) break;
+      while (lines[pos].blank) { body.push(''); pos += 1; }
+      continue;
+    }
+    // Past this point a "#" line is inside the block, so it is literal text.
+    if (lines[pos].indent <= indent) break;
     if (base === null) base = lines[pos].indent;
     body.push(' '.repeat(Math.max(0, lines[pos].indent - base)) + lines[pos].text);
     pos += 1;
   }
-  let text = fold ? body.join(' ') : body.join('\n');
-  if (chomp !== '-') text += '\n';
+
+  let text;
+  if (fold) {
+    // Folding joins the lines of a paragraph with a space; a blank line is a
+    // paragraph break and survives as a newline.
+    const paras = [[]];
+    body.forEach((l) => (l === '' ? paras.push([]) : paras[paras.length - 1].push(l)));
+    text = paras.map((p) => p.join(' ')).join('\n');
+  } else {
+    text = body.join('\n');
+  }
   if (chomp === '-') text = text.replace(/\n+$/, '');
+  else text += '\n';
   return [text, pos];
 }
 
@@ -116,9 +176,11 @@ function scalar(rest, lines, pos, indent) {
   // Flow collections may wrap across lines; join until brackets balance.
   if (/^[[{]/.test(rest)) {
     let text = rest;
-    while (!balanced(text) && pos < lines.length && lines[pos].indent > indent) {
-      text += ' ' + lines[pos].text;
-      pos += 1;
+    for (;;) {
+      const at = nextStructural(lines, pos);
+      if (balanced(text) || at >= lines.length || lines[at].indent <= indent) break;
+      text += ' ' + lines[at].text;
+      pos = at + 1;
     }
     return { value: parseFlow(text), next: pos };
   }

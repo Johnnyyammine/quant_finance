@@ -267,11 +267,11 @@ drawdown and left-tail loss, which variance captures only under normality.</li>
             <details class="kb-hint"><summary>Hint</summary><div><p>The sample mean is itself estimated from the same data.</p></div></details>
             <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>Because deviations are measured from the <em>sample</em> mean  <span class="math-inline">\(\bar X\)</span> , which is chosen to minimise
  <span class="math-inline">\(\sum (X_i - c)^2\)</span> . The residuals are therefore systematically too small, and dividing by  <span class="math-inline">\(n\)</span> 
-would underestimate  <span class="math-inline">\(\sigma^2\)</span>  by a factor  <span class="math-inline">\((n-1)/n\)</span> .
-Formally, the  <span class="math-inline">\(n\)</span>  residuals satisfy one linear constraint  <span class="math-inline">\(\sum (X_i - \bar X) = 0\)</span> , so only
+would underestimate  <span class="math-inline">\(\sigma^2\)</span>  by a factor  <span class="math-inline">\((n-1)/n\)</span> .</p>
+<p>Formally, the  <span class="math-inline">\(n\)</span>  residuals satisfy one linear constraint  <span class="math-inline">\(\sum (X_i - \bar X) = 0\)</span> , so only
  <span class="math-inline">\(n-1\)</span>  of them are free. Dividing by the degrees of freedom restores unbiasedness:
- <span class="math-inline">\(\E[s^2] = \sigma^2\)</span> .
-<strong>Worth adding:</strong>  <span class="math-inline">\(s\)</span>  is still a biased estimate of  <span class="math-inline">\(\sigma\)</span>  even though  <span class="math-inline">\(s^2\)</span>  is unbiased for
+ <span class="math-inline">\(\E[s^2] = \sigma^2\)</span> .</p>
+<p><strong>Worth adding:</strong>  <span class="math-inline">\(s\)</span>  is still a biased estimate of  <span class="math-inline">\(\sigma\)</span>  even though  <span class="math-inline">\(s^2\)</span>  is unbiased for
  <span class="math-inline">\(\sigma^2\)</span>  — because  <span class="math-inline">\(\sqrt{\cdot}\)</span>  is concave, Jensen&#39;s inequality gives  <span class="math-inline">\(\E[s] &lt; \sigma\)</span> .
 Unbiasedness does not survive non-linear transformation.</p></div></details>
           </li>
@@ -284,8 +284,8 @@ Unbiasedness does not survive non-linear transformation.</p></div></details>
             <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><span class="math-display">\[\Var(R_p) = \frac{\sigma^2}{n} + \frac{n-1}{n}\rho\sigma^2 \;\xrightarrow{n\to\infty}\; \rho\sigma^2\]</span>
 <p>Idiosyncratic risk diversifies away at rate  <span class="math-inline">\(1/n\)</span> ; <strong>correlated risk does not diversify at all</strong>.
 With  <span class="math-inline">\(\rho = 0.3\)</span>  and  <span class="math-inline">\(\sigma=25\%\)</span> , the floor is  <span class="math-inline">\(\sigma_p = 25\%\sqrt{0.3} \approx 13.7\%\)</span> ,
-no matter how many names you own.
-This is the quantitative content of &quot;diversification is the only free lunch, and it is a small
+no matter how many names you own.</p>
+<p>This is the quantitative content of &quot;diversification is the only free lunch, and it is a small
 lunch&quot;. It also explains why crisis periods feel so violent:  <span class="math-inline">\(\rho \to 1\)</span>  and the floor rises to
 the full single-asset volatility.</p></div></details>
           </li>
@@ -296,8 +296,8 @@ the full single-asset volatility.</p></div></details>
             </div>
             
             <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p> <span class="math-inline">\(\Var(X+Y) = 4 + 9 + 2\rho \cdot 2 \cdot 3 = 13 + 12\rho\)</span>  with  <span class="math-inline">\(\rho \in [-1,1]\)</span> , so the range is
- <span class="math-inline">\([1, 25]\)</span> .
-The endpoints are the perfectly hedged case ( <span class="math-inline">\(\rho=-1\)</span> ,  <span class="math-inline">\(\sigma_p = |3-2| = 1\)</span> ) and the fully
+ <span class="math-inline">\([1, 25]\)</span> .</p>
+<p>The endpoints are the perfectly hedged case ( <span class="math-inline">\(\rho=-1\)</span> ,  <span class="math-inline">\(\sigma_p = |3-2| = 1\)</span> ) and the fully
 concentrated case ( <span class="math-inline">\(\rho=1\)</span> ,  <span class="math-inline">\(\sigma_p = 3+2=5\)</span> ). Note the answer is a <em>range</em>: variance of a
 sum is not determined by the marginals, which is precisely why correlation estimation is where
 portfolio risk models live or die.</p></div></details>
@@ -308,8 +308,8 @@ portfolio risk models live or die.</p></div></details>
               <span class="kb-tagline">Intermediate · annualisation · autocorrelation</span>
             </div>
             
-            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>Naively  <span class="math-inline">\(1\% \times \sqrt{252} \approx 15.9\%\)</span> .
-The  <span class="math-inline">\(\sqrt{T}\)</span>  rule assumes <strong>i.i.d. returns</strong>. It fails when:</p>
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>Naively  <span class="math-inline">\(1\% \times \sqrt{252} \approx 15.9\%\)</span> .</p>
+<p>The  <span class="math-inline">\(\sqrt{T}\)</span>  rule assumes <strong>i.i.d. returns</strong>. It fails when:</p>
 <ul class="kb-list"><li><strong>Returns are autocorrelated.</strong> With AR(1) coefficient  <span class="math-inline">\(\rho_1\)</span> , the correct multiplier is
 approximately  <span class="math-inline">\(\sqrt{T\,\frac{1+\rho_1}{1-\rho_1}}\)</span> . Trend strategies have  <span class="math-inline">\(\rho_1 &gt; 0\)</span>  so true
 annual vol is <em>higher</em>; mean-reversion strategies have  <span class="math-inline">\(\rho_1 &lt; 0\)</span>  so it is <em>lower</em>.</li>
@@ -325,8 +325,8 @@ daily vol and inflate the apparent Sharpe — the classic Sharpe-inflation trick
             
             <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>For normal data the relative standard error of  <span class="math-inline">\(\hat\sigma\)</span>  is approximately
  <span class="math-inline">\(1/\sqrt{2(n-1)}\)</span> . With  <span class="math-inline">\(n=20\)</span>  that is  <span class="math-inline">\(\approx 16\%\)</span>  — so 1.2% ± 0.19% at one standard error,
-and roughly  <span class="math-inline">\([0.85\%, 1.55\%]\)</span>  at two.
-<strong>Volatility needs far less data than mean return, but far more than people assume.</strong> For
+and roughly  <span class="math-inline">\([0.85\%, 1.55\%]\)</span>  at two.</p>
+<p><strong>Volatility needs far less data than mean return, but far more than people assume.</strong> For
 comparison, estimating a mean return to comparable relative precision takes decades. That
 asymmetry is why risk models are estimated from short windows and expected returns are not.</p></div></details>
           </li></ol>

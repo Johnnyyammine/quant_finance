@@ -410,14 +410,14 @@ p_i = \frac{\tilde v_i^2\, \lambda_i}{\sigma_p^2}, \qquad p_i \ge 0, \ \ \sum_i 
             </div>
             <details class="kb-hint"><summary>Hint</summary><div><p>What is the average pairwise correlation, and what does it do to the eigenvalues?</p></div></details>
             <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>&quot;Fifty&quot; is the wrong answer and the interviewer knows it. The right move is to ask what the
-average pairwise correlation is, because that number — not the count — determines the answer.
-With  <span class="math-inline">\(N\)</span>  equicorrelated names at correlation  <span class="math-inline">\(\rho\)</span> , the covariance spectrum is
+average pairwise correlation is, because that number — not the count — determines the answer.</p>
+<p>With  <span class="math-inline">\(N\)</span>  equicorrelated names at correlation  <span class="math-inline">\(\rho\)</span> , the covariance spectrum is
  <span class="math-inline">\(\lambda_1 = 1+(N-1)\rho\)</span>  once and  <span class="math-inline">\(1-\rho\)</span>  with multiplicity  <span class="math-inline">\(N-1\)</span> , giving</p>
 <span class="math-display">\[N_{\text{eff}} = \frac{N^2}{\big[1+(N-1)\rho\big]^2 + (N-1)(1-\rho)^2}\]</span>
 <p>For  <span class="math-inline">\(N = 50\)</span> :  <span class="math-inline">\(\rho = 0.1 \Rightarrow 33.6\)</span> ;  <span class="math-inline">\(\rho = 0.3 \Rightarrow 9.2\)</span> ;
  <span class="math-inline">\(\rho = 0.6 \Rightarrow 2.7\)</span> . A single-sector US equity book in a sell-off runs at
- <span class="math-inline">\(\rho \approx 0.6\)</span>  — so fifty names really is about three bets.
-<strong>The line that finishes the answer:</strong> as  <span class="math-inline">\(N \to \infty\)</span>  with  <span class="math-inline">\(\rho\)</span>  fixed,
+ <span class="math-inline">\(\rho \approx 0.6\)</span>  — so fifty names really is about three bets.</p>
+<p><strong>The line that finishes the answer:</strong> as  <span class="math-inline">\(N \to \infty\)</span>  with  <span class="math-inline">\(\rho\)</span>  fixed,
  <span class="math-inline">\(N_{\text{eff}} \to 1/\rho^2\)</span> . Diversification has a ceiling set by correlation, and adding
 names cannot raise it. At  <span class="math-inline">\(\rho = 0.5\)</span>  that ceiling is four, whether you hold fifty names or
 five hundred.</p></div></details>
@@ -429,16 +429,16 @@ five hundred.</p></div></details>
             </div>
             <details class="kb-hint"><summary>Hint</summary><div><p>What is the first eigenvector of an equicorrelation matrix?</p></div></details>
             <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>The first eigenvector of  <span class="math-inline">\(\Sigma = (1-\rho)I + \rho\1\1^\top\)</span>  is  <span class="math-inline">\(q_1 = \1/\sqrt N\)</span> , and every
-other eigenvector is orthogonal to  <span class="math-inline">\(\1\)</span> .
-The equally weighted portfolio is  <span class="math-inline">\(w = \1/N\)</span> , which is <strong>parallel to  <span class="math-inline">\(q_1\)</span> </strong>. So the loadings
+other eigenvector is orthogonal to  <span class="math-inline">\(\1\)</span> .</p>
+<p>The equally weighted portfolio is  <span class="math-inline">\(w = \1/N\)</span> , which is <strong>parallel to  <span class="math-inline">\(q_1\)</span> </strong>. So the loadings
 on the principal portfolios,  <span class="math-inline">\(\tilde v = Q^\top w\)</span> , are</p>
 <span class="math-display">\[\tilde v_1 = q_1^\top w = \frac{1}{\sqrt N}\cdot N \cdot \frac 1N = \frac{1}{\sqrt N},
 \qquad \tilde v_i = 0 \ \text{ for } i \ge 2\]</span>
 <p>All risk contributions vanish except the first:  <span class="math-inline">\(p_1 = 1\)</span> ,  <span class="math-inline">\(p_{i\ge2} = 0\)</span> . Hence</p>
 <span class="math-display">\[\text{ENB} = \exp\!\big(-\textstyle\sum_i p_i \log p_i\big) = \exp(0) = 1\]</span>
 <p><strong>Exactly one bet, for any  <span class="math-inline">\(N\)</span>  and any  <span class="math-inline">\(\rho &gt; 0\)</span> .</strong> Equal weighting on an equicorrelated
-universe is a pure, undiluted bet on the market factor and nothing else.
-Note the contrast:  <span class="math-inline">\(N_{\text{eff}}\)</span> , computed from the same  <span class="math-inline">\(\Sigma\)</span> , is 9.2 at  <span class="math-inline">\(\rho=0.3\)</span> .
+universe is a pure, undiluted bet on the market factor and nothing else.</p>
+<p>Note the contrast:  <span class="math-inline">\(N_{\text{eff}}\)</span> , computed from the same  <span class="math-inline">\(\Sigma\)</span> , is 9.2 at  <span class="math-inline">\(\rho=0.3\)</span> .
 The <em>risk model</em> has nine directions available. The <em>portfolio</em> uses one of them. That gap is
 the entire point of distinguishing the two measures.</p></div></details>
           </li>
@@ -456,8 +456,8 @@ the entire point of distinguishing the two measures.</p></div></details>
 <tr><td>Depends on rotation?</td><td>no</td><td><strong>yes</strong></td></tr></tbody></table></div>
 <p> <span class="math-inline">\(N_{\text{eff}}\)</span>  is a property of the opportunity set — it tells you the most diversification
 that is <em>available</em>. ENB tells you how much of it you took. A book can sit in a market with
- <span class="math-inline">\(N_{\text{eff}} = 20\)</span>  and still have ENB  <span class="math-inline">\(= 1.1\)</span> .
-Use  <span class="math-inline">\(N_{\text{eff}}\)</span>  to monitor the regime (it moves when correlations move) and ENB to
+ <span class="math-inline">\(N_{\text{eff}} = 20\)</span>  and still have ENB  <span class="math-inline">\(= 1.1\)</span> .</p>
+<p>Use  <span class="math-inline">\(N_{\text{eff}}\)</span>  to monitor the regime (it moves when correlations move) and ENB to
 monitor the portfolio (it moves when the PM does something).</p></div></details>
           </li>
           <li class="kb-question" id="q-effective-number-of-bets-q4" data-difficulty="intermediate">
@@ -466,12 +466,12 @@ monitor the portfolio (it moves when the PM does something).</p></div></details>
               <span class="kb-tagline">Intermediate · judgement · risk-limits · sharpe</span>
             </div>
             
-            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>No — and a risk manager who says yes has misunderstood what the number is for.
-<strong>ENB is a concentration measure, not a quality measure.</strong> It says nothing about expected
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>No — and a risk manager who says yes has misunderstood what the number is for.</p>
+<p><strong>ENB is a concentration measure, not a quality measure.</strong> It says nothing about expected
 return. A pure market-neutral pairs trade has ENB near 1 and can be an outstanding position;
 an equally weighted index fund also has ENB near 1 and is a completely different animal. High
-ENB with no edge is diworsification.
-What ENB = 1.2 <em>does</em> tell you, and what you should actually say:</p>
+ENB with no edge is diworsification.</p>
+<p>What ENB = 1.2 <em>does</em> tell you, and what you should actually say:</p>
 <ol class="kb-list"><li><strong>Your risk is one number.</strong> Whatever that direction is, size it as a single position,
  not as a fifty-name book. Gross exposure massively overstates the diversification here.</li>
 <li><strong>The Sharpe estimate has one effective observation per period, not fifty.</strong> With one
@@ -489,21 +489,21 @@ What ENB = 1.2 <em>does</em> tell you, and what you should actually say:</p>
             </div>
             <details class="kb-hint"><summary>Hint</summary><div><p>How unique is the set of uncorrelated factors?</p></div></details>
             <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>Possibly neither. <strong>ENB is not invariant to the choice of uncorrelated basis</strong>, and this is
-the metric&#39;s most serious practical weakness.
-Any rotation  <span class="math-inline">\(\tilde Q = QU\)</span>  with  <span class="math-inline">\(U\)</span>  orthogonal <em>within a degenerate eigenspace</em> produces an
+the metric&#39;s most serious practical weakness.</p>
+<p>Any rotation  <span class="math-inline">\(\tilde Q = QU\)</span>  with  <span class="math-inline">\(U\)</span>  orthogonal <em>within a degenerate eigenspace</em> produces an
 equally valid set of uncorrelated factors but different risk shares  <span class="math-inline">\(p_i\)</span>  and hence a
 different entropy. More generally, there are infinitely many uncorrelated bases (PCA, Cholesky
 in any asset ordering, symmetric whitening) and each gives its own ENB. Cholesky is the worst
-offender: reorder the assets and the number changes.
-In real covariance matrices the bulk eigenvalues are <em>nearly</em> degenerate, so the problem is
-not exotic — small sampling differences rotate the basis and swing ENB materially.
-<strong>The standard fix</strong> is Meucci, Santangelo and Deguest&#39;s <strong>minimum-torsion</strong> basis: among all
+offender: reorder the assets and the number changes.</p>
+<p>In real covariance matrices the bulk eigenvalues are <em>nearly</em> degenerate, so the problem is
+not exotic — small sampling differences rotate the basis and swing ENB materially.</p>
+<p><strong>The standard fix</strong> is Meucci, Santangelo and Deguest&#39;s <strong>minimum-torsion</strong> basis: among all
 uncorrelated bases, pick the one closest to the original assets in a least-squares sense
 (built from the symmetric square root of the correlation matrix rather than from its
 eigenvectors). It is unique, it is stable under perturbation, and its factors retain the
 identity of the underlying names, so &quot;bet 3&quot; is interpretable rather than an arbitrary
-rotation.
-What to say: *&quot;ENB is basis-dependent, so quote the basis. I use minimum-torsion for
+rotation.</p>
+<p>What to say: *&quot;ENB is basis-dependent, so quote the basis. I use minimum-torsion for
 reporting because it is unique and stable; PCA if the question is specifically about
 variance-maximal directions. And I never compare ENB across two different conventions.&quot;*</p></div></details>
           </li>
@@ -513,8 +513,8 @@ variance-maximal directions. And I never compare ENB across two different conven
               <span class="kb-tagline">Advanced · estimation · marchenko-pastur · noise · bias</span>
             </div>
             
-            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>Treat it as biased, and know the direction.
-Write  <span class="math-inline">\(N_{\text{eff}} = N / \big(1 + \mathrm{CV}^2\big)\)</span> , where  <span class="math-inline">\(\mathrm{CV}^2 =
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>Treat it as biased, and know the direction.</p>
+<p>Write  <span class="math-inline">\(N_{\text{eff}} = N / \big(1 + \mathrm{CV}^2\big)\)</span> , where  <span class="math-inline">\(\mathrm{CV}^2 =
 \Var(\lambda)/\overline{\lambda}^2\)</span>  is the dispersion of the eigenvalues. For a correlation
 matrix  <span class="math-inline">\(\overline\lambda = 1\)</span>  always, so</p>
 <span class="math-display">\[N_{\text{eff}} = \frac{N}{1 + \Var(\lambda)}\]</span>
@@ -524,8 +524,8 @@ matrix  <span class="math-inline">\(\overline\lambda = 1\)</span>  always, so</p
 <span class="math-display">\[\E\big[N_{\text{eff}}^{\text{sample}}\big] \approx \frac{N}{1 + N/T}\]</span>
 <p>With  <span class="math-inline">\(N = 50\)</span>  and  <span class="math-inline">\(T = 252\)</span> , a perfectly diversified book would measure  <span class="math-inline">\(N_{\text{eff}}
 \approx 50/1.198 \approx 42\)</span> , not 50. So the estimator is <strong>pessimistic</strong>, and most
-pessimistic exactly where the portfolio looks best.
-Two more things before you trust the 12:</p>
+pessimistic exactly where the portfolio looks best.</p>
+<p>Two more things before you trust the 12:</p>
 <ul class="kb-list"><li><strong>Denoise first.</strong> Clip the eigenvalues inside the Marchenko–Pastur band to their mean, or
 shrink, then recompute. If 12 becomes 16, the raw number was mostly noise.</li>
 <li><strong>Check stability.</strong> Recompute on overlapping windows. A number that swings between 8 and
