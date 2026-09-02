@@ -133,7 +133,7 @@ assumption fails precisely where it matters. A VaR model built on Brownian motio
 crisis losses systematically — the model does not merely have errors, it has errors that are
 correlated with the states you care about.</p></div></aside>
 <h2 id="worked-example" class="kb-h kb-h2"><a class="kb-anchor" href="#worked-example" aria-label="Link to this section">#</a>Worked Example</h2>
-<p>A stock at \$100 with  <span class="math-inline">\(\sigma = 25\%\)</span>  annual. What is the probability it falls below \$80 within
+<p>A stock at $100 with  <span class="math-inline">\(\sigma = 25\%\)</span>  annual. What is the probability it falls below $80 within
 one year, ignoring drift?</p>
 <p>Log-return needed:  <span class="math-inline">\(\ln(80/100) = -0.223\)</span> . Annual log-vol  <span class="math-inline">\(= 0.25\)</span> , so the terminal probability is</p>
 <span class="math-display">\[\P(S_1 &lt; 80) = \Phi(-0.223/0.25) = \Phi(-0.892) \approx 18.6\%\]</span>
@@ -193,7 +193,7 @@ def simulate_gbm(s0, mu, sigma, T, steps, paths, seed=0):
 <aside class="kb-callout kb-callout--pitfall"><div class="kb-callout-title">Common pitfall</div><div class="kb-callout-body"><ul class="kb-list"><li><strong>Forgetting  <span class="math-inline">\(-\sigma^2/2\)</span> </strong> when converting between arithmetic and log drift. This is the single
 most common error in derivatives interviews and in production simulation code.</li>
 <li><strong>Applying ordinary chain rule</strong> to functions of  <span class="math-inline">\(W_t\)</span> .  <span class="math-inline">\((\d W)^2 = \d t\)</span>  does not vanish.</li>
-<li><strong>Confusing  <span class="math-inline">\(\E[S_T]\)</span>  with the median.</strong> For lognormal  <span class="math-inline">\(S\)</span> , mean $&gt; $ median, and the gap widens
+<li><strong>Confusing  <span class="math-inline">\(\E[S_T]\)</span>  with the median.</strong> For lognormal  <span class="math-inline">\(S\)</span> , mean  <span class="math-inline">\(&gt;\)</span>  median, and the gap widens
 with  <span class="math-inline">\(\sigma^2 T\)</span> .</li>
 <li><strong>Using terminal probabilities for barrier questions.</strong> The reflection principle roughly doubles
 first-passage probabilities.</li>

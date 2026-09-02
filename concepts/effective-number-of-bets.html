@@ -86,8 +86,8 @@ feed in (eigenvalue shares for  <span class="math-inline">\(N_{\text{eff}}\)</sp
 which entropy order you use. Since Rényi entropy decreases in its order,  <span class="math-inline">\(\exp(H_1) \ge \exp(H_2)\)</span> 
 on the same shares: the entropy version is always the more generous count.</p></div></aside>
 <h2 id="mathematical-formulation" class="kb-h kb-h2"><a class="kb-anchor" href="#mathematical-formulation" aria-label="Link to this section">#</a>Mathematical Formulation</h2>
-<p>Start from the eigendecomposition  <span class="math-inline">\(\Sigma = Q\Lambda Q^\top\)</span>  with $\lambda_1 \ge \cdots \ge
-\lambda_N \ge 0$.</p>
+<p>Start from the eigendecomposition  <span class="math-inline">\(\Sigma = Q\Lambda Q^\top\)</span>  with  <span class="math-inline">\(\lambda_1 \ge \cdots \ge
+\lambda_N \ge 0\)</span> .</p>
 <h3 id="the-effective-dimension-of-the-covariance-structure" class="kb-h kb-h3"><a class="kb-anchor" href="#the-effective-dimension-of-the-covariance-structure" aria-label="Link to this section">#</a>The effective dimension of the covariance structure</h3>
 <figure class="kb-formula" id="effective-dimension-participation-ratio" data-formula="effective-dimension-participation-ratio"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">Effective dimension (participation ratio)</span><button class="kb-formula-copy" type="button" data-latex="N_{\text{eff}} = \frac{\big(\sum_i \lambda_i\big)^2}{\sum_i \lambda_i^2}" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[N_{\text{eff}} = \frac{\big(\sum_i \lambda_i\big)^2}{\sum_i \lambda_i^2}\]</span> </div><p class="kb-formula-note">A property of the covariance matrix alone — no portfolio required.</p><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">Risk Management</span><span class="kb-chip">Regime Monitoring</span><span class="kb-chip">Systemic Risk</span></footer></figure>
 <p>Writing  <span class="math-inline">\(s_i = \lambda_i / \sum_j \lambda_j\)</span>  for the variance-explained shares, this is exactly
@@ -108,11 +108,11 @@ licenses the entropy.</p>
 <h3 id="two-relatives-you-should-be-able-to-name" class="kb-h kb-h3"><a class="kb-anchor" href="#two-relatives-you-should-be-able-to-name" aria-label="Link to this section">#</a>Two relatives you should be able to name</h3>
 <figure class="kb-formula" id="diversification-ratio-choueifaty-coignard-2008" data-formula="diversification-ratio-choueifaty-coignard-2008"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">Diversification ratio (Choueifaty &amp; Coignard, 2008)</span><button class="kb-formula-copy" type="button" data-latex="\text{DR} = \frac{\sum_i |w_i| \sigma_i}{\sqrt{w^\top \Sigma w}}" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[\text{DR} = \frac{\sum_i |w_i| \sigma_i}{\sqrt{w^\top \Sigma w}}\]</span> </div><p class="kb-formula-note">Weighted-average volatility over portfolio volatility. Its square is another effective-N measure: it equals N for equally weighted uncorrelated assets.</p><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">Portfolio Construction</span><span class="kb-chip">Maximum Diversification</span></footer></figure>
 <figure class="kb-formula" id="absorption-ratio-kritzman-page-turkington-2011" data-formula="absorption-ratio-kritzman-page-turkington-2011"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">Absorption ratio (Kritzman, Page &amp; Turkington, 2011)</span><button class="kb-formula-copy" type="button" data-latex="\text{AR}_k = \frac{\sum_{i=1}^{k} \lambda_i}{\sum_{i=1}^{N} \lambda_i}" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[\text{AR}_k = \frac{\sum_{i=1}^{k} \lambda_i}{\sum_{i=1}^{N} \lambda_i}\]</span> </div><p class="kb-formula-note">Share of total variance carried by the top k principal portfolios. Spikes ahead of drawdowns.</p><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">Systemic Risk</span><span class="kb-chip">Regime Detection</span></footer></figure>
-<p>The simplest and most-used of the family is the  <span class="math-inline">\(k=1\)</span>  absorption ratio, $\lambda_1 /
-\operatorname{tr}(\Sigma)$ — the share of all risk sitting in the single largest direction.</p>
+<p>The simplest and most-used of the family is the  <span class="math-inline">\(k=1\)</span>  absorption ratio,  <span class="math-inline">\(\lambda_1 /
+\operatorname{tr}(\Sigma)\)</span>  — the share of all risk sitting in the single largest direction.</p>
 <h2 id="derivation" class="kb-h kb-h2"><a class="kb-anchor" href="#derivation" aria-label="Link to this section">#</a>Derivation</h2>
-<details class="kb-derivation"><summary>Where the participation ratio comes from, and why it is the &quot;right&quot; count</summary><div class="kb-derivation-body"><p>Suppose the risk were spread evenly over exactly  <span class="math-inline">\(m\)</span>  directions and zero elsewhere: $\lambda_i =
-c$ for  <span class="math-inline">\(i \le m\)</span> , zero after. Then</p>
+<details class="kb-derivation"><summary>Where the participation ratio comes from, and why it is the &quot;right&quot; count</summary><div class="kb-derivation-body"><p>Suppose the risk were spread evenly over exactly  <span class="math-inline">\(m\)</span>  directions and zero elsewhere:  <span class="math-inline">\(\lambda_i =
+c\)</span>  for  <span class="math-inline">\(i \le m\)</span> , zero after. Then</p>
 <span class="math-display">\[\frac{\big(\sum_i \lambda_i\big)^2}{\sum_i \lambda_i^2} = \frac{(mc)^2}{mc^2} = m\]</span>
 <p>So the formula returns  <span class="math-inline">\(m\)</span>  on the case where the answer is unambiguous. That is the defining
 property we want: <strong>a count that agrees with counting when counting is possible</strong>, and interpolates
@@ -128,8 +128,8 @@ the eigenvalues, including pure sampling noise, reduces the measured effective d
 <span class="math-display">\[\sum_i \lambda_i = N, \qquad
 \sum_i \lambda_i^2 = \big[1+(N-1)\rho\big]^2 + (N-1)(1-\rho)^2\]</span>
 <span class="math-display">\[\boxed{\ N_{\text{eff}} = \frac{N^2}{\big[1+(N-1)\rho\big]^2 + (N-1)(1-\rho)^2}\ }\]</span>
-<p>Now take  <span class="math-inline">\(N \to \infty\)</span>  with  <span class="math-inline">\(\rho &gt; 0\)</span>  fixed. The leading terms are $\big[(N-1)\rho\big]^2 \approx
-N^2\rho^2$ in the first piece and  <span class="math-inline">\(N(1-\rho)^2\)</span>  in the second, so</p>
+<p>Now take  <span class="math-inline">\(N \to \infty\)</span>  with  <span class="math-inline">\(\rho &gt; 0\)</span>  fixed. The leading terms are  <span class="math-inline">\(\big[(N-1)\rho\big]^2 \approx
+N^2\rho^2\)</span>  in the first piece and  <span class="math-inline">\(N(1-\rho)^2\)</span>  in the second, so</p>
 <span class="math-display">\[N_{\text{eff}} \approx \frac{N^2}{N^2\rho^2 + N(1-\rho)^2} \ \longrightarrow\ \frac{1}{\rho^2}\]</span>
 <p><strong>The ceiling on diversification is  <span class="math-inline">\(1/\rho^2\)</span> , and no amount of breadth raises it.</strong> At
  <span class="math-inline">\(\rho = 0.2\)</span>  that is 25 bets; at  <span class="math-inline">\(\rho = 0.5\)</span>  it is 4; at  <span class="math-inline">\(\rho = 0.7\)</span>  it is 2. This single result
@@ -185,7 +185,7 @@ the equally weighted portfolio <em>is</em> the first eigenportfolio. It answers 
 combining these names save me&quot;, which is a different question again.</li>
 <li><strong>The ENB column is 1.0 for every  <span class="math-inline">\(\rho &gt; 0\)</span> ,</strong> no matter how many names are held: the
 equally weighted portfolio <em>is</em> the first eigenportfolio, so all of its risk sits in one
-direction. \*The  <span class="math-inline">\(\rho = 0\)</span>  row is marked n/a deliberately — with  <span class="math-inline">\(\Sigma = I\)</span>  every eigenvalue
+direction. *The  <span class="math-inline">\(\rho = 0\)</span>  row is marked n/a deliberately — with  <span class="math-inline">\(\Sigma = I\)</span>  every eigenvalue
 is identical, the eigenbasis is completely arbitrary, and ENB can be made anything from 1 to 50 by
 choosing a rotation. That is not a defect of the table; it is the basis-dependence problem in its
 purest form, and the reason production systems report a minimum-torsion ENB rather than a PCA one.</li>
@@ -457,16 +457,16 @@ variance-maximal directions. And I never compare ENB across two different conven
             </div>
             
             <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>Treat it as biased, and know the direction.
-Write  <span class="math-inline">\(N_{\text{eff}} = N / \big(1 + \mathrm{CV}^2\big)\)</span> , where $\mathrm{CV}^2 =
-\Var(\lambda)/\overline{\lambda}^2$ is the dispersion of the eigenvalues. For a correlation
+Write  <span class="math-inline">\(N_{\text{eff}} = N / \big(1 + \mathrm{CV}^2\big)\)</span> , where  <span class="math-inline">\(\mathrm{CV}^2 =
+\Var(\lambda)/\overline{\lambda}^2\)</span>  is the dispersion of the eigenvalues. For a correlation
 matrix  <span class="math-inline">\(\overline\lambda = 1\)</span>  always, so</p>
 <span class="math-display">\[N_{\text{eff}} = \frac{N}{1 + \Var(\lambda)}\]</span>
 <p>Sampling noise <strong>spreads</strong> the spectrum, which raises  <span class="math-inline">\(\Var(\lambda)\)</span>  and therefore <em>lowers</em>
  <span class="math-inline">\(N_{\text{eff}}\)</span> . Concretely: for genuinely independent assets, Marchenko–Pastur gives
  <span class="math-inline">\(\Var(\lambda) = q = N/T\)</span> , so</p>
 <span class="math-display">\[\E\big[N_{\text{eff}}^{\text{sample}}\big] \approx \frac{N}{1 + N/T}\]</span>
-<p>With  <span class="math-inline">\(N = 50\)</span>  and  <span class="math-inline">\(T = 252\)</span> , a perfectly diversified book would measure $N_{\text{eff}}
-\approx 50/1.198 \approx 42$, not 50. So the estimator is <strong>pessimistic</strong>, and most
+<p>With  <span class="math-inline">\(N = 50\)</span>  and  <span class="math-inline">\(T = 252\)</span> , a perfectly diversified book would measure  <span class="math-inline">\(N_{\text{eff}}
+\approx 50/1.198 \approx 42\)</span> , not 50. So the estimator is <strong>pessimistic</strong>, and most
 pessimistic exactly where the portfolio looks best.
 Two more things before you trust the 12:</p>
 <ul class="kb-list"><li><strong>Denoise first.</strong> Clip the eigenvalues inside the Marchenko–Pastur band to their mean, or
@@ -507,7 +507,7 @@ correlations shocked towards 1 and see what leverage survives.</p></div></detail
         <section class="kb-relgroup"><h3>Prerequisites</h3><p class="kb-relnote">Understand these first.</p><ul class="kb-rellist"><li><a href="../concepts/pca-and-eigenportfolios.html" class="kb-relitem">
           <span class="kb-relitem-title">PCA &amp; Eigenportfolios</span>
           <span class="kb-relitem-meta">Linear Algebra · Intermediate</span>
-          <span class="kb-relitem-sum">The spectral decomposition $\Sigma = Q\Lambda Q^\top$ rewrites a correlated universe as a set of uncorrelated principal portfolios — the eigenvectors are the independent directions of risk and the eigenvalues are how much risk lives in each.</span>
+          <span class="kb-relitem-sum">The spectral decomposition rewrites a correlated universe as a set of uncorrelated principal portfolios — the eigenvectors are the independent directions of risk and the eigenvalues are how much risk lives in each.</span>
         </a></li><li><a href="../concepts/covariance-and-correlation.html" class="kb-relitem">
           <span class="kb-relitem-title">Covariance &amp; Correlation</span>
           <span class="kb-relitem-meta">Statistics · Foundational</span>
@@ -525,7 +525,7 @@ correlations shocked towards 1 and see what leverage survives.</p></div></detail
         </a></li><li><a href="../concepts/pca-and-eigenportfolios.html" class="kb-relitem">
           <span class="kb-relitem-title">PCA &amp; Eigenportfolios</span>
           <span class="kb-relitem-meta">Linear Algebra · Intermediate</span>
-          <span class="kb-relitem-sum">The spectral decomposition $\Sigma = Q\Lambda Q^\top$ rewrites a correlated universe as a set of uncorrelated principal portfolios — the eigenvectors are the independent directions of risk and the eigenvalues are how much risk lives in each.</span>
+          <span class="kb-relitem-sum">The spectral decomposition rewrites a correlated universe as a set of uncorrelated principal portfolios — the eigenvectors are the independent directions of risk and the eigenvalues are how much risk lives in each.</span>
         </a></li></ul></section>
         
       </div>

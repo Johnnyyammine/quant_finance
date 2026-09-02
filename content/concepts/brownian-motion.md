@@ -310,7 +310,7 @@ def simulate_gbm(s0, mu, sigma, T, steps, paths, seed=0):
 - **Forgetting $-\sigma^2/2$** when converting between arithmetic and log drift. This is the single
   most common error in derivatives interviews and in production simulation code.
 - **Applying ordinary chain rule** to functions of $W_t$. $(\d W)^2 = \d t$ does not vanish.
-- **Confusing $\E[S_T]$ with the median.** For lognormal $S$, mean $> $ median, and the gap widens
+- **Confusing $\E[S_T]$ with the median.** For lognormal $S$, mean $>$ median, and the gap widens
   with $\sigma^2 T$.
 - **Using terminal probabilities for barrier questions.** The reflection principle roughly doubles
   first-passage probabilities.

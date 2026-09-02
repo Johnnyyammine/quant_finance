@@ -129,8 +129,8 @@ Black–Litterman) are all posterior means: a noisy sample estimate pulled towar
 proportion to its own imprecision.</li>
 <li><strong>Regime inference.</strong> Hidden Markov models and Kalman filters are Bayes applied recursively;
 the filter <em>is</em> a running posterior over an unobserved state.</li>
-<li><strong>Market microstructure.</strong> The PIN model and Glosten–Milgrom infer $\P(\text{informed} \mid
-\text{order flow})$ trade by trade — a market maker&#39;s quote is a posterior.</li></ul>
+<li><strong>Market microstructure.</strong> The PIN model and Glosten–Milgrom infer  <span class="math-inline">\(\P(\text{informed} \mid
+  \text{order flow})\)</span>  trade by trade — a market maker&#39;s quote is a posterior.</li></ul>
 <h2 id="trading-research-application" class="kb-h kb-h2"><a class="kb-anchor" href="#trading-research-application" aria-label="Link to this section">#</a>Trading &amp; Research Application</h2>
 <aside class="kb-callout kb-callout--desk"><div class="kb-callout-title">On the desk</div><div class="kb-callout-body"><p><strong>Black–Litterman is Bayes with a straight face.</strong> Market-implied equilibrium returns are the prior;
 your views are the likelihood; the blended vector is the posterior mean, with the weight on your
@@ -246,8 +246,8 @@ probability  <span class="math-inline">\(0.5\)</span> . Likelihood ratio  <span 
 Posterior odds  <span class="math-inline">\(= (1/9)\times 10 = 10/9\)</span> , so  <span class="math-inline">\(\P(\text{real}) \approx 53\%\)</span>  — <strong>a coin flip</strong>,
 from what looked like an outstanding backtest.
 Now the killer follow-up: if you tested 100 variants and reported the best, the relevant
-likelihood is $\P(\max \text{Sharpe} \ge 2 \mid \text{all worthless}) \approx 1 - 0.95^{100}
-\approx 99.4\%$, so the likelihood ratio collapses to  <span class="math-inline">\(0.5/0.994 \approx 0.5\)</span>  and the
+likelihood is  <span class="math-inline">\(\P(\max \text{Sharpe} \ge 2 \mid \text{all worthless}) \approx 1 - 0.95^{100}
+\approx 99.4\%\)</span> , so the likelihood ratio collapses to  <span class="math-inline">\(0.5/0.994 \approx 0.5\)</span>  and the
 posterior odds fall to  <span class="math-inline">\(1:18\)</span>  — <strong>about 5%</strong>. This is why the number of trials is the single
 most important thing to disclose in a research meeting, and why deflated Sharpe ratios exist.</p></div></details>
           </li></ol>

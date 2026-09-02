@@ -2,7 +2,7 @@
 id: pca-and-eigenportfolios
 title: PCA & Eigenportfolios
 subject: linear-algebra
-summary: The spectral decomposition $\Sigma = Q\Lambda Q^\top$ rewrites a correlated universe as a set of uncorrelated principal portfolios — the eigenvectors are the independent directions of risk and the eigenvalues are how much risk lives in each.
+summary: The spectral decomposition rewrites a correlated universe as a set of uncorrelated principal portfolios — the eigenvectors are the independent directions of risk and the eigenvalues are how much risk lives in each.
 difficulty: intermediate
 interview_relevance: 5
 status: not-started

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>PCA &amp; Eigenportfolios · Quant Knowledge Base</title>
-<meta name="description" content="The spectral decomposition $\Sigma = Q\Lambda Q^\top$ rewrites a correlated universe as a set of uncorrelated principal portfolios — the eigenvectors are the independent directions of risk and the eigenvalues are how much risk lives in each.">
+<meta name="description" content="The spectral decomposition rewrites a correlated universe as a set of uncorrelated principal portfolios — the eigenvectors are the independent directions of risk and the eigenvalues are how much risk lives in each.">
 <link rel="icon" href="../assets/icons/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/vendor/katex/katex.min.css">
 <link rel="stylesheet" href="../assets/css/app.css">
@@ -43,7 +43,7 @@
         <span class="kb-readtime">16 min</span>
       </div>
       <h1 class="kb-concept-title">PCA &amp; Eigenportfolios</h1>
-      <p class="kb-concept-summary">The spectral decomposition  <span class="math-inline">\(\Sigma = Q\Lambda Q^\top\)</span>  rewrites a correlated universe as a set of uncorrelated principal portfolios — the eigenvectors are the independent directions of risk and the eigenvalues are how much risk lives in each.</p>
+      <p class="kb-concept-summary">The spectral decomposition rewrites a correlated universe as a set of uncorrelated principal portfolios — the eigenvectors are the independent directions of risk and the eigenvalues are how much risk lives in each.</p>
       <div class="kb-concept-controls">
         <label class="kb-statusctl">Status
           <select data-kb-status="pca-and-eigenportfolios" data-default="not-started">
@@ -70,8 +70,8 @@ properties that no set of real assets has:</p>
 <p>So PCA takes a universe of  <span class="math-inline">\(N\)</span>  correlated names and re-expresses it as  <span class="math-inline">\(N\)</span>  independent risk
 sources, sorted by importance. Almost always, the first one is &quot;everything goes up and down
 together&quot; — the market — and it dwarfs the rest.</p>
-<aside class="kb-callout kb-callout--insight"><div class="kb-callout-title">Insight</div><div class="kb-callout-body"><p>The eigenvalues are a <em>budget</em>. Because $\operatorname{tr}(\Sigma) = \sum_i \sigma_i^2 = \sum_i
-\lambda_i$, the total variance in the system is fixed no matter which basis you look at it in. PCA
+<aside class="kb-callout kb-callout--insight"><div class="kb-callout-title">Insight</div><div class="kb-callout-body"><p>The eigenvalues are a <em>budget</em>. Because  <span class="math-inline">\(\operatorname{tr}(\Sigma) = \sum_i \sigma_i^2 = \sum_i
+\lambda_i\)</span> , the total variance in the system is fixed no matter which basis you look at it in. PCA
 does not create or destroy risk; it moves it into the fewest possible buckets. If  <span class="math-inline">\(\lambda_1\)</span>  is
 large, the other buckets <em>must</em> be small — the concentration is not an artefact of the method, it
 is a property of the market.</p></div></aside>
@@ -153,8 +153,8 @@ or <em>hedge</em> it by name.</p></div></aside>
 <tr><td>Ratio  <span class="math-inline">\(\lambda_1/\lambda_2\)</span></td><td><span class="math-inline">\(22.4\)</span></td></tr></tbody></table></div>
 <p>One direction carries 31% of the risk of a fifty-name book and is twenty-two times larger than any
 other. Push  <span class="math-inline">\(\rho\)</span>  to  <span class="math-inline">\(0.6\)</span>  — an entirely ordinary correlation for a single-sector equity book in a
-sell-off — and  <span class="math-inline">\(\lambda_1 = 30.4\)</span> , i.e. <strong>61% of the risk is one bet</strong>, with $\lambda_1/\lambda_2 =
-76$.</p>
+sell-off — and  <span class="math-inline">\(\lambda_1 = 30.4\)</span> , i.e. <strong>61% of the risk is one bet</strong>, with  <span class="math-inline">\(\lambda_1/\lambda_2 =
+76\)</span> .</p>
 <p>Nothing about the portfolio changed. Only the correlation did.</p>
 <div class="kb-module" data-module="diversification-lab" data-config="{&quot;sectors&quot;:5,&quot;perSector&quot;:10,&quot;rhoMarket&quot;:0.3,&quot;rhoSector&quot;:0,&quot;portfolio&quot;:&quot;equal&quot;}"><div class="kb-module-shell"><div class="kb-module-loading">Loading interactive module &ldquo;diversification-lab&rdquo;&hellip;</div></div></div>
 <p>That is the case above, live: fifty names, every pair correlated at 0.3, no sector structure. Drag

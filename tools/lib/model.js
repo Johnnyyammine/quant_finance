@@ -90,6 +90,12 @@ function normaliseConcept(raw, { file, sourceId }) {
   if (!raw.title) warnings.push('missing "title" -- falling back to the id');
   if (!raw.subject) errors.push('missing "subject"');
   if (!raw.summary) warnings.push('missing "summary" (the one-sentence definition)');
+  // The summary is shown as plain text on cards, in search results and in the
+  // page's meta description, so LaTeX in it reaches the reader as raw source.
+  // Body text is the place for formulas.
+  if (/\$[^$]+\$|\\[a-zA-Z]{2,}/.test(String(raw.summary || ''))) {
+    warnings.push('"summary" contains LaTeX; it is rendered as plain text, so write it in prose');
+  }
 
   const questions = asArray(raw.questions).map((q, i) => {
     const item = typeof q === 'string' ? { q } : q || {};

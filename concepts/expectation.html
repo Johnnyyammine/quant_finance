@@ -108,15 +108,15 @@ monotone convergence. Monte Carlo estimators quietly rely on this.</li>
 reciprocal of its expected earnings yield, and averaging ratios across stocks is a different
 estimator from the ratio of averages.</p></div></aside>
 <h2 id="worked-example" class="kb-h kb-h2"><a class="kb-anchor" href="#worked-example" aria-label="Link to this section">#</a>Worked Example</h2>
-<p>A strategy has a 55% win rate. Winners make \$120, losers lose \$100. Trade size is fixed.</p>
+<p>A strategy has a 55% win rate. Winners make $120, losers lose $100. Trade size is fixed.</p>
 <span class="math-display">\[\E[\text{P\&amp;L per trade}] = 0.55 \times 120 + 0.45 \times (-100) = 66 - 45 = \$21\]</span>
 <p>Positive edge. But run it 200 times a year and ask what dispersion looks like. Each trade has
  <span class="math-inline">\(\E[X^2] = 0.55(120)^2 + 0.45(100)^2 = 7920 + 4500 = 12{,}420\)</span> , so
- <span class="math-inline">\(\Var(X) = 12{,}420 - 21^2 = 11{,}979\)</span>  and $\sigma \approx \$109.4$ per trade.</p>
-<p>Over 200 independent trades: expected P&amp;L $= \$4{,}200$, standard deviation
-$= 109.4\sqrt{200} \approx \$1{,}547$. The annual Sharpe ratio is  <span class="math-inline">\(4200/1547 \approx 2.7\)</span>  — strong.</p>
-<p>Now cut the win rate to 52%: $\E = 0.52(120) + 0.48(-100) = \$14.4$ per trade, annual expectation
-\$2,880 against essentially the same \$1,550 of noise, so Sharpe falls to  <span class="math-inline">\(1.9\)</span> . A three-point
+ <span class="math-inline">\(\Var(X) = 12{,}420 - 21^2 = 11{,}979\)</span>  and  <span class="math-inline">\(\sigma \approx \$109.4\)</span>  per trade.</p>
+<p>Over 200 independent trades: expected P&amp;L  <span class="math-inline">\(= \$4{,}200\)</span> , standard deviation
+ <span class="math-inline">\(= 109.4\sqrt{200} \approx \$1{,}547\)</span> . The annual Sharpe ratio is  <span class="math-inline">\(4200/1547 \approx 2.7\)</span>  — strong.</p>
+<p>Now cut the win rate to 52%:  <span class="math-inline">\(\E = 0.52(120) + 0.48(-100) = \$14.4\)</span>  per trade, annual expectation
+$2,880 against essentially the same $1,550 of noise, so Sharpe falls to  <span class="math-inline">\(1.9\)</span> . A three-point
 drop in hit rate — well inside the estimation error of a 200-trade sample — costs a third of the
 risk-adjusted return. That sensitivity is the reason <a class="kb-link" href="variance.html" data-concept="variance">Variance</a> matters as much as expectation.</p>
 <h2 id="why-it-matters-in-quant-finance" class="kb-h kb-h2"><a class="kb-anchor" href="#why-it-matters-in-quant-finance" aria-label="Link to this section">#</a>Why It Matters in Quant Finance</h2>
