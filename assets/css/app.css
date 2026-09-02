@@ -424,6 +424,18 @@ html[data-theme="light"] .kb-pill--research     { color: #8d4c25; background: rg
   max-width: 1240px;
 }
 
+/* Every column is placed EXPLICITLY rather than left to auto-flow. Auto-flow
+   assigns tracks by source order, so a page that is missing one of the three
+   children -- a stale copy cached by a browser from before the navigation
+   existed, say -- silently shifts everything one column left: the article
+   lands in the 232px nav track and the table of contents takes the wide
+   middle. Naming the track makes the layout correct with or without the nav. */
+.kb-main--concept > .kb-nav     { grid-column: 1; }
+.kb-main--concept > .kb-article { grid-column: 2; }
+.kb-main--concept > .kb-sidebar { grid-column: 3; }
+.kb-main--subject > .kb-nav { grid-column: 1; }
+.kb-main--subject > .kb-subject-wrap { grid-column: 2; }
+
 /* Below three columns the page rail folds under the article, and below two the
    navigation goes too -- on a phone it is twenty-odd rows that would bury the
    prose. The topbar search and the bottom bar cover navigation there. */
@@ -433,7 +445,11 @@ html[data-theme="light"] .kb-pill--research     { color: #8d4c25; background: rg
 }
 @media (max-width: 900px) {
   .kb-main--concept, .kb-main--subject { grid-template-columns: minmax(0, 1fr); }
-  .kb-main--concept > .kb-sidebar { grid-column: 1; }
+  .kb-main--concept > .kb-nav,
+  .kb-main--concept > .kb-article,
+  .kb-main--concept > .kb-sidebar,
+  .kb-main--subject > .kb-nav,
+  .kb-main--subject > .kb-subject-wrap { grid-column: 1; }
   .kb-nav { display: none; }
 }
 
