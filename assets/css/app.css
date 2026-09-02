@@ -64,6 +64,19 @@ html[data-theme="light"] {
 html { scroll-behavior: smooth; scroll-padding-top: calc(var(--topbar-h) + 16px); }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 
+/* Belt and braces against sideways scroll. The individual causes are fixed at
+   source (see the min-width notes on the grids), but one long unbreakable
+   token -- a pasted URL, a wide inline formula, a code identifier -- can still
+   push the page out on a narrow screen.
+
+   `clip` rather than `hidden` on purpose: `hidden` makes body a scroll
+   container, which breaks `position: sticky` for the topbar and the table of
+   contents. `clip` does not. Browsers without `overflow: clip` simply keep the
+   old behaviour rather than losing the sticky headers. */
+@supports (overflow: clip) {
+  body { overflow-x: clip; }
+}
+
 body {
   margin: 0;
   background: var(--bg);
@@ -276,7 +289,8 @@ html[data-theme="light"] .kb-pill--research     { color: #96522a; border-color: 
 
 /* ------------------------------------------------------------ article ---- */
 
-.kb-article { min-width: 0; max-width: none; font-family: var(--font-read); }
+.kb-article { min-width: 0; max-width: none; font-family: var(--font-read);
+  overflow-wrap: break-word; }
 
 .kb-concept-head { padding-bottom: 20px; border-bottom: 1px solid var(--line); margin-bottom: 26px; }
 .kb-concept-eyebrow { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-bottom: 12px; }
