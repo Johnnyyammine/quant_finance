@@ -131,8 +131,13 @@
   function renderAll() {
     renderKpis(); renderProgress(); renderSubjects(); renderRecent(); renderTags();
     var stamp = UI.$('[data-kb-generated]');
-    if (stamp && KB.data.generatedAt) {
-      stamp.textContent = 'index built ' + new Date(KB.data.generatedAt).toLocaleString();
+    if (stamp) {
+      // The build is deterministic, so there is no build timestamp to show —
+      // the content fingerprint is the more useful thing anyway.
+      var bits = [];
+      if (KB.data.contentUpdated) bits.push('content updated ' + KB.data.contentUpdated);
+      if (KB.data.contentHash) bits.push('index ' + KB.data.contentHash);
+      stamp.textContent = bits.join(' · ');
     }
   }
 

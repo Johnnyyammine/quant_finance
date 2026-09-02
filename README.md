@@ -186,17 +186,50 @@ In interview mode: `space` reveal/next, `1` got it, `2` missed it, `n` skip.
 
 ---
 
+## Putting it on the web
+
+The site is already static — every page is committed HTML with no absolute paths, so it works
+from any domain, any subdirectory, and from `file://` with no changes.
+
+**GitHub Pages**
+
+1. Settings → Pages → Source: *Deploy from a branch* → `main` / `/ (root)` → Save.
+2. Wait about a minute. The site is live at `https://<user>.github.io/<repo>/`.
+
+`.nojekyll` at the repository root is there for this: without it, GitHub runs the files through
+Jekyll, which skips directories beginning with an underscore and can rewrite paths.
+
+Every push to `main` republishes. Because `data/` and the generated HTML are committed, there is
+no build step to configure — but that also means **you must run `npm run build` and commit the
+result before pushing**, or the deployed pages will lag `content/`. CI fails the build if you
+forget.
+
+**Anything else that serves static files works too** — Netlify, Cloudflare Pages, S3, or a folder
+on a USB stick. Drop the repository in and you are done.
+
+Two things to know before you share the link:
+
+- A public repository means a public site. For a private one, use Netlify or Cloudflare Pages with
+  access control instead.
+- Learning progress lives in `localStorage`, so it is per-browser. Your phone and your laptop keep
+  separate progress, and anyone opening your link starts from zero. That is deliberate — there is
+  no account system and no server to hold state.
+
+---
+
 ## Current content
 
-The repository ships **nine worked concepts** — deliberately few. The point of this milestone is the
-system, not the corpus; these exist to prove that navigation, search, the graph, prerequisites,
+The repository ships **twelve worked concepts** — deliberately few. The point of this milestone is
+the system, not the corpus; these exist to prove that navigation, search, the graph, prerequisites,
 interview mode, progress, formulas and interactive modules all work end to end.
 
 ```
 Probability            Expectation · Conditional Probability · Bayes' Theorem
 Statistics             Variance · Covariance & Correlation · Linear Regression
+Linear Algebra         PCA & Eigenportfolios
 Stochastic Processes   Martingales · Brownian Motion
-Portfolio Construction Sharpe Ratio
+Portfolio Construction Sharpe Ratio · Kelly Criterion
+Risk Management        Effective Number of Bets
 ```
 
 They form a real prerequisite chain (Expectation → Variance → Covariance → Linear Regression;

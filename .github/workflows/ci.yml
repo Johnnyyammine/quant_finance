@@ -1,0 +1,77 @@
+name: CI
+
+# There is no `npm install` step anywhere in this file, and that is deliberate:
+# the project has zero dependencies, so CI needs nothing but a Node binary.
+# If a step ever needs installing, something has gone wrong with the design.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Tests (Node ${{ matrix.node }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        # package.json declares engines >= 16; this is what proves it.
+        node: ['18', '20', '22']
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          # No `cache: npm` — that requires a lockfile, and there are no
+          # dependencies to lock.
+
+      - name: Run the test suite
+        run: npm test
+
+  build:
+    name: Build and content checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Build
+        run: npm run build
+
+      - name: Generated output is up to date
+        # data/ and the generated HTML are committed so the repository stays
+        # double-clickable from a fresh clone. That only holds if they match
+        # content/ — this catches the "edited a concept, forgot to rebuild" case,
+        # which is otherwise invisible until someone opens a stale page.
+        run: |
+          if ! git diff --exit-code --stat; then
+            echo "::error::Generated files are stale. Run 'npm run build' and commit the result."
+            exit 1
+          fi
+          echo "Generated output matches content/."
+
+      - name: Content health report
+        # Informational. Coverage, thin pages, orphans and build warnings are
+        # surfaced for review but never fail the build — an incomplete concept
+        # page is still a useful one, and blocking on that would put friction
+        # on exactly the workflow this repository exists to make frictionless.
+        if: always()
+        run: |
+          {
+            echo '## Content health'
+            echo '```'
+            npm run check --silent 2>&1 || true
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"

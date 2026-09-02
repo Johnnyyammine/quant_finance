@@ -16,6 +16,7 @@
  * Usage: node tools/build.js [--watch] [--quiet] [--strict]
  */
 
+const crypto = require('crypto');
 const fs = require('fs');
 const path = require('path');
 
@@ -184,8 +185,21 @@ function build() {
   /* ------------------------------------------------------------ output --- */
   const stats = { written: 0, unchanged: 0, pruned: [] };
 
+  // Fingerprint of the inputs. Sorted so it does not depend on directory order.
+  const contentHash = crypto.createHash('sha1')
+    .update(JSON.stringify([...rawBodies.entries()].sort((a, b) => a[0].localeCompare(b[0]))))
+    .update(JSON.stringify(subjects.map((s) => s.id)))
+    .update(JSON.stringify(tracks.map((t) => t.id)))
+    .digest('hex')
+    .slice(0, 12);
+  const contentUpdated = concepts.map((c) => c.updated).filter(Boolean).sort().pop() || '';
+
   const payload = {
-    generatedAt: new Date().toISOString(),
+    // Deliberately NOT a wall-clock timestamp: the build is deterministic, so
+    // identical content produces byte-identical output. That keeps `git status`
+    // clean across rebuilds and lets CI verify the committed output is current.
+    contentHash: contentHash,
+    contentUpdated: contentUpdated,
     version: 1,
     vocab: {
       difficulty: model.DIFFICULTY,
