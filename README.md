@@ -42,7 +42,7 @@ dependency list — everything runs on Node built-ins, and KaTeX is vendored int
 | `npm run watch` | Rebuild automatically as you edit `content/` |
 | `npm run new -- "Title" -s subject` | Scaffold a new concept from the template, then build |
 | `npm run check` | Health report: coverage, gaps, thin pages, orphans |
-| `npm test` | 28 self-tests over the parser, model and build |
+| `npm test` | 43 self-tests over the parser, model and build |
 | `npm run serve` | Optional local HTTP server (not needed for normal use) |
 
 ---
@@ -91,13 +91,15 @@ connected the concept is. Focus on any concept to see its n-hop neighbourhood.
 relevance, tags, bookmarks) and sortable columns. Filter state lives in the URL, so any view is
 shareable and bookmarkable.
 
-**Interview mode** (`interview.html`) — pick a track (Quant Researcher, Quant Trader, Market Making,
-Stat Arb, …), get a cram sheet ranked by *value at risk* — interview relevance × how little you know
-it — and drill the question bank with keyboard-driven reveal/score.
+**Interview mode** (`interview.html`) — pick one of eight tracks (Quant Researcher, Quant Trader,
+Market Making, Statistical Arbitrage, …), get a cram sheet ranked by interview relevance, and drill
+the question bank with keyboard-driven reveal/score. Each track shows how many concepts and
+questions it covers at the current relevance threshold.
 
-**Concept pages** — a consistent 12-section template, key-formula boxes, collapsible derivations,
-tooltips, prerequisite/related navigation, a local graph minimap, a 30-second revision card, and
-interactive modules where a picture beats a paragraph.
+**Concept pages** — ten authored sections from a fixed template (Intuition → 30-Second Revision)
+plus three the build generates (Key Formulas, Interview Questions, Connections), key-formula boxes,
+collapsible derivations, tooltips, prerequisite/related navigation, a local graph minimap, a
+30-second revision card, and interactive modules where a picture beats a paragraph.
 
 ---
 
@@ -127,7 +129,7 @@ quant_finance/
 ├── index.html  graph.html  library.html  interview.html   application shells
 ├── content/                                               ← YOU EDIT THIS
 │   ├── concepts/<id>.md                                     one file per concept
-│   ├── subjects.json                                        24 subject definitions
+│   ├── subjects.json                                        24 subject definitions (6 with content)
 │   └── tracks.json                                          interview tracks
 ├── templates/concept.template.md                          the authoring template
 ├── tools/                                                 zero-dependency Node build
@@ -243,8 +245,8 @@ Risk Management        Effective Number of Bets
 ```
 
 They form a real prerequisite chain (Expectation → Variance → Covariance → Linear Regression;
-Expectation → Martingales → Brownian Motion) and carry 36 indexed formulas, 43 interview questions
-and 4 interactive modules between them. The other 20 subjects are declared and empty, waiting for
+Expectation → Martingales → Brownian Motion) and carry 50 indexed formulas, 62 interview questions
+and 5 interactive modules between them. The other 18 subjects are declared and empty, waiting for
 content.
 
 See **[ROADMAP.md](ROADMAP.md)** for what comes next.

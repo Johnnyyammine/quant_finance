@@ -33,6 +33,7 @@ npm run new -- "Concept Title" --subject <subject-id> [options]
 | `-t, --tags` | `comma,separated` |
 | `-p, --prereqs` | `comma,separated` concept ids you should learn first |
 | `--related` | `comma,separated` sibling concepts |
+| `-m, --minutes` | Estimated reading time; defaults to 12 |
 | `--id` | Override the generated id |
 | `--from <file>` | Seed the body from a file — see the Claude workflow below |
 | `--force` | Overwrite an existing file |
@@ -116,10 +117,11 @@ Inline $\E[X \mid Y]$ and display:
 $$\d S_t = \mu S_t\,\d t + \sigma S_t\,\d W_t$$
 ```
 
-Rendered by KaTeX, vendored locally — no network. `$5 billion` is safely *not* treated as maths, and
-`_` / `*` inside `$...$` are never mistaken for emphasis.
+Rendered by KaTeX, vendored locally — no network. `$5 billion` is safely *not* treated as maths,
+`_` / `*` inside `$...$` are never mistaken for emphasis, and an inline formula may wrap across a
+line — prose here is hard-wrapped, so formulas near the margin routinely straddle a newline.
 
-Shorthand macros are predefined: `\E` `\Var` `\Cov` `\Corr` `\P` `\Q` `\R` `\d` `\1` `\argmin`
+Shorthand macros are predefined: `\E` `\Var` `\Cov` `\Corr` `\P` `\R` `\d` `\1` `\argmin`
 `\argmax`. Add more in `assets/js/math.js`.
 
 ### Key formula boxes
@@ -142,6 +144,9 @@ See [[bayes-theorem]] for the inversion, or [[variance|the second moment]].
 Resolved at build time against real concept ids. A link to a concept that doesn't exist yet renders
 in red with a build warning telling you which id is missing — a deliberate to-do marker, not an error.
 **Wiki links also create graph edges**, so the knowledge graph reflects what you actually wrote.
+
+Answers and prose are written as several paragraphs, and blank lines inside a `|` block are
+preserved — separate a paragraph with a blank line and you get a paragraph.
 
 ### Callouts and collapsible derivations
 

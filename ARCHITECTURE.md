@@ -61,10 +61,12 @@ largest render is a table of a few thousand rows, which `innerHTML` handles in u
 time, a bundler in the loop between editing a file and seeing it, a runtime download, and pages that
 are blank without JavaScript.
 
-**The real cost of not using one:** hand-rolled Markdown and YAML parsers, roughly 900 lines
-together. That is genuine risk — a parser bug corrupts content silently. It is mitigated by
-`npm test`, which covers exactly the failure modes that matter: `_` inside `$...$` becoming emphasis,
-`$5 billion` parsed as maths, code fences leaking, block scalars losing indentation, HTML injection.
+**The real cost of not using one:** hand-rolled Markdown and YAML parsers, roughly 720 lines
+together (`markdown.js` 448, `yaml.js` 270). That is genuine risk — a parser bug corrupts content
+silently, and this project has shipped several. It is mitigated by `npm test`, which covers the
+failure modes that matter, each one added after it actually bit: `_` inside `$...$` becoming
+emphasis, `$5 billion` parsed as maths, code fences leaking, an `<!--` in a code sample eating the
+document, a block scalar losing its paragraph breaks, a link title never matching, HTML injection.
 
 The trade is deliberate: **more code we own, less code we depend on.** For a repository intended to
 be readable and buildable for years without maintenance, that is the right side of the trade.
@@ -99,12 +101,15 @@ The unit of knowledge. One markdown file, one record.
 | `tracks` | id[] | Force track membership; usually unnecessary. |
 | `references`, `estimatedMinutes`, `updated` | | Presentation metadata. |
 | `questions` | Question[] | Co-located, not a separate bank. |
+| `source` | path | The markdown file it came from, shown in the page footer. |
 | **derived** | | `formulas`, `sections`, `builtOn`, `links`, `modules`, `wordCount`, `path` |
+
+There is no reading-status field. See §6.
 
 ### Subject, Track, Question, Formula
 
 **Subject** — `id`, `name`, `description`, `icon`, `color`, `group`, `order`. Declared in
-`content/subjects.json`. `conceptCount` is derived.
+`content/subjects.json`. `path`, `conceptCount` and `interviewMax` are derived.
 
 **Track** — an interview curriculum: `id`, `name`, `description`, `subjects[]`, `tags[]`,
 `minRelevance`. Membership is *computed*: any concept whose subject or tags match, at or above the
@@ -186,11 +191,15 @@ The subtlest part of the renderer, and the one most worth understanding before t
 ```
 input:   The volatility $\sigma_1 * \sigma_2$ is high.
 step 1:  code fences and `spans` → sentinel  \0C0\0
-step 2:  $$...$$, \[...\], \(...\), $...$    → sentinel  \0M0\0
-step 3:  parse blocks and inline markdown    (sentinels are inert)
-step 4:  restore sentinels, HTML-escaping the LaTeX body
+step 2:  <!-- authoring notes --> stripped
+step 3:  $$...$$, \[...\], \(...\), $...$    → sentinel  \0M0\0
+step 4:  parse blocks and inline markdown    (sentinels are inert)
+step 5:  restore sentinels, HTML-escaping the LaTeX body
 output:  The volatility <span class="math-inline">\(\sigma_1 * \sigma_2\)</span> is high.
 ```
+
+Step 1 must come before step 2: comments used to be stripped first, so an `<!--` inside a code
+sample deleted everything up to the next `-->`, across block boundaries.
 
 Without step 2, `*` and `_` inside formulas become emphasis and every formula on the site breaks
 subtly. The inline-maths regex also requires non-space immediately inside the delimiters and rejects
@@ -207,11 +216,14 @@ formula. `npm test` pins all of this.
 
 ```js
 window.KB_SEARCH = {
-  docs:     [ {t:'concept', id, title, sub, path, ctx, sum, diff, rel, st}, ... ],
+  docs:     [ {t, id, title, sub, path, ctx, ...}, ... ],   // t: concept|subject|formula|question
   terms:    ['annualise', 'annualisation', 'arbitrage', ...],        // sorted
   postings: [ [docId, score, docId, score, ...], ... ]               // parallel to terms
 };
 ```
+
+Every document carries `t`, `id`, `title`, `sub`, `path` and `ctx`; concepts add `sum`, `diff` and
+`rel`, questions add `diff` and `rel`, and formulas add `latex`.
 
 **Prefix query** — binary-search the lower bound of the prefix, then walk the run of matching terms:
 `O(log n + matches)` per token. Typing `brown` finds *Brownian Motion*, the *Geometric Brownian
@@ -227,8 +239,8 @@ name *and* by the words inside the LaTeX, so `\text{Sharpe}` is findable), and i
 questions. Searching `sharpe` returns the concept, its five formulas and its six questions as
 separate, separately-navigable results.
 
-**Scale** — the index is ~116 KB for 9 concepts, dominated by body text. Extrapolating to 1,000
-concepts gives roughly 8–12 MB, which loads from disk in well under a second and stays instant to
+**Scale** — the index is ~163 KB for 12 concepts (~14 KB each), dominated by body text.
+Extrapolating to 1,000 concepts gives roughly 14 MB, which loads from disk in well under a second and stays instant to
 query. If it ever becomes a problem, the fix is to cap indexed body length per document, or split
 the index into a hot part (titles, formulas, questions) and a lazily-loaded body index. Neither is
 needed yet, and the shape of the file already accommodates both.
@@ -297,6 +309,7 @@ KB.modules.register('random-walk', {
       value: 0.2, format: 'pct' },
     { id: 'dist', label: 'Population', type: 'select', value: 'uniform',
       options: [{ value: 'uniform', label: 'Uniform' }] },
+    { id: 'show', label: 'Show envelope', type: 'checkbox', value: true },
   ],
   render: function (ctx) {
     var P = window.KBPlot;
@@ -322,8 +335,11 @@ That is the whole integration. The build sees the directive, verifies the script
 every change inside a `requestAnimationFrame`. Config values override control defaults, so the same
 module can be mounted on several pages with different parameters.
 
-**`ctx` gives you:** `canvas`, `values` (live control values), `config`, `plot(opts)` → a `KBPlot`
-instance, `stats(items)` → the numeric strip, `note(html)` → an explanatory line with maths support.
+Three control types are supported: `range`, `select` and `checkbox`.
+
+**`ctx` gives you:** `node` (the module frame), `canvas`, `values` (live control values), `config`,
+`plot(opts)` → a `KBPlot` instance, `stats(items)` → the numeric strip, `note(html)` → an
+explanatory line with maths support.
 
 A render error is caught and displayed inside the module frame rather than breaking the page.
 
@@ -365,9 +381,11 @@ Repulsion is `O(n²)`. At ~1,500 nodes that is roughly 1M pair tests per frame �
 the limit. Beyond that, the change is a Barnes–Hut quadtree in `step()`, which is self-contained;
 nothing else in the file would need to move.
 
-**Encoding** — node colour is subject, radius grows with degree and interview relevance, fill
-opacity tracks learning status, and unstarted concepts are drawn hollow. So the graph is
-simultaneously a map of the domain and a map of what you don't know yet.
+**Encoding** — node colour is subject and radius grows with degree and interview relevance, so the
+picture reads as "which areas, and which concepts hold the structure together". Nodes were once
+drawn hollow when unstarted; that went with the reading-progress feature (§6), and a uniform lit
+sphere reads better besides — the mixed hollow/filled look was routinely mistaken for a rendering
+artefact.
 
 **Interaction** — pan, zoom, hover to highlight a neighbourhood, click to inspect in the panel,
 double-click to open the concept, drag to reposition, focus on any node to see its n-hop
@@ -402,7 +420,7 @@ things that cost something are things you do once.
 
 ## 10. Known limits and what to do about them
 
-**Search index size.** ~12 KB per concept. At 1,000 concepts the index is ~12 MB — fine from disk,
+**Search index size.** ~14 KB per concept. At 1,000 concepts the index is ~14 MB — fine from disk,
 noticeable over a network. *Fix when it hurts:* cap indexed body length, or split hot (titles,
 formulas, questions) from cold (body) and load the cold index lazily.
 
@@ -416,8 +434,8 @@ page loads slow: a lightweight index for navigation, a full record loaded per pa
 more. Unsupported YAML (anchors, aliases, multi-document) fails loudly rather than silently.
 `npm test` guards the behaviour that matters.
 
-**No incremental build.** Everything rebuilds every time. At 100 ms for 9 concepts, extrapolating to
-~10 s for 1,000 — annoying under `watch`. *Fix:* hash inputs and skip unchanged concepts; the
+**No incremental build.** Everything rebuilds every time. At ~100 ms for 12 concepts, extrapolating
+to ~8 s for 1,000 — annoying under `watch`. *Fix:* hash inputs and skip unchanged concepts; the
 write-if-changed logic already means unchanged output is free.
 
 **No full-text search across raw conversations.** By design — `raw/` is source material, not content.
@@ -427,16 +445,21 @@ write-if-changed logic already means unchanged output is free.
 ## 11. Testing
 
 ```bash
-npm test     # 28 tests, no framework, ~1 second
+npm test     # 43 tests, no framework, ~1 second
 ```
 
 Coverage is deliberately concentrated where a silent failure would corrupt content: the YAML subset
-(scalars, nested maps, lists of maps, block scalars, comments), the markdown renderer (math
-protection, code fences, directives, wiki links, tables, nested lists, HTML escaping, sentinel
-leakage), the model (normalisation, clamping, reverse edges, symmetric relations, dangling
-references, auto-stubbed subjects, progress weighting), the search index shape, and three end-to-end
-invariants: the repository builds without errors, every declared relationship resolves, and the
-prerequisite graph is acyclic.
+(scalars, nested maps, lists of maps, block scalars including their blank lines and `#` lines,
+comments outside them), the markdown renderer (math protection, code fences, HTML comments,
+directives and duplicate formula ids, wiki links, links with titles, tables and escaped pipes,
+rules, blockquote continuation, nested lists, HTML escaping, sentinel leakage), the model
+(normalisation, clamping, reverse edges, symmetric relations, dangling references, auto-stubbed
+subjects), the search index shape, and five end-to-end invariants: the repository builds without
+errors, the build is deterministic, every declared relationship resolves, the prerequisite graph is
+acyclic, and no generated page leaks unrendered maths or progress markup.
+
+Several of these tests exist because the bug shipped first. Each one was written to fail against the
+code that had the bug, then pass — a test that has never been seen to fail is not yet evidence.
 
 The last one matters more than it looks: a prerequisite cycle would make the graph layout and the
 learning-path helper misbehave in ways that are tedious to debug from the symptom.

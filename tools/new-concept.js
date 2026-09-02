@@ -66,6 +66,7 @@ Usage: npm run new -- "Concept Title" --subject <subject-id> [options]
   -t, --tags        comma,separated
   -p, --prereqs     comma,separated concept ids
       --related     comma,separated concept ids
+  -m, --minutes     estimated reading time (default 12)
       --id          override the generated id
       --from        seed the body from a file (e.g. a Claude conversation)
       --force       overwrite an existing file

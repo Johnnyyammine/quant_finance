@@ -22,8 +22,9 @@ each new page has somewhere to attach in the graph:
    moment generating functions. This is the base of every prerequisite chain.
 2. **Finish Statistics** — estimators, bias–variance, hypothesis testing, confidence intervals,
    maximum likelihood, multiple testing. The last one earns its place immediately.
-3. **Linear Algebra** — eigendecomposition, SVD, PCA, positive definiteness, matrix calculus.
-   PCA and PSD are already referenced from Covariance & Correlation and currently dangle.
+3. **Linear Algebra** — SVD, positive definiteness, matrix calculus. PCA & Eigenportfolios is
+   written; the rest of the subject is one concept deep and every other page that wants to lean on
+   it has nothing to point at.
 4. **Stochastic Processes** — Itô's lemma, Markov chains, Ornstein–Uhlenbeck, Girsanov, the
    Feynman–Kac link. Brownian Motion and Martingales already point at these.
 5. **Derivatives & Options** — no-arbitrage, replication, Black–Scholes, the Greeks, implied
@@ -40,8 +41,8 @@ Use `npm run check` to see what is thin, orphaned, or missing questions.
 
 ### Small fixes that pay for themselves immediately
 
-- **Incremental build** — hash each concept file and skip unchanged ones. At 1,000 concepts a full
-  rebuild is ~10 s, which makes `npm run watch` unpleasant.
+- **Incremental build** — hash each concept file and skip unchanged ones. The build is ~100 ms for
+  twelve concepts and linear, so ~8 s at 1,000, which makes `npm run watch` unpleasant.
 - **`npm run check --fix-links`** — list every dangling `[[link]]` with the `npm run new` command
   that would create it.
 
@@ -56,7 +57,7 @@ The largest single win for interview preparation, and the store is already shape
 
 Add an SM-2-style scheduler over that data, a `due` queue in interview mode, and a "review N due"
 entry point on the dashboard. No content changes, no schema changes — one new module plus a queue
-view. The reason this is *next* rather than *now* is that spaced repetition over 43 questions is not
+view. The reason this is *next* rather than *now* is that spaced repetition over 62 questions is not
 worth much; over 500 it is transformative.
 
 ### Personal notes and annotations
@@ -88,7 +89,6 @@ Highest value per hour, each one file in `assets/js/modules/`:
 | `black-scholes-greeks` | Greeks against spot, time and volatility |
 | `efficient-frontier` | two/three-asset frontier as correlation moves |
 | `kelly-sizing` | wealth paths at fractions of Kelly, showing the drawdown cost |
-| `pca-explorer` | eigenvalue spectrum of a correlation matrix, Marchenko–Pastur cut |
 | `orderbook-sim` | queue position, adverse selection, spread capture |
 | `var-backtest` | VaR breaches versus expectation, Kupiec test |
 | `drawdown-explorer` | drawdown distribution for a given Sharpe and horizon |
@@ -146,8 +146,10 @@ belongs in the *authoring* step (`raw/` → `content/`, documented in
 [CONTRIBUTING.md](CONTRIBUTING.md#6-claude-conversation--knowledge-base)), not in the runtime. A
 knowledge base that needs network access to display a page is not a knowledge base.
 
-**Public publishing.** This is a personal study tool. Everything works over `file://`, and it would
-work behind a static host unchanged — but that is a deployment decision, not a feature.
+**A publishing pipeline.** The site is already static and is deployed to GitHub Pages (see the
+README), but that works precisely because it needed no feature: committed HTML, no absolute paths,
+no build on the host. Anything that makes publishing a *mode* — draft/published states, per-page
+visibility, a CMS — is a downgrade of the one-file-per-concept model.
 
 ---
 
