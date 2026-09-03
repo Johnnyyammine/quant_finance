@@ -82,8 +82,12 @@
             }).join('') + '</select></label>';
         }
         if (c.type === 'checkbox') {
-          return '<label class="kb-control"><span class="kb-control-label">' + KB.util.escapeHtml(c.label) + '</span>' +
-            '<input type="checkbox" data-control="' + c.id + '"' + (c.value ? ' checked' : '') + '></label>';
+          // Its own modifier class rather than a :has() selector on the label:
+          // this file has to run from a file:// URL in whatever browser the
+          // reader happens to have, and a class works everywhere.
+          return '<label class="kb-control kb-control--check">' +
+            '<input type="checkbox" data-control="' + c.id + '"' + (c.value ? ' checked' : '') + '>' +
+            '<span class="kb-control-label">' + KB.util.escapeHtml(c.label) + '</span></label>';
         }
         return '<label class="kb-control">' +
           '<span class="kb-control-label">' + KB.util.escapeHtml(c.label) +

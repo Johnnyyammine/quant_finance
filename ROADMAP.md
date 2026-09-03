@@ -11,9 +11,9 @@ extension point, or a contained change to one module. That was the point of the 
 
 ### Content
 
-The system is proven; the corpus is not. Twelve concepts exist to demonstrate that navigation,
-search, the graph, prerequisites, interview mode and modules work end to end. Eighteen subjects are
-empty.
+The system is proven; the corpus is not. Eighteen concepts exist to demonstrate that navigation,
+search, the graph, prerequisites, interview mode and modules work end to end. Sixteen subjects are
+still empty.
 
 **No feature on this page is worth more than the next fifty concepts.** Suggested order, chosen so
 each new page has somewhere to attach in the graph:
@@ -25,10 +25,12 @@ each new page has somewhere to attach in the graph:
 3. **Linear Algebra** — SVD, positive definiteness, matrix calculus. PCA & Eigenportfolios is
    written; the rest of the subject is one concept deep and every other page that wants to lean on
    it has nothing to point at.
-4. **Stochastic Processes** — Itô's lemma, Markov chains, Ornstein–Uhlenbeck, Girsanov, the
-   Feynman–Kac link. Brownian Motion and Martingales already point at these.
-5. **Derivatives & Options** — no-arbitrage, replication, Black–Scholes, the Greeks, implied
-   volatility, the smile, put–call parity.
+4. **Stochastic Processes** — Markov chains, Ornstein–Uhlenbeck, Girsanov, SDE solution methods.
+   Itô's Lemma is written; Brownian Motion and Martingales point at the rest.
+5. **Derivatives & Options** — the European vanilla chain is written (forwards, parity, the
+   Black–Scholes equation and formula, the Greeks). Next: implied volatility surfaces and the smile,
+   American exercise and binomial trees, then exotics — digitals, barriers, Asians — and variance
+   swaps. Each has somewhere to attach now.
 6. **Time Series** — stationarity, ARMA, GARCH, cointegration, unit roots.
 7. **Portfolio Construction & Risk** — mean–variance, Kelly, risk parity, VaR, expected shortfall,
    drawdown, Black–Litterman.

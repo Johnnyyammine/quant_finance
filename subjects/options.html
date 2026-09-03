@@ -7,7 +7,7 @@
 <meta name="description" content="Black–Scholes, the Greeks, implied volatility surfaces, exotics and volatility trading.">
 <link rel="icon" href="../assets/icons/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/vendor/katex/katex.min.css">
-<link rel="stylesheet" href="../assets/css/app.css?v=fbf106ce">
+<link rel="stylesheet" href="../assets/css/app.css?v=41eef34e">
 <link rel="stylesheet" href="../assets/css/views.css?v=e2266625">
 
 </head>
@@ -69,10 +69,10 @@
       <summary class="kb-nav-summary">
         <span class="kb-nav-dot" style="background:#9179ea"></span>
         <span class="kb-nav-name">Stochastic Processes</span>
-        <span class="kb-nav-count">2</span>
+        <span class="kb-nav-count">3</span>
       </summary>
       <ul class="kb-nav-list">
-        <li><a class="kb-nav-link" href="../concepts/martingales.html">Martingales</a></li><li><a class="kb-nav-link" href="../concepts/brownian-motion.html">Brownian Motion</a></li>
+        <li><a class="kb-nav-link" href="../concepts/martingales.html">Martingales</a></li><li><a class="kb-nav-link" href="../concepts/brownian-motion.html">Brownian Motion</a></li><li><a class="kb-nav-link" href="../concepts/itos-lemma.html">Itô&#39;s Lemma</a></li>
       </ul>
     </details><details class="kb-nav-group">
       <summary class="kb-nav-summary">
@@ -92,6 +92,24 @@
       <ul class="kb-nav-list">
         <li><a class="kb-nav-link" href="../concepts/effective-number-of-bets.html">Effective Number of Bets</a></li>
       </ul>
+    </details><details class="kb-nav-group">
+      <summary class="kb-nav-summary">
+        <span class="kb-nav-dot" style="background:#cfa14e"></span>
+        <span class="kb-nav-name">Derivatives</span>
+        <span class="kb-nav-count">1</span>
+      </summary>
+      <ul class="kb-nav-list">
+        <li><a class="kb-nav-link" href="../concepts/forwards-and-futures.html">Forwards &amp; Futures</a></li>
+      </ul>
+    </details><details class="kb-nav-group" open>
+      <summary class="kb-nav-summary">
+        <span class="kb-nav-dot" style="background:#cfa14e"></span>
+        <span class="kb-nav-name">Options</span>
+        <span class="kb-nav-count">4</span>
+      </summary>
+      <ul class="kb-nav-list">
+        <li><a class="kb-nav-link" href="../concepts/put-call-parity.html">Put–Call Parity</a></li><li><a class="kb-nav-link" href="../concepts/black-scholes-equation.html">The Black–Scholes Equation</a></li><li><a class="kb-nav-link" href="../concepts/option-greeks.html">Option Greeks</a></li><li><a class="kb-nav-link" href="../concepts/black-scholes-formula.html">Black–Scholes Formula</a></li>
+      </ul>
     </details>
   </nav>
   <div class="kb-subject-wrap">
@@ -101,9 +119,9 @@
         <h1>Options</h1>
         <p class="kb-subject-desc">Black–Scholes, the Greeks, implied volatility surfaces, exotics and volatility trading.</p>
         <div class="kb-subject-stats">
-          <span><strong>0</strong> concepts</span>
-          <span><strong>0</strong> formulas</span>
-          <span><strong>0</strong> questions</span>
+          <span><strong>4</strong> concepts</span>
+          <span><strong>23</strong> formulas</span>
+          <span><strong>28</strong> questions</span>
         </div>
       </div>
     </header>
@@ -115,7 +133,55 @@
       <span class="kb-filter-count" data-kb-filter-count></span>
     </div>
 
-    <ol class="kb-conceptlist"><li class="kb-empty">No concepts in this subject yet.</li></ol>
+    <ol class="kb-conceptlist">
+    <li class="kb-conceptrow" data-difficulty="foundational"
+        data-relevance="5" data-tags="options no-arbitrage replication pricing parity synthetic" data-id="put-call-parity">
+      <a class="kb-conceptrow-link" href="../concepts/put-call-parity.html">
+        <span class="kb-conceptrow-main">
+          <span class="kb-conceptrow-title">Put–Call Parity</span>
+          <span class="kb-conceptrow-sum">A long call and a short put at the same strike are a forward — an identity that holds with no model, no volatility and no distributional assumption, and the first sanity check any option price must pass.</span>
+        </span>
+        <span class="kb-conceptrow-meta">
+          <span class="kb-pill kb-pill--foundational">Foundational</span>
+        </span>
+      </a>
+    </li>
+    <li class="kb-conceptrow" data-difficulty="advanced"
+        data-relevance="5" data-tags="options pricing hedging pde replication risk-neutral no-arbitrage gamma" data-id="black-scholes-equation">
+      <a class="kb-conceptrow-link" href="../concepts/black-scholes-equation.html">
+        <span class="kb-conceptrow-main">
+          <span class="kb-conceptrow-title">The Black–Scholes Equation</span>
+          <span class="kb-conceptrow-sum">Hedge an option with the underlying, watch the randomness cancel, and impose that what is left must earn the risk-free rate — the derivation that turns a model of the stock into a price for anything written on it, and explains why the expected return never appears.</span>
+        </span>
+        <span class="kb-conceptrow-meta">
+          <span class="kb-pill kb-pill--advanced">Advanced</span>
+        </span>
+      </a>
+    </li>
+    <li class="kb-conceptrow" data-difficulty="intermediate"
+        data-relevance="5" data-tags="options greeks hedging risk gamma vega theta delta sensitivity" data-id="option-greeks">
+      <a class="kb-conceptrow-link" href="../concepts/option-greeks.html">
+        <span class="kb-conceptrow-main">
+          <span class="kb-conceptrow-title">Option Greeks</span>
+          <span class="kb-conceptrow-sum">Delta, gamma, vega, theta and rho are the terms of one Taylor expansion, not five separate risk numbers — and the Black–Scholes equation is the identity that ties them together into a single statement about what a hedged position earns.</span>
+        </span>
+        <span class="kb-conceptrow-meta">
+          <span class="kb-pill kb-pill--intermediate">Intermediate</span>
+        </span>
+      </a>
+    </li>
+    <li class="kb-conceptrow" data-difficulty="advanced"
+        data-relevance="5" data-tags="options pricing implied-volatility lognormal smile european moneyness" data-id="black-scholes-formula">
+      <a class="kb-conceptrow-link" href="../concepts/black-scholes-formula.html">
+        <span class="kb-conceptrow-main">
+          <span class="kb-conceptrow-title">Black–Scholes Formula</span>
+          <span class="kb-conceptrow-sum">The closed-form price of a European call and put — two probability-weighted terms whose meaning is often garbled, a formula nobody believes literally, and the quoting language of the entire options market.</span>
+        </span>
+        <span class="kb-conceptrow-meta">
+          <span class="kb-pill kb-pill--advanced">Advanced</span>
+        </span>
+      </a>
+    </li></ol>
 
     <section class="kb-subject-graph">
       <h2>Concept map</h2>
@@ -123,13 +189,13 @@
     </section>
   </div>
 </main>
-<script src="../data/kb.data.js?v=f1967535"></script>
-<script src="../data/search.index.js?v=82e0efd6"></script>
+<script src="../data/kb.data.js?v=8381a4e4"></script>
+<script src="../data/search.index.js?v=6eb1e318"></script>
 <script src="../assets/js/kb-core.js?v=a4c20d2d"></script>
 <script src="../assets/js/kb-ui.js?v=a48ca814"></script>
 <script src="../assets/vendor/katex/katex.min.js" defer></script>
 <script src="../assets/vendor/katex/auto-render.min.js" defer></script>
-<script src="../assets/js/math.js?v=28e88bc6" defer></script>
+<script src="../assets/js/math.js?v=44b57f03" defer></script>
 <script src="../assets/js/subject.js?v=afdecaa7" defer></script>
 </body>
 </html>

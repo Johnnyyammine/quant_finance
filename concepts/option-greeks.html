@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en" data-page="concept">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Option Greeks · Quant Knowledge Base</title>
+<meta name="description" content="Delta, gamma, vega, theta and rho are the terms of one Taylor expansion, not five separate risk numbers — and the Black–Scholes equation is the identity that ties them together into a single statement about what a hedged position earns.">
+<link rel="icon" href="../assets/icons/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/vendor/katex/katex.min.css">
+<link rel="stylesheet" href="../assets/css/app.css?v=41eef34e">
+<link rel="stylesheet" href="../assets/css/views.css?v=e2266625">
+
+</head>
+<body class="kb-body kb-body--concept">
+<header class="kb-topbar">
+  <a class="kb-brand" href="../index.html" title="Home (H)">
+    <span class="kb-brand-mark">QF</span><span class="kb-brand-text">Quant Knowledge Base</span>
+  </a>
+  <nav class="kb-crumbs" aria-label="Breadcrumb"><ol><li><a href="../index.html">Dashboard</a></li><li class="kb-crumb-sep" aria-hidden="true">/</li><li><a href="../subjects/options.html">Options</a></li><li class="kb-crumb-sep" aria-hidden="true">/</li><li><span aria-current="page">Option Greeks</span></li></ol></nav>
+  <div class="kb-topbar-actions">
+    <button class="kb-searchbtn" type="button" data-kb-open-search>
+      <span>Search concepts, formulas, questions</span><kbd>/</kbd>
+    </button>
+    <nav class="kb-toplinks" aria-label="Sections">
+      <a href="../index.html" data-nav="home">Dashboard</a>
+      <a href="../graph.html" data-nav="graph">Graph</a>
+      <a href="../interview.html" data-nav="interview">Interview</a>
+      <a href="../library.html" data-nav="library">Library</a>
+    </nav>
+    <button class="kb-iconbtn" type="button" data-kb-theme title="Toggle theme (T)" aria-label="Toggle theme">◑</button>
+    <button class="kb-iconbtn" type="button" data-kb-help title="Keyboard shortcuts (?)" aria-label="Keyboard shortcuts">?</button>
+  </div>
+</header>
+<main class="kb-main kb-main--concept" data-concept-id="option-greeks">
+  <article class="kb-article">
+    <header class="kb-concept-head">
+      <div class="kb-concept-eyebrow">
+        <a class="kb-subject-chip" href="../subjects/options.html" style="--subject-color:#cfa14e">
+          <span class="kb-subject-mark">G</span>Options</a>
+        <span class="kb-pill kb-pill--intermediate">Intermediate</span>
+      </div>
+      <h1 class="kb-concept-title">Option Greeks</h1>
+      <section class="kb-glance" aria-label="At a glance">
+      <p class="kb-glance-lead">Delta, gamma, vega, theta and rho are the terms of one Taylor expansion, not five separate risk numbers — and the Black–Scholes equation is the identity that ties them together into a single statement about what a hedged position earns.</p>
+      <a class="kb-glance-formula" href="#delta">
+        <span class="math-display">\[\Delta_{\text{call}} = N(d_1), \qquad \Delta_{\text{put}} = N(d_1) - 1\]</span>
+        <span class="kb-glance-formula-name">Delta</span>
+      </a>
+      <ul class="kb-glance-points"><li>The Greeks are one Taylor expansion:
+ <span class="math-inline">\(\d V = \Delta\d S + \tfrac12\Gamma(\d S)^2 + \mathcal V\d\sigma + \Theta\d t + \rho\,\d r\)</span> .</li><li><span class="math-inline">\(\Delta_{\text{call}} = N(d_1)\)</span> ,  <span class="math-inline">\(\Delta_{\text{put}} = N(d_1)-1\)</span> .  <span class="math-inline">\(\Gamma\)</span>  and  <span class="math-inline">\(\mathcal V\)</span>  are the
+same for calls and puts.</li><li><span class="math-inline">\(\Gamma = \phi(d_1)/(S\sigma\sqrt T)\)</span>  — peaks at the money, diverges at expiry.</li></ul>
+      <a class="kb-glance-more" href="#30-second-revision">Full revision →</a>
+    </section>
+      <div class="kb-concept-controls">
+        <button class="kb-btn kb-btn--ghost" type="button" data-kb-bookmark="option-greeks">☆ Bookmark</button>
+        <button class="kb-btn kb-btn--ghost" type="button" data-kb-flashcards>Revision card</button>
+        <a class="kb-btn kb-btn--ghost" href="../graph.html?focus=option-greeks">Show in graph</a>
+      </div>
+      <ul class="kb-taglist"><li><a class="kb-tag" href="../library.html?tag=options">#options</a></li><li><a class="kb-tag" href="../library.html?tag=greeks">#greeks</a></li><li><a class="kb-tag" href="../library.html?tag=hedging">#hedging</a></li><li><a class="kb-tag" href="../library.html?tag=risk">#risk</a></li><li><a class="kb-tag" href="../library.html?tag=gamma">#gamma</a></li><li><a class="kb-tag" href="../library.html?tag=vega">#vega</a></li><li><a class="kb-tag" href="../library.html?tag=theta">#theta</a></li><li><a class="kb-tag" href="../library.html?tag=delta">#delta</a></li><li><a class="kb-tag" href="../library.html?tag=sensitivity">#sensitivity</a></li></ul>
+    </header>
+
+    <div class="kb-content"><h2 id="intuition" class="kb-h kb-h2"><a class="kb-anchor" href="#intuition" aria-label="Link to this section">#</a>Intuition</h2>
+<p>The Greeks look like five things to memorise. They are one thing: a <strong>Taylor expansion of the option
+price</strong> in its arguments.</p>
+<span class="math-display">\[\d V = \underbrace{\frac{\partial V}{\partial S}}_{\Delta}\d S
++ \tfrac12\underbrace{\frac{\partial^2V}{\partial S^2}}_{\Gamma}(\d S)^2
++ \underbrace{\frac{\partial V}{\partial\sigma}}_{\mathcal V}\d\sigma
++ \underbrace{\frac{\partial V}{\partial t}}_{\Theta}\d t
++ \underbrace{\frac{\partial V}{\partial r}}_{\rho}\d r\]</span>
+<p>Every risk report you will ever read is this line, arranged as a table. Once that is clear, the
+questions become natural: which term dominates, which can you hedge away, and what is left when you
+do.</p>
+<aside class="kb-callout kb-callout--insight"><div class="kb-callout-title">Insight</div><div class="kb-callout-body"><p>Hedging is <strong>choosing which term to zero out</strong>. Delta-hedge and the first term goes; what remains is
+led by  <span class="math-inline">\(\tfrac12\Gamma(\d S)^2\)</span> , which is always the same sign as your gamma and never depends on
+direction.</p>
+<p>That is why a delta-hedged option is not a neutral position but a <strong>position in variance</strong> — and why
+options traders talk about volatility rather than price.</p></div></aside>
+<p>The one relationship that ties it together is the <a class="kb-link" href="black-scholes-equation.html" data-concept="black-scholes-equation">Black–Scholes equation</a>
+itself, rewritten:</p>
+<span class="math-display">\[\Theta + rS\Delta + \tfrac12\sigma^2S^2\Gamma = rV\]</span>
+<p>The Greeks are not free to take any values. Theta is pinned by gamma. Long convexity means paying
+rent, and the equation says exactly how much.</p>
+<div class="kb-module" data-module="black-scholes-lab" data-config="{&quot;height&quot;:300,&quot;view&quot;:&quot;price&quot;,&quot;S&quot;:100,&quot;K&quot;:100,&quot;T&quot;:0.25,&quot;sigma&quot;:0.25,&quot;r&quot;:0.04}"><div class="kb-module-shell"><div class="kb-module-loading">Loading interactive module &ldquo;black-scholes-lab&rdquo;&hellip;</div></div></div>
+<h2 id="mathematical-formulation" class="kb-h kb-h2"><a class="kb-anchor" href="#mathematical-formulation" aria-label="Link to this section">#</a>Mathematical Formulation</h2>
+<p>For a European option under Black–Scholes, with  <span class="math-inline">\(d_1, d_2\)</span>  as usual and  <span class="math-inline">\(\phi\)</span>  the standard normal
+density. Dividend yield  <span class="math-inline">\(q\)</span>  is set to zero here for readability; restoring it multiplies every
+ <span class="math-inline">\(S\)</span> -term by  <span class="math-inline">\(e^{-qT}\)</span> .</p>
+<figure class="kb-formula" id="delta" data-formula="delta"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">Delta</span><button class="kb-formula-copy" type="button" data-latex="\Delta_{\text{call}} = N(d_1), \qquad \Delta_{\text{put}} = N(d_1) - 1" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[\Delta_{\text{call}} = N(d_1), \qquad \Delta_{\text{put}} = N(d_1) - 1\]</span> </div><p class="kb-formula-note">Call delta is N(d₁) — also the number of shares in the replicating portfolio. Put delta is call delta minus one, which is put-call parity differentiated.</p><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">Hedging</span><span class="kb-chip">Risk</span><span class="kb-chip">Replication</span></footer></figure>
+<figure class="kb-formula" id="gamma" data-formula="gamma"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">Gamma</span><button class="kb-formula-copy" type="button" data-latex="\Gamma = \frac{\phi(d_1)}{S\sigma\sqrt T}" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[\Gamma = \frac{\phi(d_1)}{S\sigma\sqrt T}\]</span> </div><p class="kb-formula-note">Identical for calls and puts — parity&#39;s difference is linear in S, so it has no curvature. Peaks at the money and diverges as T→0.</p><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">Gamma Trading</span><span class="kb-chip">Hedging Frequency</span><span class="kb-chip">Pinning</span></footer></figure>
+<figure class="kb-formula" id="vega" data-formula="vega"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">Vega</span><button class="kb-formula-copy" type="button" data-latex="\mathcal{V} = \frac{\partial V}{\partial\sigma} = S\,\phi(d_1)\sqrt T" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[\mathcal{V} = \frac{\partial V}{\partial\sigma} = S\,\phi(d_1)\sqrt T\]</span> </div><p class="kb-formula-note">Also identical for calls and puts, for the same reason. Scales with √T, so long-dated options carry the vol-level risk.</p><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">Volatility Trading</span><span class="kb-chip">Surface Risk</span></footer></figure>
+<figure class="kb-formula" id="theta-call" data-formula="theta-call"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">Theta (call)</span><button class="kb-formula-copy" type="button" data-latex="\Theta_{\text{call}} = -\frac{S\phi(d_1)\sigma}{2\sqrt T} - rKe^{-rT}N(d_2)" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[\Theta_{\text{call}} = -\frac{S\phi(d_1)\sigma}{2\sqrt T} - rKe^{-rT}N(d_2)\]</span> </div><p class="kb-formula-note">Two pieces: the volatility-value decay (first term) and the financing of the deferred strike (second). For a put the second term flips sign.</p><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">Carry</span><span class="kb-chip">Time Decay</span><span class="kb-chip">P&amp;L Attribution</span></footer></figure>
+<figure class="kb-formula" id="rho" data-formula="rho"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">Rho</span><button class="kb-formula-copy" type="button" data-latex="\rho_{\text{call}} = KTe^{-rT}N(d_2), \qquad \rho_{\text{put}} = -KTe^{-rT}N(-d_2)" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[\rho_{\text{call}} = KTe^{-rT}N(d_2), \qquad \rho_{\text{put}} = -KTe^{-rT}N(-d_2)\]</span> </div><p class="kb-formula-note">Usually the smallest Greek on equity options and the largest on long-dated or rates-linked ones. Sign is opposite for puts.</p><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">Rates Exposure</span><span class="kb-chip">Long-Dated Options</span></footer></figure>
+<figure class="kb-formula" id="gammavegatheta-identity" data-formula="gammavegatheta-identity"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">Gamma–vega–theta identity</span><button class="kb-formula-copy" type="button" data-latex="\mathcal{V} = \sigma T S^2\,\Gamma, \qquad
+\Theta \approx -\tfrac12\sigma^2S^2\Gamma \;\;(\text{delta-hedged})" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[\mathcal{V} = \sigma T S^2\,\Gamma, \qquad
+\Theta \approx -\tfrac12\sigma^2S^2\Gamma \;\;(\text{delta-hedged})\]</span> </div><p class="kb-formula-note">These are not independent numbers. Vega and gamma are proportional; theta is pinned to gamma by the pricing equation.</p><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">Risk Consistency</span><span class="kb-chip">Desk P&amp;L</span></footer></figure>
+<figure class="kb-formula" id="second-order-cross-greeks" data-formula="second-order-cross-greeks"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">Second-order cross Greeks</span><button class="kb-formula-copy" type="button" data-latex="\text{vanna} = \frac{\partial\Delta}{\partial\sigma} = -\frac{\phi(d_1)d_2}{\sigma},
+\qquad \text{volga} = \mathcal{V}\,\frac{d_1d_2}{\sigma}" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[\text{vanna} = \frac{\partial\Delta}{\partial\sigma} = -\frac{\phi(d_1)d_2}{\sigma},
+\qquad \text{volga} = \mathcal{V}\,\frac{d_1d_2}{\sigma}\]</span> </div><p class="kb-formula-note">Vanna is the Greek of skew, volga the Greek of smile curvature. Both are zero in a report that only shows delta and vega — and neither is zero in a crash.</p><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">FX Exotics</span><span class="kb-chip">Skew Risk</span><span class="kb-chip">Large Books</span></footer></figure>
+<h2 id="derivation" class="kb-h kb-h2"><a class="kb-anchor" href="#derivation" aria-label="Link to this section">#</a>Derivation</h2>
+<details class="kb-derivation"><summary>Why call delta is N(d₁) — and why the messy terms cancel</summary><div class="kb-derivation-body"><p>Differentiate  <span class="math-inline">\(C = SN(d_1) - Ke^{-rT}N(d_2)\)</span>  with respect to  <span class="math-inline">\(S\)</span> . Both  <span class="math-inline">\(d_1\)</span>  and  <span class="math-inline">\(d_2\)</span>  depend on
+ <span class="math-inline">\(S\)</span> , so the product rule gives three terms:</p>
+<span class="math-display">\[\Delta = N(d_1) + S\phi(d_1)\frac{\partial d_1}{\partial S} - Ke^{-rT}\phi(d_2)\frac{\partial d_2}{\partial S}\]</span>
+<p>Since  <span class="math-inline">\(d_2 = d_1 - \sigma\sqrt T\)</span> , the two partials are equal, both  <span class="math-inline">\(=1/(S\sigma\sqrt T)\)</span> . So the
+last two terms cancel if and only if</p>
+<span class="math-display">\[S\phi(d_1) = Ke^{-rT}\phi(d_2)\]</span>
+<p>which is a genuine identity — write out both densities, use  <span class="math-inline">\(d_2^2 = d_1^2 - 2d_1\sigma\sqrt T +
+\sigma^2T\)</span> , and the exponents differ by exactly  <span class="math-inline">\(\ln(S/K) + rT\)</span> . Hence</p>
+<span class="math-display">\[\Delta_{\text{call}} = N(d_1)\]</span>
+<p><strong>The cancellation is not a coincidence.</strong>  <span class="math-inline">\(S\phi(d_1) = Ke^{-rT}\phi(d_2)\)</span>  is the same
+completed-square identity that produced  <span class="math-inline">\(d_1\)</span>  from  <span class="math-inline">\(d_2\)</span>  in the first place, and it is what makes
+every Greek come out clean. It is also why  <span class="math-inline">\(N(d_1)\)</span>  is simultaneously the delta <em>and</em> the
+stock-numéraire exercise probability: differentiating the price with respect to  <span class="math-inline">\(S\)</span>  and changing
+numéraire to  <span class="math-inline">\(S\)</span>  are the same operation.</p></div></details>
+<details class="kb-derivation"><summary>Gamma and vega are proportional</summary><div class="kb-derivation-body"><span class="math-display">\[\Gamma = \frac{\partial N(d_1)}{\partial S} = \phi(d_1)\frac{\partial d_1}{\partial S}
+= \frac{\phi(d_1)}{S\sigma\sqrt T}\]</span>
+<span class="math-display">\[\mathcal{V} = \frac{\partial C}{\partial\sigma} = S\phi(d_1)\frac{\partial d_1}{\partial\sigma}
+- Ke^{-rT}\phi(d_2)\frac{\partial d_2}{\partial\sigma} = S\phi(d_1)\sqrt T\]</span>
+<p>(using the same identity, and  <span class="math-inline">\(\partial d_1/\partial\sigma - \partial d_2/\partial\sigma = \sqrt T\)</span> ).
+Dividing:</p>
+<span class="math-display">\[\boxed{\;\mathcal{V} = \sigma T S^2\,\Gamma\;}\]</span>
+<p><strong>Read this carefully, because it is often misquoted as &quot;gamma and vega are the same risk&quot;.</strong> They
+are proportional <em>for a single option</em>, with a factor  <span class="math-inline">\(\sigma TS^2\)</span>  that depends strongly on
+maturity. Across a book of different maturities the proportionality breaks: a one-week and a
+two-year option with equal gamma have vegas differing by a factor of 100.</p>
+<p>So gamma and vega are the same risk <em>locally</em> and completely different risks *across the term
+structure* — which is exactly why a desk hedges them with different instruments.</p></div></details>
+<details class="kb-derivation"><summary>Theta from the pricing equation, not by differentiating</summary><div class="kb-derivation-body"><p>Differentiating the formula for  <span class="math-inline">\(\Theta\)</span>  works but is ugly. The pricing equation gives it in one
+line:</p>
+<span class="math-display">\[\Theta = rV - rS\Delta - \tfrac12\sigma^2S^2\Gamma\]</span>
+<p>For a <strong>delta-hedged</strong> position the middle term is the interest on the hedge and  <span class="math-inline">\(rV\)</span>  is the
+financing of the option; on a book where these roughly net, what is left is</p>
+<span class="math-display">\[\Theta \approx -\tfrac12\sigma^2S^2\Gamma\]</span>
+<p><strong>Setting expected gamma gain equal to theta cost</strong> gives the break-even move directly. Over  <span class="math-inline">\(\d t\)</span> ,
+gamma earns  <span class="math-inline">\(\tfrac12\Gamma(\d S)^2\)</span>  and theta costs  <span class="math-inline">\(\tfrac12\sigma^2S^2\Gamma\,\d t\)</span> , so the two
+are equal when</p>
+<span class="math-display">\[(\d S)^2 = \sigma^2S^2\,\d t \quad\Longleftrightarrow\quad |\d S| = \sigma S\sqrt{\d t}\]</span>
+<p>This is the single most-used number on a gamma book, and it comes out of the pricing equation with
+no differentiation at all.</p></div></details>
+<h2 id="assumptions-edge-cases" class="kb-h kb-h2"><a class="kb-anchor" href="#assumptions-edge-cases" aria-label="Link to this section">#</a>Assumptions &amp; Edge Cases</h2>
+<aside class="kb-callout kb-callout--assumption"><div class="kb-callout-title">Assumptions</div><div class="kb-callout-body"><p>Black–Scholes Greeks are <strong>model outputs</strong>, and they inherit every assumption of the model:</p>
+<ul class="kb-list"><li><strong>Constant  <span class="math-inline">\(\sigma\)</span> .</strong> But we compute vega, the sensitivity to a parameter the model says is
+constant. The formula is being used outside its own logic — deliberately, and it works, but it is
+worth knowing.</li>
+<li><strong>A parallel shift in vol.</strong> Raw vega assumes the whole surface moves together. It does not.</li>
+<li><strong>Continuous rebalancing.</strong> Delta hedging is exact only in the limit.</li>
+<li><strong>Small moves.</strong> The expansion is second order in  <span class="math-inline">\(S\)</span> ; for a large move the higher terms matter.</li>
+<li><strong>No jumps.</strong> All Greeks are derivatives, and derivatives describe local behaviour.</li></ul></div></aside>
+<aside class="kb-callout kb-callout--warning"><div class="kb-callout-title">Warning</div><div class="kb-callout-body"><p><strong>Greeks are a local linearisation and fail exactly when you need them.</strong> For a 1% move they are
+excellent. For a 20% overnight gap they are not: the expansion&#39;s neglected terms grow as  <span class="math-inline">\((\d S)^3\)</span> 
+and higher, spot and vol move together (vanna), and the surface reprices. Every serious risk system
+therefore runs a <strong>spot–vol grid</strong> — full revaluation across a matrix of shocks — alongside the
+Greeks, and the binding risk limit on a large book is the grid, not the Greeks.</p>
+<p>The failure mode is specific and recurrent: a book that is flat delta, flat vega and small gamma
+under normal moves can be badly exposed at  <span class="math-inline">\(-20\%\)</span>  spot with  <span class="math-inline">\(+10\)</span>  vols. That combination is the
+scenario, not the derivative.</p></div></aside>
+<aside class="kb-callout kb-callout--warning"><div class="kb-callout-title">Warning</div><div class="kb-callout-body"><p><strong>Aggregating Greeks across maturities, strikes or underlyings hides real positions.</strong> Summing vega
+across tenors assumes one-for-one vol moves; summing across underlyings assumes correlation 1;
+summing across strikes assumes a parallel smile shift. A book flat on total vega is very often long
+short-dated and short long-dated volatility, and will discover this the first time the term
+structure steepens. Bucket by tenor, weight by expected move, and never treat one aggregated number
+as a hedge.</p></div></aside>
+<h2 id="worked-example" class="kb-h kb-h2"><a class="kb-anchor" href="#worked-example" aria-label="Link to this section">#</a>Worked Example</h2>
+<p><strong>The full Greek picture for one position.</strong> Long 100 at-the-money calls,  <span class="math-inline">\(S=K=100\)</span> ,  <span class="math-inline">\(T=0.25\)</span> ,
+ <span class="math-inline">\(\sigma=25\%\)</span> ,  <span class="math-inline">\(r=4\%\)</span> . One contract on one share, for clarity.</p>
+<p> <span class="math-inline">\(d_1 = 0.1425\)</span> ,  <span class="math-inline">\(d_2 = 0.0175\)</span> ,  <span class="math-inline">\(\phi(d_1) = 0.3949\)</span> . Theta is quoted per <strong>trading</strong> day, since
+ <span class="math-inline">\(\sigma\)</span>  is annualised on 252 of them — mixing that with a 365-day theta is a common and expensive
+unit error.</p>
+<div class="kb-table-wrap"><table class="kb-table"><thead><tr><th>Greek</th><th>Per option</th><th>×100</th><th>Reading</th></tr></thead><tbody><tr><td><span class="math-inline">\(V\)</span></td><td>5.472</td><td>$547.21</td><td>premium paid</td></tr>
+<tr><td><span class="math-inline">\(\Delta = N(d_1)\)</span></td><td>0.5567</td><td>55.7 shares</td><td>sell 56 shares to hedge</td></tr>
+<tr><td><span class="math-inline">\(\Gamma\)</span></td><td>0.03159</td><td>3.159</td><td>delta moves 3.2 per $1</td></tr>
+<tr><td><span class="math-inline">\(\mathcal V = S\phi\sqrt T\)</span></td><td>0.1975 /vol pt</td><td>$19.75 per vol pt</td><td>1 vol = $19.75</td></tr>
+<tr><td><span class="math-inline">\(\Theta\)</span></td><td><span class="math-inline">\(-11.881\)</span> /yr</td><td><span class="math-inline">\(-\$4.71\)</span> /day</td><td>daily rent</td></tr>
+<tr><td><span class="math-inline">\(\rho\)</span></td><td>0.1255 per 1%</td><td>$12.55 per 1%</td><td>small, as usual</td></tr></tbody></table></div>
+<p><strong>Now check the identity.</strong> Expected daily gamma gain:</p>
+<span class="math-display">\[\tfrac12\Gamma\sigma^2S^2\,\d t = 0.5\times3.159\times0.0625\times10000/252 = \$3.918\]</span>
+<p>against theta of $4.715. The $0.797 gap is <strong>not</strong> slack in the approximation — it is exactly the
+financing terms the delta-hedged form drops:</p>
+<span class="math-display">\[\frac{(rS\Delta - rV)\times100}{252} = \frac{(0.04\times100\times0.5567 - 0.04\times5.472)\times100}{252} = \$0.797\]</span>
+<p>Gamma accounts for 83% of theta and the interest on the hedge accounts for the rest. That is the
+Black–Scholes equation, term by term, on a real position.</p>
+<p><strong>Break-even daily move:</strong>  <span class="math-inline">\(\sigma S\sqrt{\d t} = 0.25\times100/\sqrt{252} = \$1.57\)</span> .</p>
+<p>Test it. A $3 move gives  <span class="math-inline">\(\tfrac12(3.159)(9) = \$14.22\)</span>  of gamma against $4.71 of theta — a
+<strong>$9.50 profit</strong>, in either direction. A $0.50 move gives  <span class="math-inline">\(\tfrac12(3.159)(0.25) = \$0.39\)</span> 
+against $4.71 — a <strong>$4.32 loss</strong>. Same position, opposite outcome, and the direction of the stock
+was never used.</p>
+<h2 id="why-it-matters-in-quant-finance" class="kb-h kb-h2"><a class="kb-anchor" href="#why-it-matters-in-quant-finance" aria-label="Link to this section">#</a>Why It Matters in Quant Finance</h2>
+<p><strong>They are the position, not a description of it.</strong> A derivatives book is not managed as a list of
+contracts; it is managed as a vector of Greeks. Trades are chosen to move that vector, limits are
+set on it, and P&amp;L is attributed to it. Two books holding entirely different instruments with the
+same Greeks are the same position.</p>
+<p><strong>They give P&amp;L attribution, which is how you find out whether the model is working.</strong> Decompose the
+day&#39;s P&amp;L into  <span class="math-inline">\(\Delta\,\d S + \tfrac12\Gamma(\d S)^2 + \mathcal V\,\d\sigma + \Theta\,\d t\)</span>  and
+compare to actual. The <strong>unexplained residual</strong> is the number that matters: it is the model&#39;s error,
+and a residual that grows is the earliest warning that something — a dividend, a borrow, a
+correlation, a missing second-order Greek — is wrong. This is standard daily practice on every
+derivatives desk.</p>
+<p><strong>They define what &quot;hedged&quot; means, and therefore what it does not.</strong> Delta-neutral is not
+risk-neutral; it is neutral to the first term of one expansion. Naming the term you have zeroed and
+the terms you have not is the whole of derivatives risk management.</p>
+<p><strong>They are what makes real-time risk computable.</strong> Because Black–Scholes has closed-form
+derivatives, a book of hundreds of thousands of positions can be re-risked in milliseconds. Models
+without closed-form Greeks need bump-and-reprice, which is a different engineering problem
+altogether — and the reason Black–Scholes remains the risk layer even where a better model does the
+pricing.</p>
+<h2 id="trading-research-application" class="kb-h kb-h2"><a class="kb-anchor" href="#trading-research-application" aria-label="Link to this section">#</a>Trading &amp; Research Application</h2>
+<aside class="kb-callout kb-callout--desk"><div class="kb-callout-title">On the desk</div><div class="kb-callout-body"><p><strong>Know your break-even move.</strong>  <span class="math-inline">\(\sigma S\sqrt{\d t}\)</span>  is the daily move at which gamma pays theta. It
+is the number that says whether today was a good day for the book, before the P&amp;L arrives.</p>
+<p><strong>Gamma and vega are different trades.</strong> Short-dated for realised-versus-implied (high gamma, high
+theta); long-dated for a view on the level of implied vol (high vega, low bleed). A trader who wants
+&quot;long vol&quot; and buys weeklies has bought gamma and a large theta bill, not vol.</p>
+<p><strong>Short gamma is a position that hedges itself into losses.</strong> Rebalancing a short-gamma book means
+buying rallies and selling dips — trading with the move, realising a loss each time, and
+mechanically amplifying the move you are losing to. Size it for the day it goes wrong, not for the
+carry it earns.</p>
+<p><strong>Watch vanna in equities.</strong> Spot down and vol up are correlated, so a book flat on delta and vega
+can have a systematic P&amp;L that neither number shows. It is invisible until a crash, and then it is
+the main term.</p>
+<p><strong>Attribute P&amp;L every day and chase the residual.</strong> The unexplained line is where model error,
+stale marks, wrong dividends and missing Greeks announce themselves — usually well before anything
+else does.</p>
+<p><strong>Run the spot–vol grid, not just the Greeks.</strong> The Greeks tell you about today&#39;s move. The grid
+tells you about the move that closes the desk, and it is the one risk management should bind on.</p></div></aside>
+<h2 id="implementation-notes" class="kb-h kb-h2"><a class="kb-anchor" href="#implementation-notes" aria-label="Link to this section">#</a>Implementation Notes</h2>
+<figure class="kb-code" data-lang="python"><pre><code class="language-python">import numpy as np
+from math import erf, log, sqrt, exp, pi
+
+def _N(x): return 0.5 * (1.0 + erf(x / sqrt(2.0)))
+def _phi(x): return exp(-0.5 * x * x) / sqrt(2.0 * pi)
+
+def greeks(S, K, r, sigma, T, q=0.0, call=True):
+    &quot;&quot;&quot;All first- and second-order Greeks in one pass.
+
+    Computed together on purpose: d1, d2 and phi(d1) are shared by every one of
+    them, so a book-level risk run that calls five separate functions does five
+    times the transcendental work for the same answer. On a large book that is
+    the difference between real-time risk and a batch job.
+
+    Units are the ones a desk actually reads: theta per TRADING day, vega and rho
+    per PERCENTAGE POINT. Trading days rather than calendar days because sigma is
+    annualised on 252 of them, so a 252-theta is directly comparable to the
+    break-even move sigma*S*sqrt(1/252) and a 365-theta is not. Mixing the two
+    conventions in one report understates theta by 31%.&quot;&quot;&quot;
+    if T &lt;= 0 or sigma &lt;= 0:
+        intrinsic = max(S - K, 0.0) if call else max(K - S, 0.0)
+        delta = (1.0 if S &gt; K else 0.0) if call else (-1.0 if S &lt; K else 0.0)
+        return {&#39;price&#39;: intrinsic, &#39;delta&#39;: delta, &#39;gamma&#39;: 0.0,
+                &#39;vega&#39;: 0.0, &#39;theta&#39;: 0.0, &#39;rho&#39;: 0.0, &#39;vanna&#39;: 0.0, &#39;volga&#39;: 0.0}
+
+    sqrtT = sqrt(T)
+    d1 = (log(S / K) + (r - q + 0.5 * sigma**2) * T) / (sigma * sqrtT)
+    d2 = d1 - sigma * sqrtT
+    disc_r, disc_q, pdf = exp(-r * T), exp(-q * T), _phi(d1)
+
+    price = (S * disc_q * _N(d1) - K * disc_r * _N(d2) if call
+             else K * disc_r * _N(-d2) - S * disc_q * _N(-d1))
+    delta = disc_q * (_N(d1) if call else _N(d1) - 1.0)
+    gamma = disc_q * pdf / (S * sigma * sqrtT)          # same for call and put
+    vega = S * disc_q * pdf * sqrtT                     # same for call and put
+    decay = -S * disc_q * pdf * sigma / (2 * sqrtT)     # shared by call and put
+    if call:
+        theta = decay + q * S * disc_q * _N(d1) - r * K * disc_r * _N(d2)
+        rho = K * T * disc_r * _N(d2)
+    else:
+        theta = decay - q * S * disc_q * _N(-d1) + r * K * disc_r * _N(-d2)
+        rho = -K * T * disc_r * _N(-d2)
+
+    return {&#39;price&#39;: price, &#39;delta&#39;: delta, &#39;gamma&#39;: gamma,
+            &#39;vega&#39;: vega / 100.0,                       # per 1 vol point
+            &#39;theta&#39;: theta / 252.0,                     # per trading day
+            &#39;rho&#39;: rho / 100.0,                         # per 1% rate move
+            &#39;vanna&#39;: -disc_q * pdf * d2 / sigma,
+            &#39;volga&#39;: vega * d1 * d2 / sigma}
+
+def attribute_pnl(g0, S0, S1, sigma0, sigma1, dt):
+    &quot;&quot;&quot;Explain a day&#39;s P&amp;L with the Taylor expansion, and return the residual.
+
+    The residual is the point of the function, not a byproduct. A residual that
+    is small and stationary means the model is describing the book; one that
+    grows means something unmodelled -- a dividend, a borrow, skew moving
+    non-parallel, or a second-order Greek you are not carrying.&quot;&quot;&quot;
+    dS, dsig = S1 - S0, (sigma1 - sigma0) * 100.0
+    return {&#39;delta&#39;: g0[&#39;delta&#39;] * dS,
+            &#39;gamma&#39;: 0.5 * g0[&#39;gamma&#39;] * dS**2,
+            &#39;vega&#39;: g0[&#39;vega&#39;] * dsig,
+            &#39;theta&#39;: g0[&#39;theta&#39;] * dt * 252.0,
+            &#39;vanna&#39;: g0[&#39;vanna&#39;] * dS * dsig / 100.0}
+
+# Consistency checks worth asserting:
+#   gamma and vega identical for call and put at the same strike
+#   vega == sigma * T * S**2 * gamma   (to floating point)
+#   theta + r*S*delta + 0.5*sigma**2*S**2*gamma == r*price   (the BS equation)
+#   delta_call - delta_put == exp(-q*T)                      (parity differentiated)</code></pre></figure>
+<h2 id="common-mistakes" class="kb-h kb-h2"><a class="kb-anchor" href="#common-mistakes" aria-label="Link to this section">#</a>Common Mistakes</h2>
+<aside class="kb-callout kb-callout--pitfall"><div class="kb-callout-title">Common pitfall</div><div class="kb-callout-body"><ul class="kb-list"><li><strong>Believing delta-neutral means risk-neutral.</strong> It zeroes one term of five. Gamma, vega and vanna
+are all still live.</li>
+<li><strong>Calling delta &quot;the probability of finishing in the money&quot;.</strong> That is  <span class="math-inline">\(N(d_2)\)</span> ; delta is
+ <span class="math-inline">\(N(d_1)\)</span> . Close at the money, badly different in the wings.</li>
+<li><strong>Summing vega across maturities.</strong> Short and long vols do not move together. Bucket and weight.</li>
+<li><strong>Confusing gamma and vega risk.</strong> Proportional for one option, radically different across a term
+structure. They need different hedges.</li>
+<li><strong>Quoting theta without its convention.</strong> Per day or per year, calendar or business days — a
+factor of 365 or 252 hides in this and it is a common source of nonsense P&amp;L forecasts.</li>
+<li><strong>Ignoring vanna in equities.</strong> Spot and vol are correlated; a delta- and vega-flat book can still
+have a systematic exposure to that correlation.</li>
+<li><strong>Trusting Greeks through a gap.</strong> They are a local expansion. Beyond a few percent, revalue.</li>
+<li><strong>Assuming gamma is safely small because it is small today.</strong> It diverges as expiry approaches. A
+benign short strike becomes the whole risk of the book in the final week.</li>
+<li><strong>Reporting Greeks in mixed units.</strong> Vega per vol point next to theta per year makes the smaller
+risk look larger; pick a convention and enforce it in the library, not in the spreadsheet.</li></ul></div></aside>
+<h2 id="30-second-revision" class="kb-h kb-h2"><a class="kb-anchor" href="#30-second-revision" aria-label="Link to this section">#</a>30-Second Revision</h2>
+<ul class="kb-list"><li>The Greeks are one Taylor expansion:
+ <span class="math-inline">\(\d V = \Delta\d S + \tfrac12\Gamma(\d S)^2 + \mathcal V\d\sigma + \Theta\d t + \rho\,\d r\)</span> .</li>
+<li><span class="math-inline">\(\Delta_{\text{call}} = N(d_1)\)</span> ,  <span class="math-inline">\(\Delta_{\text{put}} = N(d_1)-1\)</span> .  <span class="math-inline">\(\Gamma\)</span>  and  <span class="math-inline">\(\mathcal V\)</span>  are the
+same for calls and puts.</li>
+<li><span class="math-inline">\(\Gamma = \phi(d_1)/(S\sigma\sqrt T)\)</span>  — peaks at the money, diverges at expiry.</li>
+<li><span class="math-inline">\(\mathcal V = S\phi(d_1)\sqrt T\)</span>  — grows with maturity. So  <span class="math-inline">\(\mathcal V = \sigma TS^2\Gamma\)</span> : same
+risk locally, different risks across the term structure.</li>
+<li><span class="math-inline">\(\Theta \approx -\tfrac12\sigma^2S^2\Gamma\)</span>  when delta-hedged. Theta is the rent on gamma; the
+Black–Scholes equation is the lease.</li>
+<li>Break-even daily move  <span class="math-inline">\(= \sigma S\sqrt{\d t}\)</span> . Move more, gamma wins; move less, theta wins.</li>
+<li>Delta-neutral  <span class="math-inline">\(\ne\)</span>  risk-neutral. Short gamma loses on moves in <em>either</em> direction and hedges
+itself into the loss.</li>
+<li>Vanna  <span class="math-inline">\(= \partial\Delta/\partial\sigma\)</span>  is the skew Greek; volga is smile convexity. Both bite in a
+crash.</li>
+<li>Aggregate Greeks hide term-structure and cross-asset positions. Bucket them, and run a spot–vol
+grid for anything large.</li></ul></div>
+    <section class="kb-section" id="key-formulas">
+        <h2 class="kb-h kb-h2"><a class="kb-anchor" href="#key-formulas" aria-label="Link to this section">#</a>Key Formulas</h2>
+        <div class="kb-formula-recap">
+          <a class="kb-formula-recap-item" href="#delta">
+            <span class="kb-formula-recap-name">Delta</span>
+            <span class="math-display">\[\Delta_{\text{call}} = N(d_1), \qquad \Delta_{\text{put}} = N(d_1) - 1\]</span>
+          </a>
+          <a class="kb-formula-recap-item" href="#gamma">
+            <span class="kb-formula-recap-name">Gamma</span>
+            <span class="math-display">\[\Gamma = \frac{\phi(d_1)}{S\sigma\sqrt T}\]</span>
+          </a>
+          <a class="kb-formula-recap-item" href="#vega">
+            <span class="kb-formula-recap-name">Vega</span>
+            <span class="math-display">\[\mathcal{V} = \frac{\partial V}{\partial\sigma} = S\,\phi(d_1)\sqrt T\]</span>
+          </a>
+          <a class="kb-formula-recap-item" href="#theta-call">
+            <span class="kb-formula-recap-name">Theta (call)</span>
+            <span class="math-display">\[\Theta_{\text{call}} = -\frac{S\phi(d_1)\sigma}{2\sqrt T} - rKe^{-rT}N(d_2)\]</span>
+          </a>
+          <a class="kb-formula-recap-item" href="#rho">
+            <span class="kb-formula-recap-name">Rho</span>
+            <span class="math-display">\[\rho_{\text{call}} = KTe^{-rT}N(d_2), \qquad \rho_{\text{put}} = -KTe^{-rT}N(-d_2)\]</span>
+          </a>
+          <a class="kb-formula-recap-item" href="#gammavegatheta-identity">
+            <span class="kb-formula-recap-name">Gamma–vega–theta identity</span>
+            <span class="math-display">\[\mathcal{V} = \sigma T S^2\,\Gamma, \qquad
+\Theta \approx -\tfrac12\sigma^2S^2\Gamma \;\;(\text{delta-hedged})\]</span>
+          </a>
+          <a class="kb-formula-recap-item" href="#second-order-cross-greeks">
+            <span class="kb-formula-recap-name">Second-order cross Greeks</span>
+            <span class="math-display">\[\text{vanna} = \frac{\partial\Delta}{\partial\sigma} = -\frac{\phi(d_1)d_2}{\sigma},
+\qquad \text{volga} = \mathcal{V}\,\frac{d_1d_2}{\sigma}\]</span>
+          </a></div>
+      </section>
+    <section class="kb-section" id="interview-questions">
+        <h2 class="kb-h kb-h2"><a class="kb-anchor" href="#interview-questions" aria-label="Link to this section">#</a>Interview Questions</h2>
+        <ol class="kb-questions">
+          <li class="kb-question" id="q-option-greeks-q1" data-difficulty="intermediate">
+            <div class="kb-question-head">
+              <span class="kb-question-text">Write down the P&amp;L of an option position as a Taylor expansion and name each term.</span>
+              <span class="kb-tagline">Intermediate · core · taylor · risk</span>
+            </div>
+            <details class="kb-hint"><summary>Hint</summary><div><p>Expand V(t, S, σ) in all three arguments and keep second order in S.</p></div></details>
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><span class="math-display">\[\d V \approx \underbrace{\Delta\,\d S}_{\text{direction}}
++ \underbrace{\tfrac12\Gamma(\d S)^2}_{\text{convexity}}
++ \underbrace{\mathcal{V}\,\d\sigma}_{\text{vol level}}
++ \underbrace{\Theta\,\d t}_{\text{time}}
++ \underbrace{\rho\,\d r}_{\text{rates}}\]</span>
+<p><strong>That is the whole framework.</strong> The Greeks are not five independent quantities somebody chose
+to report — they are the coefficients of one expansion, and a risk report is that expansion
+written as a table.</p>
+<p>Two structural points an interviewer is listening for. First,  <span class="math-inline">\(\Gamma\)</span>  appears at second order
+because it multiplies  <span class="math-inline">\((\d S)^2\)</span> , which for a diffusion is  <span class="math-inline">\(O(\d t)\)</span>  — the same order as
+ <span class="math-inline">\(\Theta\,\d t\)</span> . That is why theta and gamma are the pair that trade against each other.
+Second, delta-hedging sets the first term to zero, which is what promotes the second term from
+a correction to the entire position.</p></div></details>
+          </li>
+          <li class="kb-question" id="q-option-greeks-q2" data-difficulty="intermediate">
+            <div class="kb-question-head">
+              <span class="kb-question-text">Why are theta and gamma always opposite in sign, and what is the exact relationship?</span>
+              <span class="kb-tagline">Intermediate · theta · gamma · core · bs-equation</span>
+            </div>
+            
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>Rearrange the Black–Scholes equation:</p>
+<span class="math-display">\[\Theta = rV - rS\Delta - \tfrac12\sigma^2S^2\Gamma\]</span>
+<p>For a delta-hedged position ( <span class="math-inline">\(r\)</span>  terms small or netted),  <span class="math-inline">\(\Theta \approx
+-\tfrac12\sigma^2S^2\Gamma\)</span> . <strong>Positive gamma forces negative theta.</strong></p>
+<p><strong>The economics:</strong> gamma is the right to profit from movement in either direction. Nobody gives
+that away, so you rent it, and theta is the rent. Long option, long gamma, paying theta; short
+option, short gamma, collecting theta.</p>
+<p><strong>The number to carry:</strong> setting the two equal gives the break-even move,
+ <span class="math-inline">\(|\d S| = \sigma S\sqrt{\d t}\)</span> . At  <span class="math-inline">\(S=100\)</span> ,  <span class="math-inline">\(\sigma=20\%\)</span> , that is
+ <span class="math-inline">\(100\times0.20/\sqrt{252} = \$1.26\)</span>  a day. Move more and gamma pays for theta; move less and
+theta wins. Every gamma trader knows this number for their book without looking it up.</p></div></details>
+          </li>
+          <li class="kb-question" id="q-option-greeks-q3" data-difficulty="intermediate">
+            <div class="kb-question-head">
+              <span class="kb-question-text">Where is gamma largest, and why does that make short-dated options dangerous?</span>
+              <span class="kb-tagline">Intermediate · gamma · expiry · risk · desk</span>
+            </div>
+            
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>Gamma peaks <strong>at the money, near expiry</strong>, and diverges as  <span class="math-inline">\(T\to0\)</span> :</p>
+<span class="math-display">\[\Gamma = \frac{\phi(d_1)}{S\sigma\sqrt T} \;\xrightarrow{\;T\to0\;}\; \infty \text{ at } S=K\]</span>
+<p><strong>Why:</strong> delta must travel from 0 to 1 across the strike, and as expiry approaches it does so
+over a narrower and narrower range of spot. In the limit delta is a step function and gamma is
+a delta function.</p>
+<p><strong>The danger, concretely.</strong> A short at-the-money position the day before expiry has enormous
+gamma: delta can swing from 0.2 to 0.8 on a small move, so a hedge that was flat this morning
+is materially short or long by lunchtime. Hedging it requires trading with the market, into the
+move, repeatedly — and that is precisely when liquidity is worst.</p>
+<p>This is pinning risk. It is also why desks reduce or roll short-dated strike concentrations
+rather than model them better: the risk is operational, not analytical.</p></div></details>
+          </li>
+          <li class="kb-question" id="q-option-greeks-q4" data-difficulty="advanced">
+            <div class="kb-question-head">
+              <span class="kb-question-text">Why is vega highest for long-dated at-the-money options while gamma is highest for short-dated ones?</span>
+              <span class="kb-tagline">Advanced · vega · gamma · term-structure · core</span>
+            </div>
+            <details class="kb-hint"><summary>Hint</summary><div><p>Vega scales with √T; gamma scales with 1/√T.</p></div></details>
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><span class="math-display">\[\mathcal{V} = S\phi(d_1)\sqrt T, \qquad \Gamma = \frac{\phi(d_1)}{S\sigma\sqrt T}\]</span>
+<p>Vega carries  <span class="math-inline">\(\sqrt T\)</span> ; gamma carries  <span class="math-inline">\(1/\sqrt T\)</span> . <strong>They point in opposite directions along the
+term structure</strong>, and the relationship is exact:
+ <span class="math-inline">\(\mathcal{V} = \sigma T S^2\Gamma\)</span> .</p>
+<p><strong>The intuition:</strong> vega measures sensitivity to the <em>level</em> of volatility over the whole
+remaining life, so more life means more exposure. Gamma measures the curvature of the price in
+spot right now, and curvature concentrates as the payoff kink approaches.</p>
+<p><strong>The practical consequence</strong> is that vol risk splits into two trades that need different
+instruments. Want a view on where implied vol goes? Buy long-dated options — high vega, low
+gamma, low theta bleed. Want to trade realised against implied? Buy short-dated options — high
+gamma, high theta. Confusing the two is how a &quot;long volatility&quot; position ends up with almost no
+exposure to what the trader actually meant.</p></div></details>
+          </li>
+          <li class="kb-question" id="q-option-greeks-q5" data-difficulty="intermediate">
+            <div class="kb-question-head">
+              <span class="kb-question-text">A trader is delta-neutral and loses money on a large move. What happened?</span>
+              <span class="kb-tagline">Intermediate · gamma · hedging · desk · diagnosis</span>
+            </div>
+            
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p><strong>Short gamma.</strong> Delta-neutral means the first-order term is zero; it says nothing about the
+second. With  <span class="math-inline">\(\Gamma &lt; 0\)</span> :</p>
+<span class="math-display">\[\d V \approx \tfrac12\Gamma(\d S)^2 &lt; 0\]</span>
+<p>— a loss for a move in <em>either</em> direction, growing with the square of the move.</p>
+<p>Worse, the hedge itself is destabilising: as spot rises the short-gamma delta becomes more
+negative, so re-hedging means <em>buying</em> into a rally and <em>selling</em> into a fall. You trade with
+the move every time, realising a loss at each rebalance. This is the mechanism behind gamma
+squeezes and behind the classic &quot;delta-hedged and still lost money&quot; report.</p>
+<p>Two other candidates worth naming: <strong>vega</strong>, if implied vol moved (common in a large spot move,
+and correlated with it via vanna); and <strong>the hedge being stale</strong>, if the move happened between
+rebalances.</p></div></details>
+          </li>
+          <li class="kb-question" id="q-option-greeks-q6" data-difficulty="advanced">
+            <div class="kb-question-head">
+              <span class="kb-question-text">What are vanna and volga, and when do they matter?</span>
+              <span class="kb-tagline">Advanced · second-order · vanna · volga · skew · fx</span>
+            </div>
+            
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><span class="math-display">\[\text{vanna} = \frac{\partial^2V}{\partial S\,\partial\sigma} = \frac{\partial\Delta}{\partial\sigma},
+\qquad \text{volga} = \frac{\partial^2V}{\partial\sigma^2} = \frac{\partial\mathcal{V}}{\partial\sigma}\]</span>
+<p><strong>Vanna</strong> is how delta changes when vol moves — equivalently, how vega changes with spot. It is
+the Greek of <em>skew</em>: in equities, spot down and vol up move together, so a position with vanna
+exposure has a systematic P&amp;L that a delta-and-vega report shows as zero.</p>
+<p><strong>Volga</strong> (vol gamma) is convexity in volatility. It is positive for out-of-the-money options,
+which is why they gain from vol <em>moving</em> regardless of direction, and it is the Greek of the
+<em>smile&#39;s curvature</em>.</p>
+<p><strong>When they matter:</strong> whenever the position is large, the moves are large, or the payoff is
+not vanilla. FX desks manage vanna and volga explicitly — the standard vanna-volga pricing
+method for FX exotics is built entirely on them. On an equity book they are usually second
+order until a crash, at which point spot, vol and skew all move together and the vanna term is
+the one that was unhedged.</p></div></details>
+          </li>
+          <li class="kb-question" id="q-option-greeks-q7" data-difficulty="advanced">
+            <div class="kb-question-head">
+              <span class="kb-question-text">Your risk report shows net vega of zero across a book of options with different maturities. Are you vol-neutral?</span>
+              <span class="kb-tagline">Advanced · vega · term-structure · risk-reporting · desk</span>
+            </div>
+            
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p><strong>No.</strong> Summing raw vega across maturities adds numbers that respond to different things. A
+one-month vega and a two-year vega both say &quot;value change per vol point&quot;, but implied vols at
+different tenors do not move one-for-one — short-dated vol is far more volatile than long-dated.</p>
+<p>The standard correction is <strong>vega bucketing with a term-structure weight</strong>, typically scaling
+each tenor&#39;s vega by  <span class="math-inline">\(\sqrt{T_{\text{ref}}/T}\)</span>  so that positions are expressed in equivalent
+units of the move you actually expect. A book that is flat on raw vega is routinely long
+short-dated and short long-dated vol — a calendar position — and will make or lose money the
+moment the term structure moves.</p>
+<p>The same criticism applies across strikes (skew is not a parallel shift) and, more sharply,
+across underlyings, where summing vega assumes correlation 1. <strong>A single aggregated Greek is a
+summary, not a hedge</strong>, and the mistake of treating it as one is what makes stress tests, not
+Greeks, the binding risk constraint on a large book.</p></div></details>
+          </li></ol>
+      </section>
+
+    <section class="kb-section" id="connections">
+      <h2 class="kb-h kb-h2"><a class="kb-anchor" href="#connections" aria-label="Link to this section">#</a>Connections</h2>
+      <div class="kb-connections">
+        <section class="kb-relgroup"><h3>Prerequisites</h3><p class="kb-relnote">Understand these first.</p><ul class="kb-rellist"><li><a href="../concepts/black-scholes-formula.html" class="kb-relitem">
+          <span class="kb-relitem-title">Black–Scholes Formula</span>
+          <span class="kb-relitem-meta">Options · Advanced</span>
+          <span class="kb-relitem-sum">The closed-form price of a European call and put — two probability-weighted terms whose meaning is often garbled, a formula nobody believes literally, and the quoting language of the entire options market.</span>
+        </a></li></ul></section>
+        
+        <section class="kb-relgroup"><h3>Related</h3><ul class="kb-rellist"><li><a href="../concepts/black-scholes-equation.html" class="kb-relitem">
+          <span class="kb-relitem-title">The Black–Scholes Equation</span>
+          <span class="kb-relitem-meta">Options · Advanced</span>
+          <span class="kb-relitem-sum">Hedge an option with the underlying, watch the randomness cancel, and impose that what is left must earn the risk-free rate — the derivation that turns a model of the stock into a price for anything written on it, and explains why the expected return never appears.</span>
+        </a></li><li><a href="../concepts/put-call-parity.html" class="kb-relitem">
+          <span class="kb-relitem-title">Put–Call Parity</span>
+          <span class="kb-relitem-meta">Options · Foundational</span>
+          <span class="kb-relitem-sum">A long call and a short put at the same strike are a forward — an identity that holds with no model, no volatility and no distributional assumption, and the first sanity check any option price must pass.</span>
+        </a></li><li><a href="../concepts/itos-lemma.html" class="kb-relitem">
+          <span class="kb-relitem-title">Itô&#39;s Lemma</span>
+          <span class="kb-relitem-meta">Stochastic Processes · Advanced</span>
+          <span class="kb-relitem-sum">The chain rule for functions of a diffusion — a second-order term survives because the squared Brownian increment equals dt, and that surviving term is every convexity effect in finance, from gamma P&amp;L to volatility drag.</span>
+        </a></li><li><a href="../concepts/black-scholes-formula.html" class="kb-relitem">
+          <span class="kb-relitem-title">Black–Scholes Formula</span>
+          <span class="kb-relitem-meta">Options · Advanced</span>
+          <span class="kb-relitem-sum">The closed-form price of a European call and put — two probability-weighted terms whose meaning is often garbled, a formula nobody believes literally, and the quoting language of the entire options market.</span>
+        </a></li></ul></section>
+        
+      </div>
+      <figure class="kb-neighbourhood">
+        <canvas data-kb-minimap="option-greeks" width="760" height="300" aria-label="Local knowledge graph"></canvas>
+        <figcaption>Two hops out from this concept.
+          <a class="kb-side-more" href="../graph.html?focus=option-greeks">Open full graph →</a></figcaption>
+      </figure>
+      <div class="kb-references"><h3>References</h3><ul><li>Hull, *Options, Futures and Other Derivatives*, ch. 19</li><li>Taleb, *Dynamic Hedging*</li><li>Wilmott, *Paul Wilmott on Quantitative Finance*, ch. 8</li></ul></div>
+    </section>
+
+    <nav class="kb-prevnext" aria-label="Concept navigation">
+    <a class="kb-prevnext-item kb-prevnext-prev" href="../concepts/black-scholes-equation.html" rel="prev">
+      <span class="kb-prevnext-label">← Previous</span><span>The Black–Scholes Equation</span></a>
+    <a class="kb-prevnext-item kb-prevnext-up" href="../subjects/options.html">
+      <span class="kb-prevnext-label">Subject</span><span>Options</span></a>
+    <a class="kb-prevnext-item kb-prevnext-next" href="../concepts/black-scholes-formula.html" rel="next">
+      <span class="kb-prevnext-label">Next →</span><span>Black–Scholes Formula</span></a>
+  </nav>
+    <footer class="kb-source-note">
+      Source: <code>content/concepts/option-greeks.md</code> · updated 2026-09-03
+    </footer>
+  </article>
+
+  <!-- The rail sits in the left column but comes last in the source: the
+       article is what a reader (or a screen reader) wants first, and the
+       links here are a way back into it rather than a way into the page. -->
+  <aside class="kb-rail">
+    <nav class="kb-toc kb-rail-group" aria-label="On this page"><h3>On this page</h3><ol><li><a href="#intuition">Intuition</a></li><li><a href="#mathematical-formulation">Mathematical Formulation</a></li><li><a href="#derivation">Derivation</a></li><li><a href="#assumptions-edge-cases">Assumptions &amp; Edge Cases</a></li><li><a href="#worked-example">Worked Example</a></li><li><a href="#why-it-matters-in-quant-finance">Why It Matters in Quant Finance</a></li><li><a href="#trading-research-application">Trading &amp; Research Application</a></li><li><a href="#implementation-notes">Implementation Notes</a></li><li><a href="#common-mistakes">Common Mistakes</a></li><li><a href="#30-second-revision">30-Second Revision</a></li><li><a href="#key-formulas">Key Formulas</a></li><li><a href="#interview-questions">Interview Questions</a></li><li><a href="#connections">Connections</a></li></ol></nav>
+    <nav class="kb-rail-group" id="side-formulas" aria-label="Key formulas"><h3>Formulas</h3><ul><li><a href="#delta">Delta</a></li><li><a href="#gamma">Gamma</a></li><li><a href="#vega">Vega</a></li><li><a href="#theta-call">Theta (call)</a></li><li><a href="#rho">Rho</a></li><li><a href="#gammavegatheta-identity">Gamma–vega–theta identity</a></li><li><a href="#second-order-cross-greeks">Second-order cross Greeks</a></li></ul></nav>
+  </aside>
+</main>
+<script src="../data/kb.data.js?v=8381a4e4"></script>
+<script src="../data/search.index.js?v=6eb1e318"></script>
+<script src="../assets/js/kb-core.js?v=a4c20d2d"></script>
+<script src="../assets/js/kb-ui.js?v=a48ca814"></script>
+<script src="../assets/vendor/katex/katex.min.js" defer></script>
+<script src="../assets/vendor/katex/auto-render.min.js" defer></script>
+<script src="../assets/js/math.js?v=44b57f03" defer></script>
+<script src="../assets/js/concept.js?v=c6248b59" defer></script>
+<script src="../assets/js/lib/plot.js?v=54c52379" defer></script>
+<script src="../assets/js/modules/black-scholes-lab.js?v=bfb65d10" defer></script>
+</body>
+</html>

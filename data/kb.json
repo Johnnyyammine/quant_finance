@@ -1,6 +1,6 @@
 {
-  "contentHash": "3ab2e8db3add",
-  "contentUpdated": "2026-09-02",
+  "contentHash": "b1673c31e104",
+  "contentUpdated": "2026-09-03",
   "version": 1,
   "vocab": {
     "difficulty": [
@@ -150,8 +150,8 @@
       "group": "modelling",
       "order": 110,
       "path": "subjects/stochastic-processes.html",
-      "conceptCount": 2,
-      "interviewMax": 4
+      "conceptCount": 3,
+      "interviewMax": 5
     },
     {
       "id": "time-series",
@@ -282,8 +282,8 @@
       "group": "markets",
       "order": 310,
       "path": "subjects/derivatives.html",
-      "conceptCount": 0,
-      "interviewMax": 0
+      "conceptCount": 1,
+      "interviewMax": 4
     },
     {
       "id": "options",
@@ -294,8 +294,8 @@
       "group": "markets",
       "order": 320,
       "path": "subjects/options.html",
-      "conceptCount": 0,
-      "interviewMax": 0
+      "conceptCount": 4,
+      "interviewMax": 5
     },
     {
       "id": "fixed-income",
@@ -383,6 +383,7 @@
         "conditional-probability",
         "covariance-and-correlation",
         "expectation",
+        "itos-lemma",
         "linear-regression",
         "pca-and-eigenportfolios",
         "sharpe-ratio",
@@ -409,10 +410,14 @@
       "order": 20,
       "conceptIds": [
         "bayes-theorem",
+        "black-scholes-formula",
         "conditional-probability",
         "effective-number-of-bets",
         "expectation",
-        "sharpe-ratio"
+        "option-greeks",
+        "put-call-parity",
+        "sharpe-ratio",
+        "black-scholes-equation"
       ]
     },
     {
@@ -431,7 +436,8 @@
       "minRelevance": 2,
       "order": 30,
       "conceptIds": [
-        "pca-and-eigenportfolios"
+        "pca-and-eigenportfolios",
+        "forwards-and-futures"
       ]
     },
     {
@@ -478,9 +484,14 @@
       "order": 50,
       "conceptIds": [
         "bayes-theorem",
+        "black-scholes-formula",
         "conditional-probability",
         "effective-number-of-bets",
         "expectation",
+        "itos-lemma",
+        "option-greeks",
+        "put-call-parity",
+        "black-scholes-equation",
         "brownian-motion",
         "martingales"
       ]
@@ -545,15 +556,33 @@
       "minRelevance": 3,
       "order": 80,
       "conceptIds": [
+        "black-scholes-formula",
+        "itos-lemma",
+        "option-greeks",
+        "put-call-parity",
+        "black-scholes-equation",
         "brownian-motion",
+        "forwards-and-futures",
         "martingales"
       ]
     }
   ],
   "tags": [
     {
+      "id": "pricing",
+      "count": 8
+    },
+    {
       "id": "risk",
-      "count": 6
+      "count": 7
+    },
+    {
+      "id": "no-arbitrage",
+      "count": 4
+    },
+    {
+      "id": "options",
+      "count": 4
     },
     {
       "id": "diversification",
@@ -564,7 +593,7 @@
       "count": 3
     },
     {
-      "id": "pricing",
+      "id": "gamma",
       "count": 3
     },
     {
@@ -572,7 +601,15 @@
       "count": 3
     },
     {
+      "id": "replication",
+      "count": 3
+    },
+    {
       "id": "statistics",
+      "count": 3
+    },
+    {
+      "id": "stochastic-processes",
       "count": 3
     },
     {
@@ -584,11 +621,19 @@
       "count": 2
     },
     {
+      "id": "diffusion",
+      "count": 2
+    },
+    {
       "id": "eigenvalues",
       "count": 2
     },
     {
       "id": "estimation",
+      "count": 2
+    },
+    {
+      "id": "hedging",
       "count": 2
     },
     {
@@ -604,7 +649,7 @@
       "count": 2
     },
     {
-      "id": "stochastic-processes",
+      "id": "quadratic-variation",
       "count": 2
     },
     {
@@ -620,6 +665,10 @@
       "count": 1
     },
     {
+      "id": "basis",
+      "count": 1
+    },
+    {
       "id": "compounding",
       "count": 1
     },
@@ -628,7 +677,19 @@
       "count": 1
     },
     {
+      "id": "convexity",
+      "count": 1
+    },
+    {
+      "id": "cost-of-carry",
+      "count": 1
+    },
+    {
       "id": "crowding",
+      "count": 1
+    },
+    {
+      "id": "delta",
       "count": 1
     },
     {
@@ -636,7 +697,7 @@
       "count": 1
     },
     {
-      "id": "diffusion",
+      "id": "derivatives",
       "count": 1
     },
     {
@@ -656,7 +717,19 @@
       "count": 1
     },
     {
+      "id": "european",
+      "count": 1
+    },
+    {
+      "id": "greeks",
+      "count": 1
+    },
+    {
       "id": "growth",
+      "count": 1
+    },
+    {
+      "id": "implied-volatility",
       "count": 1
     },
     {
@@ -668,6 +741,10 @@
       "count": 1
     },
     {
+      "id": "ito",
+      "count": 1
+    },
+    {
       "id": "leverage",
       "count": 1
     },
@@ -676,11 +753,23 @@
       "count": 1
     },
     {
-      "id": "no-arbitrage",
+      "id": "lognormal",
+      "count": 1
+    },
+    {
+      "id": "moneyness",
       "count": 1
     },
     {
       "id": "ols",
+      "count": 1
+    },
+    {
+      "id": "parity",
+      "count": 1
+    },
+    {
+      "id": "pde",
       "count": 1
     },
     {
@@ -696,7 +785,11 @@
       "count": 1
     },
     {
-      "id": "quadratic-variation",
+      "id": "risk-neutral",
+      "count": 1
+    },
+    {
+      "id": "sensitivity",
       "count": 1
     },
     {
@@ -704,11 +797,27 @@
       "count": 1
     },
     {
+      "id": "smile",
+      "count": 1
+    },
+    {
       "id": "stress-testing",
       "count": 1
     },
     {
+      "id": "synthetic",
+      "count": 1
+    },
+    {
+      "id": "theta",
+      "count": 1
+    },
+    {
       "id": "updating",
+      "count": 1
+    },
+    {
+      "id": "vega",
       "count": 1
     },
     {
@@ -739,6 +848,61 @@
     {
       "from": "bayes-theorem",
       "to": "linear-regression",
+      "type": "related"
+    },
+    {
+      "from": "itos-lemma",
+      "to": "black-scholes-equation",
+      "type": "prerequisite"
+    },
+    {
+      "from": "black-scholes-equation",
+      "to": "martingales",
+      "type": "related"
+    },
+    {
+      "from": "black-scholes-equation",
+      "to": "put-call-parity",
+      "type": "related"
+    },
+    {
+      "from": "black-scholes-equation",
+      "to": "black-scholes-formula",
+      "type": "related"
+    },
+    {
+      "from": "black-scholes-equation",
+      "to": "itos-lemma",
+      "type": "related"
+    },
+    {
+      "from": "black-scholes-equation",
+      "to": "option-greeks",
+      "type": "related"
+    },
+    {
+      "from": "black-scholes-equation",
+      "to": "black-scholes-formula",
+      "type": "prerequisite"
+    },
+    {
+      "from": "put-call-parity",
+      "to": "black-scholes-formula",
+      "type": "prerequisite"
+    },
+    {
+      "from": "black-scholes-formula",
+      "to": "option-greeks",
+      "type": "related"
+    },
+    {
+      "from": "black-scholes-formula",
+      "to": "expectation",
+      "type": "related"
+    },
+    {
+      "from": "black-scholes-formula",
+      "to": "put-call-parity",
       "type": "related"
     },
     {
@@ -853,6 +1017,41 @@
     },
     {
       "from": "expectation",
+      "to": "forwards-and-futures",
+      "type": "related"
+    },
+    {
+      "from": "forwards-and-futures",
+      "to": "put-call-parity",
+      "type": "related"
+    },
+    {
+      "from": "brownian-motion",
+      "to": "itos-lemma",
+      "type": "prerequisite"
+    },
+    {
+      "from": "itos-lemma",
+      "to": "martingales",
+      "type": "related"
+    },
+    {
+      "from": "itos-lemma",
+      "to": "variance",
+      "type": "related"
+    },
+    {
+      "from": "itos-lemma",
+      "to": "kelly-criterion",
+      "type": "related"
+    },
+    {
+      "from": "itos-lemma",
+      "to": "option-greeks",
+      "type": "related"
+    },
+    {
+      "from": "expectation",
       "to": "kelly-criterion",
       "type": "prerequisite"
     },
@@ -897,8 +1096,23 @@
       "type": "prerequisite"
     },
     {
+      "from": "black-scholes-formula",
+      "to": "option-greeks",
+      "type": "prerequisite"
+    },
+    {
+      "from": "option-greeks",
+      "to": "put-call-parity",
+      "type": "related"
+    },
+    {
       "from": "covariance-and-correlation",
       "to": "pca-and-eigenportfolios",
+      "type": "prerequisite"
+    },
+    {
+      "from": "forwards-and-futures",
+      "to": "put-call-parity",
       "type": "prerequisite"
     },
     {
@@ -1082,6 +1296,467 @@
       ]
     },
     {
+      "id": "black-scholes-equation",
+      "title": "The Black–Scholes Equation",
+      "subject": "options",
+      "summary": "Hedge an option with the underlying, watch the randomness cancel, and impose that what is left must earn the risk-free rate — the derivation that turns a model of the stock into a price for anything written on it, and explains why the expected return never appears.",
+      "difficulty": "advanced",
+      "interviewRelevance": 5,
+      "tags": [
+        "options",
+        "pricing",
+        "hedging",
+        "pde",
+        "replication",
+        "risk-neutral",
+        "no-arbitrage",
+        "gamma"
+      ],
+      "prerequisites": [
+        "itos-lemma"
+      ],
+      "related": [
+        "martingales",
+        "put-call-parity",
+        "black-scholes-formula",
+        "itos-lemma",
+        "option-greeks"
+      ],
+      "builtOn": [
+        "black-scholes-formula"
+      ],
+      "tracks": [],
+      "path": "concepts/black-scholes-equation.html",
+      "updated": "2026-09-03",
+      "modules": [],
+      "sections": [
+        {
+          "id": "intuition",
+          "label": "Intuition"
+        },
+        {
+          "id": "mathematical-formulation",
+          "label": "Mathematical Formulation"
+        },
+        {
+          "id": "derivation",
+          "label": "Derivation"
+        },
+        {
+          "id": "assumptions-edge-cases",
+          "label": "Assumptions & Edge Cases"
+        },
+        {
+          "id": "worked-example",
+          "label": "Worked Example"
+        },
+        {
+          "id": "why-it-matters-in-quant-finance",
+          "label": "Why It Matters in Quant Finance"
+        },
+        {
+          "id": "trading-research-application",
+          "label": "Trading & Research Application"
+        },
+        {
+          "id": "implementation-notes",
+          "label": "Implementation Notes"
+        },
+        {
+          "id": "common-mistakes",
+          "label": "Common Mistakes"
+        },
+        {
+          "id": "30-second-revision",
+          "label": "30-Second Revision"
+        }
+      ],
+      "formulas": [
+        {
+          "id": "the-blackscholes-equation",
+          "name": "The Black–Scholes equation",
+          "latex": "\\frac{\\partial V}{\\partial t} + rS\\frac{\\partial V}{\\partial S}\n+ \\frac{1}{2}\\sigma^2S^2\\frac{\\partial^2 V}{\\partial S^2} = rV",
+          "usedIn": [
+            "All Derivatives Pricing",
+            "PDE Methods"
+          ]
+        },
+        {
+          "id": "greek-form",
+          "name": "Greek form",
+          "latex": "\\Theta + rS\\Delta + \\tfrac12\\sigma^2S^2\\Gamma = rV",
+          "usedIn": [
+            "Risk Management",
+            "Desk P&L"
+          ]
+        },
+        {
+          "id": "delta-hedged-pl",
+          "name": "Delta-hedged P&L",
+          "latex": "\\d\\Pi = \\tfrac12\\Gamma\\Big[(\\d S)^2 - \\sigma^2S^2\\,\\d t\\Big]",
+          "usedIn": [
+            "Gamma Trading",
+            "Volatility Arbitrage"
+          ]
+        },
+        {
+          "id": "risk-neutral-valuation-feynmankac",
+          "name": "Risk-neutral valuation (Feynman–Kac)",
+          "latex": "V(t,S) = \\E^\\Q\\!\\left[e^{-r(T-t)}H(S_T)\\,\\middle|\\,S_t=S\\right],\n\\qquad \\d S = rS\\,\\d t + \\sigma S\\,\\d W^\\Q",
+          "usedIn": [
+            "Monte Carlo",
+            "Exotics"
+          ]
+        },
+        {
+          "id": "terminal-and-boundary-conditions",
+          "name": "Terminal and boundary conditions",
+          "latex": "V(T,S) = \\max(S-K,0), \\qquad V(t,0) = 0, \\qquad V(t,S)\\to S - Ke^{-r(T-t)} \\text{ as } S\\to\\infty",
+          "usedIn": [
+            "Numerical Pricing"
+          ]
+        }
+      ],
+      "questions": [
+        {
+          "id": "black-scholes-equation-q1",
+          "question": "Derive the Black–Scholes PDE. Where exactly does μ disappear?",
+          "difficulty": "advanced",
+          "tags": [
+            "core",
+            "derivation",
+            "replication"
+          ],
+          "concept": "black-scholes-equation",
+          "subject": "options",
+          "hasAnswer": true,
+          "path": "concepts/black-scholes-equation.html#q-black-scholes-equation-q1"
+        },
+        {
+          "id": "black-scholes-equation-q2",
+          "question": "Why is the expected return of the stock irrelevant to the option price? Give the economic version.",
+          "difficulty": "advanced",
+          "tags": [
+            "risk-neutral",
+            "core",
+            "intuition"
+          ],
+          "concept": "black-scholes-equation",
+          "subject": "options",
+          "hasAnswer": true,
+          "path": "concepts/black-scholes-equation.html#q-black-scholes-equation-q2"
+        },
+        {
+          "id": "black-scholes-equation-q3",
+          "question": "What kind of PDE is it, and what does that tell you?",
+          "difficulty": "advanced",
+          "tags": [
+            "pde",
+            "heat-equation",
+            "numerics"
+          ],
+          "concept": "black-scholes-equation",
+          "subject": "options",
+          "hasAnswer": true,
+          "path": "concepts/black-scholes-equation.html#q-black-scholes-equation-q3"
+        },
+        {
+          "id": "black-scholes-equation-q4",
+          "question": "State the Feynman–Kac link and use it to write the price as an expectation.",
+          "difficulty": "advanced",
+          "tags": [
+            "feynman-kac",
+            "risk-neutral",
+            "martingales"
+          ],
+          "concept": "black-scholes-equation",
+          "subject": "options",
+          "hasAnswer": true,
+          "path": "concepts/black-scholes-equation.html#q-black-scholes-equation-q4"
+        },
+        {
+          "id": "black-scholes-equation-q5",
+          "question": "A colleague says \"we should use a higher discount rate for the option because it is riskier than the stock.\" Respond.",
+          "difficulty": "advanced",
+          "tags": [
+            "risk-neutral",
+            "discounting",
+            "misconception"
+          ],
+          "concept": "black-scholes-equation",
+          "subject": "options",
+          "hasAnswer": true,
+          "path": "concepts/black-scholes-equation.html#q-black-scholes-equation-q5"
+        },
+        {
+          "id": "black-scholes-equation-q6",
+          "question": "The derivation assumes continuous, costless rebalancing. What actually happens when you hedge discretely?",
+          "difficulty": "advanced",
+          "tags": [
+            "hedging-error",
+            "gamma",
+            "transaction-costs",
+            "desk"
+          ],
+          "concept": "black-scholes-equation",
+          "subject": "options",
+          "hasAnswer": true,
+          "path": "concepts/black-scholes-equation.html#q-black-scholes-equation-q6"
+        },
+        {
+          "id": "black-scholes-equation-q7",
+          "question": "Which assumption of the derivation does the volatility smile falsify?",
+          "difficulty": "advanced",
+          "tags": [
+            "smile",
+            "assumptions",
+            "limitations"
+          ],
+          "concept": "black-scholes-equation",
+          "subject": "options",
+          "hasAnswer": true,
+          "path": "concepts/black-scholes-equation.html#q-black-scholes-equation-q7"
+        }
+      ]
+    },
+    {
+      "id": "black-scholes-formula",
+      "title": "Black–Scholes Formula",
+      "subject": "options",
+      "summary": "The closed-form price of a European call and put — two probability-weighted terms whose meaning is often garbled, a formula nobody believes literally, and the quoting language of the entire options market.",
+      "difficulty": "advanced",
+      "interviewRelevance": 5,
+      "tags": [
+        "options",
+        "pricing",
+        "implied-volatility",
+        "lognormal",
+        "smile",
+        "european",
+        "moneyness"
+      ],
+      "prerequisites": [
+        "black-scholes-equation",
+        "put-call-parity"
+      ],
+      "related": [
+        "option-greeks",
+        "expectation",
+        "black-scholes-equation",
+        "put-call-parity"
+      ],
+      "builtOn": [
+        "option-greeks"
+      ],
+      "tracks": [],
+      "path": "concepts/black-scholes-formula.html",
+      "updated": "2026-09-03",
+      "modules": [],
+      "sections": [
+        {
+          "id": "intuition",
+          "label": "Intuition"
+        },
+        {
+          "id": "mathematical-formulation",
+          "label": "Mathematical Formulation"
+        },
+        {
+          "id": "derivation",
+          "label": "Derivation"
+        },
+        {
+          "id": "assumptions-edge-cases",
+          "label": "Assumptions & Edge Cases"
+        },
+        {
+          "id": "worked-example",
+          "label": "Worked Example"
+        },
+        {
+          "id": "why-it-matters-in-quant-finance",
+          "label": "Why It Matters in Quant Finance"
+        },
+        {
+          "id": "trading-research-application",
+          "label": "Trading & Research Application"
+        },
+        {
+          "id": "implementation-notes",
+          "label": "Implementation Notes"
+        },
+        {
+          "id": "common-mistakes",
+          "label": "Common Mistakes"
+        },
+        {
+          "id": "30-second-revision",
+          "label": "30-Second Revision"
+        }
+      ],
+      "formulas": [
+        {
+          "id": "blackscholes-call",
+          "name": "Black–Scholes call",
+          "latex": "C = S_0e^{-qT}N(d_1) - Ke^{-rT}N(d_2)",
+          "usedIn": [
+            "Equity Options",
+            "All Vanilla Pricing"
+          ]
+        },
+        {
+          "id": "blackscholes-put",
+          "name": "Black–Scholes put",
+          "latex": "P = Ke^{-rT}N(-d_2) - S_0e^{-qT}N(-d_1)",
+          "usedIn": [
+            "Equity Options",
+            "Protection",
+            "Skew"
+          ]
+        },
+        {
+          "id": "d-and-d",
+          "name": "d₁ and d₂",
+          "latex": "d_1 = \\frac{\\ln(S_0/K) + (r - q + \\tfrac12\\sigma^2)T}{\\sigma\\sqrt T},\n\\qquad d_2 = d_1 - \\sigma\\sqrt T",
+          "usedIn": [
+            "Option Pricing",
+            "Greeks",
+            "Delta Approximation"
+          ]
+        },
+        {
+          "id": "black-76-forward-form",
+          "name": "Black-76 (forward form)",
+          "latex": "C = e^{-rT}\\big[F_0N(d_1) - KN(d_2)\\big],\n\\qquad d_{1,2} = \\frac{\\ln(F_0/K) \\pm \\tfrac12\\sigma^2T}{\\sigma\\sqrt T}",
+          "usedIn": [
+            "Futures Options",
+            "Caps",
+            "Swaptions",
+            "FX"
+          ]
+        },
+        {
+          "id": "at-the-money-approximation",
+          "name": "At-the-money approximation",
+          "latex": "C_{\\text{ATM}} \\approx \\frac{1}{\\sqrt{2\\pi}}\\,S\\sigma\\sqrt{T} \\approx 0.4\\,S\\sigma\\sqrt{T}",
+          "usedIn": [
+            "Mental Math",
+            "Desk Quoting"
+          ]
+        },
+        {
+          "id": "risk-neutral-density",
+          "name": "Risk-neutral density",
+          "latex": "\\frac{\\partial^2 C}{\\partial K^2} = e^{-rT} q_\\Q(K)",
+          "usedIn": [
+            "Surface Fitting",
+            "Exotics",
+            "Breeden–Litzenberger"
+          ]
+        }
+      ],
+      "questions": [
+        {
+          "id": "black-scholes-formula-q1",
+          "question": "What do N(d₁) and N(d₂) actually mean? Be precise.",
+          "difficulty": "advanced",
+          "tags": [
+            "core",
+            "interpretation",
+            "risk-neutral"
+          ],
+          "concept": "black-scholes-formula",
+          "subject": "options",
+          "hasAnswer": true,
+          "path": "concepts/black-scholes-formula.html#q-black-scholes-formula-q1"
+        },
+        {
+          "id": "black-scholes-formula-q2",
+          "question": "Give the at-the-money call price approximation and derive it.",
+          "difficulty": "intermediate",
+          "tags": [
+            "approximation",
+            "mental-math",
+            "desk"
+          ],
+          "concept": "black-scholes-formula",
+          "subject": "options",
+          "hasAnswer": true,
+          "path": "concepts/black-scholes-formula.html#q-black-scholes-formula-q2"
+        },
+        {
+          "id": "black-scholes-formula-q3",
+          "question": "What is implied volatility, and why does the smile exist?",
+          "difficulty": "intermediate",
+          "tags": [
+            "implied-volatility",
+            "smile",
+            "core"
+          ],
+          "concept": "black-scholes-formula",
+          "subject": "options",
+          "hasAnswer": true,
+          "path": "concepts/black-scholes-formula.html#q-black-scholes-formula-q3"
+        },
+        {
+          "id": "black-scholes-formula-q4",
+          "question": "A call is deep in the money. What does the price converge to, and why is that not obvious?",
+          "difficulty": "intermediate",
+          "tags": [
+            "limits",
+            "bounds",
+            "forwards"
+          ],
+          "concept": "black-scholes-formula",
+          "subject": "options",
+          "hasAnswer": true,
+          "path": "concepts/black-scholes-formula.html#q-black-scholes-formula-q4"
+        },
+        {
+          "id": "black-scholes-formula-q5",
+          "question": "Price a 3-month at-the-money call on a $50 stock, σ = 40%, r = 4%. Do it without a calculator.",
+          "difficulty": "intermediate",
+          "tags": [
+            "mental-math",
+            "desk",
+            "numerical"
+          ],
+          "concept": "black-scholes-formula",
+          "subject": "options",
+          "hasAnswer": true,
+          "path": "concepts/black-scholes-formula.html#q-black-scholes-formula-q5"
+        },
+        {
+          "id": "black-scholes-formula-q6",
+          "question": "Why is √T in the formula rather than T, and what does that imply for time decay?",
+          "difficulty": "intermediate",
+          "tags": [
+            "scaling",
+            "theta",
+            "time"
+          ],
+          "concept": "black-scholes-formula",
+          "subject": "options",
+          "hasAnswer": true,
+          "path": "concepts/black-scholes-formula.html#q-black-scholes-formula-q6"
+        },
+        {
+          "id": "black-scholes-formula-q7",
+          "question": "Your model says a call is worth $4.00 and it trades at $4.60. Do you buy it?",
+          "difficulty": "advanced",
+          "tags": [
+            "desk",
+            "implied-volatility",
+            "judgement"
+          ],
+          "concept": "black-scholes-formula",
+          "subject": "options",
+          "hasAnswer": true,
+          "path": "concepts/black-scholes-formula.html#q-black-scholes-formula-q7"
+        }
+      ]
+    },
+    {
       "id": "brownian-motion",
       "title": "Brownian Motion",
       "subject": "stochastic-processes",
@@ -1105,7 +1780,9 @@
         "martingales",
         "sharpe-ratio"
       ],
-      "builtOn": [],
+      "builtOn": [
+        "itos-lemma"
+      ],
       "tracks": [],
       "path": "concepts/brownian-motion.html",
       "updated": "2026-01-14",
@@ -1858,7 +2535,9 @@
         "conditional-probability",
         "linear-regression",
         "bayes-theorem",
-        "brownian-motion"
+        "black-scholes-formula",
+        "brownian-motion",
+        "forwards-and-futures"
       ],
       "builtOn": [
         "covariance-and-correlation",
@@ -2019,6 +2698,412 @@
       ]
     },
     {
+      "id": "forwards-and-futures",
+      "title": "Forwards & Futures",
+      "subject": "derivatives",
+      "summary": "The simplest derivative and the cleanest pricing argument in finance — a forward price is fixed entirely by the cost of carrying the asset, with no model, no volatility and no view on where the price is going.",
+      "difficulty": "foundational",
+      "interviewRelevance": 4,
+      "tags": [
+        "derivatives",
+        "no-arbitrage",
+        "replication",
+        "cost-of-carry",
+        "pricing",
+        "basis"
+      ],
+      "prerequisites": [],
+      "related": [
+        "expectation",
+        "put-call-parity"
+      ],
+      "builtOn": [
+        "put-call-parity"
+      ],
+      "tracks": [],
+      "path": "concepts/forwards-and-futures.html",
+      "updated": "2026-09-03",
+      "modules": [],
+      "sections": [
+        {
+          "id": "intuition",
+          "label": "Intuition"
+        },
+        {
+          "id": "mathematical-formulation",
+          "label": "Mathematical Formulation"
+        },
+        {
+          "id": "derivation",
+          "label": "Derivation"
+        },
+        {
+          "id": "assumptions-edge-cases",
+          "label": "Assumptions & Edge Cases"
+        },
+        {
+          "id": "worked-example",
+          "label": "Worked Example"
+        },
+        {
+          "id": "why-it-matters-in-quant-finance",
+          "label": "Why It Matters in Quant Finance"
+        },
+        {
+          "id": "trading-research-application",
+          "label": "Trading & Research Application"
+        },
+        {
+          "id": "implementation-notes",
+          "label": "Implementation Notes"
+        },
+        {
+          "id": "common-mistakes",
+          "label": "Common Mistakes"
+        },
+        {
+          "id": "30-second-revision",
+          "label": "30-Second Revision"
+        }
+      ],
+      "formulas": [
+        {
+          "id": "forward-price-no-income",
+          "name": "Forward price, no income",
+          "latex": "F_0 = S_0e^{rT}",
+          "usedIn": [
+            "Equities",
+            "Delta-One",
+            "Index Futures"
+          ]
+        },
+        {
+          "id": "cost-of-carry-general",
+          "name": "Cost of carry, general",
+          "latex": "F_0 = S_0\\,e^{(r - q + u - y)T}",
+          "usedIn": [
+            "Commodities",
+            "FX",
+            "Equities"
+          ]
+        },
+        {
+          "id": "covered-interest-parity",
+          "name": "Covered interest parity",
+          "latex": "F_0^{\\text{FX}} = S_0\\,e^{(r_{\\text{dom}} - r_{\\text{for}})T}",
+          "usedIn": [
+            "FX",
+            "Rates"
+          ]
+        },
+        {
+          "id": "value-of-an-existing-forward",
+          "name": "Value of an existing forward",
+          "latex": "V_t = (F_t - K)\\,e^{-r(T-t)}",
+          "usedIn": [
+            "Mark-to-Market",
+            "Risk"
+          ]
+        },
+        {
+          "id": "forward-as-a-risk-neutral-expectation",
+          "name": "Forward as a risk-neutral expectation",
+          "latex": "F_0 = \\E^\\Q[S_T]",
+          "usedIn": [
+            "Pricing Theory"
+          ]
+        }
+      ],
+      "questions": [
+        {
+          "id": "forwards-and-futures-q1",
+          "question": "Derive the forward price of a non-dividend-paying stock and explain why no probability appears.",
+          "difficulty": "foundational",
+          "tags": [
+            "no-arbitrage",
+            "core",
+            "replication"
+          ],
+          "concept": "forwards-and-futures",
+          "subject": "derivatives",
+          "hasAnswer": true,
+          "path": "concepts/forwards-and-futures.html#q-forwards-and-futures-q1"
+        },
+        {
+          "id": "forwards-and-futures-q2",
+          "question": "Why is the forward price not the expected future spot price?",
+          "difficulty": "intermediate",
+          "tags": [
+            "expectation",
+            "risk-premium",
+            "core"
+          ],
+          "concept": "forwards-and-futures",
+          "subject": "derivatives",
+          "hasAnswer": true,
+          "path": "concepts/forwards-and-futures.html#q-forwards-and-futures-q2"
+        },
+        {
+          "id": "forwards-and-futures-q3",
+          "question": "A stock pays a continuous dividend yield q. What is the forward price, and what breaks if you ignore q?",
+          "difficulty": "intermediate",
+          "tags": [
+            "dividends",
+            "cost-of-carry"
+          ],
+          "concept": "forwards-and-futures",
+          "subject": "derivatives",
+          "hasAnswer": true,
+          "path": "concepts/forwards-and-futures.html#q-forwards-and-futures-q3"
+        },
+        {
+          "id": "forwards-and-futures-q4",
+          "question": "Forwards and futures have the same payoff. Why can their prices differ?",
+          "difficulty": "advanced",
+          "tags": [
+            "futures",
+            "margin",
+            "correlation",
+            "convexity"
+          ],
+          "concept": "forwards-and-futures",
+          "subject": "derivatives",
+          "hasAnswer": true,
+          "path": "concepts/forwards-and-futures.html#q-forwards-and-futures-q4"
+        },
+        {
+          "id": "forwards-and-futures-q5",
+          "question": "Gold forwards trade at a 3% annual premium to spot. Rates are 5%. Is there an arbitrage?",
+          "difficulty": "advanced",
+          "tags": [
+            "arbitrage",
+            "storage",
+            "desk"
+          ],
+          "concept": "forwards-and-futures",
+          "subject": "derivatives",
+          "hasAnswer": true,
+          "path": "concepts/forwards-and-futures.html#q-forwards-and-futures-q5"
+        },
+        {
+          "id": "forwards-and-futures-q6",
+          "question": "What does a long forward's payoff diagram look like, and why does that make it a bad hedge for a call?",
+          "difficulty": "foundational",
+          "tags": [
+            "payoff",
+            "hedging",
+            "delta"
+          ],
+          "concept": "forwards-and-futures",
+          "subject": "derivatives",
+          "hasAnswer": true,
+          "path": "concepts/forwards-and-futures.html#q-forwards-and-futures-q6"
+        }
+      ]
+    },
+    {
+      "id": "itos-lemma",
+      "title": "Itô's Lemma",
+      "subject": "stochastic-processes",
+      "summary": "The chain rule for functions of a diffusion — a second-order term survives because the squared Brownian increment equals dt, and that surviving term is every convexity effect in finance, from gamma P&L to volatility drag.",
+      "difficulty": "advanced",
+      "interviewRelevance": 5,
+      "tags": [
+        "stochastic-processes",
+        "ito",
+        "quadratic-variation",
+        "convexity",
+        "gamma",
+        "pricing",
+        "diffusion"
+      ],
+      "prerequisites": [
+        "brownian-motion"
+      ],
+      "related": [
+        "martingales",
+        "variance",
+        "black-scholes-equation",
+        "kelly-criterion",
+        "option-greeks"
+      ],
+      "builtOn": [
+        "black-scholes-equation"
+      ],
+      "tracks": [],
+      "path": "concepts/itos-lemma.html",
+      "updated": "2026-09-03",
+      "modules": [],
+      "sections": [
+        {
+          "id": "intuition",
+          "label": "Intuition"
+        },
+        {
+          "id": "mathematical-formulation",
+          "label": "Mathematical Formulation"
+        },
+        {
+          "id": "derivation",
+          "label": "Derivation"
+        },
+        {
+          "id": "assumptions-edge-cases",
+          "label": "Assumptions & Edge Cases"
+        },
+        {
+          "id": "worked-example",
+          "label": "Worked Example"
+        },
+        {
+          "id": "why-it-matters-in-quant-finance",
+          "label": "Why It Matters in Quant Finance"
+        },
+        {
+          "id": "trading-research-application",
+          "label": "Trading & Research Application"
+        },
+        {
+          "id": "implementation-notes",
+          "label": "Implementation Notes"
+        },
+        {
+          "id": "common-mistakes",
+          "label": "Common Mistakes"
+        },
+        {
+          "id": "30-second-revision",
+          "label": "30-Second Revision"
+        }
+      ],
+      "formulas": [
+        {
+          "id": "its-lemma",
+          "name": "Itô's lemma",
+          "latex": "\\d f(t,X_t) = \\left(\\frac{\\partial f}{\\partial t} + \\mu\\frac{\\partial f}{\\partial x}\n+ \\frac{1}{2}\\sigma^2\\frac{\\partial^2 f}{\\partial x^2}\\right)\\d t\n+ \\sigma\\frac{\\partial f}{\\partial x}\\,\\d W_t",
+          "usedIn": [
+            "Options",
+            "Derivatives",
+            "Hedging",
+            "Rates"
+          ]
+        },
+        {
+          "id": "it-multiplication-table",
+          "name": "Itô multiplication table",
+          "latex": "(\\d W_t)^2 = \\d t, \\qquad \\d t\\,\\d W_t = 0, \\qquad (\\d t)^2 = 0",
+          "usedIn": [
+            "Stochastic Calculus"
+          ]
+        },
+        {
+          "id": "its-lemma-under-gbm",
+          "name": "Itô's lemma under GBM",
+          "latex": "\\d f(t,S_t) = \\left(f_t + \\mu S f_S + \\tfrac12\\sigma^2S^2 f_{SS}\\right)\\d t + \\sigma S f_S\\,\\d W_t",
+          "usedIn": [
+            "Black–Scholes",
+            "Option Pricing"
+          ]
+        },
+        {
+          "id": "multidimensional-it",
+          "name": "Multidimensional Itô",
+          "latex": "\\d f = \\left(f_t + \\sum_i \\mu_i f_{x_i} + \\tfrac12\\sum_{i,j}\\rho_{ij}\\sigma_i\\sigma_j f_{x_ix_j}\\right)\\d t\n+ \\sum_i \\sigma_i f_{x_i}\\,\\d W_i",
+          "usedIn": [
+            "Baskets",
+            "Quantos",
+            "Multi-factor Models"
+          ]
+        }
+      ],
+      "questions": [
+        {
+          "id": "itos-lemma-q1",
+          "question": "State Itô's lemma and say in one sentence why it differs from the ordinary chain rule.",
+          "difficulty": "intermediate",
+          "tags": [
+            "core",
+            "quadratic-variation"
+          ],
+          "concept": "itos-lemma",
+          "subject": "stochastic-processes",
+          "hasAnswer": true,
+          "path": "concepts/itos-lemma.html#q-itos-lemma-q1"
+        },
+        {
+          "id": "itos-lemma-q2",
+          "question": "Apply Itô's lemma to f(S) = ln S under GBM. What do you get and what does the extra term mean?",
+          "difficulty": "intermediate",
+          "tags": [
+            "gbm",
+            "lognormal",
+            "volatility-drag",
+            "core"
+          ],
+          "concept": "itos-lemma",
+          "subject": "stochastic-processes",
+          "hasAnswer": true,
+          "path": "concepts/itos-lemma.html#q-itos-lemma-q2"
+        },
+        {
+          "id": "itos-lemma-q3",
+          "question": "Show that S_t = S_0 exp[(μ − σ²/2)t + σW_t] solves dS = μS dt + σS dW.",
+          "difficulty": "advanced",
+          "tags": [
+            "sde",
+            "verification"
+          ],
+          "concept": "itos-lemma",
+          "subject": "stochastic-processes",
+          "hasAnswer": true,
+          "path": "concepts/itos-lemma.html#q-itos-lemma-q3"
+        },
+        {
+          "id": "itos-lemma-q4",
+          "question": "A delta-hedged long call position. Use Itô to write down its P&L over dt and read off the trade.",
+          "difficulty": "advanced",
+          "tags": [
+            "gamma",
+            "hedging",
+            "theta",
+            "desk"
+          ],
+          "concept": "itos-lemma",
+          "subject": "stochastic-processes",
+          "hasAnswer": true,
+          "path": "concepts/itos-lemma.html#q-itos-lemma-q4"
+        },
+        {
+          "id": "itos-lemma-q5",
+          "question": "When does Itô's lemma NOT apply, and what replaces it?",
+          "difficulty": "advanced",
+          "tags": [
+            "jumps",
+            "assumptions",
+            "limitations"
+          ],
+          "concept": "itos-lemma",
+          "subject": "stochastic-processes",
+          "hasAnswer": true,
+          "path": "concepts/itos-lemma.html#q-itos-lemma-q5"
+        },
+        {
+          "id": "itos-lemma-q6",
+          "question": "Two assets, dS_i = μ_i S_i dt + σ_i S_i dW_i with corr(dW_1, dW_2) = ρ. What is d(S_1 S_2)?",
+          "difficulty": "advanced",
+          "tags": [
+            "multivariate",
+            "correlation",
+            "cross-variation"
+          ],
+          "concept": "itos-lemma",
+          "subject": "stochastic-processes",
+          "hasAnswer": true,
+          "path": "concepts/itos-lemma.html#q-itos-lemma-q6"
+        }
+      ]
+    },
+    {
       "id": "kelly-criterion",
       "title": "Kelly Criterion",
       "subject": "portfolio-construction",
@@ -2040,7 +3125,8 @@
         "sharpe-ratio",
         "brownian-motion",
         "covariance-and-correlation",
-        "effective-number-of-bets"
+        "effective-number-of-bets",
+        "itos-lemma"
       ],
       "builtOn": [],
       "tracks": [],
@@ -2424,7 +3510,9 @@
       ],
       "related": [
         "brownian-motion",
-        "conditional-probability"
+        "black-scholes-equation",
+        "conditional-probability",
+        "itos-lemma"
       ],
       "builtOn": [
         "brownian-motion"
@@ -2568,6 +3656,259 @@
           "subject": "stochastic-processes",
           "hasAnswer": true,
           "path": "concepts/martingales.html#q-martingales-q5"
+        }
+      ]
+    },
+    {
+      "id": "option-greeks",
+      "title": "Option Greeks",
+      "subject": "options",
+      "summary": "Delta, gamma, vega, theta and rho are the terms of one Taylor expansion, not five separate risk numbers — and the Black–Scholes equation is the identity that ties them together into a single statement about what a hedged position earns.",
+      "difficulty": "intermediate",
+      "interviewRelevance": 5,
+      "tags": [
+        "options",
+        "greeks",
+        "hedging",
+        "risk",
+        "gamma",
+        "vega",
+        "theta",
+        "delta",
+        "sensitivity"
+      ],
+      "prerequisites": [
+        "black-scholes-formula"
+      ],
+      "related": [
+        "black-scholes-equation",
+        "put-call-parity",
+        "itos-lemma",
+        "black-scholes-formula"
+      ],
+      "builtOn": [],
+      "tracks": [],
+      "path": "concepts/option-greeks.html",
+      "updated": "2026-09-03",
+      "modules": [
+        "black-scholes-lab"
+      ],
+      "sections": [
+        {
+          "id": "intuition",
+          "label": "Intuition"
+        },
+        {
+          "id": "mathematical-formulation",
+          "label": "Mathematical Formulation"
+        },
+        {
+          "id": "derivation",
+          "label": "Derivation"
+        },
+        {
+          "id": "assumptions-edge-cases",
+          "label": "Assumptions & Edge Cases"
+        },
+        {
+          "id": "worked-example",
+          "label": "Worked Example"
+        },
+        {
+          "id": "why-it-matters-in-quant-finance",
+          "label": "Why It Matters in Quant Finance"
+        },
+        {
+          "id": "trading-research-application",
+          "label": "Trading & Research Application"
+        },
+        {
+          "id": "implementation-notes",
+          "label": "Implementation Notes"
+        },
+        {
+          "id": "common-mistakes",
+          "label": "Common Mistakes"
+        },
+        {
+          "id": "30-second-revision",
+          "label": "30-Second Revision"
+        }
+      ],
+      "formulas": [
+        {
+          "id": "delta",
+          "name": "Delta",
+          "latex": "\\Delta_{\\text{call}} = N(d_1), \\qquad \\Delta_{\\text{put}} = N(d_1) - 1",
+          "usedIn": [
+            "Hedging",
+            "Risk",
+            "Replication"
+          ]
+        },
+        {
+          "id": "gamma",
+          "name": "Gamma",
+          "latex": "\\Gamma = \\frac{\\phi(d_1)}{S\\sigma\\sqrt T}",
+          "usedIn": [
+            "Gamma Trading",
+            "Hedging Frequency",
+            "Pinning"
+          ]
+        },
+        {
+          "id": "vega",
+          "name": "Vega",
+          "latex": "\\mathcal{V} = \\frac{\\partial V}{\\partial\\sigma} = S\\,\\phi(d_1)\\sqrt T",
+          "usedIn": [
+            "Volatility Trading",
+            "Surface Risk"
+          ]
+        },
+        {
+          "id": "theta-call",
+          "name": "Theta (call)",
+          "latex": "\\Theta_{\\text{call}} = -\\frac{S\\phi(d_1)\\sigma}{2\\sqrt T} - rKe^{-rT}N(d_2)",
+          "usedIn": [
+            "Carry",
+            "Time Decay",
+            "P&L Attribution"
+          ]
+        },
+        {
+          "id": "rho",
+          "name": "Rho",
+          "latex": "\\rho_{\\text{call}} = KTe^{-rT}N(d_2), \\qquad \\rho_{\\text{put}} = -KTe^{-rT}N(-d_2)",
+          "usedIn": [
+            "Rates Exposure",
+            "Long-Dated Options"
+          ]
+        },
+        {
+          "id": "gammavegatheta-identity",
+          "name": "Gamma–vega–theta identity",
+          "latex": "\\mathcal{V} = \\sigma T S^2\\,\\Gamma, \\qquad\n\\Theta \\approx -\\tfrac12\\sigma^2S^2\\Gamma \\;\\;(\\text{delta-hedged})",
+          "usedIn": [
+            "Risk Consistency",
+            "Desk P&L"
+          ]
+        },
+        {
+          "id": "second-order-cross-greeks",
+          "name": "Second-order cross Greeks",
+          "latex": "\\text{vanna} = \\frac{\\partial\\Delta}{\\partial\\sigma} = -\\frac{\\phi(d_1)d_2}{\\sigma},\n\\qquad \\text{volga} = \\mathcal{V}\\,\\frac{d_1d_2}{\\sigma}",
+          "usedIn": [
+            "FX Exotics",
+            "Skew Risk",
+            "Large Books"
+          ]
+        }
+      ],
+      "questions": [
+        {
+          "id": "option-greeks-q1",
+          "question": "Write down the P&L of an option position as a Taylor expansion and name each term.",
+          "difficulty": "intermediate",
+          "tags": [
+            "core",
+            "taylor",
+            "risk"
+          ],
+          "concept": "option-greeks",
+          "subject": "options",
+          "hasAnswer": true,
+          "path": "concepts/option-greeks.html#q-option-greeks-q1"
+        },
+        {
+          "id": "option-greeks-q2",
+          "question": "Why are theta and gamma always opposite in sign, and what is the exact relationship?",
+          "difficulty": "intermediate",
+          "tags": [
+            "theta",
+            "gamma",
+            "core",
+            "bs-equation"
+          ],
+          "concept": "option-greeks",
+          "subject": "options",
+          "hasAnswer": true,
+          "path": "concepts/option-greeks.html#q-option-greeks-q2"
+        },
+        {
+          "id": "option-greeks-q3",
+          "question": "Where is gamma largest, and why does that make short-dated options dangerous?",
+          "difficulty": "intermediate",
+          "tags": [
+            "gamma",
+            "expiry",
+            "risk",
+            "desk"
+          ],
+          "concept": "option-greeks",
+          "subject": "options",
+          "hasAnswer": true,
+          "path": "concepts/option-greeks.html#q-option-greeks-q3"
+        },
+        {
+          "id": "option-greeks-q4",
+          "question": "Why is vega highest for long-dated at-the-money options while gamma is highest for short-dated ones?",
+          "difficulty": "advanced",
+          "tags": [
+            "vega",
+            "gamma",
+            "term-structure",
+            "core"
+          ],
+          "concept": "option-greeks",
+          "subject": "options",
+          "hasAnswer": true,
+          "path": "concepts/option-greeks.html#q-option-greeks-q4"
+        },
+        {
+          "id": "option-greeks-q5",
+          "question": "A trader is delta-neutral and loses money on a large move. What happened?",
+          "difficulty": "intermediate",
+          "tags": [
+            "gamma",
+            "hedging",
+            "desk",
+            "diagnosis"
+          ],
+          "concept": "option-greeks",
+          "subject": "options",
+          "hasAnswer": true,
+          "path": "concepts/option-greeks.html#q-option-greeks-q5"
+        },
+        {
+          "id": "option-greeks-q6",
+          "question": "What are vanna and volga, and when do they matter?",
+          "difficulty": "advanced",
+          "tags": [
+            "second-order",
+            "vanna",
+            "volga",
+            "skew",
+            "fx"
+          ],
+          "concept": "option-greeks",
+          "subject": "options",
+          "hasAnswer": true,
+          "path": "concepts/option-greeks.html#q-option-greeks-q6"
+        },
+        {
+          "id": "option-greeks-q7",
+          "question": "Your risk report shows net vega of zero across a book of options with different maturities. Are you vol-neutral?",
+          "difficulty": "advanced",
+          "tags": [
+            "vega",
+            "term-structure",
+            "risk-reporting",
+            "desk"
+          ],
+          "concept": "option-greeks",
+          "subject": "options",
+          "hasAnswer": true,
+          "path": "concepts/option-greeks.html#q-option-greeks-q7"
         }
       ]
     },
@@ -2767,6 +4108,231 @@
           "subject": "linear-algebra",
           "hasAnswer": true,
           "path": "concepts/pca-and-eigenportfolios.html#q-pca-and-eigenportfolios-q6"
+        }
+      ]
+    },
+    {
+      "id": "put-call-parity",
+      "title": "Put–Call Parity",
+      "subject": "options",
+      "summary": "A long call and a short put at the same strike are a forward — an identity that holds with no model, no volatility and no distributional assumption, and the first sanity check any option price must pass.",
+      "difficulty": "foundational",
+      "interviewRelevance": 5,
+      "tags": [
+        "options",
+        "no-arbitrage",
+        "replication",
+        "pricing",
+        "parity",
+        "synthetic"
+      ],
+      "prerequisites": [
+        "forwards-and-futures"
+      ],
+      "related": [
+        "black-scholes-formula",
+        "option-greeks",
+        "black-scholes-equation",
+        "forwards-and-futures"
+      ],
+      "builtOn": [
+        "black-scholes-formula"
+      ],
+      "tracks": [],
+      "path": "concepts/put-call-parity.html",
+      "updated": "2026-09-03",
+      "modules": [],
+      "sections": [
+        {
+          "id": "intuition",
+          "label": "Intuition"
+        },
+        {
+          "id": "mathematical-formulation",
+          "label": "Mathematical Formulation"
+        },
+        {
+          "id": "derivation",
+          "label": "Derivation"
+        },
+        {
+          "id": "assumptions-edge-cases",
+          "label": "Assumptions & Edge Cases"
+        },
+        {
+          "id": "worked-example",
+          "label": "Worked Example"
+        },
+        {
+          "id": "why-it-matters-in-quant-finance",
+          "label": "Why It Matters in Quant Finance"
+        },
+        {
+          "id": "trading-research-application",
+          "label": "Trading & Research Application"
+        },
+        {
+          "id": "implementation-notes",
+          "label": "Implementation Notes"
+        },
+        {
+          "id": "common-mistakes",
+          "label": "Common Mistakes"
+        },
+        {
+          "id": "30-second-revision",
+          "label": "30-Second Revision"
+        }
+      ],
+      "formulas": [
+        {
+          "id": "putcall-parity-european-no-dividends",
+          "name": "Put–call parity (European, no dividends)",
+          "latex": "C(K,T) - P(K,T) = S_0 - Ke^{-rT}",
+          "usedIn": [
+            "Options",
+            "Market Making",
+            "Risk"
+          ]
+        },
+        {
+          "id": "with-dividends",
+          "name": "With dividends",
+          "latex": "C - P = S_0e^{-qT} - Ke^{-rT} \\qquad\\text{(discrete: } C - P = S_0 - D - Ke^{-rT})",
+          "usedIn": [
+            "Equity Options",
+            "Index Options"
+          ]
+        },
+        {
+          "id": "parity-in-forward-terms",
+          "name": "Parity in forward terms",
+          "latex": "C - P = e^{-rT}(F_0 - K), \\qquad F_0 = S_0e^{(r-q)T}",
+          "usedIn": [
+            "FX Options",
+            "Futures Options",
+            "Black-76"
+          ]
+        },
+        {
+          "id": "american-bounds",
+          "name": "American bounds",
+          "latex": "S_0 - K \\;\\le\\; C_{\\text{Am}} - P_{\\text{Am}} \\;\\le\\; S_0 - Ke^{-rT}",
+          "usedIn": [
+            "Equity Options",
+            "Early Exercise"
+          ]
+        },
+        {
+          "id": "box-spread",
+          "name": "Box spread",
+          "latex": "\\big[C(K_1) - P(K_1)\\big] - \\big[C(K_2) - P(K_2)\\big] = (K_2 - K_1)e^{-rT}",
+          "usedIn": [
+            "Funding",
+            "Rates",
+            "Arbitrage"
+          ]
+        }
+      ],
+      "questions": [
+        {
+          "id": "put-call-parity-q1",
+          "question": "State put–call parity and prove it in one line.",
+          "difficulty": "foundational",
+          "tags": [
+            "core",
+            "no-arbitrage",
+            "replication"
+          ],
+          "concept": "put-call-parity",
+          "subject": "options",
+          "hasAnswer": true,
+          "path": "concepts/put-call-parity.html#q-put-call-parity-q1"
+        },
+        {
+          "id": "put-call-parity-q2",
+          "question": "Does put–call parity hold for American options?",
+          "difficulty": "intermediate",
+          "tags": [
+            "american",
+            "early-exercise",
+            "bounds"
+          ],
+          "concept": "put-call-parity",
+          "subject": "options",
+          "hasAnswer": true,
+          "path": "concepts/put-call-parity.html#q-put-call-parity-q2"
+        },
+        {
+          "id": "put-call-parity-q3",
+          "question": "A stock trades at 100. The 100-strike call is 6.20, the put is 4.00, r = 5%, T = 1 year. Is there an arbitrage?",
+          "difficulty": "intermediate",
+          "tags": [
+            "arbitrage",
+            "desk",
+            "numerical"
+          ],
+          "concept": "put-call-parity",
+          "subject": "options",
+          "hasAnswer": true,
+          "path": "concepts/put-call-parity.html#q-put-call-parity-q3"
+        },
+        {
+          "id": "put-call-parity-q4",
+          "question": "How do dividends change parity, and what does that imply about early exercise?",
+          "difficulty": "intermediate",
+          "tags": [
+            "dividends",
+            "american",
+            "carry"
+          ],
+          "concept": "put-call-parity",
+          "subject": "options",
+          "hasAnswer": true,
+          "path": "concepts/put-call-parity.html#q-put-call-parity-q4"
+        },
+        {
+          "id": "put-call-parity-q5",
+          "question": "You cannot short the stock. Which half of parity survives?",
+          "difficulty": "advanced",
+          "tags": [
+            "frictions",
+            "bounds",
+            "short-selling"
+          ],
+          "concept": "put-call-parity",
+          "subject": "options",
+          "hasAnswer": true,
+          "path": "concepts/put-call-parity.html#q-put-call-parity-q5"
+        },
+        {
+          "id": "put-call-parity-q6",
+          "question": "Why do traders say a box spread is a loan?",
+          "difficulty": "advanced",
+          "tags": [
+            "box",
+            "rates",
+            "funding",
+            "desk"
+          ],
+          "concept": "put-call-parity",
+          "subject": "options",
+          "hasAnswer": true,
+          "path": "concepts/put-call-parity.html#q-put-call-parity-q6"
+        },
+        {
+          "id": "put-call-parity-q7",
+          "question": "An interviewer says implied vol on the 90-strike put is 24% and on the 90-strike call is 21%. What do you say?",
+          "difficulty": "advanced",
+          "tags": [
+            "implied-volatility",
+            "skew",
+            "desk"
+          ],
+          "concept": "put-call-parity",
+          "subject": "options",
+          "hasAnswer": true,
+          "path": "concepts/put-call-parity.html#q-put-call-parity-q7"
         }
       ]
     },
@@ -3002,7 +4568,8 @@
       "related": [
         "covariance-and-correlation",
         "sharpe-ratio",
-        "expectation"
+        "expectation",
+        "itos-lemma"
       ],
       "builtOn": [
         "brownian-motion",
@@ -3167,9 +4734,9 @@
     }
   ],
   "stats": {
-    "concepts": 12,
+    "concepts": 18,
     "subjects": 24,
-    "formulas": 50,
-    "questions": 62
+    "formulas": 82,
+    "questions": 102
   }
 }

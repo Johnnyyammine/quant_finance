@@ -455,6 +455,56 @@ test('build: no length metric survives in the generated output', () => {
   assert.deepStrictEqual(offenders, [], 'reading-time markup left in generated HTML');
 });
 
+test('build: every maths expression renders with the macros the site declares', () => {
+  // The gap this closes: `\Q` was used in four concepts and never declared as a
+  // macro, so KaTeX rendered the literal red text "\Q" in twenty places. Nothing
+  // caught it -- the build does not run KaTeX, and the "no unrendered maths" test
+  // only looks for leftover delimiters, which this passes.
+  //
+  // KaTeX is vendored, so it can be required here and asked to render every
+  // expression for real. The macro table is parsed out of math.js rather than
+  // duplicated, so the test cannot drift from what the browser actually loads.
+  const fs = require('fs');
+  const katex = require(path.join(__dirname, '../assets/vendor/katex/katex.min.js'));
+  const root = path.join(__dirname, '..');
+
+  const js = fs.readFileSync(path.join(root, 'assets/js/math.js'), 'utf8');
+  const from = js.indexOf('macros: {');
+  assert.ok(from !== -1, 'math.js no longer declares a macros table');
+  const macros = {};
+  js.slice(from, js.indexOf('},', from)).replace(
+    /'(\\\\[A-Za-z0-9]+)':\s*'([^']+)'/g,
+    (_, name, body) => { macros[name.replace(/\\\\/g, '\\')] = body.replace(/\\\\/g, '\\'); });
+  assert.ok(Object.keys(macros).length >= 8, 'parsed too few macros out of math.js');
+
+  const unescape = (s) => s.replace(/&lt;/g, '<').replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&amp;/g, '&');
+
+  let checked = 0;
+  const broken = [];
+  for (const dir of ['concepts', 'subjects', '.']) {
+    const full = path.join(root, dir);
+    if (!fs.existsSync(full)) continue;
+    for (const f of fs.readdirSync(full).filter((x) => x.endsWith('.html'))) {
+      const html = fs.readFileSync(path.join(full, f), 'utf8');
+      const re = /class="math-(inline|display)">\\[([]([\s\S]*?)\\[)\]]<\/span>/g;
+      let m;
+      while ((m = re.exec(html))) {
+        checked += 1;
+        try {
+          katex.renderToString(unescape(m[2]),
+            { throwOnError: true, strict: false, macros, displayMode: m[1] === 'display' });
+        } catch (e) {
+          broken.push(`${dir}/${f}: ${e.message.replace(/ at position[\s\S]*$/, '')}`);
+        }
+      }
+    }
+  }
+  assert.ok(checked > 500, `expected the corpus to have maths in it, found ${checked}`);
+  assert.deepStrictEqual([...new Set(broken)].sort(), [],
+    'maths that KaTeX cannot render, and which the page shows in error colour');
+});
+
 test('build: local assets are cache-busted, vendored ones are not', () => {
   // The failure this catches is silent and looks like a broken site: a browser
   // holding an old app.css pairs it with freshly deployed HTML, and the layout

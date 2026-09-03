@@ -1091,6 +1091,16 @@ select:hover, input:hover { border-color: var(--line-strong); }
 .kb-control-value { font-family: var(--font-mono); font-size: 11.5px; color: var(--accent-ink);
   font-variant-numeric: tabular-nums; }
 .kb-control input[type="range"] { width: 100%; height: 16px; accent-color: var(--accent); cursor: pointer; }
+/* The module runtime has supported checkbox controls since it was written, but
+   no module used one until the Black-Scholes lab -- so nothing styled them and
+   the grid stacked a full-width box under its label. Sit the box beside the
+   label instead, and bottom-align the cell so it lines up with the sliders
+   next to it rather than floating at the top of the row. */
+.kb-control--check { grid-auto-flow: column; justify-content: start; align-items: center;
+  gap: 8px; align-self: end; padding-bottom: 1px; cursor: pointer; }
+.kb-control--check .kb-control-label { display: inline; }
+.kb-control input[type="checkbox"] { width: 15px; height: 15px; margin: 0;
+  accent-color: var(--accent); cursor: pointer; }
 .kb-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
   gap: 1px; margin-top: 13px; background: var(--line); border: 1px solid var(--line); border-radius: var(--r); }
 .kb-stat { padding: 8px 10px; background: var(--bg-raised); }

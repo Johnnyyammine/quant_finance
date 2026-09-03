@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en" data-page="concept">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Itô&#39;s Lemma · Quant Knowledge Base</title>
+<meta name="description" content="The chain rule for functions of a diffusion — a second-order term survives because the squared Brownian increment equals dt, and that surviving term is every convexity effect in finance, from gamma P&amp;L to volatility drag.">
+<link rel="icon" href="../assets/icons/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/vendor/katex/katex.min.css">
+<link rel="stylesheet" href="../assets/css/app.css?v=41eef34e">
+<link rel="stylesheet" href="../assets/css/views.css?v=e2266625">
+
+</head>
+<body class="kb-body kb-body--concept">
+<header class="kb-topbar">
+  <a class="kb-brand" href="../index.html" title="Home (H)">
+    <span class="kb-brand-mark">QF</span><span class="kb-brand-text">Quant Knowledge Base</span>
+  </a>
+  <nav class="kb-crumbs" aria-label="Breadcrumb"><ol><li><a href="../index.html">Dashboard</a></li><li class="kb-crumb-sep" aria-hidden="true">/</li><li><a href="../subjects/stochastic-processes.html">Stochastic Processes</a></li><li class="kb-crumb-sep" aria-hidden="true">/</li><li><span aria-current="page">Itô&#39;s Lemma</span></li></ol></nav>
+  <div class="kb-topbar-actions">
+    <button class="kb-searchbtn" type="button" data-kb-open-search>
+      <span>Search concepts, formulas, questions</span><kbd>/</kbd>
+    </button>
+    <nav class="kb-toplinks" aria-label="Sections">
+      <a href="../index.html" data-nav="home">Dashboard</a>
+      <a href="../graph.html" data-nav="graph">Graph</a>
+      <a href="../interview.html" data-nav="interview">Interview</a>
+      <a href="../library.html" data-nav="library">Library</a>
+    </nav>
+    <button class="kb-iconbtn" type="button" data-kb-theme title="Toggle theme (T)" aria-label="Toggle theme">◑</button>
+    <button class="kb-iconbtn" type="button" data-kb-help title="Keyboard shortcuts (?)" aria-label="Keyboard shortcuts">?</button>
+  </div>
+</header>
+<main class="kb-main kb-main--concept" data-concept-id="itos-lemma">
+  <article class="kb-article">
+    <header class="kb-concept-head">
+      <div class="kb-concept-eyebrow">
+        <a class="kb-subject-chip" href="../subjects/stochastic-processes.html" style="--subject-color:#9179ea">
+          <span class="kb-subject-mark">W</span>Stochastic Processes</a>
+        <span class="kb-pill kb-pill--advanced">Advanced</span>
+      </div>
+      <h1 class="kb-concept-title">Itô&#39;s Lemma</h1>
+      <section class="kb-glance" aria-label="At a glance">
+      <p class="kb-glance-lead">The chain rule for functions of a diffusion — a second-order term survives because the squared Brownian increment equals dt, and that surviving term is every convexity effect in finance, from gamma P&amp;L to volatility drag.</p>
+      <a class="kb-glance-formula" href="#its-lemma">
+        <span class="math-display">\[\d f(t,X_t) = \left(\frac{\partial f}{\partial t} + \mu\frac{\partial f}{\partial x}
++ \frac{1}{2}\sigma^2\frac{\partial^2 f}{\partial x^2}\right)\d t
++ \sigma\frac{\partial f}{\partial x}\,\d W_t\]</span>
+        <span class="kb-glance-formula-name">Itô&#39;s lemma</span>
+      </a>
+      <ul class="kb-glance-points"><li><span class="math-inline">\(\d f = (f_t + \mu f_x + \tfrac12\sigma^2f_{xx})\d t + \sigma f_x\,\d W\)</span> .</li><li>The one new term exists because  <span class="math-inline">\((\d W)^2 = \d t\)</span> ;  <span class="math-inline">\(\d t\,\d W\)</span>  and  <span class="math-inline">\((\d t)^2\)</span>  vanish.</li><li><span class="math-inline">\(\tfrac12 f&#39;&#39;\)</span>  is convexity — Jensen&#39;s inequality per unit of variance.</li></ul>
+      <a class="kb-glance-more" href="#30-second-revision">Full revision →</a>
+    </section>
+      <div class="kb-concept-controls">
+        <button class="kb-btn kb-btn--ghost" type="button" data-kb-bookmark="itos-lemma">☆ Bookmark</button>
+        <button class="kb-btn kb-btn--ghost" type="button" data-kb-flashcards>Revision card</button>
+        <a class="kb-btn kb-btn--ghost" href="../graph.html?focus=itos-lemma">Show in graph</a>
+      </div>
+      <ul class="kb-taglist"><li><a class="kb-tag" href="../library.html?tag=stochastic-processes">#stochastic-processes</a></li><li><a class="kb-tag" href="../library.html?tag=ito">#ito</a></li><li><a class="kb-tag" href="../library.html?tag=quadratic-variation">#quadratic-variation</a></li><li><a class="kb-tag" href="../library.html?tag=convexity">#convexity</a></li><li><a class="kb-tag" href="../library.html?tag=gamma">#gamma</a></li><li><a class="kb-tag" href="../library.html?tag=pricing">#pricing</a></li><li><a class="kb-tag" href="../library.html?tag=diffusion">#diffusion</a></li></ul>
+    </header>
+
+    <div class="kb-content"><h2 id="intuition" class="kb-h kb-h2"><a class="kb-anchor" href="#intuition" aria-label="Link to this section">#</a>Intuition</h2>
+<p>Ordinary calculus says: to first order, a smooth function of a smooth path moves by
+ <span class="math-inline">\(f&#39;(x)\,\d x\)</span> . The second-order term  <span class="math-inline">\(\tfrac12 f&#39;&#39;(\d x)^2\)</span>  is negligible because for a smooth path
+ <span class="math-inline">\(\d x \sim \d t\)</span>  and so  <span class="math-inline">\((\d x)^2 \sim (\d t)^2\)</span>  — vanishingly small.</p>
+<p>A Brownian path is not smooth. It moves  <span class="math-inline">\(\d W \sim \sqrt{\d t}\)</span> , so
+ <span class="math-inline">\((\d W)^2 \sim \d t\)</span>  — the <em>same</em> order as the first-order term in time. The second-order term
+refuses to vanish. Itô&#39;s lemma is nothing more than a Taylor expansion in which you keep it:</p>
+<span class="math-display">\[\d f = \underbrace{f&#39;\,\d W}_{\text{ordinary}} + \underbrace{\tfrac12 f&#39;&#39;\,\d t}_{\text{survives because }(\d W)^2=\d t}\]</span>
+<p>Everything else is bookkeeping.</p>
+<aside class="kb-callout kb-callout--insight"><div class="kb-callout-title">Insight</div><div class="kb-callout-body"><p>Read Itô&#39;s lemma as a statement about <strong>convexity, not calculus</strong>. A convex function of a random
+variable gains from volatility ( <span class="math-inline">\(\tfrac12 f&#39;&#39; &gt; 0\)</span> ); a concave one loses. The  <span class="math-inline">\(\tfrac12 f&#39;&#39;\)</span>  term
+is the rate at which that happens per unit of variance. So Itô&#39;s lemma is Jensen&#39;s inequality
+turned into a differential equation — and the reason a trader with positive gamma is happy when
+markets move and a lender with concave payoff is not.</p></div></aside>
+<p>The three facts worth carrying:</p>
+<ol class="kb-list"><li><strong> <span class="math-inline">\((\d W)^2 = \d t\)</span> .</strong> Not approximately: the quadratic variation of Brownian motion over
+  <span class="math-inline">\([0,T]\)</span>  is  <span class="math-inline">\(T\)</span>  almost surely.</li>
+<li><strong> <span class="math-inline">\((\d t)^2\)</span>  and  <span class="math-inline">\(\d t\,\d W\)</span>  still vanish</strong>, being  <span class="math-inline">\(O(\d t^2)\)</span>  and  <span class="math-inline">\(O(\d t^{3/2})\)</span> .</li>
+<li><strong>Only one extra term appears</strong>, and it is deterministic — which is precisely what makes hedging
+ possible: the randomness stays in  <span class="math-inline">\(f&#39;\,\d W\)</span> , where a position in the underlying can cancel it.</li></ol>
+<h2 id="mathematical-formulation" class="kb-h kb-h2"><a class="kb-anchor" href="#mathematical-formulation" aria-label="Link to this section">#</a>Mathematical Formulation</h2>
+<p>Let  <span class="math-inline">\(X_t\)</span>  be an Itô process,  <span class="math-inline">\(\d X_t = \mu(t,X_t)\,\d t + \sigma(t,X_t)\,\d W_t\)</span> , and let
+ <span class="math-inline">\(f(t,x)\)</span>  be once continuously differentiable in  <span class="math-inline">\(t\)</span>  and twice in  <span class="math-inline">\(x\)</span> .</p>
+<figure class="kb-formula" id="its-lemma" data-formula="its-lemma"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">Itô&#39;s lemma</span><button class="kb-formula-copy" type="button" data-latex="\d f(t,X_t) = \left(\frac{\partial f}{\partial t} + \mu\frac{\partial f}{\partial x}
++ \frac{1}{2}\sigma^2\frac{\partial^2 f}{\partial x^2}\right)\d t
++ \sigma\frac{\partial f}{\partial x}\,\d W_t" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[\d f(t,X_t) = \left(\frac{\partial f}{\partial t} + \mu\frac{\partial f}{\partial x}
++ \frac{1}{2}\sigma^2\frac{\partial^2 f}{\partial x^2}\right)\d t
++ \sigma\frac{\partial f}{\partial x}\,\d W_t\]</span> </div><p class="kb-formula-note">The ½σ²f_xx term is the whole difference from ordinary calculus, and the source of every convexity effect in finance.</p><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">Options</span><span class="kb-chip">Derivatives</span><span class="kb-chip">Hedging</span><span class="kb-chip">Rates</span></footer></figure>
+<p>The mnemonic form is a Taylor expansion with one substitution rule:</p>
+<figure class="kb-formula" id="it-multiplication-table" data-formula="it-multiplication-table"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">Itô multiplication table</span><button class="kb-formula-copy" type="button" data-latex="(\d W_t)^2 = \d t, \qquad \d t\,\d W_t = 0, \qquad (\d t)^2 = 0" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[(\d W_t)^2 = \d t, \qquad \d t\,\d W_t = 0, \qquad (\d t)^2 = 0\]</span> </div><p class="kb-formula-note">Everything follows from (dW)² = dt. The other three products are higher order and vanish.</p><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">Stochastic Calculus</span></footer></figure>
+<p>Applied to geometric Brownian motion, which is the case Black–Scholes needs:</p>
+<figure class="kb-formula" id="its-lemma-under-gbm" data-formula="its-lemma-under-gbm"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">Itô&#39;s lemma under GBM</span><button class="kb-formula-copy" type="button" data-latex="\d f(t,S_t) = \left(f_t + \mu S f_S + \tfrac12\sigma^2S^2 f_{SS}\right)\d t + \sigma S f_S\,\d W_t" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[\d f(t,S_t) = \left(f_t + \mu S f_S + \tfrac12\sigma^2S^2 f_{SS}\right)\d t + \sigma S f_S\,\d W_t\]</span> </div><p class="kb-formula-note">Written in terms of S rather than W: this is the form that produces the Black–Scholes PDE.</p><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">Black–Scholes</span><span class="kb-chip">Option Pricing</span></footer></figure>
+<figure class="kb-formula" id="multidimensional-it" data-formula="multidimensional-it"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">Multidimensional Itô</span><button class="kb-formula-copy" type="button" data-latex="\d f = \left(f_t + \sum_i \mu_i f_{x_i} + \tfrac12\sum_{i,j}\rho_{ij}\sigma_i\sigma_j f_{x_ix_j}\right)\d t
++ \sum_i \sigma_i f_{x_i}\,\d W_i" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[\d f = \left(f_t + \sum_i \mu_i f_{x_i} + \tfrac12\sum_{i,j}\rho_{ij}\sigma_i\sigma_j f_{x_ix_j}\right)\d t
++ \sum_i \sigma_i f_{x_i}\,\d W_i\]</span> </div><p class="kb-formula-note">Cross terms use dW_i dW_j = ρ_ij dt. Correlation enters the drift, not just the variance.</p><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">Baskets</span><span class="kb-chip">Quantos</span><span class="kb-chip">Multi-factor Models</span></footer></figure>
+<h2 id="derivation" class="kb-h kb-h2"><a class="kb-anchor" href="#derivation" aria-label="Link to this section">#</a>Derivation</h2>
+<details class="kb-derivation"><summary>Itô&#39;s lemma from a Taylor expansion</summary><div class="kb-derivation-body"><p>Expand  <span class="math-inline">\(f(t + \d t, X_{t+\d t})\)</span>  about  <span class="math-inline">\((t, X_t)\)</span> , keeping every term up to order  <span class="math-inline">\(\d t\)</span> :</p>
+<span class="math-display">\[\d f = f_t\,\d t + f_x\,\d X + \tfrac12 f_{xx}(\d X)^2 + \tfrac12 f_{tt}(\d t)^2 + f_{tx}\,\d t\,\d X + \cdots\]</span>
+<p>Now count orders using  <span class="math-inline">\(\d X = \mu\,\d t + \sigma\,\d W\)</span>  and  <span class="math-inline">\(\d W \sim \sqrt{\d t}\)</span> :</p>
+<div class="kb-table-wrap"><table class="kb-table"><thead><tr><th>Term</th><th>Order</th><th>Keep?</th></tr></thead><tbody><tr><td><span class="math-inline">\(f_t\,\d t\)</span></td><td><span class="math-inline">\(\d t\)</span></td><td>yes</td></tr>
+<tr><td><span class="math-inline">\(f_x\,\mu\,\d t\)</span></td><td><span class="math-inline">\(\d t\)</span></td><td>yes</td></tr>
+<tr><td><span class="math-inline">\(f_x\,\sigma\,\d W\)</span></td><td><span class="math-inline">\(\sqrt{\d t}\)</span></td><td>yes — this is the noise</td></tr>
+<tr><td><span class="math-inline">\(\tfrac12 f_{xx}\sigma^2(\d W)^2\)</span></td><td><span class="math-inline">\(\d t\)</span></td><td><strong>yes — the Itô term</strong></td></tr>
+<tr><td><span class="math-inline">\(\tfrac12 f_{xx}\mu^2(\d t)^2\)</span></td><td><span class="math-inline">\(\d t^2\)</span></td><td>no</td></tr>
+<tr><td><span class="math-inline">\(f_{xx}\mu\sigma\,\d t\,\d W\)</span></td><td><span class="math-inline">\(\d t^{3/2}\)</span></td><td>no</td></tr>
+<tr><td><span class="math-inline">\(\tfrac12 f_{tt}(\d t)^2\)</span> ,  <span class="math-inline">\(f_{tx}\d t\,\d X\)</span></td><td><span class="math-inline">\(\ge \d t^{3/2}\)</span></td><td>no</td></tr></tbody></table></div>
+<p>Substituting  <span class="math-inline">\((\d W)^2 = \d t\)</span>  into the fourth row and collecting the survivors gives the lemma.
+The whole content of the theorem is the single row in bold: a term that ordinary calculus discards
+as second order is, for a diffusion, first order in time.</p>
+<p>Making this rigorous means proving that  <span class="math-inline">\(\sum(\Delta W_i)^2 \to t\)</span>  in  <span class="math-inline">\(L^2\)</span>  (see
+<a class="kb-link" href="brownian-motion.html" data-concept="brownian-motion">Brownian Motion</a>) and that the remainder terms converge to zero uniformly — but the accounting
+above is the whole idea, and it is what an interviewer wants to hear.</p></div></details>
+<details class="kb-derivation"><summary>Where the ½ comes from, and why it is not arbitrary</summary><div class="kb-derivation-body"><p>The coefficient is the  <span class="math-inline">\(\tfrac12\)</span>  of the second-order Taylor coefficient  <span class="math-inline">\(f&#39;&#39;/2!\)</span>  — nothing more
+exotic. But its <em>financial</em> meaning is worth stating: consider  <span class="math-inline">\(f\)</span>  convex and a symmetric move
+ <span class="math-inline">\(\pm h\)</span>  in  <span class="math-inline">\(X\)</span> . The average of  <span class="math-inline">\(f(X+h)\)</span>  and  <span class="math-inline">\(f(X-h)\)</span>  exceeds  <span class="math-inline">\(f(X)\)</span>  by</p>
+<span class="math-display">\[\tfrac12\big[f(X+h) + f(X-h)\big] - f(X) = \tfrac12 f&#39;&#39;(X)h^2 + O(h^4)\]</span>
+<p>Substituting  <span class="math-inline">\(h^2 = \E[(\Delta X)^2] = \sigma^2\Delta t\)</span>  gives  <span class="math-inline">\(\tfrac12\sigma^2f&#39;&#39;\Delta t\)</span> 
+per unit time. So the Itô term is exactly the <strong>expected gain from convexity per unit of
+variance</strong> — which is why a long-gamma position earns it and a short-gamma position pays it.</p>
+<p>Contrast Stratonovich integration, which uses the midpoint rather than the left endpoint and
+produces no correction term. Finance uses Itô because the left endpoint means *the hedge ratio is
+set before the move happens* — a non-anticipating strategy, which is the only kind you can trade.</p></div></details>
+<details class="kb-derivation"><summary>Itô&#39;s product rule</summary><div class="kb-derivation-body"><p>For two Itô processes, apply the two-dimensional lemma to  <span class="math-inline">\(f(x,y) = xy\)</span> :</p>
+<span class="math-display">\[\d(X_tY_t) = X_t\,\d Y_t + Y_t\,\d X_t + \d X_t\,\d Y_t\]</span>
+<p>The first two terms are the ordinary product rule; the third is new. With
+ <span class="math-inline">\(\d X = \sigma_X\d W_X\)</span> ,  <span class="math-inline">\(\d Y = \sigma_Y\d W_Y\)</span>  and  <span class="math-inline">\(\d W_X\d W_Y = \rho\,\d t\)</span> , that third term
+is  <span class="math-inline">\(\rho\sigma_X\sigma_Y\,\d t\)</span> .</p>
+<p>This is the workhorse behind every change of numéraire. Discounted price
+ <span class="math-inline">\(\tilde S_t = e^{-rt}S_t\)</span> : with  <span class="math-inline">\(X_t = e^{-rt}\)</span>  deterministic,  <span class="math-inline">\(\d X\,\d S = 0\)</span>  and</p>
+<span class="math-display">\[\d\tilde S_t = e^{-rt}\big[(\mu - r)S_t\,\d t + \sigma S_t\,\d W_t\big]\]</span>
+<p>which is a <a class="kb-link" href="martingales.html" data-concept="martingales">martingale</a> exactly when  <span class="math-inline">\(\mu = r\)</span>  — the risk-neutral drift, obtained
+here with no economics at all, purely from Itô&#39;s product rule.</p></div></details>
+<h2 id="assumptions-edge-cases" class="kb-h kb-h2"><a class="kb-anchor" href="#assumptions-edge-cases" aria-label="Link to this section">#</a>Assumptions &amp; Edge Cases</h2>
+<aside class="kb-callout kb-callout--assumption"><div class="kb-callout-title">Assumptions</div><div class="kb-callout-body"><p>Itô&#39;s lemma needs three things, each of which fails somewhere that matters:</p>
+<ul class="kb-list"><li><strong> <span class="math-inline">\(f \in C^{1,2}\)</span> .</strong> Twice differentiable in the state variable. Vanilla payoffs are not:  <span class="math-inline">\(\max(S-K,0)\)</span> 
+has a kink at  <span class="math-inline">\(K\)</span> .</li>
+<li><strong>Continuous paths of finite quadratic variation.</strong> No jumps, and  <span class="math-inline">\(\langle X\rangle_t\)</span>  finite.</li>
+<li><strong>Adapted, left-endpoint integration.</strong> The integrand  <span class="math-inline">\(f_x\)</span>  must be known before the increment
+arrives — otherwise there is no lemma and no hedge.</li></ul></div></aside>
+<aside class="kb-callout kb-callout--warning"><div class="kb-callout-title">Warning</div><div class="kb-callout-body"><p><strong>The kink is not a technicality.</strong> At expiry a call&#39;s gamma is a delta function at the strike, so
+the Itô term is unbounded there. That is not a mathematical curiosity: it is why a market maker
+short a large strike into expiry faces pinning risk, why gamma hedging becomes impossible in the
+last hours, and why &quot;gamma&quot; quoted for a near-expiry at-the-money option is nearly meaningless as
+a risk number. The Itô–Tanaka formula handles it properly with a local-time term, but on a desk
+the answer is to reduce the position, not to reach for better mathematics.</p></div></aside>
+<aside class="kb-callout kb-callout--warning"><div class="kb-callout-title">Warning</div><div class="kb-callout-body"><p><strong>Jumps break hedging, not just the formula.</strong> In the continuous model, delta hedging error goes to
+zero as you rebalance faster. With jumps it does not — a gap move produces a loss of
+ <span class="math-inline">\(V(S+J) - V(S) - \Delta J\)</span>  no matter how fast you trade, and for a long-gamma position that is a
+<em>gain</em>, for a short-gamma position a loss that no rebalancing frequency reduces. This asymmetry is
+the honest reason out-of-the-money puts trade above their Black–Scholes value.</p></div></aside>
+<h2 id="worked-example" class="kb-h kb-h2"><a class="kb-anchor" href="#worked-example" aria-label="Link to this section">#</a>Worked Example</h2>
+<p><strong>A stock at $100,  <span class="math-inline">\(\sigma = 30\%\)</span> , and a call with  <span class="math-inline">\(\Gamma = 0.04\)</span>  per $1².</strong> The market prices
+30% vol. Over one day the stock moves $3. What did a delta-hedged long call earn?</p>
+<p>Implied variance charged for the day:</p>
+<span class="math-display">\[\sigma^2S^2\,\d t = 0.30^2 \times 100^2 \times \tfrac{1}{252} = 3.571\]</span>
+<p>Realised squared move:  <span class="math-inline">\((\d S)^2 = 3^2 = 9\)</span> .</p>
+<span class="math-display">\[\d\Pi = \tfrac12\Gamma\big[(\d S)^2 - \sigma^2S^2\,\d t\big]
+= \tfrac12 (0.04)(9 - 3.571) = \$0.109\]</span>
+<p><strong>Profit of about 11 cents, and the direction of the $3 move never entered the calculation.</strong> The
+break-even daily move is  <span class="math-inline">\(\sigma S\sqrt{\d t} = 0.30\times100/\sqrt{252} = \$1.89\)</span> : move more than
+that and gamma pays for theta, move less and theta wins.</p>
+<p>Now run the same day at a $1 move:  <span class="math-inline">\(\tfrac12(0.04)(1 - 3.571) = -\$0.051\)</span> . Same position, same
+gamma, opposite sign — because a delta-hedged option is a position in <em>variance</em>, and variance is
+the only thing it is a position in.</p>
+<h2 id="why-it-matters-in-quant-finance" class="kb-h kb-h2"><a class="kb-anchor" href="#why-it-matters-in-quant-finance" aria-label="Link to this section">#</a>Why It Matters in Quant Finance</h2>
+<p>Itô&#39;s lemma is the single lemma that turns a model of the underlying into a model of everything
+written on it. Three uses dominate.</p>
+<p><strong>1. It produces the pricing PDE.</strong> Apply Itô to  <span class="math-inline">\(V(t,S)\)</span> , form the hedged portfolio
+ <span class="math-inline">\(\Pi = V - V_S\,S\)</span> , observe that the  <span class="math-inline">\(\d W\)</span>  terms cancel, and impose that a riskless portfolio must
+earn  <span class="math-inline">\(r\)</span> . What drops out is the <a class="kb-link" href="black-scholes-equation.html" data-concept="black-scholes-equation">Black–Scholes equation</a>. No distributional
+assumption about the payoff is needed — only Itô plus no arbitrage.</p>
+<p><strong>2. It changes measure.</strong> The product rule shows that  <span class="math-inline">\(e^{-rt}S_t\)</span>  is a martingale exactly when the
+drift is  <span class="math-inline">\(r\)</span> . That is the risk-neutral world: prices are expectations under  <span class="math-inline">\(\Q\)</span> , and Itô is how you
+verify that a candidate process has the martingale property you claimed.</p>
+<p><strong>3. It quantifies convexity everywhere, not just in options.</strong></p>
+<div class="kb-table-wrap"><table class="kb-table"><thead><tr><th>Instrument</th><th>Convexity term</th><th>Consequence</th></tr></thead><tbody><tr><td>Long option</td><td><span class="math-inline">\(+\tfrac12\Gamma\sigma^2S^2\)</span></td><td>gamma P&amp;L, long realised vol</td></tr>
+<tr><td>Bond</td><td><span class="math-inline">\(+\tfrac12 C\sigma_y^2\)</span></td><td>convexity gain, DV01 is not enough</td></tr>
+<tr><td>Log wealth</td><td><span class="math-inline">\(-\tfrac12\sigma^2\)</span></td><td>volatility drag, the Kelly penalty</td></tr>
+<tr><td>Variance swap</td><td><span class="math-inline">\(\int \d\langle \ln S\rangle\)</span></td><td>replicated by a strip of options</td></tr>
+<tr><td>Leveraged ETF</td><td><span class="math-inline">\(-\tfrac12 k(k{-}1)\sigma^2\)</span></td><td>daily-rebalance decay</td></tr></tbody></table></div>
+<p>That table is one lemma applied five times. The <a class="kb-link" href="kelly-criterion.html" data-concept="kelly-criterion">Kelly Criterion</a> penalty  <span class="math-inline">\(-\sigma^2/2\)</span>  and the
+gamma of an option are <em>the same term</em> — the first for a concave function of wealth, the second for
+a convex function of price.</p>
+<h2 id="trading-research-application" class="kb-h kb-h2"><a class="kb-anchor" href="#trading-research-application" aria-label="Link to this section">#</a>Trading &amp; Research Application</h2>
+<aside class="kb-callout kb-callout--desk"><div class="kb-callout-title">On the desk</div><div class="kb-callout-body"><p><strong>Quote in vol, not in price.</strong> The Itô decomposition of a delta-hedged option contains no  <span class="math-inline">\(\d S\)</span> 
+and no  <span class="math-inline">\(\mu\)</span>  — only  <span class="math-inline">\(\Gamma\)</span>  and variance. Since your P&amp;L does not depend on direction, neither
+should your language. This is why an options desk trades &quot;35 vol&quot; and not &quot;$4.20&quot;.</p>
+<p><strong>Break-even move is the number to carry.</strong>  <span class="math-inline">\(\sigma S\sqrt{\d t}\)</span>  is the daily move at which gamma
+exactly pays theta. Long gamma and the stock is quieter than that, you are bleeding; short gamma
+and it is livelier, you are bleeding. Everything else is second order.</p>
+<p><strong>Convexity is a position even when you did not intend one.</strong> A bond portfolio matched on duration
+is still short or long convexity; a fund reporting arithmetic returns while compounding
+geometrically is short  <span class="math-inline">\(\sigma^2/2\)</span> ; a strategy that rebalances to constant leverage is short
+gamma. Itô&#39;s lemma is how you find the convexity you are carrying by accident.</p>
+<p><strong>Where the model is wrong, be short the assumption, not the instrument.</strong> The lemma assumes
+continuity. Every crisis is a jump. Selling out-of-the-money puts at a flat vol is selling exactly
+the term Itô cannot see — which is why that trade looks profitable for years and then is not.</p></div></aside>
+<h2 id="implementation-notes" class="kb-h kb-h2"><a class="kb-anchor" href="#implementation-notes" aria-label="Link to this section">#</a>Implementation Notes</h2>
+<figure class="kb-code" data-lang="python"><pre><code class="language-python">import numpy as np
+
+def gbm_paths(s0, mu, sigma, T, steps, paths, seed=0):
+    &quot;&quot;&quot;Exact GBM via the Itô solution rather than an Euler step on dS.
+
+    Euler on dS = mu*S*dt + sigma*S*dW is biased at any practical dt and can go
+    negative; the log form is exact for every dt because Itô gives the closed
+    solution. Note (mu - 0.5*sigma**2): that IS the Itô term, and dropping it is
+    the single most common bug in derivatives simulation code.&quot;&quot;&quot;
+    rng = np.random.default_rng(seed)
+    dt = T / steps
+    dW = rng.standard_normal((paths, steps)) * np.sqrt(dt)
+    log_path = np.cumsum((mu - 0.5 * sigma**2) * dt + sigma * dW, axis=1)
+    return s0 * np.exp(np.hstack([np.zeros((paths, 1)), log_path]))
+
+def hedge_pnl(prices, gamma, sigma, dt):
+    &quot;&quot;&quot;P&amp;L of a delta-hedged option: the Itô term, realised against implied.
+
+    Returns the per-step 0.5*Gamma*[(dS)^2 - sigma^2 S^2 dt]. Summed over a path
+    this is the realised-vs-implied variance trade, which is the entire economics
+    of the position -- the direction of the moves never appears.&quot;&quot;&quot;
+    ds = np.diff(prices)
+    implied = sigma**2 * prices[:-1]**2 * dt
+    return 0.5 * gamma * (ds**2 - implied)
+
+# Sanity check that catches the missing Itô term:
+#   gbm_paths(...)[:, -1].mean() -&gt; s0 * exp(mu * T)      (arithmetic drift)
+#   np.log(gbm_paths(...)[:, -1]).mean() -&gt; log(s0) + (mu - sigma**2/2) * T
+# If the first one comes out as exp((mu - sigma**2/2)*T), the correction was
+# applied twice.</code></pre></figure>
+<h2 id="common-mistakes" class="kb-h kb-h2"><a class="kb-anchor" href="#common-mistakes" aria-label="Link to this section">#</a>Common Mistakes</h2>
+<aside class="kb-callout kb-callout--pitfall"><div class="kb-callout-title">Common pitfall</div><div class="kb-callout-body"><ul class="kb-list"><li><strong>Using the ordinary chain rule.</strong>  <span class="math-inline">\(\d(S^2) = 2S\,\d S\)</span>  is wrong; it is
+ <span class="math-inline">\(2S\,\d S + (\d S)^2 = (2\mu + \sigma^2)S^2\d t + 2\sigma S^2\d W\)</span> . The missing  <span class="math-inline">\(\sigma^2\)</span>  term is
+the entire point.</li>
+<li><strong>Applying  <span class="math-inline">\(-\sigma^2/2\)</span>  twice</strong>, or not at all, when moving between arithmetic and log drift.
+Check with  <span class="math-inline">\(\E[S_T] = S_0e^{\mu T}\)</span> .</li>
+<li><strong>Forgetting cross terms</strong> in the multivariate case.  <span class="math-inline">\(\d W_1\d W_2 = \rho\,\d t\)</span>  shifts the
+<em>drift</em> of a product, not just its variance — which is why quanto and basket pricing need it.</li>
+<li><strong>Assuming the lemma survives a kink.</strong> Vanilla payoffs are not  <span class="math-inline">\(C^2\)</span>  at the strike; near expiry
+this is a live risk, not a footnote.</li>
+<li><strong>Believing faster hedging removes the risk.</strong> True in the continuous model, false with jumps.
+The residual is exactly what the skew is charging for.</li>
+<li><strong>Quoting gamma without a horizon.</strong>  <span class="math-inline">\(\tfrac12\Gamma\sigma^2S^2\)</span>  has units of currency per unit
+time; a gamma number with no  <span class="math-inline">\(\d t\)</span>  attached cannot be compared to a theta number.</li>
+<li><strong>Reaching for Itô when the function is deterministic in  <span class="math-inline">\(t\)</span>  only.</strong> If  <span class="math-inline">\(f\)</span>  has no  <span class="math-inline">\(x\)</span> -dependence
+there is no correction, and writing one anyway signals the mechanics were memorised rather than
+understood.</li></ul></div></aside>
+<h2 id="30-second-revision" class="kb-h kb-h2"><a class="kb-anchor" href="#30-second-revision" aria-label="Link to this section">#</a>30-Second Revision</h2>
+<ul class="kb-list"><li><span class="math-inline">\(\d f = (f_t + \mu f_x + \tfrac12\sigma^2f_{xx})\d t + \sigma f_x\,\d W\)</span> .</li>
+<li>The one new term exists because  <span class="math-inline">\((\d W)^2 = \d t\)</span> ;  <span class="math-inline">\(\d t\,\d W\)</span>  and  <span class="math-inline">\((\d t)^2\)</span>  vanish.</li>
+<li><span class="math-inline">\(\tfrac12 f&#39;&#39;\)</span>  is convexity — Jensen&#39;s inequality per unit of variance.</li>
+<li><span class="math-inline">\(\ln S\)</span>  under GBM: drift  <span class="math-inline">\(\mu - \sigma^2/2\)</span> . That gap is volatility drag.</li>
+<li>Product rule gains a term:  <span class="math-inline">\(\d(XY) = X\d Y + Y\d X + \d X\,\d Y\)</span> , with  <span class="math-inline">\(\d W_1\d W_2 = \rho\,\d t\)</span> .</li>
+<li>Delta-hedged option P&amp;L  <span class="math-inline">\(= \tfrac12\Gamma[(\d S)^2 - \sigma^2S^2\d t]\)</span> : long realised vol, short
+implied, direction irrelevant. Break-even daily move  <span class="math-inline">\(= \sigma S\sqrt{\d t}\)</span> .</li>
+<li>Hedge the  <span class="math-inline">\(\d W\)</span>  term away and what is left must earn  <span class="math-inline">\(r\)</span>  — that step is Black–Scholes.</li>
+<li>Fails on kinks (Itô–Tanaka), on jumps (semimartingale form; unhedgeable), and on infinite
+quadratic variation (rough vol).</li></ul></div>
+    <section class="kb-section" id="key-formulas">
+        <h2 class="kb-h kb-h2"><a class="kb-anchor" href="#key-formulas" aria-label="Link to this section">#</a>Key Formulas</h2>
+        <div class="kb-formula-recap">
+          <a class="kb-formula-recap-item" href="#its-lemma">
+            <span class="kb-formula-recap-name">Itô&#39;s lemma</span>
+            <span class="math-display">\[\d f(t,X_t) = \left(\frac{\partial f}{\partial t} + \mu\frac{\partial f}{\partial x}
++ \frac{1}{2}\sigma^2\frac{\partial^2 f}{\partial x^2}\right)\d t
++ \sigma\frac{\partial f}{\partial x}\,\d W_t\]</span>
+          </a>
+          <a class="kb-formula-recap-item" href="#it-multiplication-table">
+            <span class="kb-formula-recap-name">Itô multiplication table</span>
+            <span class="math-display">\[(\d W_t)^2 = \d t, \qquad \d t\,\d W_t = 0, \qquad (\d t)^2 = 0\]</span>
+          </a>
+          <a class="kb-formula-recap-item" href="#its-lemma-under-gbm">
+            <span class="kb-formula-recap-name">Itô&#39;s lemma under GBM</span>
+            <span class="math-display">\[\d f(t,S_t) = \left(f_t + \mu S f_S + \tfrac12\sigma^2S^2 f_{SS}\right)\d t + \sigma S f_S\,\d W_t\]</span>
+          </a>
+          <a class="kb-formula-recap-item" href="#multidimensional-it">
+            <span class="kb-formula-recap-name">Multidimensional Itô</span>
+            <span class="math-display">\[\d f = \left(f_t + \sum_i \mu_i f_{x_i} + \tfrac12\sum_{i,j}\rho_{ij}\sigma_i\sigma_j f_{x_ix_j}\right)\d t
++ \sum_i \sigma_i f_{x_i}\,\d W_i\]</span>
+          </a></div>
+      </section>
+    <section class="kb-section" id="interview-questions">
+        <h2 class="kb-h kb-h2"><a class="kb-anchor" href="#interview-questions" aria-label="Link to this section">#</a>Interview Questions</h2>
+        <ol class="kb-questions">
+          <li class="kb-question" id="q-itos-lemma-q1" data-difficulty="intermediate">
+            <div class="kb-question-head">
+              <span class="kb-question-text">State Itô&#39;s lemma and say in one sentence why it differs from the ordinary chain rule.</span>
+              <span class="kb-tagline">Intermediate · core · quadratic-variation</span>
+            </div>
+            <details class="kb-hint"><summary>Hint</summary><div><p>Which term in the Taylor expansion is second order in dt for a smooth path but first order for a diffusion?</p></div></details>
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>For  <span class="math-inline">\(\d X_t = \mu\,\d t + \sigma\,\d W_t\)</span>  and  <span class="math-inline">\(f(t,x)\)</span>  twice differentiable in  <span class="math-inline">\(x\)</span> :</p>
+<span class="math-display">\[\d f(t,X_t) = \left(f_t + \mu f_x + \tfrac12\sigma^2 f_{xx}\right)\d t + \sigma f_x\,\d W_t\]</span>
+<p><strong>Why it differs:</strong> Brownian motion has non-zero quadratic variation, so
+ <span class="math-inline">\((\d W_t)^2 = \d t\)</span>  rather than  <span class="math-inline">\(O(\d t^2)\)</span> . The second-order Taylor term is therefore
+<em>first order in time</em> and cannot be discarded. Ordinary calculus drops it; Itô calculus keeps
+it as  <span class="math-inline">\(\tfrac12\sigma^2 f_{xx}\)</span> .</p>
+<p>Everything distinctive about derivatives pricing lives in that one term. It is the
+ <span class="math-inline">\(-\sigma^2/2\)</span>  in lognormal returns, the  <span class="math-inline">\(\tfrac12\sigma^2S^2\Gamma\)</span>  in the Black–Scholes PDE,
+the reason a variance swap has value, and the reason a delta-hedged option is not a flat
+position.</p></div></details>
+          </li>
+          <li class="kb-question" id="q-itos-lemma-q2" data-difficulty="intermediate">
+            <div class="kb-question-head">
+              <span class="kb-question-text">Apply Itô&#39;s lemma to f(S) = ln S under GBM. What do you get and what does the extra term mean?</span>
+              <span class="kb-tagline">Intermediate · gbm · lognormal · volatility-drag · core</span>
+            </div>
+            
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>With  <span class="math-inline">\(\d S = \mu S\,\d t + \sigma S\,\d W\)</span> ,  <span class="math-inline">\(f&#39; = 1/S\)</span> ,  <span class="math-inline">\(f&#39;&#39; = -1/S^2\)</span> , and
+ <span class="math-inline">\((\d S)^2 = \sigma^2S^2\,\d t\)</span> :</p>
+<span class="math-display">\[\d(\ln S) = \frac{\d S}{S} - \frac12\frac{(\d S)^2}{S^2}
+= \left(\mu - \frac{\sigma^2}{2}\right)\d t + \sigma\,\d W\]</span>
+<p><strong>The meaning:</strong>  <span class="math-inline">\(\mu\)</span>  is the <em>arithmetic</em> expected return,  <span class="math-inline">\(\mu - \sigma^2/2\)</span>  the
+<em>logarithmic</em> one. The gap is volatility drag — Jensen&#39;s inequality made dynamic, forced by
+the concavity of  <span class="math-inline">\(\ln\)</span>  meeting non-zero quadratic variation. It is not a modelling choice.</p>
+<p>Practical consequences: a fund with  <span class="math-inline">\(+10\%\)</span>  expected return and  <span class="math-inline">\(60\%\)</span>  vol compounds at
+ <span class="math-inline">\(10 - 18 = -8\%\)</span> ; leveraged ETFs decay; and the median terminal price sits below the mean.
+Getting the sign wrong here is the most common Monte Carlo bug in derivatives code.</p></div></details>
+          </li>
+          <li class="kb-question" id="q-itos-lemma-q3" data-difficulty="advanced">
+            <div class="kb-question-head">
+              <span class="kb-question-text">Show that S_t = S_0 exp[(μ − σ²/2)t + σW_t] solves dS = μS dt + σS dW.</span>
+              <span class="kb-tagline">Advanced · sde · verification</span>
+            </div>
+            
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>Write  <span class="math-inline">\(S_t = f(t, W_t)\)</span>  with  <span class="math-inline">\(f(t,x) = S_0\exp[(\mu-\tfrac{\sigma^2}{2})t + \sigma x]\)</span> . Then
+ <span class="math-inline">\(f_t = (\mu - \tfrac{\sigma^2}{2})f\)</span> ,  <span class="math-inline">\(f_x = \sigma f\)</span> ,  <span class="math-inline">\(f_{xx} = \sigma^2 f\)</span> . Itô&#39;s lemma for
+a function of  <span class="math-inline">\(t\)</span>  and  <span class="math-inline">\(W_t\)</span>  ( <span class="math-inline">\(\mu_W = 0\)</span> ,  <span class="math-inline">\(\sigma_W = 1\)</span> ) gives</p>
+<span class="math-display">\[\d S = \left(f_t + \tfrac12 f_{xx}\right)\d t + f_x\,\d W
+= \left[\left(\mu - \tfrac{\sigma^2}{2}\right) + \tfrac{\sigma^2}{2}\right]S\,\d t + \sigma S\,\d W
+= \mu S\,\d t + \sigma S\,\d W\]</span>
+<p>The  <span class="math-inline">\(-\sigma^2/2\)</span>  in the exponent is <em>exactly</em> what the  <span class="math-inline">\(+\tfrac12 f_{xx}\)</span>  term produces, so
+they cancel and leave the drift  <span class="math-inline">\(\mu\)</span> . That cancellation is the reason the correction appears
+in the solution at all: it is there so the arithmetic drift comes out right.</p></div></details>
+          </li>
+          <li class="kb-question" id="q-itos-lemma-q4" data-difficulty="advanced">
+            <div class="kb-question-head">
+              <span class="kb-question-text">A delta-hedged long call position. Use Itô to write down its P&amp;L over dt and read off the trade.</span>
+              <span class="kb-tagline">Advanced · gamma · hedging · theta · desk</span>
+            </div>
+            <details class="kb-hint"><summary>Hint</summary><div><p>The hedge kills the dW term. What is left?</p></div></details>
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>Portfolio  <span class="math-inline">\(\Pi = V(t,S) - \Delta S\)</span>  with  <span class="math-inline">\(\Delta = V_S\)</span> . Itô on  <span class="math-inline">\(V\)</span> :</p>
+<span class="math-display">\[\d\Pi = \left(V_t + \tfrac12\sigma^2S^2V_{SS}\right)\d t
++ \underbrace{(V_S - \Delta)}_{=\,0}\,\d S\]</span>
+<p>The  <span class="math-inline">\(\d W\)</span>  exposure is gone by construction. What remains is <strong>theta plus gamma</strong>. Replacing
+the realised move  <span class="math-inline">\((\d S)^2\)</span>  with what actually happens rather than the model&#39;s
+ <span class="math-inline">\(\sigma^2S^2\d t\)</span> :</p>
+<span class="math-display">\[\d\Pi = \tfrac12\Gamma\Big[(\d S)^2 - \sigma_{\text{imp}}^2S^2\,\d t\Big]\]</span>
+<p><strong>The trade:</strong> long an option and delta-hedged, you are long realised variance and short
+implied. You make money if the stock moves more than the vol you paid for, lose if it moves
+less, and your direction is irrelevant. This single line is the entire economics of gamma
+scalping, and it is why option traders quote positions in vol rather than in price.</p></div></details>
+          </li>
+          <li class="kb-question" id="q-itos-lemma-q5" data-difficulty="advanced">
+            <div class="kb-question-head">
+              <span class="kb-question-text">When does Itô&#39;s lemma NOT apply, and what replaces it?</span>
+              <span class="kb-tagline">Advanced · jumps · assumptions · limitations</span>
+            </div>
+            
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>Three failure modes, each with a different fix:</p>
+<p><strong>1.  <span class="math-inline">\(f\)</span>  is not  <span class="math-inline">\(C^2\)</span> .</strong> A vanilla payoff  <span class="math-inline">\(\max(S-K,0)\)</span>  has no second derivative at the
+strike — gamma is a delta function there. The fix is the Itô–Tanaka formula, which replaces
+ <span class="math-inline">\(\tfrac12 f&#39;&#39;\,\d t\)</span>  with a local-time term. Practically this is why gamma explodes near
+expiry at the strike and why pinning risk exists.</p>
+<p><strong>2. The process jumps.</strong> For  <span class="math-inline">\(\d S = \mu S\,\d t + \sigma S\,\d W + S\,\d J\)</span> , the Taylor
+expansion cannot be truncated: a jump moves  <span class="math-inline">\(S\)</span>  by a finite amount, so <em>all</em> orders matter.
+Itô&#39;s lemma for semimartingales adds a compensated sum over jumps,
+ <span class="math-inline">\(\sum [f(S_{t}) - f(S_{t^-})]\)</span> . The consequence that matters: <strong>you cannot hedge a jump by
+trading faster.</strong> Delta hedging is exact only in the continuous limit.</p>
+<p><strong>3. Infinite quadratic variation.</strong> Fractional Brownian motion with  <span class="math-inline">\(H \ne 1/2\)</span>  has no
+finite  <span class="math-inline">\(\langle X\rangle\)</span> , so the whole construction fails; rough volatility models
+( <span class="math-inline">\(H \approx 0.1\)</span> ) live here and need different machinery.</p>
+<p>A good answer names case 2 unprompted — it is the honest limitation of the Black–Scholes
+hedging argument and the reason the volatility skew exists.</p></div></details>
+          </li>
+          <li class="kb-question" id="q-itos-lemma-q6" data-difficulty="advanced">
+            <div class="kb-question-head">
+              <span class="kb-question-text">Two assets, dS_i = μ_i S_i dt + σ_i S_i dW_i with corr(dW_1, dW_2) = ρ. What is d(S_1 S_2)?</span>
+              <span class="kb-tagline">Advanced · multivariate · correlation · cross-variation</span>
+            </div>
+            
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>The multidimensional Itô lemma adds cross-variation terms
+ <span class="math-inline">\(\d W_1\,\d W_2 = \rho\,\d t\)</span> . For  <span class="math-inline">\(f = xy\)</span> :  <span class="math-inline">\(f_x = y\)</span> ,  <span class="math-inline">\(f_y = x\)</span> ,  <span class="math-inline">\(f_{xy} = 1\)</span> ,
+ <span class="math-inline">\(f_{xx} = f_{yy} = 0\)</span> :</p>
+<span class="math-display">\[\d(S_1S_2) = S_2\,\d S_1 + S_1\,\d S_2 + \d S_1\,\d S_2
+= S_1S_2\Big[(\mu_1 + \mu_2 + \rho\sigma_1\sigma_2)\d t + \sigma_1\d W_1 + \sigma_2\d W_2\Big]\]</span>
+<p>Note the ordinary product rule <em>plus</em>  <span class="math-inline">\(\d S_1\d S_2\)</span>  — the Itô correction. So a product of two
+lognormals is lognormal with a drift that depends on  <span class="math-inline">\(\rho\)</span> : the correlation is not a
+second-order detail, it shifts the expected value.</p>
+<p>This is exactly the machinery behind quanto adjustments, the drift correction when changing
+numéraire, and why a basket option is not a portfolio of options.</p></div></details>
+          </li></ol>
+      </section>
+
+    <section class="kb-section" id="connections">
+      <h2 class="kb-h kb-h2"><a class="kb-anchor" href="#connections" aria-label="Link to this section">#</a>Connections</h2>
+      <div class="kb-connections">
+        <section class="kb-relgroup"><h3>Prerequisites</h3><p class="kb-relnote">Understand these first.</p><ul class="kb-rellist"><li><a href="../concepts/brownian-motion.html" class="kb-relitem">
+          <span class="kb-relitem-title">Brownian Motion</span>
+          <span class="kb-relitem-meta">Stochastic Processes · Advanced</span>
+          <span class="kb-relitem-sum">The continuous-time limit of a random walk — Gaussian, independent increments scaling with √t, nowhere differentiable, and the driving noise underneath essentially every continuous-time model in finance.</span>
+        </a></li></ul></section>
+        <section class="kb-relgroup"><h3>Builds towards</h3><p class="kb-relnote">Concepts that depend on this one.</p><ul class="kb-rellist"><li><a href="../concepts/black-scholes-equation.html" class="kb-relitem">
+          <span class="kb-relitem-title">The Black–Scholes Equation</span>
+          <span class="kb-relitem-meta">Options · Advanced</span>
+          <span class="kb-relitem-sum">Hedge an option with the underlying, watch the randomness cancel, and impose that what is left must earn the risk-free rate — the derivation that turns a model of the stock into a price for anything written on it, and explains why the expected return never appears.</span>
+        </a></li></ul></section>
+        <section class="kb-relgroup"><h3>Related</h3><ul class="kb-rellist"><li><a href="../concepts/martingales.html" class="kb-relitem">
+          <span class="kb-relitem-title">Martingales</span>
+          <span class="kb-relitem-meta">Stochastic Processes · Advanced</span>
+          <span class="kb-relitem-sum">A process whose best forecast of its own future value is its present value — the formal statement of &quot;no predictable edge&quot;, and the object that makes arbitrage-free pricing work.</span>
+        </a></li><li><a href="../concepts/variance.html" class="kb-relitem">
+          <span class="kb-relitem-title">Variance</span>
+          <span class="kb-relitem-meta">Statistics · Foundational</span>
+          <span class="kb-relitem-sum">The expected squared deviation from the mean — the second moment that turns a return forecast into a position size, and the quantity that does not add when you combine assets.</span>
+        </a></li><li><a href="../concepts/black-scholes-equation.html" class="kb-relitem">
+          <span class="kb-relitem-title">The Black–Scholes Equation</span>
+          <span class="kb-relitem-meta">Options · Advanced</span>
+          <span class="kb-relitem-sum">Hedge an option with the underlying, watch the randomness cancel, and impose that what is left must earn the risk-free rate — the derivation that turns a model of the stock into a price for anything written on it, and explains why the expected return never appears.</span>
+        </a></li><li><a href="../concepts/kelly-criterion.html" class="kb-relitem">
+          <span class="kb-relitem-title">Kelly Criterion</span>
+          <span class="kb-relitem-meta">Portfolio Construction · Intermediate</span>
+          <span class="kb-relitem-sum">The bet size that maximises the long-run growth rate of wealth — obtained by maximising expected log wealth rather than expected wealth, because capital compounds multiplicatively.</span>
+        </a></li><li><a href="../concepts/option-greeks.html" class="kb-relitem">
+          <span class="kb-relitem-title">Option Greeks</span>
+          <span class="kb-relitem-meta">Options · Intermediate</span>
+          <span class="kb-relitem-sum">Delta, gamma, vega, theta and rho are the terms of one Taylor expansion, not five separate risk numbers — and the Black–Scholes equation is the identity that ties them together into a single statement about what a hedged position earns.</span>
+        </a></li></ul></section>
+        
+      </div>
+      <figure class="kb-neighbourhood">
+        <canvas data-kb-minimap="itos-lemma" width="760" height="300" aria-label="Local knowledge graph"></canvas>
+        <figcaption>Two hops out from this concept.
+          <a class="kb-side-more" href="../graph.html?focus=itos-lemma">Open full graph →</a></figcaption>
+      </figure>
+      <div class="kb-references"><h3>References</h3><ul><li>Shreve, *Stochastic Calculus for Finance II*, ch. 4</li><li>Øksendal, *Stochastic Differential Equations*, ch. 4</li><li>Baxter &amp; Rennie, *Financial Calculus*, ch. 3</li></ul></div>
+    </section>
+
+    <nav class="kb-prevnext" aria-label="Concept navigation">
+    <a class="kb-prevnext-item kb-prevnext-prev" href="../concepts/brownian-motion.html" rel="prev">
+      <span class="kb-prevnext-label">← Previous</span><span>Brownian Motion</span></a>
+    <a class="kb-prevnext-item kb-prevnext-up" href="../subjects/stochastic-processes.html">
+      <span class="kb-prevnext-label">Subject</span><span>Stochastic Processes</span></a>
+    <span></span>
+  </nav>
+    <footer class="kb-source-note">
+      Source: <code>content/concepts/itos-lemma.md</code> · updated 2026-09-03
+    </footer>
+  </article>
+
+  <!-- The rail sits in the left column but comes last in the source: the
+       article is what a reader (or a screen reader) wants first, and the
+       links here are a way back into it rather than a way into the page. -->
+  <aside class="kb-rail">
+    <nav class="kb-toc kb-rail-group" aria-label="On this page"><h3>On this page</h3><ol><li><a href="#intuition">Intuition</a></li><li><a href="#mathematical-formulation">Mathematical Formulation</a></li><li><a href="#derivation">Derivation</a></li><li><a href="#assumptions-edge-cases">Assumptions &amp; Edge Cases</a></li><li><a href="#worked-example">Worked Example</a></li><li><a href="#why-it-matters-in-quant-finance">Why It Matters in Quant Finance</a></li><li><a href="#trading-research-application">Trading &amp; Research Application</a></li><li><a href="#implementation-notes">Implementation Notes</a></li><li><a href="#common-mistakes">Common Mistakes</a></li><li><a href="#30-second-revision">30-Second Revision</a></li><li><a href="#key-formulas">Key Formulas</a></li><li><a href="#interview-questions">Interview Questions</a></li><li><a href="#connections">Connections</a></li></ol></nav>
+    <nav class="kb-rail-group" id="side-formulas" aria-label="Key formulas"><h3>Formulas</h3><ul><li><a href="#its-lemma">Itô&#39;s lemma</a></li><li><a href="#it-multiplication-table">Itô multiplication table</a></li><li><a href="#its-lemma-under-gbm">Itô&#39;s lemma under GBM</a></li><li><a href="#multidimensional-it">Multidimensional Itô</a></li></ul></nav>
+  </aside>
+</main>
+<script src="../data/kb.data.js?v=8381a4e4"></script>
+<script src="../data/search.index.js?v=6eb1e318"></script>
+<script src="../assets/js/kb-core.js?v=a4c20d2d"></script>
+<script src="../assets/js/kb-ui.js?v=a48ca814"></script>
+<script src="../assets/vendor/katex/katex.min.js" defer></script>
+<script src="../assets/vendor/katex/auto-render.min.js" defer></script>
+<script src="../assets/js/math.js?v=44b57f03" defer></script>
+<script src="../assets/js/concept.js?v=c6248b59" defer></script>
+</body>
+</html>
