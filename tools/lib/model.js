@@ -140,6 +140,12 @@ function normaliseSubject(raw, order) {
     id,
     name: String(raw.name || raw.title || id).trim(),
     description: String(raw.description || '').trim(),
+    // A card-sized version of the description. The subject grid on the
+    // dashboard shows two dozen of these side by side, where a full sentence
+    // wraps to four lines and the grid stops being scannable. Optional: a
+    // subject without one falls back to its description, so adding a subject
+    // never blocks on writing a second blurb for it.
+    blurb: String(raw.blurb || '').trim() || String(raw.description || '').trim(),
     icon: String(raw.icon || '').trim() || defaultIcon(id),
     color: String(raw.color || '').trim() || '#6b7180',
     group: slugify(raw.group || 'other'),

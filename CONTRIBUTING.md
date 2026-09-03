@@ -306,13 +306,19 @@ Append to `content/subjects.json`:
   "group": "markets",
   "color": "#c07f3e",
   "order": 335,
+  "blurb": "Spreads, CDS mechanics, default models.",
   "description": "Default risk, spreads, structural and reduced-form models, CDS mechanics."
 }
 ```
 
 `group` buckets it on the dashboard (`mathematics`, `modelling`, `strategy`, `markets`, `craft`);
 `order` sets position. A subject page is generated for it immediately, empty until concepts point at
-it.
+it — and it appears in the dashboard's subject grid straight away, greyed and marked `EMPTY`, because
+the taxonomy is part of what that page is showing.
+
+`blurb` is what the grid card shows and `description` is what the subject page's header shows. Keep
+the blurb under 60 characters — `npm test` enforces both, since a missing one silently falls back to
+the description and makes one card three times taller than its neighbours.
 
 You can also skip this entirely: give a concept `subject: credit` and the build generates a stub
 subject with a warning telling you to declare it properly. Nothing blocks.

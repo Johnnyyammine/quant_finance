@@ -25,8 +25,12 @@
   }
   applyTheme(KB.theme.get());
 
+  /* Test for 'dark', not for 'light'. Light is now the stylesheet's base and
+     needs no attribute, so on a first visit there is nothing on <html> at all
+     -- comparing against 'light' made that read as "not light", and the first
+     click set the theme the page was already showing. */
   function toggleTheme() {
-    var next = doc.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+    var next = doc.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
     KB.theme.set(next);
     applyTheme(next);
   }

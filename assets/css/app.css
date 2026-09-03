@@ -1,65 +1,69 @@
 /* ==========================================================================
    Quant Knowledge Base — design system
-   Dense, quiet, desktop-first. Information over decoration.
+   Warm, printed, unhurried. Information over decoration.
    ========================================================================== */
 
 /* Typefaces are vendored, not fetched: the site has to work from a file:// URL
    with no network. Three faces, one job each.
 
-   READING -- Literata. Every page pairs prose with KaTeX, and KaTeX sets maths
-   in Computer Modern, a serif. A geometric sans around it made every inline
-   \(f'(x)\) look pasted in; a serif body makes the maths part of the sentence,
-   which on a page that is half derivation is the whole reading experience.
-   Literata was drawn for long-form screen reading, and its large x-height holds
-   up on the dark ground this site defaults to.
+   DISPLAY + READING -- Source Serif 4. One serif does both jobs here, and that
+   is the point. Every page pairs prose with KaTeX, and KaTeX sets maths in
+   Computer Modern, a serif; a sans body made every inline \(f'(x)\) look
+   pasted in. Source Serif was drawn for exactly this range -- it holds a
+   76px hero and a 15.5px derivation without the two reading as different
+   voices, which is what a second display face would have cost.
 
-   The roman ships the optical-size axis (opsz 7-72) and the italic does not,
-   which is deliberate rather than sloppy: opsz earns its 58KB on the 30px
-   concept titles, where it gives a true display cut instead of body text scaled
-   up, and no heading in the corpus contains an italic. Italics only ever appear
-   at 13-15.5px, where the two cuts are indistinguishable.
+   The roman ships the optical-size axis (opsz 8-60) and the italic does not,
+   which is deliberate rather than sloppy: opsz earns its 122KB on the hero and
+   the concept titles, where it gives a true display cut instead of body text
+   scaled up, and no heading in the corpus contains an italic. Italics only
+   ever appear at 13-16px, where the two cuts are indistinguishable, so the
+   italic ships as the 51KB weight-only file.
 
-   INTERFACE -- Plus Jakarta Sans. Nav, buttons, labels, tables, cards. A
-   geometric grotesque against the serif is what separates chrome from content
-   at a glance.
+   INTERFACE -- Figtree. Nav, buttons, labels, tables, cards. A geometric sans
+   against the serif is what separates chrome from content at a glance, and its
+   wide apertures stay legible at the 11.5px the eyebrow labels run at.
 
-   DATA -- JetBrains Mono. Figures, code, tags. Tabular by default.
+   DATA -- JetBrains Mono. Figures, code, keycaps, tags. Tabular by default.
 
    Latin subset only; symbols and Greek fall back. Licences sit beside the
-   files. */
+   files. Together they are 249 KB, which is the whole network cost of the
+   site's typography, paid once. */
 @font-face {
-  font-family: "Literata Variable";
+  font-family: "Source Serif 4 Variable";
   font-style: normal;
   font-weight: 200 900;
   font-display: swap;
-  src: url("../fonts/literata-latin-opsz-normal.woff2") format("woff2-variations");
+  src: url("../fonts/source-serif-4-latin-opsz-normal.woff2") format("woff2-variations");
   unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,
     U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
 }
 @font-face {
-  font-family: "Literata Variable";
+  font-family: "Source Serif 4 Variable";
   font-style: italic;
   font-weight: 200 900;
   font-display: swap;
-  src: url("../fonts/literata-latin-wght-italic.woff2") format("woff2-variations");
+  src: url("../fonts/source-serif-4-latin-wght-italic.woff2") format("woff2-variations");
   unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,
     U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
 }
+/* Figtree's weight axis starts at 300, not 200 -- declaring a wider range here
+   would let a browser synthesise a weight the file cannot produce. */
 @font-face {
-  font-family: "Plus Jakarta Sans Variable";
+  font-family: "Figtree Variable";
   font-style: normal;
-  font-weight: 200 800;
+  font-weight: 300 900;
   font-display: swap;
-  src: url("../fonts/plus-jakarta-sans-latin-wght-normal.woff2") format("woff2-variations");
+  src: url("../fonts/figtree-latin-wght-normal.woff2") format("woff2-variations");
   unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,
     U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
 }
 @font-face {
-  font-family: "Plus Jakarta Sans Variable";
+  font-family: "Figtree Variable";
   font-style: italic;
-  font-weight: 200 800;
+  font-weight: 300 900;
   font-display: swap;
-  src: url("../fonts/plus-jakarta-sans-latin-wght-italic.woff2") format("woff2-variations");
+  src: url("../fonts/figtree-latin-wght-italic.woff2") format("woff2-variations");
   unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,
     U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
 }
@@ -74,132 +78,195 @@
 }
 
 :root {
-  /* Dark is the default: this is a tool you stare at for hours.
+  /* Light is the default now. The ground is warm cream rather than white --
+     paper, not a screen. On a site that is mostly long derivations, a neutral
+     white ground under a serif reads clinical; the cream carries the same ink
+     at a lower luminance, which is easier to sit in front of for an hour, and
+     it is the one decision the rest of the palette follows from.
 
-     The ground is close to black with only a trace of blue in it. The old
-     palette carried a navy cast through every surface, which read as a
-     terminal skin painted over the page; a near-neutral ground lets the one
-     accent be the only colour on screen, and that is where the calm comes
-     from. Surfaces step in even, small increments so a card reads as raised
-     without a border, and the hairlines are deliberately faint -- at this
-     contrast a divider separates without drawing a line you notice. */
-  --bg:            #08090c;
-  --bg-raised:     #101217;
-  --bg-sunken:     #050609;
-  --bg-hover:      #171a20;
-  --bg-active:     #1f232b;
+     Surfaces step *upward* from the page: a card is lighter than the ground,
+     nearly white, so it reads as a sheet laid on the desk. That is the reverse
+     of the dark theme below, and it is why raised/sunken are named for their
+     role rather than their lightness. */
+  --bg:            #f5ead8;
+  --bg-raised:     #fdf8ef;
+  --bg-sunken:     #eee1ca;
+  --bg-hover:      #f2e6d0;
+  --bg-active:     #ebddc5;
 
-  --line:          #1b1e25;
-  --line-strong:   #2d323c;
-  /* A one-pixel light edge along the top of a raised surface. It is the
-     cheapest way to suggest that a panel sits above the page rather than
-     being a lighter rectangle painted on it. */
-  --edge:          rgba(255, 255, 255, 0.05);
+  /* Hairlines are a percentage of the ink rather than a fixed grey, so they
+     hold the same weight against every surface the palette has. The flat hex
+     first: a browser without color-mix drops the second declaration at parse
+     time and keeps this one, rather than losing every border on the page. */
+  --line:          #ded4c2;
+  --line:          color-mix(in srgb, #201e1d 13%, transparent);
+  --line-strong:   #c3b7a0;
+  --line-strong:   color-mix(in srgb, #201e1d 26%, transparent);
+  /* A one-pixel light edge along the top of a raised surface -- on cream it is
+     near-white rather than the translucent white the dark theme uses. */
+  --edge:          rgba(255, 255, 255, 0.9);
 
-  --ink:           #d8dbe2;
-  --ink-strong:    #f6f7f9;
-  --ink-muted:     #868c98;
-  --ink-faint:     #686e79;
+  /* Four steps, warm-neutral: the ink has the same trace of brown the ground
+     does, so text sits *in* the paper instead of on top of it. --ink-strong is
+     for display type, --ink for prose, --ink-muted for secondary copy and
+     --ink-faint for meta that should recede. */
+  --ink-strong:    #16110d;
+  --ink:           #201e1d;
+  --ink-muted:     #645c50;
+  /* Nudged down from the #82796a the design called for. At that value the
+     11.5px meta lines -- prerequisite notes, counts, the footer -- came out at
+     3.6:1 on the cream, which is under AA for text this small. This is the
+     lightest warm grey that clears 4.5:1 on both the page and a card. */
+  --ink-faint:     #71695c;
 
-  /* One blue, used for every interactive thing. It is a saturated, confident
-     blue rather than the dusty one it replaces: on a near-black ground a
-     washed accent reads as faded, and a single clean colour against neutrals
-     is what makes an interface look considered rather than decorated.
-     --accent carries fills and rules, --accent-ink is the text-safe lift. */
-  --accent:        #4d7cff;
-  --accent-ink:    #93aeff;
-  --accent-bg:     rgba(77, 124, 255, 0.14);
+  /* Terracotta. One accent, used for every interactive thing. It is a pigment
+     colour rather than a screen colour -- next to cream it reads as ink from a
+     second plate, which is the whole reason the page looks printed. --accent
+     carries fills and rules; --accent-ink is the darker cut that is legible as
+     text on a light fill. */
+  --accent:        #c67139;
+  --accent-ink:    #8c491a;
+  --accent-bg:     #ffe1d0;
+  /* The fill that goes *behind text*. Terracotta at its display value is a
+     3:1 pair with both white and cream -- fine under a 76px word, not fine
+     under a 15.5px button label -- so anything carrying small text uses this
+     darker cut, which clears 4.5:1 against white. --accent stays the lighter
+     value for rules, dots, borders and the hero core, where nothing has to be
+     read off it. */
+  --accent-solid:  #ae6332;
+  --accent-on:     #ffffff;
+
+  /* Sage, the second accent. It labels a different *kind* of thing (the
+     interview surfaces, the processes/markets side of the taxonomy) rather
+     than a different importance, so it is the same value as the terracotta,
+     just across the wheel. --accent2-ink is pulled well down from --accent2:
+     sage at its display value on its own wash is a 3:1 pair, which is fine for
+     a dot and not for the 11.5px labels that sit on it. */
+  --accent2:       #728157;
+  --accent2-ink:   #4c5735;
+  --accent2-bg:    #e1eecc;
 
   /* Secondary hues. Muted on purpose -- they label things (a difficulty, a
-     subject, a sign) and must never compete with the accent. */
-  --pos:           #34ab84;
-  --neg:           #e0655f;
-  --warn:          #cfa14e;
-  --info:          #9179ea;
+     sign, a subject) and must never compete with the accent. Warmed to sit on
+     cream: the cold versions of these read as a different design system. */
+  --pos:           #42734b;
+  --neg:           #a8382c;
+  --warn:          #89631b;
+  --info:          #6b5aa6;
 
   /* Tints for labels: an ink that is legible on the ground and a wash that is
      barely there. Defined once per theme so a pill is never a pair of
      hand-picked hex values repeated in a light-theme override. */
-  --tone-teal-ink:   #6fc7a5;  --tone-teal-bg:   rgba(52, 171, 132, 0.14);
-  --tone-blue-ink:   #8fb0f5;  --tone-blue-bg:   rgba(77, 124, 255, 0.15);
-  --tone-violet-ink: #b09df0;  --tone-violet-bg: rgba(145, 121, 234, 0.16);
-  --tone-amber-ink:  #dda868;  --tone-amber-bg:  rgba(207, 161, 78, 0.15);
+  --tone-teal-ink:   #2f6350;  --tone-teal-bg:   rgba(47, 99, 80, 0.12);
+  --tone-blue-ink:   #3d5c8f;  --tone-blue-bg:   rgba(61, 92, 143, 0.12);
+  --tone-violet-ink: #5f4b93;  --tone-violet-bg: rgba(95, 75, 147, 0.12);
+  --tone-amber-ink:  #8c491a;  --tone-amber-bg:  rgba(198, 113, 57, 0.15);
 
-  --font-ui: "Plus Jakarta Sans Variable", "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-display: "Source Serif 4 Variable", "Source Serif 4", Charter, "Bitstream Charter", "Iowan Old Style", Georgia, serif;
+  --font-read: var(--font-display);
+  --font-ui: "Figtree Variable", Figtree, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-mono: "JetBrains Mono Variable", "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
-  --font-read: "Literata Variable", Literata, Charter, "Bitstream Charter", "Iowan Old Style", Georgia, serif;
 
-  /* A real scale rather than two near-identical values. The old design gave
-     almost everything the same 4px corner, which is what made the interface
-     read as a grid of boxes: at that radius a rectangle is still a rectangle.
-     Radius now carries meaning -- controls are softly rounded, surfaces are
-     properly rounded, and anything that is a label is a pill. */
+  /* Radius carries meaning: keycaps and inline chips are barely rounded,
+     controls are softly rounded, list rows and cards are properly rounded, and
+     the largest surfaces -- the panels a section is built around -- are round
+     enough to read as objects rather than regions. Anything that is a label is
+     a pill. */
   --r-xs: 6px;    /* keycaps, inline chips */
-  --r: 9px;       /* buttons, inputs, small interactive things */
-  --r-lg: 14px;   /* cards, panels, list rows */
-  --r-xl: 18px;   /* the largest surfaces */
+  --r: 8px;       /* buttons, inputs, small interactive things */
+  --r-lg: 16px;   /* subject cards, list rows */
+  --r-xl: 28px;   /* the largest surfaces */
   --r-pill: 999px;
-  /* Layered rather than one big blur: a tight contact shadow reads as weight,
-     the wide one as distance. A single blur reads as a smudge. */
-  --shadow: 0 1px 2px rgba(0, 0, 0, 0.32), 0 12px 32px -8px rgba(0, 0, 0, 0.55);
-  /* The lift a row or card takes on hover. Same two-part construction, scaled
-     down: enough to read as "this one is under the cursor" without the element
-     appearing to jump off the page. */
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.28), 0 6px 16px -6px rgba(0, 0, 0, 0.5);
-  /* Focus needs to read on the page, on a raised card and on the accent itself,
-     so it is a ring rather than a line: the outline carries the colour, the
-     halo separates it from whatever it sits on. */
-  --focus-halo: 0 0 0 4px rgba(77, 124, 255, 0.24);
-  --select-bg: rgba(77, 124, 255, 0.34);
+
+  /* Shadow on cream is a warm grey, never black: a neutral shadow over a warm
+     ground grey-shifts the colour under it and the card looks dirty. Layered
+     rather than one big blur -- a tight contact shadow reads as weight, the
+     wide one as distance. */
+  --shadow-sm: 0 1px 2px rgba(46, 43, 37, 0.10), 0 3px 10px -3px rgba(46, 43, 37, 0.16);
+  --shadow:    0 1px 2px rgba(46, 43, 37, 0.14), 0 12px 32px -10px rgba(46, 43, 37, 0.22);
+  /* The lift a card takes when it is the one under the cursor. Wide and soft
+     rather than dark: on paper, elevation is a diffuse shadow, not an edge. */
+  --glow:      0 18px 48px rgba(46, 43, 37, 0.14);
+
+  /* Focus needs to read on the page, on a raised card and on the accent
+     itself, so it is a ring rather than a line: the outline carries the
+     colour, the halo separates it from whatever it sits on. */
+  --focus-halo: 0 0 0 4px rgba(198, 113, 57, 0.28);
+  --select-bg: #ffe1d0;
+  /* The scrim behind the command palette. Warm and deep, so the page reads as
+     dimmed paper rather than as a screen switched off behind a window. */
+  --scrim: rgba(38, 30, 22, 0.5);
 
   /* One column width shared by everything on the dashboard, so the KPI strip
      and the list below it line up as a single instrument rather than two
      panels that happen to sit near each other. */
-  --panel: 1040px;
+  --panel: 1240px;
 
-  --dur: 140ms;
+  --dur: 180ms;
   --ease: cubic-bezier(0.2, 0, 0.15, 1);
 
-  --topbar-h: 46px;
+  --topbar-h: 62px;
 
-  color-scheme: dark;
+  color-scheme: light;
 }
 
-html[data-theme="light"] {
-  /* Paper, not grey. The page is a hair off white so that a card at pure
-     white still reads as lifted off it, and the ink is near-black rather
-     than the soft slate it was -- the contrast is what makes a light theme
-     look crisp instead of washed. */
-  --bg:            #fafafb;
-  --bg-raised:     #ffffff;
-  --bg-sunken:     #f1f2f5;
-  --bg-hover:      #f4f5f7;
-  --bg-active:     #e9ebef;
-  --line:          #e8e9ed;
-  --line-strong:   #ccd0d8;
-  --edge:          rgba(255, 255, 255, 0.9);
-  --ink:           #191c22;
-  --ink-strong:    #08090c;
-  --ink-muted:     #5b616c;
-  --ink-faint:     #8a8f99;
-  /* The same blue, taken down rather than swapped: on white it needs the
-     depth that the dark theme's lift would lose. */
-  --accent:        #2158e0;
-  --accent-ink:    #1a46b6;
-  --accent-bg:     rgba(33, 88, 224, 0.09);
-  --pos:           #0d7f5b;
-  --neg:           #c8453f;
-  --warn:          #9c7526;
-  --info:          #6350c8;
-  --tone-teal-ink:   #0d6c4e;  --tone-teal-bg:   rgba(13, 127, 91, 0.11);
-  --tone-blue-ink:   #1a46b6;  --tone-blue-bg:   rgba(33, 88, 224, 0.10);
-  --tone-violet-ink: #4f3fa8;  --tone-violet-bg: rgba(99, 80, 200, 0.11);
-  --tone-amber-ink:  #7d5c19;  --tone-amber-bg:  rgba(156, 117, 38, 0.13);
-  --shadow: 0 1px 2px rgba(16, 20, 28, 0.05), 0 12px 32px -10px rgba(16, 20, 28, 0.16);
-  --shadow-sm: 0 1px 2px rgba(16, 20, 28, 0.04), 0 5px 14px -6px rgba(16, 20, 28, 0.14);
-  --focus-halo: 0 0 0 4px rgba(33, 88, 224, 0.18);
-  --select-bg: rgba(33, 88, 224, 0.18);
-  color-scheme: light;
+html[data-theme="dark"] {
+  /* The same paper after dark: a warm near-black with the brown still in it,
+     not a neutral charcoal. Surfaces step *up* from the ground here, which is
+     the ordinary dark-theme direction and the opposite of the light theme's
+     near-white sheets -- hence the role-based names. */
+  --bg:            #1a1715;
+  --bg-raised:     #241f1b;
+  --bg-sunken:     #131110;
+  --bg-hover:      #2a2420;
+  --bg-active:     #2e2823;
+
+  --line:          #332c26;
+  --line:          color-mix(in srgb, #f4ecdd 14%, transparent);
+  --line-strong:   #4d443b;
+  --line-strong:   color-mix(in srgb, #f4ecdd 28%, transparent);
+  --edge:          rgba(255, 255, 255, 0.05);
+
+  --ink-strong:    #fdf7ec;
+  --ink:           #f4ecdd;
+  --ink-muted:     #c0b6a5;
+  --ink-faint:     #a19786;
+
+  /* The terracotta lifted rather than swapped: on a dark ground the light
+     theme's pigment value disappears, so it moves up to an amber that keeps
+     the same hue. --accent-ink lifts further because it has to carry text. */
+  --accent:        #f6a06b;
+  --accent-ink:    #ffc6a5;
+  --accent-bg:     rgba(246, 160, 107, 0.18);
+  /* On the dark ground the accent is already an 8.6:1 pair with the page
+     colour, so the solid cut and the accent are the same value here and the
+     text on it is the ground rather than white. */
+  --accent-solid:  #f6a06b;
+  --accent-on:     #1a1715;
+
+  --accent2:       #aebf92;
+  --accent2-ink:   #c3d3a9;
+  --accent2-bg:    rgba(174, 191, 146, 0.16);
+
+  --pos:           #7fbf8a;
+  --neg:           #e08578;
+  --warn:          #d7ab63;
+  --info:          #a897e8;
+
+  --tone-teal-ink:   #8fc9ae;  --tone-teal-bg:   rgba(143, 201, 174, 0.14);
+  --tone-blue-ink:   #9db8dd;  --tone-blue-bg:   rgba(157, 184, 221, 0.14);
+  --tone-violet-ink: #bda9ef;  --tone-violet-bg: rgba(189, 169, 239, 0.15);
+  --tone-amber-ink:  #f0b183;  --tone-amber-bg:  rgba(240, 177, 131, 0.15);
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4), 0 3px 10px -3px rgba(0, 0, 0, 0.5);
+  --shadow:    0 1px 2px rgba(0, 0, 0, 0.45), 0 12px 32px -10px rgba(0, 0, 0, 0.6);
+  --glow:      0 18px 48px rgba(0, 0, 0, 0.45);
+
+  --focus-halo: 0 0 0 4px rgba(246, 160, 107, 0.26);
+  --select-bg: rgba(246, 160, 107, 0.32);
+  --scrim: rgba(10, 8, 6, 0.68);
+
+  color-scheme: dark;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -225,8 +292,10 @@ body {
   background: var(--bg);
   color: var(--ink);
   font-family: var(--font-ui);
-  font-size: 14px;
-  line-height: 1.55;
+  /* 15px, not 14. The page is warmer and looser than it was, and 14px sans on
+     cream reads cramped where it read dense on near-black. */
+  font-size: 15px;
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   /* The interface sans has no optical-size axis, so the size bands below do
@@ -236,17 +305,33 @@ body {
      either would be worse than the file it already has. */
   letter-spacing: -0.006em;
   font-synthesis: none;
+  /* Rebalance the line breaks in every paragraph on the page rather than
+     leaving a one-word last line. Inherited, so it covers the generated
+     concept prose too. */
+  text-wrap: pretty;
+  transition: background var(--dur) var(--ease), color var(--dur) var(--ease);
 }
 
 a { color: var(--accent-ink); text-decoration: none; }
 a:hover { text-decoration: underline; text-underline-offset: 2px; text-decoration-thickness: 1px; }
 
-h1, h2, h3, h4 { color: var(--ink-strong); font-weight: 600; letter-spacing: -0.014em; }
-/* Optical tracking: large text needs negative tracking to look evenly spaced,
-   small uppercase labels need positive. One rule per size band beats guessing
-   at each call site. */
-h1 { letter-spacing: -0.024em; }
-h2 { letter-spacing: -0.018em; }
+/* Headings are the display serif, at the weight the variable font was cut for.
+   The optical-size axis is what makes this work across the range the site
+   uses -- a 76px hero and a 15px group label are genuinely different cuts of
+   the same face rather than one drawing scaled twice. */
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  color: var(--ink-strong);
+  font-weight: 600;
+  letter-spacing: -0.008em;
+  font-optical-sizing: auto;
+}
+/* Optical tracking on top of the opsz axis, not instead of it: the axis fixes
+   the letterforms, this closes the remaining space at display sizes. Lighter
+   than the sans needed -- the serif already tightens itself as it grows, and
+   stacking a full sans correction on top closed the counters. */
+h1 { letter-spacing: -0.015em; }
+h2 { letter-spacing: -0.012em; }
 /* Stop a heading leaving one orphaned word on its own line. */
 h1, h2, h3, .kb-hero h1, .kb-concept-title { text-wrap: balance; }
 p { text-wrap: pretty; }
@@ -285,34 +370,50 @@ html { scrollbar-width: thin; scrollbar-color: var(--line-strong) transparent; }
   box-shadow: var(--focus-halo);
 }
 
-/* Raised surfaces get a hairline highlight along their top edge. Real objects
-   catch the light there; without it a lighter rectangle just looks like paint. */
-.kb-kpi, .kb-subject-card, .kb-module, .kb-formula,
+/* Card elevation, and it is written base-first because the base theme is now
+   the light one. It used to be the other way round -- the top-highlight rule
+   was unqualified and the light treatment sat under `[data-theme="light"]` --
+   which was silently wrong the moment light became the default: a first-time
+   visitor has no attribute on <html> at all, so they got the dark theme's
+   white top edge on cream, while anyone who had toggled to light and back got
+   the ring. Two different renderings of the same theme, decided by history.
+
+   On cream, a near-white card has almost no edge to catch, so the lift comes
+   from below: a hairline ring plus a short, soft drop.
+
+   .kb-kpi is deliberately not in this list any more. The dashboard's figures
+   are text on a rule now rather than four cards, and leaving it here drew an
+   inset highlight across the top of each one -- which read as the KPI row's
+   divider broken into four segments with gaps at the grid gutters. */
+.kb-subject-card, .kb-module, .kb-formula,
 .kb-callout, .kb-drillcard, .kb-formula-recap-item, .kb-graph-panel,
-.kb-cram, .kb-track, .kb-conceptrow-link {
-  box-shadow: inset 0 1px 0 var(--edge);
+.kb-cram, .kb-track, .kb-conceptrow-link, .kb-derivation {
+  box-shadow: 0 0 0 1px rgba(46, 43, 37, 0.05), 0 1px 2px rgba(46, 43, 37, 0.05);
+}
+.kb-subject-card:hover, .kb-conceptrow-link:hover {
+  box-shadow: 0 0 0 1px rgba(46, 43, 37, 0.09), 0 3px 10px -3px rgba(46, 43, 37, 0.13);
 }
 
-/* On a light ground a white card against near-white paper has almost no edge
-   to catch, so the lift has to come from below instead: a hairline ring plus a
-   short, soft drop. Same intent as the dark theme's top highlight. */
-html[data-theme="light"] .kb-kpi,
-html[data-theme="light"] .kb-subject-card,
-html[data-theme="light"] .kb-module,
-html[data-theme="light"] .kb-formula,
-html[data-theme="light"] .kb-callout,
-html[data-theme="light"] .kb-drillcard,
-html[data-theme="light"] .kb-formula-recap-item,
-html[data-theme="light"] .kb-graph-panel,
-html[data-theme="light"] .kb-cram,
-html[data-theme="light"] .kb-track,
-html[data-theme="light"] .kb-conceptrow-link,
-html[data-theme="light"] .kb-derivation {
-  box-shadow: 0 0 0 1px rgba(20, 30, 45, 0.055), 0 1px 2px rgba(20, 30, 45, 0.05);
+/* On the dark ground the ring disappears and the drop has nothing to fall on,
+   so elevation goes back to a hairline highlight along the top edge -- real
+   objects catch the light there, and without it a lighter rectangle just looks
+   like paint. */
+html[data-theme="dark"] .kb-subject-card,
+html[data-theme="dark"] .kb-module,
+html[data-theme="dark"] .kb-formula,
+html[data-theme="dark"] .kb-callout,
+html[data-theme="dark"] .kb-drillcard,
+html[data-theme="dark"] .kb-formula-recap-item,
+html[data-theme="dark"] .kb-graph-panel,
+html[data-theme="dark"] .kb-cram,
+html[data-theme="dark"] .kb-track,
+html[data-theme="dark"] .kb-conceptrow-link,
+html[data-theme="dark"] .kb-derivation {
+  box-shadow: inset 0 1px 0 var(--edge);
 }
-html[data-theme="light"] .kb-subject-card:hover,
-html[data-theme="light"] .kb-conceptrow-link:hover {
-  box-shadow: 0 0 0 1px rgba(20, 30, 45, 0.09), 0 3px 10px -3px rgba(20, 30, 45, 0.13);
+html[data-theme="dark"] .kb-subject-card:hover,
+html[data-theme="dark"] .kb-conceptrow-link:hover {
+  box-shadow: inset 0 1px 0 var(--edge), 0 3px 10px -4px rgba(0, 0, 0, 0.55);
 }
 
 /* One motion vocabulary, applied where state actually changes. Short enough to
@@ -336,40 +437,42 @@ button, select, input { font: inherit; color: inherit; }
 .kb-topbar {
   position: sticky; top: 0; z-index: 60;
   display: grid;
-  grid-template-columns: auto 1fr auto;
+  /* brand · section pills · breadcrumb · actions. The breadcrumb takes the
+     flexible track so it truncates rather than pushing the search box off the
+     right edge, which is what it did at every width between 700 and 1100px
+     when it shared a track with anything else. */
+  grid-template-columns: auto auto minmax(0, 1fr) auto;
   align-items: center;
-  gap: 16px;
-  height: var(--topbar-h);
-  padding: 0 16px;
+  gap: 22px;
+  min-height: var(--topbar-h);
+  /* The bar's inner row shares the content column's width and gutter, so the
+     brand sits directly over the hero's first character rather than 24px to
+     the left of it. */
+  padding: 11px max(20px, calc((100vw - var(--panel)) / 2 + 20px));
   /* Opaque first. This is the only background the bar has, and it is sticky
      over scrolling content -- without a fallback a browser that cannot parse
      color-mix renders the bar transparent and the page scrolls through it. */
-  background: var(--bg-raised);
-  background: color-mix(in srgb, var(--bg-raised) 92%, transparent);
-  backdrop-filter: blur(10px);
+  background: var(--bg);
+  background: color-mix(in srgb, var(--bg) 84%, transparent);
+  backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--line);
 }
 
-.kb-brand { display: flex; align-items: center; gap: 9px; color: var(--ink-strong); font-weight: 600; }
+.kb-brand { display: flex; align-items: center; gap: 11px; color: var(--ink-strong); font-weight: 600; flex: none; }
 .kb-brand:hover { text-decoration: none; }
+/* A disc, not a rounded square, and set in the display serif rather than the
+   mono: it is a monogram on a page that reads as print, so it should look
+   stamped rather than rendered. Flat fill and no gradient -- on cream the lit
+   bevel that worked on near-black read as a plastic button. */
 .kb-brand-mark {
   display: grid; place-items: center;
-  width: 24px; height: 24px;
-  /* Lit from above, like every other raised surface here: a top highlight, a
-     fill that falls off downward, and a contact shadow underneath. Flat accent
-     on flat chrome read as a coloured square rather than a mark.
-     The flat fill first: a browser without color-mix drops the whole gradient
-     declaration, and without this it would fall back to no background at all. */
-  background: var(--accent);
-  background: linear-gradient(180deg,
-    color-mix(in srgb, var(--accent) 82%, #fff) 0%, var(--accent) 62%,
-    color-mix(in srgb, var(--accent) 88%, #000) 100%);
-  color: #fff;
-  border-radius: var(--r);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28), 0 1px 3px rgba(0, 0, 0, 0.34);
-  font-family: var(--font-mono); font-size: 11px; font-weight: 700; letter-spacing: 0.02em;
+  width: 34px; height: 34px; flex: none;
+  background: var(--accent-solid);
+  color: var(--accent-on);
+  border-radius: var(--r-pill);
+  font-family: var(--font-display); font-size: 14px; font-weight: 600; letter-spacing: 0.02em;
 }
-.kb-brand-text { font-size: 13px; letter-spacing: -0.01em; }
+.kb-brand-text { font-size: 14px; letter-spacing: -0.01em; }
 
 /* The grid item itself needs `min-width: 0`, not just the list inside it.
    Without it the nowrap trail sets a min-content floor for the middle track
@@ -378,6 +481,16 @@ button, select, input { font: inherit; color: inherit; }
 .kb-crumbs { min-width: 0; overflow: hidden; }
 .kb-crumbs ol { display: flex; align-items: center; gap: 7px; margin: 0; padding: 0; list-style: none;
   font-size: 12px; color: var(--ink-muted); min-width: 0; }
+/* A hairline between the section pills and the trail. Without it "Dashboard
+   Graph Interview Library Options" runs together and the last item -- which is
+   where you ARE, not somewhere you can go -- reads as a fifth pill.
+   `:not(:empty)` because the section pages carry an empty <ol>: their current
+   pill already says where you are, so there is no trail to draw and no rule
+   to hang off it. */
+.kb-crumbs ol:not(:empty) {
+  padding-left: 22px; margin-left: 2px; min-height: 20px;
+  box-shadow: inset 1px 0 0 var(--line);
+}
 .kb-crumbs li:last-child { flex: 0 1 auto; min-width: 0; }
 .kb-crumbs li { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 34ch; }
 .kb-crumbs a { color: var(--ink-muted); }
@@ -385,87 +498,130 @@ button, select, input { font: inherit; color: inherit; }
 .kb-crumbs [aria-current] { color: var(--ink); }
 .kb-crumb-sep { color: var(--ink-faint); }
 
-.kb-topbar-actions { display: flex; align-items: center; gap: 10px; }
+.kb-topbar-actions { display: flex; align-items: center; justify-content: flex-end; gap: 12px; }
 
+/* The search control is shaped like the input it opens rather than like a
+   button, because that is what it is standing in for: a pill with the glyph
+   on the left, the prompt in the middle and the shortcut parked on the right.
+   It opens the palette instead of filtering in place -- the index it searches
+   covers every concept, formula and question, not just what this page shows. */
 .kb-searchbtn {
   display: flex; align-items: center; gap: 10px;
-  min-width: 260px; height: 28px; padding: 0 8px 0 10px;
-  background: var(--bg-sunken); border: 1px solid var(--line);
-  border-radius: var(--r); color: var(--ink-faint);
-  font-size: 12px; cursor: pointer; text-align: left;
+  min-width: 260px; max-width: 320px; height: 40px; padding: 0 14px 0 16px;
+  background: var(--bg-raised); border: 1px solid var(--line);
+  border-radius: var(--r-pill); color: var(--ink-faint);
+  font-size: 14px; cursor: pointer; text-align: left;
+  box-shadow: var(--shadow-sm);
 }
-.kb-searchbtn:hover { border-color: var(--line-strong); color: var(--ink-muted); }
+.kb-searchbtn:hover { border-color: var(--accent); color: var(--ink-muted); }
 .kb-searchbtn span { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.kb-searchbtn .kb-icon { flex: none; color: var(--ink-faint); }
 
 kbd {
   display: inline-grid; place-items: center;
-  min-width: 19px; height: 19px; padding: 0 5px;
-  background: var(--bg-active); border: 0;
-  border-radius: var(--r-xs); font-size: 10px; color: var(--ink-muted);
+  min-width: 20px; height: 20px; padding: 0 6px;
+  background: transparent; border: 1px solid var(--line);
+  border-radius: var(--r-xs); font-size: 11px; color: var(--ink-faint);
 }
 
-.kb-toplinks { display: flex; gap: 2px; }
+/* Section navigation as pills. On a page this warm a row of underlined text
+   links read as loose ends; a pill gives the current section an actual shape
+   and gives every other one somewhere to land on hover. */
+.kb-toplinks { display: flex; gap: 4px; flex: none; }
 .kb-toplinks a {
-  padding: 4px 9px; border-radius: var(--r);
-  color: var(--ink-muted); font-size: 12px;
+  padding: 8px 14px; border-radius: var(--r-pill);
+  color: var(--ink-muted); font-size: 14.5px; font-weight: 500;
+  white-space: nowrap;
 }
-.kb-toplinks a:hover { background: var(--bg-hover); color: var(--ink); text-decoration: none; }
-.kb-toplinks a[aria-current] { background: var(--bg-active); color: var(--ink-strong); }
+.kb-toplinks a:hover { background: var(--bg-raised); color: var(--ink); text-decoration: none; }
+.kb-toplinks a[aria-current] { background: var(--bg-active); color: var(--ink); font-weight: 600; }
 
 .kb-iconbtn {
   display: grid; place-items: center;
-  width: 28px; height: 28px;
-  background: transparent; border: 1px solid var(--line);
-  border-radius: var(--r); color: var(--ink-muted); cursor: pointer;
+  width: 38px; height: 38px; flex: none;
+  background: var(--bg-raised); border: 1px solid var(--line);
+  border-radius: var(--r-pill); color: var(--ink-muted); cursor: pointer;
 }
-.kb-iconbtn:hover { background: var(--bg-hover); color: var(--ink); }
-/* Draw the theme toggle rather than relying on a glyph the font may not have. */
+.kb-iconbtn:hover { background: var(--accent-bg); border-color: var(--accent-bg); color: var(--accent-ink); }
+/* Draw the theme toggle rather than relying on a glyph the font may not have:
+   a circle cut down its vertical diameter, which is the same half-moon the
+   Lucide set draws and needs no icon file to say it. */
 .kb-iconbtn[data-kb-theme] { font-size: 0; }
 .kb-iconbtn[data-kb-theme]::before {
-  content: ""; width: 12px; height: 12px; border-radius: 50%;
-  border: 1.5px solid currentColor;
+  content: ""; width: 15px; height: 15px; border-radius: 50%;
+  border: 1.6px solid currentColor;
   background: linear-gradient(90deg, currentColor 0 50%, transparent 50% 100%);
 }
+.kb-iconbtn[data-kb-help] { font-size: 15px; font-weight: 600; }
 
-@media (max-width: 900px) {
+/* Inline Lucide paths, sized and coloured by the control they sit in. Stroke
+   2.75 throughout: at 16px a 2px stroke goes spindly next to type this warm. */
+.kb-icon { width: 16px; height: 16px; display: block; }
+.kb-icon path, .kb-icon circle, .kb-icon line {
+  fill: none; stroke: currentColor; stroke-width: 2.75;
+  stroke-linecap: round; stroke-linejoin: round;
+}
+
+/* The bar sheds from the right inwards: first the brand wordmark, then the
+   search prompt (leaving the glyph), then the section pills, which the page's
+   own navigation and the palette both cover. */
+@media (max-width: 1180px) {
   .kb-brand-text { display: none; }
-  .kb-searchbtn { min-width: 0; width: 40px; }
-  .kb-searchbtn span { display: none; }
+  .kb-searchbtn { min-width: 0; }
+}
+@media (max-width: 1000px) {
+  .kb-searchbtn { width: 40px; min-width: 0; padding: 0; justify-content: center; }
+  .kb-searchbtn span, .kb-searchbtn kbd { display: none; }
+}
+/* 700px, matching the phone block far below, where the section links become a
+   fixed bottom bar. At any other breakpoint there would be a band of widths
+   with neither the pills nor the bar -- the pills gone and the bar not yet in
+   -- and the only way between sections would be the brand and the palette. */
+@media (max-width: 700px) {
+  .kb-toplinks { display: none; }
+  /* The links are `position: fixed` in the phone block, so they leave the grid
+     entirely and three in-flow children remain either way. */
+  .kb-topbar { grid-template-columns: auto minmax(0, 1fr) auto; }
 }
 
 /* ------------------------------------------------------------ buttons ---- */
 
+/* Buttons are pills too. The whole page is built out of discs, rounded cards
+   and rules -- a 8px-cornered rectangle in the middle of it reads as a control
+   borrowed from a different application. */
 .kb-btn {
-  display: inline-flex; align-items: center; gap: 7px;
-  height: 32px; padding: 0 14px;
-  background: var(--bg-active); border: 1px solid transparent;
-  border-radius: var(--r); color: var(--ink);
-  font-size: 12.5px; cursor: pointer; white-space: nowrap;
-  box-shadow: inset 0 1px 0 var(--edge);
+  display: inline-flex; align-items: center; gap: 8px;
+  height: 36px; padding: 0 18px;
+  background: var(--bg-raised); border: 1px solid var(--line);
+  border-radius: var(--r-pill); color: var(--ink);
+  font-size: 13.5px; font-weight: 600; cursor: pointer; white-space: nowrap;
 }
-.kb-btn:hover { background: var(--bg-hover); color: var(--ink-strong); text-decoration: none; }
+.kb-btn:hover { background: var(--bg-active); color: var(--ink-strong); text-decoration: none; }
 .kb-btn:active { transform: translateY(0.5px); }
-.kb-btn--ghost { background: transparent; border-color: var(--line); color: var(--ink-muted); box-shadow: none; }
-.kb-btn--ghost:hover { background: var(--bg-hover); border-color: var(--line-strong); color: var(--ink); }
+.kb-btn--ghost { background: transparent; border-color: var(--line); color: var(--ink-muted); }
+.kb-btn--ghost:hover { background: var(--bg-raised); border-color: var(--line-strong); color: var(--ink); }
+/* Flat terracotta, no gradient and no inner highlight. The lit bevel that made
+   the primary button read as raised against near-black reads as plastic on
+   cream; here the colour alone is the emphasis. --accent-solid rather than
+   --accent because this fill has a 13.5px label on it. */
 .kb-btn--primary {
-  /* Flat fill first; the gradient only applies where color-mix is understood.
-     Without the fallback an older browser drops to .kb-btn's grey and the
-     primary action stops looking primary. */
-  background: var(--accent);
-  background: linear-gradient(180deg,
-    color-mix(in srgb, var(--accent) 88%, #fff) 0%, var(--accent) 58%,
-    color-mix(in srgb, var(--accent) 92%, #000) 100%);
-  border-color: transparent; color: #fff;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.26), 0 1px 2px rgba(0, 0, 0, 0.3);
+  background: var(--accent-solid);
+  border-color: transparent; color: var(--accent-on);
+  box-shadow: var(--shadow-sm);
 }
-.kb-btn--primary:hover { filter: brightness(1.07); color: #fff; }
-.kb-btn--primary:active { filter: brightness(0.96); box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.24); }
+.kb-btn--primary:hover { background: var(--accent-ink); color: var(--accent-on); }
+.kb-btn--primary:active { box-shadow: none; }
+.kb-btn--primary kbd { border-color: color-mix(in srgb, var(--accent-on) 45%, transparent); color: inherit; }
+/* The hero's calls to action run larger than the buttons scattered through the
+   interface -- they are the page's one instruction, not a control on a row. */
+.kb-btn--lg { height: 50px; padding: 0 26px; font-size: 15.5px; }
+.kb-btn--primary.kb-btn--lg { font-weight: 700; }
 .kb-btn[aria-pressed="true"] { background: var(--accent-bg); border-color: transparent; color: var(--accent-ink); }
 
 select, .kb-filter-input, input[type="search"], input[type="text"] {
-  height: 32px; padding: 0 11px;
-  background: var(--bg-sunken); border: 1px solid var(--line);
-  border-radius: var(--r); color: var(--ink); font-size: 12.5px;
+  height: 36px; padding: 0 14px;
+  background: var(--bg-raised); border: 1px solid var(--line);
+  border-radius: var(--r-pill); color: var(--ink); font-size: 13.5px;
 }
 select:hover, input:hover { border-color: var(--line-strong); }
 
@@ -501,7 +657,12 @@ select:hover, input:hover { border-color: var(--line-strong); }
 
 /* ------------------------------------------------------------- layout ---- */
 
-.kb-main { max-width: 1440px; margin: 0 auto; padding: 22px 20px 80px; }
+/* One content column, 1240px, shared by the topbar row and every page under
+   it -- so the brand, the hero's first character and the first card all sit on
+   the same left edge, and the site reads as one document rather than as
+   several pages that happen to share a stylesheet. The concept and subject
+   views widen past it for their sidebars; see below. */
+.kb-main { max-width: var(--panel); margin: 0 auto; padding: 30px 20px 90px; }
 
 .kb-main--concept {
   display: grid;
@@ -515,9 +676,12 @@ select:hover, input:hover { border-color: var(--line-strong); }
      The reading measure is not enforced by starving the column -- it is set on
      the prose elements themselves, so text stays comfortable while anything
      wider than a sentence can use the whole width. */
-  /* Was 1180, which on a wide window left a broad empty margin to the left of
-     the rail and pushed the whole page toward the middle. */
-  max-width: 1400px;
+  /* The shared column, like every other view. It ran to 1400 when the topbar
+     was full-bleed chrome and nothing had to line up with anything; now the
+     bar's own row is this width, so a wider main puts the rail 100px left of
+     the brand above it and the page reads as two documents. 176 + 32 + 960
+     fits inside it with room to spare. */
+  max-width: var(--panel);
 }
 /* Subject pages get navigation plus content; they have no page rail of their
    own, so two columns rather than three. */
@@ -525,7 +689,7 @@ select:hover, input:hover { border-color: var(--line-strong); }
   display: grid;
   grid-template-columns: 232px minmax(0, 1fr);
   gap: 40px;
-  max-width: 1240px;
+  max-width: var(--panel);
 }
 
 /* Every column is placed EXPLICITLY rather than left to auto-flow. Auto-flow
@@ -860,7 +1024,9 @@ select:hover, input:hover { border-color: var(--line-strong); }
   background: var(--bg-raised);
   border: 0;
   border-radius: var(--r-lg);
-  box-shadow: inset 0 1px 0 var(--edge), 0 2px 14px -6px rgba(0, 0, 0, 0.5);
+  /* Elevation comes from the shared theme-aware rule above; a local shadow
+     here would come later in the file and quietly win, which is how this one
+     kept a dark-first black drop after the base theme became cream. */
   scroll-margin-top: calc(var(--topbar-h) + 20px);
   overflow: hidden;
 }
@@ -1128,7 +1294,6 @@ select:hover, input:hover { border-color: var(--line-strong); }
 .kb-module {
   margin: 28px 0; background: var(--bg-raised);
   border: 0; border-radius: var(--r-lg); overflow: hidden;
-  box-shadow: inset 0 1px 0 var(--edge), 0 2px 14px -6px rgba(0, 0, 0, 0.45);
 }
 .kb-module-header {
   display: flex; align-items: baseline; gap: 10px;

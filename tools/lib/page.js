@@ -98,17 +98,18 @@ function topbar(base, crumbs) {
   <a class="kb-brand" href="${base}index.html" title="Home (H)">
     <span class="kb-brand-mark">QF</span><span class="kb-brand-text">Quant Knowledge Base</span>
   </a>
+  <nav class="kb-toplinks" aria-label="Sections">
+    <a href="${base}index.html" data-nav="home">Dashboard</a>
+    <a href="${base}graph.html" data-nav="graph">Graph</a>
+    <a href="${base}interview.html" data-nav="interview">Interview</a>
+    <a href="${base}library.html" data-nav="library">Library</a>
+  </nav>
   <nav class="kb-crumbs" aria-label="Breadcrumb"><ol>${trail}</ol></nav>
   <div class="kb-topbar-actions">
     <button class="kb-searchbtn" type="button" data-kb-open-search>
-      <span>Search concepts, formulas, questions</span><kbd>/</kbd>
+      <svg class="kb-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+      <span>Search concepts and subjects</span><kbd>/</kbd>
     </button>
-    <nav class="kb-toplinks" aria-label="Sections">
-      <a href="${base}index.html" data-nav="home">Dashboard</a>
-      <a href="${base}graph.html" data-nav="graph">Graph</a>
-      <a href="${base}interview.html" data-nav="interview">Interview</a>
-      <a href="${base}library.html" data-nav="library">Library</a>
-    </nav>
     <button class="kb-iconbtn" type="button" data-kb-theme title="Toggle theme (T)" aria-label="Toggle theme">◑</button>
     <button class="kb-iconbtn" type="button" data-kb-help title="Keyboard shortcuts (?)" aria-label="Keyboard shortcuts">?</button>
   </div>
@@ -245,8 +246,10 @@ function conceptPage(c, ctx) {
       <span class="kb-prevnext-label">Next →</span><span>${escapeHtml(ctx.next.title)}</span></a>` : '<span></span>'}
   </nav>`;
 
+  // The trail no longer starts at Dashboard: the section pills beside it carry
+  // a Dashboard link of their own, and repeating it put the same word twice in
+  // the same 40px of chrome.
   const body = `${topbar(base, [
-    { label: 'Dashboard', href: base + 'index.html' },
     { label: subject.name, href: base + 'subjects/' + subject.id + '.html' },
     { label: c.title },
   ])}
@@ -337,7 +340,6 @@ function subjectPage(s, concepts, ctx) {
     </li>`).join('');
 
   const body = `${topbar(base, [
-    { label: 'Dashboard', href: base + 'index.html' },
     { label: s.name },
   ])}
 <main class="kb-main kb-main--subject" data-subject-id="${attr(s.id)}">

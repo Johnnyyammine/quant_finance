@@ -606,13 +606,18 @@ test('css: every typeface the stack names is a vendored file', () => {
   });
 });
 
-test('css: the light theme restates every colour the dark theme sets', () => {
+test('css: the dark theme restates every colour the base theme sets', () => {
   // Every colour token is declared twice, once per theme. A token added to
-  // :root and forgotten in the light block does not fail loudly -- it inherits
-  // the dark value, so one swatch stays dark-theme-coloured on a white page
+  // :root and forgotten in the override block does not fail loudly -- it
+  // inherits the base value, so one swatch stays cream-coloured on a dark page
   // and only the eye catches it. Structural tokens (radii, durations, fonts,
   // widths) are deliberately shared and are identified by having no colour in
   // their value.
+  //
+  // The base is the LIGHT theme and the override is dark, which is the reverse
+  // of how this started: the site now opens on cream and the toggle opts into
+  // the dark one. The assertion is the same either way -- whatever :root sets,
+  // the attribute block has to answer for.
   const fs = require('fs');
   const css = fs.readFileSync(path.join(__dirname, '..', 'assets/css/app.css'), 'utf8');
   const block = (start) => {
@@ -628,11 +633,11 @@ test('css: the light theme restates every colour the dark theme sets', () => {
     });
     return found;
   };
-  const dark = names(block(':root {'));
-  const light = names(block('html[data-theme="light"] {'));
-  assert.ok(dark.size >= 20, 'expected the dark theme to define the palette');
-  const missing = [...dark].filter((n) => !light.has(n)).sort();
-  assert.deepStrictEqual(missing, [], 'colour tokens the light theme never overrides');
+  const base = names(block(':root {'));
+  const dark = names(block('html[data-theme="dark"] {'));
+  assert.ok(base.size >= 20, 'expected :root to define the palette');
+  const missing = [...base].filter((n) => !dark.has(n)).sort();
+  assert.deepStrictEqual(missing, [], 'colour tokens the dark theme never overrides');
 });
 
 test('build: no relevance rating survives in the generated output', () => {
@@ -796,6 +801,85 @@ test('build: the prerequisite graph is acyclic', () => {
     state.set(id, 'done');
   };
   prereqs.forEach((_, id) => visit(id, []));
+});
+
+test('css: no rule is qualified on the theme that has no attribute', () => {
+  // Light is the base theme and sets no attribute on <html>, so a selector
+  // written `html[data-theme="light"] .thing` matches nobody on a first visit
+  // and then starts matching after somebody toggles to dark and back. That is
+  // not a dead rule -- it is worse: the same theme renders two different ways
+  // depending on the reader's history. Theme-specific rules belong under the
+  // OVERRIDE theme; whatever is true of the base belongs unqualified.
+  //
+  // This fired for real when the default flipped: the card-elevation block had
+  // the dark treatment unqualified and the light one behind the attribute, so
+  // new visitors got a white top-edge highlight drawn on cream cards.
+  const fs = require('fs');
+  const dir = path.join(__dirname, '..', 'assets/css');
+  const offenders = [];
+  fs.readdirSync(dir).filter((f) => f.endsWith('.css')).forEach((f) => {
+    // Blank the comments out rather than trying to recognise a comment line by
+    // its shape -- these files explain themselves at length, and the prose
+    // quotes the very selector being warned about. Newlines are preserved so
+    // the reported line numbers still point at the real thing.
+    const src = fs.readFileSync(path.join(dir, f), 'utf8')
+      .replace(/\/\*[\s\S]*?\*\//g, (c) => c.replace(/[^\n]/g, ' '));
+    src.split('\n').forEach((line, i) => {
+      if (/\[data-theme="light"\]/.test(line)) offenders.push(`${f}:${i + 1}`);
+    });
+  });
+  assert.deepStrictEqual(offenders, [], 'rules qualified on the attribute-less base theme');
+});
+
+test('dashboard: every hook the script queries exists in index.html', () => {
+  // dashboard.js finds its render targets by data attribute, and index.html is
+  // hand-written rather than generated -- so a hook renamed on one side and not
+  // the other fails silently: the query returns null, the function returns
+  // early, and the section is simply absent from the page. Nothing throws and
+  // nothing in the build notices. That is exactly how the track grid shipped
+  // empty once, when its hook was renamed to avoid colliding with the one
+  // interview.js uses for a different rendering.
+  const fs = require('fs');
+  const root = path.join(__dirname, '..');
+  const js = fs.readFileSync(path.join(root, 'assets/js/dashboard.js'), 'utf8');
+  const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
+
+  const hooks = [...js.matchAll(/UI\.\$\('\[(data-kb-[a-z-]+)\]'\)/g)].map((m) => m[1]);
+  assert.ok(hooks.length >= 5, `expected the dashboard to query several hooks, saw ${hooks.length}`);
+  const missing = [...new Set(hooks)].filter((h) => !html.includes(h)).sort();
+  assert.deepStrictEqual(missing, [], 'hooks dashboard.js renders into that index.html never declares');
+});
+
+test('dashboard: the "0 dependencies" figure on the home page is true', () => {
+  // The only KPI that is not derived from KB_DATA. It is a claim about the
+  // repository -- that everything here runs on Node built-ins and a browser --
+  // and it is the sort of number that quietly stops being true the first time
+  // someone reaches for a package.
+  const fs = require('fs');
+  const root = path.join(__dirname, '..');
+  const pkg = JSON.parse(fs.readFileSync(path.join(root, 'package.json'), 'utf8'));
+  assert.deepStrictEqual(Object.keys(pkg.dependencies || {}), [], 'runtime dependencies');
+  assert.deepStrictEqual(Object.keys(pkg.devDependencies || {}), [], 'dev dependencies');
+  assert.ok(!fs.existsSync(path.join(root, 'node_modules')), 'node_modules should not exist');
+
+  const js = fs.readFileSync(path.join(root, 'assets/js/dashboard.js'), 'utf8');
+  assert.ok(/value: 0, label: 'Dependencies'/.test(js),
+    'the dashboard no longer states a dependency count -- drop this test with it');
+});
+
+test('content: every subject carries a card-sized blurb', () => {
+  // The subject grid shows all two dozen side by side at 210px. `description`
+  // is a full sentence written for the subject page's header and wraps to five
+  // lines in a card; `blurb` is the version written for the grid. The model
+  // falls back to the description when a blurb is missing, so a forgotten one
+  // is not a crash -- it is one card three times taller than its neighbours.
+  const fs = require('fs');
+  const raw = JSON.parse(fs.readFileSync(
+    path.join(__dirname, '..', 'content/subjects.json'), 'utf8'));
+  const missing = raw.filter((s) => !s.blurb).map((s) => s.id);
+  assert.deepStrictEqual(missing, [], 'subjects with no blurb');
+  const tooLong = raw.filter((s) => s.blurb.length > 60).map((s) => `${s.id} (${s.blurb.length})`);
+  assert.deepStrictEqual(tooLong, [], 'blurbs longer than a card line or two');
 });
 
 /* ------------------------------------------------------------------ run -- */

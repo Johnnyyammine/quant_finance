@@ -69,8 +69,10 @@ Full details, including the Claude-conversation → concept-page workflow, are i
 
 ## What's in the box
 
-**Dashboard** (`index.html`) — the corpus at a glance, a "start here" queue ranked by interview
-value, the subject grid grouped by domain, and the tag cloud.
+**Dashboard** (`index.html`) — a masthead over the knowledge graph drawn as orbits, four figures
+that count the corpus, a "start here" row of four concepts picked by interview value and ordered by
+prerequisite depth, the full 24-subject taxonomy grouped by domain with the unwritten ones shown
+greyed rather than hidden, and the eight interview tracks with their concept counts.
 
 **Persistent navigation.** Concept and subject pages carry the full subject tree
 down the left: every subject that has content, its concepts underneath, the section
@@ -141,7 +143,7 @@ quant_finance/
 │   │            dashboard.js · library.js · graph.js · interview.js
 │   │            concept.js · subject.js · math.js · lib/plot.js
 │   │            modules/    interactive modules, one file each
-│   ├── fonts/   Literata (reading) + Plus Jakarta Sans (UI) + JetBrains Mono (255 KB)
+│   ├── fonts/   Source Serif 4 (display+reading) · Figtree (UI) · JetBrains Mono (249 KB)
 │   └── vendor/katex/                                      offline maths (608 KB)
 ├── data/            GENERATED  kb.data.js · search.index.js · kb.json
 ├── concepts/        GENERATED  one HTML page per concept
