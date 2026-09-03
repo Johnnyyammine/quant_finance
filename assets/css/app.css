@@ -386,8 +386,8 @@ html[data-theme="light"] .kb-pill--research     { color: #8d4c25; background: rg
      one thing, so the only navigation it keeps is navigation *within* that
      thing -- the subject tree belongs on the pages you browse from, and the
      topbar carries search and the four section links from anywhere. */
-  grid-template-columns: 188px minmax(0, 1fr);
-  gap: 40px;
+  grid-template-columns: 176px minmax(0, 1fr);
+  gap: 32px;
   /* Wide enough that tables, code and the interactive modules get real room.
      The reading measure is not enforced by starving the column -- it is set on
      the prose elements themselves, so text stays comfortable while anything
@@ -436,7 +436,7 @@ html[data-theme="light"] .kb-pill--research     { color: #8d4c25; background: rg
    navigation goes too -- on a phone it is twenty-odd rows that would bury the
    prose. The topbar search and the bottom bar cover navigation there. */
 @media (max-width: 1180px) {
-  .kb-main--concept { grid-template-columns: 172px minmax(0, 1fr); gap: 28px; }
+  .kb-main--concept { grid-template-columns: 158px minmax(0, 1fr); gap: 22px; }
   .kb-main--subject { grid-template-columns: 232px minmax(0, 1fr); }
 }
 /* One column below this. The rail keeps its source position -- after the
@@ -547,10 +547,18 @@ html[data-theme="light"] .kb-pill--research     { color: #8d4c25; background: rg
    characters the eye starts losing its place on the line return -- but that
    argument is about sentences, not about a table, a chart or a block of code,
    which are read by scanning and only suffer from being cramped. */
+/* One measure, shared, in absolute units. `ch` is the natural unit for a
+   reading measure but it is relative to each element's own font-size, so the
+   summary at 15.5px and the body at 15px came out 23px apart on the same
+   `ch` count. Ragged text hid that; justification turns every block's right
+   edge into a hard line, and two hard lines 23px apart read as a mistake.
+   46rem is the 78ch the body already had. */
+:root { --measure: 46rem; }
+
 .kb-content > p,
 .kb-content > ul,
 .kb-content > ol,
-.kb-content > blockquote { max-width: 78ch; }
+.kb-content > blockquote { max-width: var(--measure); }
 
 /* Prose is justified: both edges flush, so the column reads as a block rather
    than a ragged shape. Hyphenation is not optional alongside it -- justifying
@@ -614,7 +622,7 @@ html[data-theme="light"] .kb-pill--research     { color: #8d4c25; background: rg
   margin: 0; padding-left: 12px;
   border-left: 2px solid var(--accent);
   font-size: 15.5px; line-height: 1.6; color: var(--ink);
-  max-width: 80ch;
+  max-width: var(--measure);
 }
 .kb-concept-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 18px; }
 
