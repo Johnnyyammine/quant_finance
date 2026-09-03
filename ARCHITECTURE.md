@@ -108,8 +108,11 @@ There is no reading-status field. See §6.
 
 ### Subject, Track, Question, Formula
 
-**Subject** — `id`, `name`, `description`, `icon`, `color`, `group`, `order`. Declared in
-`content/subjects.json`. `path`, `conceptCount` and `interviewMax` are derived.
+**Subject** — `id`, `name`, `description`, `blurb`, `icon`, `color`, `group`, `order`. Declared in
+`content/subjects.json`. `path`, `conceptCount` and `interviewMax` are derived. `blurb` is the
+card-sized version of `description` used by the dashboard's subject grid, where two dozen sit side
+by side at 210px and a full sentence wraps to five lines; it falls back to `description` when
+absent, so adding a subject never blocks on writing a second blurb for it.
 
 **Track** — an interview curriculum: `id`, `name`, `description`, `subjects[]`, `tags[]`,
 `minRelevance`. Membership is *computed*: any concept whose subject or tags match, at or above the
@@ -362,20 +365,52 @@ sits in the DOM:
 
 | Face | Token | Used for | Why |
 |---|---|---|---|
-| Literata | `--font-read` | concept prose, question text and answers, the drill card, the at-a-glance summary, titles | KaTeX sets maths in a serif, so a serif body makes inline maths part of the sentence instead of an inclusion |
-| Plus Jakarta Sans | `--font-ui` | nav, buttons, labels, facets, tables, cards, module controls | a geometric grotesque against the serif separates chrome from content at a glance |
-| JetBrains Mono | `--font-mono` | figures, code, tags, formula ids | tabular by default |
+| Source Serif 4 | `--font-display` / `--font-read` | the hero, section headings, concept titles, KPI figures, and all concept prose, question text and answers | KaTeX sets maths in a serif, so a serif body makes inline maths part of the sentence instead of an inclusion — and one face across the whole range means a 76px masthead and a 15.5px derivation are the same voice |
+| Figtree | `--font-ui` | nav, buttons, labels, facets, tables, cards, module controls | a geometric grotesque against the serif separates chrome from content at a glance |
+| JetBrains Mono | `--font-mono` | figures, code, keycaps, tags, formula ids | tabular by default |
+
+`--font-read` is an alias for `--font-display` rather than a second family. The
+two jobs are genuinely one job here: a page that is half derivation wants the
+maths and the prose in the same voice, and the optical-size axis is what lets
+one file serve both ends of the range.
 
 `.kb-article` sets the reading face and everything under it inherits, so a single
 rule in `app.css` lists the interface elements inside that subtree — buttons,
 summaries, pills, table cells, captions — that go back to the sans. The test is
 whether you *read* it or *scan* it.
 
-Only the Literata roman carries the optical-size axis; the italic ships
-weight-only. opsz is worth its 58 KB on a 31px title, where it gives a real
-display cut rather than body text scaled up, and no heading in the corpus
-contains an italic — italics appear only at 13–15.5px, where the two cuts are
-indistinguishable.
+Only the Source Serif roman carries the optical-size axis (`opsz 8–60`); the
+italic ships weight-only. opsz is worth its 122 KB on the hero and the 31px
+concept titles, where it gives a real display cut rather than body text scaled
+up, and no heading in the corpus contains an italic — italics appear only at
+13–16px, where the two cuts are indistinguishable. Figtree's weight axis starts
+at 300, and the `@font-face` range says so rather than claiming 200.
+
+The home page fetches three of the five files: `unicode-range` and the lazy
+italics mean a landing visitor never pays for a face nothing on screen uses.
+
+### Colour
+
+Light is the base theme and lives on bare `:root`; dark is the override under
+`html[data-theme="dark"]`, which is the reverse of how the site started. The
+ground is warm cream rather than white — on a site that is mostly long
+derivations, a neutral white under a serif reads clinical, and the cream carries
+the same ink at a lower luminance. One terracotta accent does every interactive
+thing, with a sage second accent for the interview surfaces.
+
+Two token pairs exist because contrast demanded them, and they are the ones to
+reach for when adding a component:
+
+- `--accent` is the display value: rules, dots, borders, the hero's one coloured
+  word. It is a 3:1 pair with the page, which is fine under 76px type and not
+  fine under a button label.
+- `--accent-solid` / `--accent-on` is the fill that goes *behind small text* —
+  primary buttons, the brand disc, the orbit core. It clears 4.5:1.
+
+`tools/test.js` asserts that every colour token `:root` sets is restated under
+`[data-theme="dark"]`, because a token forgotten in one theme does not fail
+loudly: it inherits, and one swatch stays the wrong colour until somebody
+notices by eye.
 
 ---
 

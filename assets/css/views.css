@@ -8,7 +8,7 @@
   position: fixed; inset: 0; z-index: 200;
   display: none; justify-content: center; align-items: flex-start;
   padding: 9vh 20px 20px;
-  background: rgba(4, 5, 8, 0.66);
+  background: var(--scrim);
   backdrop-filter: blur(3px);
 }
 .kb-overlay[data-open] { display: flex; }
@@ -84,108 +84,334 @@
 
 /* ---------------------------------------------------------- dashboard ---- */
 
+/* The home page runs on wider air than the working views do. It is the only
+   page nobody arrives at to look something up -- it is where you decide what
+   to look up -- so it gets room the concept pages would waste. */
+.kb-main--home { padding-top: 0; }
+.kb-homesec { margin-top: 78px; }
+
+/* --------------------------------------------------------------- hero ---- */
+
 .kb-hero {
-  padding: 4px 0 28px; margin-bottom: 26px; border-bottom: 1px solid var(--line);
-  max-width: var(--panel);
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  gap: 56px; align-items: center;
+  padding: 58px 0 10px;
 }
+.kb-hero-copy { min-width: 0; }
 
-/* The masthead. It is the first thing anyone sees, so it carries the type at
-   a size where the display weight can show -- tight tracking, real weight. */
+/* The masthead, and the one place the display serif is allowed to be large
+   enough to show what it is. clamp rather than a fixed 76px: at 76px the two
+   lines overflow a 900px window, and the floor keeps it a masthead rather than
+   a heading on a phone. */
 .kb-hero h1 {
-  margin: 0 0 10px;
-  font-size: clamp(28px, 3.1vw, 40px);
-  line-height: 1.08;
-  letter-spacing: -0.03em;
-  font-weight: 640;
+  margin: 0;
+  font-size: clamp(42px, 5.6vw, 76px);
+  line-height: 1.02;
+  letter-spacing: -0.015em;
+  font-weight: 600;
+  /* The two lines are hand-broken with <br>, which is the point -- "Quant
+     finance, / mapped for recall." is a rhythm, not a wrap. Leave it alone. */
+  text-wrap: nowrap;
 }
-/* A standfirst, not body copy. At 14.5px and 56ch it broke into four short
-   lines under a 40px title -- a ragged little block that read as leftover
-   rather than as the second line of the masthead. Larger and wider gives it
-   three fuller lines and a proportion that answers the title. */
-.kb-hero-sub {
-  margin: 0 0 24px; font-size: 16px; line-height: 1.62;
-  color: var(--ink-muted); max-width: 64ch;
-  letter-spacing: -0.004em;
-}
-.kb-hero-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+/* `mapped` is marked up as <em> because it is emphasis, and then given the
+   accent and the roman back: an italic here would fight the tracking on a word
+   this large, and the colour is doing the emphasising. */
+.kb-hero h1 em { color: var(--accent); font-style: normal; }
 
-/* Hairline gaps rather than borders: the 1px grid gap shows the container
-   colour through, so the dividers are exactly one pixel at any zoom and the
-   cells read as one instrument panel rather than five boxes. */
-/* Separate cards rather than one bordered slab cut by dividers. The gap does
-   the separating, so there is no outer box and no internal rules -- five
-   objects on the page instead of one grid of compartments. */
+.kb-hero-sub {
+  margin: 24px 0 0; font-size: 19px; line-height: 1.6;
+  color: var(--ink-muted); max-width: 33em;
+  letter-spacing: normal;
+}
+.kb-hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 34px; }
+
+/* KPI row: four figures on a rule under the copy. No cards -- boxes here would
+   compete with the four Start-here cards immediately below, and the numbers
+   are a footnote to the headline rather than objects in their own right. */
 .kb-kpis {
-  display: grid; grid-template-columns: repeat(auto-fit, minmax(124px, 1fr));
-  gap: 10px;
-  /* The strip is the full width of the page now that the coverage panel is
-     gone; cap it so five cards stay card-shaped instead of stretching. Shares
-     --panel with the hero and the list below, so the dashboard reads as one
-     column rather than three panels of three different widths. */
-  max-width: var(--panel);
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px;
+  margin-top: 52px; padding-top: 30px; border-top: 1px solid var(--line);
 }
-.kb-kpi {
-  display: flex; flex-direction: column;
-  padding: 16px 17px 17px; background: var(--bg-raised);
-  border-radius: var(--r-lg);
-}
-/* The note wraps to two lines on some cards and not others; pinning it to the
-   bottom keeps the five numbers on one optical line regardless. */
-.kb-kpi-note { margin-top: auto; padding-top: 8px; }
-.kb-kpi-label { display: block; font-size: 9.5px; font-weight: 600;
-  letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-faint); }
-/* The headline figure is set in the display face, not the mono. A monospaced
-   comma occupies a full cell, so "18,256" came out as "18 , 256" -- and a
-   balance in a fintech app is shown in the brand's own type anyway. Tabular
-   figures still keep the five cards' digits on a common width. */
+.kb-kpi { display: block; min-width: 0; }
 .kb-kpi-value {
-  display: block; margin-top: 7px;
-  font-family: var(--font-ui); font-size: 30px; font-weight: 620;
-  line-height: 1; letter-spacing: -0.032em;
+  display: block;
+  font-family: var(--font-display); font-size: 34px; font-weight: 600;
+  line-height: 1; letter-spacing: -0.01em;
   color: var(--ink-strong); font-variant-numeric: tabular-nums;
 }
-.kb-kpi-note { display: block; margin-top: 6px; font-size: 10.5px; line-height: 1.45;
-  color: var(--ink-faint); }
+.kb-kpi-label {
+  display: block; margin-top: 8px;
+  font-size: 12.5px; font-weight: 600; letter-spacing: 0.02em;
+  color: var(--ink-faint);
+}
 
+/* --------------------------------------------------------------- orbit ---- */
+
+/* The knowledge graph as an object rather than a diagram: concentric orbits
+   around a core that counts what is on them. It is drawn entirely in CSS --
+   an SVG or a canvas here would be a second rendering path to keep in step
+   with the palette, for a picture that is five circles and eight dots. */
+.kb-orbit {
+  position: relative; width: 100%; max-width: 480px; aspect-ratio: 1;
+  justify-self: center;
+}
+.kb-orbit-disc, .kb-orbit-ring, .kb-orbit-spin {
+  position: absolute; border-radius: var(--r-pill);
+}
+.kb-orbit-disc { inset: 6%; background: var(--bg-raised); box-shadow: var(--glow); }
+.kb-orbit-ring--1 { inset: 6%;  border: 1px solid var(--line); }
+.kb-orbit-ring--2 { inset: 22%; border: 1px solid var(--line); }
+/* Between the two orbits, not under the core. At the 36% this started on it
+   sat entirely beneath the 38% core and never rendered a pixel. */
+.kb-orbit-ring--3 { inset: 14%; border: 1px dashed var(--line); }
+
+/* Two layers turning against each other. The counter-rotation is what makes it
+   read as a system rather than a spinner: at 72s and 48s the dots never hold a
+   fixed relationship, so nothing about the picture looks like a loading state. */
+.kb-orbit-spin--out { inset: 6%;  animation: kb-orbit 72s linear infinite; }
+.kb-orbit-spin--in  { inset: 22%; animation: kb-orbit 48s linear infinite reverse; }
+@keyframes kb-orbit { to { transform: rotate(360deg); } }
+
+/* A moving graphic on the first screen is exactly what this setting exists to
+   stop. The rings and dots stay -- only the rotation goes. */
+@media (prefers-reduced-motion: reduce) {
+  .kb-orbit-spin--out, .kb-orbit-spin--in { animation: none; }
+}
+
+/* Dots are positioned by percentage on the ring they belong to and pulled back
+   by half their own size, so one --x/--y pair places any diameter correctly. */
+.kb-orbit-dot {
+  position: absolute; left: var(--x); top: var(--y);
+  width: var(--size); height: var(--size);
+  margin: calc(var(--size) / -2) 0 0 calc(var(--size) / -2);
+  border-radius: var(--r-pill);
+}
+.kb-orbit-dot--a { background: var(--accent);  box-shadow: 0 0 0 6px var(--accent-bg); }
+.kb-orbit-dot--b { background: var(--accent2); box-shadow: 0 0 0 5px var(--accent2-bg); }
+.kb-orbit-dot--c { background: var(--ink-faint); }
+
+.kb-orbit-core {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  width: 38%; height: 38%; border-radius: var(--r-pill);
+  display: grid; place-items: center; text-align: center;
+  padding: 12px;
+  background: var(--accent-solid); color: var(--accent-on);
+  box-shadow: var(--shadow);
+}
+.kb-orbit-core b {
+  display: block;
+  font-family: var(--font-display); font-size: 34px; font-weight: 600; line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.kb-orbit-core small {
+  display: block; margin-top: 6px;
+  font-size: 11.5px; font-weight: 700; line-height: 1.35;
+  letter-spacing: 0.04em; text-transform: uppercase; opacity: 0.88;
+}
+
+/* -------------------------------------------------------- section heads --- */
+
+/* The default: a small uppercase label. Library and interview are dense
+   working views where a section head is a divider, not a title. */
 .kb-section-head {
   display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap;
   margin: 40px 0 16px;
 }
-.kb-section-head h2 { margin: 0; font-size: 12px; letter-spacing: 0.1em;
-  text-transform: uppercase; color: var(--ink-muted); }
-.kb-section-head .kb-section-note { font-size: 11.5px; color: var(--ink-faint); }
+.kb-section-head h2 {
+  margin: 0; font-family: var(--font-ui);
+  font-size: 12px; font-weight: 700; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--ink-muted);
+}
+.kb-section-head .kb-section-note { font-size: 12.5px; color: var(--ink-faint); }
 .kb-section-head .kb-section-actions { margin-left: auto; display: flex; gap: 6px; }
 
-.kb-groupbar { display: flex; align-items: center; gap: 10px; margin: 26px 0 12px; }
-.kb-groupbar-label { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.14em;
-  text-transform: uppercase; color: var(--ink-faint); white-space: nowrap; }
+/* On the home page the same element is a title rather than a divider: this is
+   the one page being read rather than operated, so its headings are display
+   type and the note beside them is a standfirst. */
+.kb-main--home .kb-section-head {
+  align-items: flex-end; justify-content: space-between;
+  gap: 24px; margin: 0 0 30px;
+}
+.kb-main--home .kb-section-head h2 {
+  font-family: var(--font-display);
+  font-size: 38px; line-height: 1.1; font-weight: 600; letter-spacing: -0.012em;
+  text-transform: none; color: var(--ink-strong);
+}
+.kb-main--home .kb-section-head .kb-section-note {
+  font-size: 14.5px; color: var(--ink-faint); max-width: 30em;
+}
+
+/* An eyebrow is a label, so it is a pill in the interface sans -- the one
+   piece of chrome allowed inside these otherwise typographic sections. */
+.kb-eyebrow {
+  display: inline-block; padding: 5px 12px; border-radius: var(--r-pill);
+  background: var(--accent-bg); color: var(--accent-ink);
+  font-family: var(--font-ui); font-size: 11.5px; font-weight: 800;
+  letter-spacing: 0.05em; text-transform: uppercase; white-space: nowrap;
+}
+.kb-eyebrow--sage { background: var(--accent2-bg); color: var(--accent2-ink); }
+
+/* ---------------------------------------------------------- start here ---- */
+
+.kb-startcards {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px;
+}
+.kb-startcard {
+  /* A column with the prerequisite line pushed to the bottom. Left to flow,
+     the four summaries are different lengths and the four mono lines land at
+     four different heights, which makes a row of equal cards look ragged. */
+  display: flex; flex-direction: column; align-items: flex-start; padding: 28px;
+  background: var(--bg-raised); border: 1px solid var(--line);
+  border-radius: var(--r-xl); color: var(--ink);
+  transition: box-shadow var(--dur) var(--ease), border-color var(--dur) var(--ease);
+}
+.kb-startcard:hover {
+  border-color: var(--accent); box-shadow: var(--glow); text-decoration: none;
+}
+.kb-startcard-title {
+  display: block; margin-top: 18px;
+  font-family: var(--font-display); font-size: 24px; font-weight: 600;
+  line-height: 1.15; letter-spacing: -0.01em; color: var(--ink-strong);
+}
+.kb-startcard-sum {
+  display: block; margin-top: 10px; font-size: 14.5px; line-height: 1.5;
+  color: var(--ink-muted);
+}
+/* The prerequisite line is set in the mono because it is a pointer into the
+   graph rather than a sentence -- the same reason the counts and keycaps are. */
+.kb-startcard-pre {
+  display: block; margin-top: auto; padding-top: 20px;
+  font-family: var(--font-mono); font-size: 12.5px; font-weight: 700;
+  color: var(--ink-faint);
+}
+
+/* ------------------------------------------------------------ subjects ---- */
+
+.kb-subjectgroups { display: grid; gap: 34px; }
+
+.kb-groupbar { display: flex; align-items: center; gap: 14px; margin: 0 0 16px; }
+.kb-groupbar-label {
+  font-family: var(--font-display); font-size: 15px; font-weight: 600;
+  letter-spacing: normal; text-transform: none;
+  color: var(--ink-strong); white-space: nowrap;
+}
 .kb-groupbar-line { flex: 1; height: 1px; background: var(--line); }
 
-.kb-subjects { display: grid; grid-template-columns: repeat(auto-fill, minmax(244px, 1fr)); gap: 12px; }
+/* auto-FILL, not auto-fit. Craft holds two subjects; auto-fit collapses the
+   empty tracks and stretches those two to half a row each, so the same card
+   is 210px wide under Mathematics and 540px under Craft. auto-fill keeps the
+   empty tracks, and every card in the grid is the same size. */
+.kb-subjects { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 14px; }
 
-/* The subject colour was a 2px stripe down the left edge, which squared the
-   card off at exactly the corner the radius was trying to soften. It becomes a
-   dot beside the name instead -- same information, no hard edge. */
 .kb-subject-card {
-  position: relative;
-  display: flex; flex-direction: column; gap: 9px;
-  padding: 15px 16px 16px;
-  background: var(--bg-raised); border: 0;
-  border-radius: var(--r-lg); color: inherit;
-  box-shadow: inset 0 1px 0 var(--edge);
+  display: flex; flex-direction: column; gap: 8px;
+  padding: 20px;
+  background: var(--bg-raised); border: 1px solid var(--line);
+  border-radius: var(--r-lg); color: var(--ink);
+  transition: background var(--dur) var(--ease), border-color var(--dur) var(--ease);
 }
 .kb-subject-card:hover {
-  background: var(--bg-hover); text-decoration: none;
-  box-shadow: inset 0 1px 0 var(--edge), 0 2px 10px -4px rgba(0, 0, 0, 0.5);
+  background: var(--bg-active); border-color: var(--accent); text-decoration: none;
 }
-.kb-subject-card[data-empty="true"] { opacity: 0.5; }
-.kb-subject-card-top { display: flex; align-items: center; gap: 9px; }
-.kb-subject-card-name { flex: 1; font-size: 13.5px; font-weight: 600; color: var(--ink-strong); }
-.kb-subject-card-count { font-family: var(--font-mono); font-size: 11px; color: var(--ink-faint); }
-.kb-subject-card-desc {
-  margin: 0; font-size: 11.5px; line-height: 1.5; color: var(--ink-muted);
-  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+.kb-subject-card-name { font-size: 15.5px; font-weight: 700; color: var(--ink-strong); }
+.kb-subject-card-desc { font-size: 13px; line-height: 1.45; color: var(--ink-muted); }
+.kb-subject-card-count {
+  margin-top: 2px; font-size: 11.5px; font-weight: 800; letter-spacing: 0.04em;
+  color: var(--accent-ink);
 }
+/* An unwritten subject is a plan, and it should look like one: everything in
+   the faint ink, the count replaced by EMPTY, and -- because it is a <span>
+   rather than an <a> -- no hover at all. Nothing here pretends to be clickable. */
+.kb-subject-card[data-empty="true"],
+.kb-subject-card[data-empty="true"] .kb-subject-card-name,
+.kb-subject-card[data-empty="true"] .kb-subject-card-desc,
+.kb-subject-card[data-empty="true"] .kb-subject-card-count { color: var(--ink-faint); }
+.kb-subject-card[data-empty="true"] { cursor: default; }
+.kb-subject-card[data-empty="true"]:hover { background: var(--bg-raised); border-color: var(--line); }
+
+/* -------------------------------------------------------------- tracks ---- */
+
+/* One panel rather than a section of loose rows: interview mode is a different
+   mode of using the site, and giving it an edge says so before the copy does. */
+.kb-trackpanel {
+  display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  gap: 48px; align-items: start;
+  padding: 52px 48px;
+  background: var(--bg-raised); border: 1px solid var(--line);
+  border-radius: var(--r-xl); box-shadow: var(--glow);
+}
+.kb-trackpanel-copy h2 {
+  margin: 20px 0 0; font-family: var(--font-display);
+  font-size: 38px; line-height: 1.1; font-weight: 600; letter-spacing: -0.012em;
+}
+.kb-trackpanel-copy p { margin: 18px 0 0; font-size: 16px; color: var(--ink-muted); }
+
+/* The keys the drill actually listens for, shown as keys. */
+.kb-keychips { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 26px; }
+.kb-keychips span {
+  font-family: var(--font-mono); font-size: 12px; color: var(--ink-faint);
+  border: 1px solid var(--line); border-radius: var(--r); padding: 4px 9px;
+}
+
+.kb-trackgrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+/* The rows sit on the page colour, not the panel's -- inside a raised surface
+   a card the same shade as its container has no shape at all. */
+.kb-trackrow {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 16px 18px;
+  background: var(--bg); border: 1px solid var(--line); border-radius: var(--r-lg);
+  color: var(--ink); font-size: 14.5px; font-weight: 700;
+}
+.kb-trackrow:hover { border-color: var(--accent); color: var(--accent-ink); text-decoration: none; }
+.kb-trackrow-n { font-family: var(--font-mono); font-size: 12px; font-weight: 500; color: var(--ink-faint); }
+
+/* -------------------------------------------------------------- footer ---- */
+
+.kb-homefoot {
+  display: flex; gap: 24px; flex-wrap: wrap; align-items: center;
+  margin-top: 72px; padding-top: 26px; border-top: 1px solid var(--line);
+  font-size: 13px; color: var(--ink-faint);
+}
+.kb-homefoot span:last-child { margin-left: auto; }
+.kb-linkbtn {
+  background: none; border: 0; padding: 0; cursor: pointer;
+  color: var(--ink-faint); font-size: 13px; text-decoration: underline;
+  text-underline-offset: 3px; text-decoration-color: var(--line-strong);
+}
+.kb-linkbtn:hover { color: var(--accent-ink); }
+
+/* ---------------------------------------------------------- responsive ---- */
+
+/* The hero is the only two-column thing on the page, and it is the first thing
+   to give: below 980px the graphic goes under the copy at a size that still
+   reads as an object rather than a bullet. */
+@media (max-width: 980px) {
+  .kb-hero { grid-template-columns: minmax(0, 1fr); gap: 40px; padding-top: 40px; }
+  .kb-orbit { max-width: 380px; }
+  .kb-trackpanel { grid-template-columns: minmax(0, 1fr); gap: 34px; padding: 40px 32px; }
+}
+@media (max-width: 700px) {
+  .kb-homesec { margin-top: 56px; }
+  .kb-section-head h2, .kb-trackpanel-copy h2 { font-size: 30px; }
+  /* Two by two rather than four across: at four, "Interview tracks" wraps to
+     three lines under a 34px figure and the row stops reading as a row. */
+  .kb-kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 20px; margin-top: 40px; }
+  .kb-startcard { padding: 22px; }
+  .kb-trackpanel { padding: 32px 22px; }
+  .kb-homefoot span:last-child { margin-left: 0; }
+}
+/* The hand-broken masthead has to be allowed to wrap somewhere: below this
+   "mapped for recall." is wider than the screen on its own line.
+
+   The <br> STAYS. Hiding it also removes the only whitespace between
+   "finance," and the <em>, so the line rendered as "Quant finance,mapped" --
+   an element boundary is not a word boundary. Letting the second line wrap is
+   the whole fix. */
+@media (max-width: 420px) {
+  .kb-hero h1 { text-wrap: balance; }
+}
+
 
 /* ------------------------------------------------------------ library ---- */
 
@@ -365,7 +591,6 @@
 .kb-drillcard {
   min-height: 240px; padding: 26px 28px;
   background: var(--bg-raised); border: 0; border-radius: var(--r-xl);
-  box-shadow: inset 0 1px 0 var(--edge), 0 2px 16px -8px rgba(0, 0, 0, 0.5);
   display: flex; flex-direction: column;
 }
 .kb-drillcard-eyebrow { display: flex; align-items: center; gap: 10px; flex-wrap: wrap;

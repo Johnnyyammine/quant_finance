@@ -7,8 +7,8 @@
 <meta name="description" content="A local-first interactive knowledge base for quantitative finance interview preparation.">
 <link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="assets/vendor/katex/katex.min.css">
-<link rel="stylesheet" href="assets/css/app.css?v=b8ce682d">
-<link rel="stylesheet" href="assets/css/views.css?v=dff0636c">
+<link rel="stylesheet" href="assets/css/app.css?v=06dae098">
+<link rel="stylesheet" href="assets/css/views.css?v=eb4034cf">
 </head>
 <body class="kb-body kb-body--home">
 
@@ -16,76 +16,116 @@
   <a class="kb-brand" href="index.html" title="Home (H)">
     <span class="kb-brand-mark">QF</span><span class="kb-brand-text">Quant Knowledge Base</span>
   </a>
-  <nav class="kb-crumbs" aria-label="Breadcrumb"><ol><li><span aria-current="page">Dashboard</span></li></ol></nav>
+  <nav class="kb-toplinks" aria-label="Sections">
+    <a href="index.html" data-nav="home">Dashboard</a>
+    <a href="graph.html" data-nav="graph">Graph</a>
+    <a href="interview.html" data-nav="interview">Interview</a>
+    <a href="library.html" data-nav="library">Library</a>
+  </nav>
+  <nav class="kb-crumbs" aria-label="Breadcrumb"><ol></ol></nav>
   <div class="kb-topbar-actions">
     <button class="kb-searchbtn" type="button" data-kb-open-search>
-      <span>Search concepts, formulas, questions</span><kbd>/</kbd>
+      <svg class="kb-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+      <span>Search concepts and subjects</span><kbd>/</kbd>
     </button>
-    <nav class="kb-toplinks" aria-label="Sections">
-      <a href="index.html" data-nav="home">Dashboard</a>
-      <a href="graph.html" data-nav="graph">Graph</a>
-      <a href="interview.html" data-nav="interview">Interview</a>
-      <a href="library.html" data-nav="library">Library</a>
-    </nav>
     <button class="kb-iconbtn" type="button" data-kb-theme title="Toggle theme (T)" aria-label="Toggle theme">◑</button>
     <button class="kb-iconbtn" type="button" data-kb-help title="Keyboard shortcuts (?)" aria-label="Keyboard shortcuts">?</button>
   </div>
 </header>
 
-<main class="kb-main">
+<main class="kb-main kb-main--home">
 
   <section class="kb-hero">
-    <div>
-      <h1>Quant finance, mapped.</h1>
+    <div class="kb-hero-copy">
+      <h1>Quant finance,<br><em>mapped</em> for recall.</h1>
       <p class="kb-hero-sub">
-        Every concept is written to be recalled under pressure: the intuition first,
+        Every concept is written to be retrieved under pressure: the intuition first,
         then the derivation, the assumptions that break it in real markets, and the
-        questions an interviewer asks about it.
+        questions an interviewer actually asks about it.
       </p>
       <div class="kb-hero-actions">
-        <button class="kb-btn kb-btn--primary" type="button" data-kb-open-search>Search everything <kbd>/</kbd></button>
-        <a class="kb-btn" href="interview.html">Interview mode <kbd>I</kbd></a>
-        <a class="kb-btn" href="graph.html">Knowledge graph <kbd>G</kbd></a>
-        <a class="kb-btn kb-btn--ghost" href="library.html">Browse all <kbd>L</kbd></a>
+        <a class="kb-btn kb-btn--primary kb-btn--lg" href="#start">
+          Start revising
+          <svg class="kb-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13"></path><path d="m12 6 6 6-6 6"></path></svg>
+        </a>
+        <a class="kb-btn kb-btn--lg" href="interview.html">Interview mode <kbd>I</kbd></a>
       </div>
-      <div class="kb-kpis" data-kb-kpis style="margin-top:22px"></div>
+      <div class="kb-kpis" data-kb-kpis></div>
+    </div>
+
+    <!-- The knowledge graph, standing in for itself: concentric orbits of
+         concepts around a core that counts them. Decorative, hence hidden from
+         assistive technology -- every figure it shows is also in the KPI row
+         beside it, as text. -->
+    <div class="kb-orbit" aria-hidden="true">
+      <span class="kb-orbit-disc"></span>
+      <span class="kb-orbit-ring kb-orbit-ring--1"></span>
+      <span class="kb-orbit-ring kb-orbit-ring--2"></span>
+      <span class="kb-orbit-ring kb-orbit-ring--3"></span>
+      <span class="kb-orbit-spin kb-orbit-spin--out">
+        <i class="kb-orbit-dot kb-orbit-dot--a" style="--x:50%;--y:0;--size:14px"></i>
+        <i class="kb-orbit-dot kb-orbit-dot--b" style="--x:93.3%;--y:25%;--size:10px"></i>
+        <i class="kb-orbit-dot kb-orbit-dot--a" style="--x:75%;--y:93.3%;--size:10px"></i>
+        <i class="kb-orbit-dot kb-orbit-dot--b" style="--x:6.7%;--y:75%;--size:8px"></i>
+        <i class="kb-orbit-dot kb-orbit-dot--c" style="--x:25%;--y:6.7%;--size:8px"></i>
+      </span>
+      <span class="kb-orbit-spin kb-orbit-spin--in">
+        <i class="kb-orbit-dot kb-orbit-dot--b" style="--x:85.4%;--y:0;--size:12px"></i>
+        <i class="kb-orbit-dot kb-orbit-dot--a" style="--x:14.6%;--y:85.4%;--size:10px"></i>
+        <i class="kb-orbit-dot kb-orbit-dot--c" style="--x:100%;--y:50%;--size:8px"></i>
+      </span>
+      <span class="kb-orbit-core">
+        <b data-kb-orbit-count>·</b>
+        <small>Concepts linked<br>by prerequisite</small>
+      </span>
     </div>
   </section>
 
-  <div class="kb-section-head">
-    <h2>Start here</h2>
-    <span class="kb-section-note">The concepts an interviewer is most likely to open with.</span>
-  </div>
-  <div class="kb-cram" data-kb-continue></div>
+  <section class="kb-homesec" id="start">
+    <div class="kb-section-head">
+      <h2>Start here</h2>
+      <span class="kb-section-note">The concepts an interviewer is most likely to open with — in prerequisite order.</span>
+    </div>
+    <div class="kb-startcards" data-kb-continue></div>
+  </section>
 
-  <div class="kb-section-head">
-    <h2>Subjects</h2>
-    <span class="kb-section-note" data-kb-subjects-note>Grouped by domain.</span>
-  </div>
-  <div data-kb-subjects></div>
+  <section class="kb-homesec" id="subjects">
+    <div class="kb-section-head">
+      <h2>Subjects</h2>
+      <span class="kb-section-note" data-kb-subjects-note></span>
+    </div>
+    <div class="kb-subjectgroups" data-kb-subjects></div>
+  </section>
 
-  <div class="kb-section-head">
-    <h2>Tags</h2>
-    <span class="kb-section-note">Themes that connect more than one concept.</span>
-  </div>
-  <div class="kb-facet-tags" data-kb-tags></div>
+  <section class="kb-homesec" id="tracks">
+    <div class="kb-trackpanel">
+      <div class="kb-trackpanel-copy">
+        <span class="kb-eyebrow kb-eyebrow--sage">Interview mode</span>
+        <h2>Drill by the role you're sitting for.</h2>
+        <p>Pick a track and the base filters itself to a cram sheet ranked by interview
+           relevance, then drills the question bank with keyboard reveal and scoring.</p>
+        <div class="kb-keychips">
+          <span>space reveal</span><span>1 got it</span><span>2 missed</span><span>n skip</span>
+        </div>
+      </div>
+      <div class="kb-trackgrid" data-kb-tracklist></div>
+    </div>
+  </section>
 
-  <footer style="margin-top:56px;padding-top:18px;border-top:1px solid var(--line);
-                 font-size:11.5px;color:var(--ink-faint);display:flex;gap:16px;flex-wrap:wrap">
+  <footer class="kb-homefoot">
+    <span>© 2026 Johnny Yammine</span>
     <span data-kb-generated></span>
-    <span>Add a concept: <code>npm run new -- "Title" --subject probability</code></span>
-    <span>Rebuild: <code>npm run build</code></span>
-    <span><button class="kb-btn kb-btn--ghost" type="button" data-kb-help>Keyboard shortcuts</button></span>
+    <span><button class="kb-linkbtn" type="button" data-kb-help>Keyboard shortcuts</button></span>
   </footer>
 </main>
 
-<script src="data/kb.data.js?v=e3db0308"></script>
+<script src="data/kb.data.js?v=eed195fb"></script>
 <script src="data/search.index.js?v=1f8f5d11"></script>
 <script src="assets/js/kb-core.js?v=a4c20d2d"></script>
-<script src="assets/js/kb-ui.js?v=a48ca814"></script>
+<script src="assets/js/kb-ui.js?v=e9a49aaf"></script>
 <script src="assets/vendor/katex/katex.min.js" defer></script>
 <script src="assets/vendor/katex/auto-render.min.js" defer></script>
 <script src="assets/js/math.js?v=44b57f03" defer></script>
-<script src="assets/js/dashboard.js?v=8aeb5b5c" defer></script>
+<script src="assets/js/dashboard.js?v=97a17354" defer></script>
 </body>
 </html>

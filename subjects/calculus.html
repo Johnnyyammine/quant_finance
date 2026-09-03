@@ -7,8 +7,8 @@
 <meta name="description" content="Differentiation, integration, Taylor expansion and multivariate analysis, including the Greeks.">
 <link rel="icon" href="../assets/icons/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/vendor/katex/katex.min.css">
-<link rel="stylesheet" href="../assets/css/app.css?v=b8ce682d">
-<link rel="stylesheet" href="../assets/css/views.css?v=dff0636c">
+<link rel="stylesheet" href="../assets/css/app.css?v=06dae098">
+<link rel="stylesheet" href="../assets/css/views.css?v=eb4034cf">
 
 </head>
 <body class="kb-body kb-body--subject">
@@ -16,17 +16,18 @@
   <a class="kb-brand" href="../index.html" title="Home (H)">
     <span class="kb-brand-mark">QF</span><span class="kb-brand-text">Quant Knowledge Base</span>
   </a>
-  <nav class="kb-crumbs" aria-label="Breadcrumb"><ol><li><a href="../index.html">Dashboard</a></li><li class="kb-crumb-sep" aria-hidden="true">/</li><li><span aria-current="page">Calculus</span></li></ol></nav>
+  <nav class="kb-toplinks" aria-label="Sections">
+    <a href="../index.html" data-nav="home">Dashboard</a>
+    <a href="../graph.html" data-nav="graph">Graph</a>
+    <a href="../interview.html" data-nav="interview">Interview</a>
+    <a href="../library.html" data-nav="library">Library</a>
+  </nav>
+  <nav class="kb-crumbs" aria-label="Breadcrumb"><ol><li><span aria-current="page">Calculus</span></li></ol></nav>
   <div class="kb-topbar-actions">
     <button class="kb-searchbtn" type="button" data-kb-open-search>
-      <span>Search concepts, formulas, questions</span><kbd>/</kbd>
+      <svg class="kb-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+      <span>Search concepts and subjects</span><kbd>/</kbd>
     </button>
-    <nav class="kb-toplinks" aria-label="Sections">
-      <a href="../index.html" data-nav="home">Dashboard</a>
-      <a href="../graph.html" data-nav="graph">Graph</a>
-      <a href="../interview.html" data-nav="interview">Interview</a>
-      <a href="../library.html" data-nav="library">Library</a>
-    </nav>
     <button class="kb-iconbtn" type="button" data-kb-theme title="Toggle theme (T)" aria-label="Toggle theme">◑</button>
     <button class="kb-iconbtn" type="button" data-kb-help title="Keyboard shortcuts (?)" aria-label="Keyboard shortcuts">?</button>
   </div>
@@ -40,7 +41,7 @@
     <div class="kb-nav-heading">Subjects</div>
     <details class="kb-nav-group">
       <summary class="kb-nav-summary">
-        <span class="kb-nav-dot" style="background:#5b8cff"></span>
+        <span class="kb-nav-dot" style="background:#7a5c9e"></span>
         <span class="kb-nav-name">Probability</span>
         <span class="kb-nav-count">3</span>
       </summary>
@@ -49,7 +50,7 @@
       </ul>
     </details><details class="kb-nav-group">
       <summary class="kb-nav-summary">
-        <span class="kb-nav-dot" style="background:#5b8cff"></span>
+        <span class="kb-nav-dot" style="background:#7a5c9e"></span>
         <span class="kb-nav-name">Statistics</span>
         <span class="kb-nav-count">3</span>
       </summary>
@@ -58,7 +59,7 @@
       </ul>
     </details><details class="kb-nav-group">
       <summary class="kb-nav-summary">
-        <span class="kb-nav-dot" style="background:#5b8cff"></span>
+        <span class="kb-nav-dot" style="background:#7a5c9e"></span>
         <span class="kb-nav-name">Linear Algebra</span>
         <span class="kb-nav-count">1</span>
       </summary>
@@ -67,7 +68,7 @@
       </ul>
     </details><details class="kb-nav-group">
       <summary class="kb-nav-summary">
-        <span class="kb-nav-dot" style="background:#9179ea"></span>
+        <span class="kb-nav-dot" style="background:#3d7580"></span>
         <span class="kb-nav-name">Stochastic Processes</span>
         <span class="kb-nav-count">3</span>
       </summary>
@@ -76,7 +77,7 @@
       </ul>
     </details><details class="kb-nav-group">
       <summary class="kb-nav-summary">
-        <span class="kb-nav-dot" style="background:#34ab84"></span>
+        <span class="kb-nav-dot" style="background:#5d7a42"></span>
         <span class="kb-nav-name">Portfolio Construction</span>
         <span class="kb-nav-count">2</span>
       </summary>
@@ -85,7 +86,7 @@
       </ul>
     </details><details class="kb-nav-group">
       <summary class="kb-nav-summary">
-        <span class="kb-nav-dot" style="background:#34ab84"></span>
+        <span class="kb-nav-dot" style="background:#5d7a42"></span>
         <span class="kb-nav-name">Risk Management</span>
         <span class="kb-nav-count">1</span>
       </summary>
@@ -94,7 +95,7 @@
       </ul>
     </details><details class="kb-nav-group">
       <summary class="kb-nav-summary">
-        <span class="kb-nav-dot" style="background:#cfa14e"></span>
+        <span class="kb-nav-dot" style="background:#ae6332"></span>
         <span class="kb-nav-name">Derivatives</span>
         <span class="kb-nav-count">1</span>
       </summary>
@@ -103,7 +104,7 @@
       </ul>
     </details><details class="kb-nav-group">
       <summary class="kb-nav-summary">
-        <span class="kb-nav-dot" style="background:#cfa14e"></span>
+        <span class="kb-nav-dot" style="background:#ae6332"></span>
         <span class="kb-nav-name">Options</span>
         <span class="kb-nav-count">4</span>
       </summary>
@@ -113,7 +114,7 @@
     </details>
   </nav>
   <div class="kb-subject-wrap">
-    <header class="kb-subject-head" style="--subject-color:#5b8cff">
+    <header class="kb-subject-head" style="--subject-color:#7a5c9e">
       <div class="kb-subject-mark kb-subject-mark--lg">d</div>
       <div>
         <h1>Calculus</h1>
@@ -141,10 +142,10 @@
     </section>
   </div>
 </main>
-<script src="../data/kb.data.js?v=e3db0308"></script>
+<script src="../data/kb.data.js?v=eed195fb"></script>
 <script src="../data/search.index.js?v=1f8f5d11"></script>
 <script src="../assets/js/kb-core.js?v=a4c20d2d"></script>
-<script src="../assets/js/kb-ui.js?v=a48ca814"></script>
+<script src="../assets/js/kb-ui.js?v=e9a49aaf"></script>
 <script src="../assets/vendor/katex/katex.min.js" defer></script>
 <script src="../assets/vendor/katex/auto-render.min.js" defer></script>
 <script src="../assets/js/math.js?v=44b57f03" defer></script>
