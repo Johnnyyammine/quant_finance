@@ -239,10 +239,6 @@
     return out + escapeHtml(raw.slice(last));
   }
 
-  function stars(n) {
-    return '<span class="kb-stars"><span class="kb-stars-on">' + '★'.repeat(n) +
-      '</span><span class="kb-stars-off">' + '☆'.repeat(5 - n) + '</span></span>';
-  }
 
   function param(name) {
     var m = new RegExp('[?&]' + name + '=([^&#]*)').exec(global.location.search);
@@ -287,6 +283,6 @@
       get: function () { return state.theme; },
       set: function (t) { state.theme = t; save(); emit('theme', { theme: t }); },
     },
-    util: { escapeHtml: escapeHtml, highlight: highlight, stars: stars, param: param, tokenize: tokenizeQuery },
+    util: { escapeHtml: escapeHtml, highlight: highlight, param: param, tokenize: tokenizeQuery },
   };
 })(window);

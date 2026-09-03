@@ -7,7 +7,7 @@
 <meta name="description" content="Covariance measures how two variables move together in raw units; correlation normalises it to [-1, 1] — together they determine whether combining two positions reduces risk or concentrates it.">
 <link rel="icon" href="../assets/icons/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/vendor/katex/katex.min.css">
-<link rel="stylesheet" href="../assets/css/app.css?v=e1868265">
+<link rel="stylesheet" href="../assets/css/app.css?v=be51795a">
 <link rel="stylesheet" href="../assets/css/views.css?v=5c14ed69">
 
 </head>
@@ -38,12 +38,19 @@
         <a class="kb-subject-chip" href="../subjects/statistics.html" style="--subject-color:#4f8fd6">
           <span class="kb-subject-mark">S</span>Statistics</a>
         <span class="kb-pill kb-pill--foundational">Foundational</span>
-        <span class="kb-stars" title="Interview relevance 5 of 5" aria-label="Interview relevance 5 of 5"><span class="kb-stars-on">★★★★★</span><span class="kb-stars-off"></span></span>
         <span class="kb-meta-dot">·</span>
         <span class="kb-readtime">14 min</span>
       </div>
       <h1 class="kb-concept-title">Covariance &amp; Correlation</h1>
-      <p class="kb-concept-summary">Covariance measures how two variables move together in raw units; correlation normalises it to [-1, 1] — together they determine whether combining two positions reduces risk or concentrates it.</p>
+      <section class="kb-glance" aria-label="At a glance">
+      <p class="kb-glance-lead">Covariance measures how two variables move together in raw units; correlation normalises it to [-1, 1] — together they determine whether combining two positions reduces risk or concentrates it.</p>
+      <a class="kb-glance-formula" href="#covariance">
+        <span class="math-display">\[\Cov(X,Y) = \E\big[(X-\E X)(Y - \E Y)\big] = \E[XY] - \E[X]\E[Y]\]</span>
+        <span class="kb-glance-formula-name">Covariance</span>
+      </a>
+      <ul class="kb-glance-points"><li><span class="math-inline">\(\Cov(X,Y) = \E[XY]-\E X\E Y\)</span> ;  <span class="math-inline">\(\rho = \Cov/(\sigma_X\sigma_Y) \in [-1,1]\)</span>  — a cosine.</li><li><span class="math-inline">\(|\rho|\le1\)</span>  is Cauchy–Schwarz, proved from  <span class="math-inline">\(\Var(X-tY)\ge0\)</span> .</li><li><span class="math-inline">\(\rho = 0 \nRightarrow\)</span>  independence (unless jointly normal).  <span class="math-inline">\(Y=X^2\)</span>  is the counterexample.</li></ul>
+      <a class="kb-glance-more" href="#30-second-revision">Full revision →</a>
+    </section>
       <div class="kb-concept-controls">
         <button class="kb-btn kb-btn--ghost" type="button" data-kb-bookmark="covariance-and-correlation">☆ Bookmark</button>
         <button class="kb-btn kb-btn--ghost" type="button" data-kb-flashcards>Revision card</button>
@@ -369,11 +376,11 @@ computed in calm markets set the leverage limit.</p></div></details>
 </main>
 <script src="../data/kb.data.js?v=6d72e37b"></script>
 <script src="../data/search.index.js?v=82e0efd6"></script>
-<script src="../assets/js/kb-core.js?v=670223d7"></script>
-<script src="../assets/js/kb-ui.js?v=f776352b"></script>
+<script src="../assets/js/kb-core.js?v=a4c20d2d"></script>
+<script src="../assets/js/kb-ui.js?v=a48ca814"></script>
 <script src="../assets/vendor/katex/katex.min.js" defer></script>
 <script src="../assets/vendor/katex/auto-render.min.js" defer></script>
 <script src="../assets/js/math.js?v=671c5aed" defer></script>
-<script src="../assets/js/concept.js?v=d9f2793e" defer></script>
+<script src="../assets/js/concept.js?v=3cde2650" defer></script>
 </body>
 </html>

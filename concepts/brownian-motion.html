@@ -7,7 +7,7 @@
 <meta name="description" content="The continuous-time limit of a random walk — Gaussian, independent increments scaling with √t, nowhere differentiable, and the driving noise underneath essentially every continuous-time model in finance.">
 <link rel="icon" href="../assets/icons/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/vendor/katex/katex.min.css">
-<link rel="stylesheet" href="../assets/css/app.css?v=e1868265">
+<link rel="stylesheet" href="../assets/css/app.css?v=be51795a">
 <link rel="stylesheet" href="../assets/css/views.css?v=5c14ed69">
 
 </head>
@@ -38,12 +38,19 @@
         <a class="kb-subject-chip" href="../subjects/stochastic-processes.html" style="--subject-color:#7a63c9">
           <span class="kb-subject-mark">W</span>Stochastic Processes</a>
         <span class="kb-pill kb-pill--advanced">Advanced</span>
-        <span class="kb-stars" title="Interview relevance 4 of 5" aria-label="Interview relevance 4 of 5"><span class="kb-stars-on">★★★★</span><span class="kb-stars-off">☆</span></span>
         <span class="kb-meta-dot">·</span>
         <span class="kb-readtime">16 min</span>
       </div>
       <h1 class="kb-concept-title">Brownian Motion</h1>
-      <p class="kb-concept-summary">The continuous-time limit of a random walk — Gaussian, independent increments scaling with √t, nowhere differentiable, and the driving noise underneath essentially every continuous-time model in finance.</p>
+      <section class="kb-glance" aria-label="At a glance">
+      <p class="kb-glance-lead">The continuous-time limit of a random walk — Gaussian, independent increments scaling with √t, nowhere differentiable, and the driving noise underneath essentially every continuous-time model in finance.</p>
+      <a class="kb-glance-formula" href="#increment-distribution">
+        <span class="math-display">\[W_t - W_s \sim N(0,\, t-s), \qquad \Cov(W_s, W_t) = \min(s,t)\]</span>
+        <span class="kb-glance-formula-name">Increment distribution</span>
+      </a>
+      <ul class="kb-glance-points"><li><span class="math-inline">\(W_t - W_s \sim N(0, t-s)\)</span> , independent increments, continuous,  <span class="math-inline">\(\Cov(W_s,W_t)=\min(s,t)\)</span> .</li><li>Scaling is  <span class="math-inline">\(\sqrt t\)</span> : variances add, standard deviations do not.</li><li><span class="math-inline">\(\langle W\rangle_T = T\)</span>  almost surely, so  <span class="math-inline">\((\d W)^2 = \d t\)</span>  — the fact that creates Itô calculus.</li></ul>
+      <a class="kb-glance-more" href="#30-second-revision">Full revision →</a>
+    </section>
       <div class="kb-concept-controls">
         <button class="kb-btn kb-btn--ghost" type="button" data-kb-bookmark="brownian-motion">☆ Bookmark</button>
         <button class="kb-btn kb-btn--ghost" type="button" data-kb-flashcards>Revision card</button>
@@ -375,12 +382,12 @@ majority of scenarios — the exact arithmetic behind the long-run decay of leve
 </main>
 <script src="../data/kb.data.js?v=6d72e37b"></script>
 <script src="../data/search.index.js?v=82e0efd6"></script>
-<script src="../assets/js/kb-core.js?v=670223d7"></script>
-<script src="../assets/js/kb-ui.js?v=f776352b"></script>
+<script src="../assets/js/kb-core.js?v=a4c20d2d"></script>
+<script src="../assets/js/kb-ui.js?v=a48ca814"></script>
 <script src="../assets/vendor/katex/katex.min.js" defer></script>
 <script src="../assets/vendor/katex/auto-render.min.js" defer></script>
 <script src="../assets/js/math.js?v=671c5aed" defer></script>
-<script src="../assets/js/concept.js?v=d9f2793e" defer></script>
+<script src="../assets/js/concept.js?v=3cde2650" defer></script>
 <script src="../assets/js/lib/plot.js?v=54c52379" defer></script>
 <script src="../assets/js/modules/random-walk.js?v=1c9e40fe" defer></script>
 </body>

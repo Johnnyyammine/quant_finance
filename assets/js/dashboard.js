@@ -26,7 +26,7 @@
       { label: 'Formulas', value: s.formulas, note: 'indexed & searchable' },
       { label: 'Questions', value: s.questions, note: 'in the interview bank' },
       { label: 'Words', value: s.words.toLocaleString(), note: 'of written explanation' },
-      { label: 'Interview core', value: highValue, note: '4★+ concepts' },
+      { label: 'Interview core', value: highValue, note: 'relevance 4 and up' },
     ];
     host.innerHTML = items.map(function (i) {
       return '<div class="kb-kpi"><span class="kb-kpi-label">' + esc(i.label) + '</span>' +
@@ -84,7 +84,7 @@
       return '<a class="kb-cram-item" href="' + esc(c.path) + '">' +
         '<span><strong>' + esc(c.title) + '</strong>' +
         '<small>' + esc((KB.subject(c.subject) || {}).name) + ' · ' + esc(c.summary) + '</small></span>' +
-        '<span class="kb-result-meta">' + KB.util.stars(c.interviewRelevance) + '</span></a>';
+        '</a>';
     }).join('') : '<p class="kb-empty">No concepts yet.</p>';
   }
 

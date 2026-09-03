@@ -97,7 +97,7 @@
       '<div class="kb-facet"><h3>Interview relevance</h3><div class="kb-facet-options">' +
       [5, 4, 3, 0].map(function (n) {
         return '<button class="kb-facet-opt" type="button" data-minrel="' + n + '" aria-pressed="' +
-          (state.minRel === n) + '">' + (n ? '★'.repeat(n) + ' and up' : 'Any') +
+          (state.minRel === n) + '">' + (n === 5 ? '5 only' : n ? n + ' and up' : 'Any') +
           '<span class="kb-facet-count">' + count(function (c) { return c.interviewRelevance >= n; }) +
           '</span></button>';
       }).join('') + '</div></div>' +
@@ -117,7 +117,7 @@
     { id: 'title', label: 'Concept' },
     { id: 'subject', label: 'Subject' },
     { id: 'difficulty', label: 'Level' },
-    { id: 'relevance', label: 'Interview' },
+    { id: 'relevance', label: 'Relevance' },
     { id: 'length', label: 'Words' },
   ];
 
@@ -142,7 +142,7 @@
           esc((KB.subject(c.subject) || {}).name) + '</a></td>' +
           '<td><span class="kb-pill kb-pill--' + esc(c.difficulty) + '">' +
           esc(KB.difficultyMeta[c.difficulty].label) + '</span></td>' +
-          '<td>' + KB.util.stars(c.interviewRelevance) + '</td>' +
+          '<td class="kb-cell-num">' + c.interviewRelevance + '</td>' +
           '<td class="kb-cell-num">' + c.wordCount.toLocaleString() + '</td></tr>';
       }).join('')
         : '<tr><td colspan="5" class="kb-empty">No concepts match these filters.</td></tr>') +

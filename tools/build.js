@@ -79,6 +79,30 @@ function prune(dir, keep, stats) {
   }
 }
 
+/** How many revision bullets the summary card carries. */
+const GLANCE_POINTS = 3;
+
+/**
+ * The first `n` list items of the first list under the heading with `id`.
+ *
+ * Slices rendered HTML rather than re-parsing the markdown: the bullets carry
+ * inline maths and wiki links that only exist after rendering, and lifting the
+ * finished markup guarantees the card and the section it quotes can never
+ * disagree. Bounded to the slice between this heading and the next one, so a
+ * section without a list yields nothing rather than borrowing the next one's.
+ */
+function firstListItems(html, id, n) {
+  const head = html.indexOf(`<h2 id="${id}"`);
+  if (head === -1) return [];
+  const rest = html.slice(head);
+  const end = rest.indexOf('<h2 ', 1);
+  const section = end === -1 ? rest : rest.slice(0, end);
+  const list = section.match(/<ul[^>]*>([\s\S]*?)<\/ul>/);
+  if (!list) return [];
+  const items = list[1].match(/<li[^>]*>[\s\S]*?<\/li>/g) || [];
+  return items.slice(0, n).map((li) => li.replace(/^<li[^>]*>/, '').replace(/<\/li>$/, '').trim());
+}
+
 function build() {
   const t0 = Date.now();
   const problems = { errors: [], warnings: [] };
@@ -144,6 +168,17 @@ function build() {
         return { id: h.id, label: h.text, canonical: canonical ? canonical.id : null };
       });
     out.warnings.forEach((m) => warn(c.source, m));
+
+    // The "at a glance" card is assembled here rather than in the template so
+    // it ships inside the static HTML -- a reader with JavaScript off still
+    // gets it. It reuses what the author already wrote: the first few bullets
+    // of the revision section, which is the one section written to be read in
+    // isolation. Nothing new to maintain, and it cannot drift from the page.
+    const revision = c.sections.find((h) => h.canonical === 'revision');
+    c.glance = revision ? firstListItems(c.html, revision.id, GLANCE_POINTS) : [];
+    if (revision && !c.glance.length) {
+      warn(c.source, 'the revision section has no bullet list, so the summary card has no points');
+    }
 
     const text = md.toText(body);
     plainText.set(c.id, text);

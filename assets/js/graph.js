@@ -525,7 +525,7 @@
       '<p class="kb-gd-sum">' + esc(c.summary) + '</p>' +
       '<div style="display:flex;gap:8px;align-items:center;margin-bottom:10px">' +
       '<span class="kb-pill kb-pill--' + esc(c.difficulty) + '">' + esc(KB.difficultyMeta[c.difficulty].label) +
-      '</span>' + KB.util.stars(c.interviewRelevance) + '</div>' +
+      '</span></div>' +
       '<a class="kb-btn kb-btn--primary" href="' + esc(c.path) + '">Open concept</a> ' +
       '<button class="kb-btn kb-btn--ghost" type="button" data-focus="' + esc(c.id) + '">Focus here</button>' +
       lst('Prerequisites', c.prerequisites) +
