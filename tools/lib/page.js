@@ -146,17 +146,17 @@ function conceptPage(c, ctx) {
   };
 
   const toc = c.sections.length
-    ? `<nav class="kb-toc" aria-label="On this page"><h3>On this page</h3><ol>${
+    ? `<nav class="kb-toc kb-rail-group" aria-label="On this page"><h3>On this page</h3><ol>${
         c.sections.map((s) => `<li><a href="#${attr(s.id)}">${escapeHtml(s.label)}</a></li>`).join('')
       }${c.formulas.length ? '<li><a href="#key-formulas">Key Formulas</a></li>' : ''
       }${c.questions.length ? '<li><a href="#interview-questions">Interview Questions</a></li>' : ''
       }<li><a href="#connections">Connections</a></li></ol></nav>`
     : '';
 
-  const formulaCard = c.formulas.length
-    ? `<section class="kb-side-card" id="side-formulas"><h3>Key formulas</h3><ul class="kb-side-formulas">${
+  const formulaRail = c.formulas.length
+    ? `<nav class="kb-rail-group" id="side-formulas" aria-label="Key formulas"><h3>Formulas</h3><ul>${
         c.formulas.map((f) => `<li><a href="#${attr(f.id)}">${escapeHtml(f.name || f.latex.slice(0, 40))}</a></li>`).join('')
-      }</ul></section>`
+      }</ul></nav>`
     : '';
 
   const questionsHtml = c.questions.length
@@ -202,7 +202,6 @@ function conceptPage(c, ctx) {
     { label: c.title },
   ])}
 <main class="kb-main kb-main--concept" data-concept-id="${attr(c.id)}">
-  ${siteNav(base, ctx.navGroups || [], c.id, subject.id)}
   <article class="kb-article">
     <header class="kb-concept-head">
       <div class="kb-concept-eyebrow">
@@ -237,6 +236,11 @@ function conceptPage(c, ctx) {
         ${!c.prerequisites.length && !c.builtOn.length && !c.related.length
           ? '<p class="kb-empty">No relationships recorded yet. Add <code>prerequisites:</code> or <code>related:</code> to the frontmatter.</p>' : ''}
       </div>
+      <figure class="kb-neighbourhood">
+        <canvas data-kb-minimap="${attr(c.id)}" width="760" height="300" aria-label="Local knowledge graph"></canvas>
+        <figcaption>Two hops out from this concept.
+          <a class="kb-side-more" href="${base}graph.html?focus=${attr(c.id)}">Open full graph →</a></figcaption>
+      </figure>
       ${c.references.length ? `<div class="kb-references"><h3>References</h3><ul>${c.references.map((r) =>
         `<li>${r.url ? `<a href="${attr(r.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(r.title)}</a>`
           : escapeHtml(r.title)}</li>`).join('')}</ul></div>` : ''}
@@ -249,25 +253,12 @@ function conceptPage(c, ctx) {
     </footer>
   </article>
 
-  <aside class="kb-sidebar">
+  <!-- The rail sits in the left column but comes last in the source: the
+       article is what a reader (or a screen reader) wants first, and the
+       links here are a way back into it rather than a way into the page. -->
+  <aside class="kb-rail">
     ${toc}
-    ${formulaCard}
-    <section class="kb-side-card">
-      <h3>Metadata</h3>
-      <dl class="kb-meta">
-        <dt>Subject</dt><dd><a href="${base}subjects/${attr(subject.id)}.html">${escapeHtml(subject.name)}</a></dd>
-        <dt>Difficulty</dt><dd>${escapeHtml(DIFF_LABEL.get(c.difficulty))}</dd>
-        <dt>Interview</dt><dd>${stars(c.interviewRelevance)}</dd>
-        <dt>Prereqs</dt><dd>${c.prerequisites.length || '—'}</dd>
-        <dt>Formulas</dt><dd>${c.formulas.length || '—'}</dd>
-        <dt>Questions</dt><dd>${c.questions.length || '—'}</dd>
-      </dl>
-    </section>
-    <section class="kb-side-card kb-side-minimap">
-      <h3>Neighbourhood</h3>
-      <canvas data-kb-minimap="${attr(c.id)}" width="260" height="200" aria-label="Local knowledge graph"></canvas>
-      <a class="kb-side-more" href="${base}graph.html?focus=${attr(c.id)}">Open full graph →</a>
-    </section>
+    ${formulaRail}
   </aside>
 </main>`;
 
