@@ -57,6 +57,32 @@ function walk(dir, ext, out = []) {
   return out;
 }
 
+/**
+ * Stamp the current asset hashes into the hand-written pages at the repo root.
+ *
+ * index/library/graph/interview are authored by hand rather than generated, so
+ * nothing was refreshing the `?v=` tags that page.js puts on every generated
+ * page's assets. That left the four most-visited pages as the one place a
+ * reader could still get new HTML against a cached stylesheet -- which is the
+ * failure the tagging existed to prevent. Rewriting the tags in place keeps
+ * the files hand-authored: the build touches the query strings and nothing
+ * else, and because the tags are content hashes the output stays deterministic
+ * for the staleness gate.
+ *
+ * Vendored assets are skipped, matching page.js: KaTeX is pinned and should
+ * stay cached.
+ */
+function stampAssets(stats) {
+  const pattern = /(href|src)="((?:assets|data)\/[^"?]+\.(?:css|js))(?:\?[^"]*)?"/g;
+  for (const file of fs.readdirSync(ROOT).filter((f) => f.endsWith('.html'))) {
+    const full = P(file);
+    const html = fs.readFileSync(full, 'utf8');
+    const out = html.replace(pattern, (whole, kind, rel) =>
+      rel.startsWith('assets/vendor/') ? `${kind}="${rel}"` : `${kind}="${page.versioned(rel)}"`);
+    writeIfChanged(full, out, stats);
+  }
+}
+
 function writeIfChanged(file, content, stats) {
   fs.mkdirSync(path.dirname(file), { recursive: true });
   if (fs.existsSync(file) && fs.readFileSync(file, 'utf8') === content) {
@@ -323,6 +349,9 @@ function build() {
     writeIfChanged(P('subjects', `${s.id}.html`), html, stats);
   }
   prune(P('subjects'), keepSubjects, stats);
+
+  // Root pages: hand-written, but their asset URLs are stamped like the rest.
+  stampAssets(stats);
 
   /* ------------------------------------------------------------ report --- */
   const ms = Date.now() - t0;

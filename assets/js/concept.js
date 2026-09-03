@@ -232,9 +232,9 @@
     var ctx = canvas.getContext('2d');
     var hit = canvas._kbHit || (canvas._kbHit = []);
     var css = getComputedStyle(doc.documentElement);
-    var line = css.getPropertyValue('--line-strong').trim() || '#323d4c';
-    var accent = css.getPropertyValue('--accent').trim() || '#4f8fd6';
-    var muted = css.getPropertyValue('--ink-faint').trim() || '#5d6875';
+    var line = css.getPropertyValue('--line-strong').trim() || '#2d323c';
+    var accent = css.getPropertyValue('--accent').trim() || '#4d7cff';
+    var muted = css.getPropertyValue('--ink-faint').trim() || '#686e79';
     var fontStack = css.getPropertyValue('--font-ui').trim() || 'system-ui, sans-serif';
 
     ctx.clearRect(0, 0, w, h);

@@ -388,4 +388,4 @@ function subjectPage(s, concepts, ctx) {
   });
 }
 
-module.exports = { shell, topbar, conceptPage, subjectPage };
+module.exports = { shell, topbar, conceptPage, subjectPage, versioned };

@@ -8,7 +8,7 @@
   position: fixed; inset: 0; z-index: 200;
   display: none; justify-content: center; align-items: flex-start;
   padding: 9vh 20px 20px;
-  background: rgba(6, 9, 13, 0.62);
+  background: rgba(4, 5, 8, 0.66);
   backdrop-filter: blur(3px);
 }
 .kb-overlay[data-open] { display: flex; }
@@ -90,7 +90,7 @@
 }
 
 /* The masthead. It is the first thing anyone sees, so it carries the type at
-   a size that lets Inter's display cut show -- tight tracking, real weight. */
+   a size where the display weight can show -- tight tracking, real weight. */
 .kb-hero h1 {
   margin: 0 0 10px;
   font-size: clamp(28px, 3.1vw, 40px);
@@ -134,10 +134,14 @@
 .kb-kpi-note { margin-top: auto; padding-top: 8px; }
 .kb-kpi-label { display: block; font-size: 9.5px; font-weight: 600;
   letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-faint); }
+/* The headline figure is set in the display face, not the mono. A monospaced
+   comma occupies a full cell, so "18,256" came out as "18 , 256" -- and a
+   balance in a fintech app is shown in the brand's own type anyway. Tabular
+   figures still keep the five cards' digits on a common width. */
 .kb-kpi-value {
   display: block; margin-top: 7px;
-  font-family: var(--font-mono); font-size: 27px; font-weight: 500;
-  line-height: 1; letter-spacing: -0.02em;
+  font-family: var(--font-ui); font-size: 30px; font-weight: 620;
+  line-height: 1; letter-spacing: -0.032em;
   color: var(--ink-strong); font-variant-numeric: tabular-nums;
 }
 .kb-kpi-note { display: block; margin-top: 6px; font-size: 10.5px; line-height: 1.45;

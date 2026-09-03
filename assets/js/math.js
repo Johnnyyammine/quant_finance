@@ -11,7 +11,7 @@
         { left: '\\(', right: '\\)', display: false },
       ],
       throwOnError: false,
-      errorColor: '#cf5c5c',
+      errorColor: getComputedStyle(document.documentElement).getPropertyValue('--neg').trim() || '#e0655f',
       strict: false,
       trust: false,
       macros: {
