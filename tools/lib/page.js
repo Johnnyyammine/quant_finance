@@ -7,8 +7,45 @@
  * JavaScript only *enhances* -- search, filtering, interactive modules.
  */
 
+const crypto = require('crypto');
+const fs = require('fs');
+const path = require('path');
+
 const { escapeHtml } = require('./markdown');
 const { DIFFICULTY } = require('./model');
+
+const REPO = path.join(__dirname, '..', '..');
+const versions = new Map();
+
+/**
+ * `assets/css/app.css` -> `assets/css/app.css?v=1f4c9a02`.
+ *
+ * A browser that already holds app.css will keep using it for as long as its
+ * heuristic says to, and nothing about a page arriving with new markup tells
+ * it otherwise -- so a reader gets fresh HTML against a stale stylesheet, and
+ * the layout comes apart in a way that looks like a bug in the site. Stamping
+ * the file's own hash into the URL makes a changed asset a different URL, so
+ * the cache misses exactly when it should and hits every other time.
+ *
+ * Derived from the bytes on disk, never from a clock: two builds of the same
+ * tree must produce identical HTML or the CI staleness gate fires on noise.
+ * Vendored KaTeX is deliberately left alone -- it is pinned, it never changes,
+ * and it is 600 KB that should stay cached.
+ */
+function versioned(rel) {
+  if (!versions.has(rel)) {
+    let tag = '';
+    try {
+      tag = '?v=' + crypto.createHash('sha1')
+        .update(fs.readFileSync(path.join(REPO, rel))).digest('hex').slice(0, 8);
+    } catch (e) {
+      // A script a page names but the tree does not have yet: the missing file
+      // is the build's problem to report, not this function's to crash on.
+    }
+    versions.set(rel, rel + tag);
+  }
+  return versions.get(rel);
+}
 
 const attr = escapeHtml;
 const DIFF_LABEL = new Map(DIFFICULTY.map((d) => [d.id, d.label]));
@@ -34,20 +71,20 @@ function shell(o) {
 <meta name="description" content="${attr(o.description || '')}">
 <link rel="icon" href="${b}assets/icons/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="${b}assets/vendor/katex/katex.min.css">
-<link rel="stylesheet" href="${b}assets/css/app.css">
-<link rel="stylesheet" href="${b}assets/css/views.css">
+<link rel="stylesheet" href="${b}${versioned('assets/css/app.css')}">
+<link rel="stylesheet" href="${b}${versioned('assets/css/views.css')}">
 ${o.head || ''}
 </head>
 <body class="${attr(o.bodyClass || '')}">
 ${o.body}
-<script src="${b}data/kb.data.js"></script>
-<script src="${b}data/search.index.js"></script>
-<script src="${b}assets/js/kb-core.js"></script>
-<script src="${b}assets/js/kb-ui.js"></script>
+<script src="${b}${versioned('data/kb.data.js')}"></script>
+<script src="${b}${versioned('data/search.index.js')}"></script>
+<script src="${b}${versioned('assets/js/kb-core.js')}"></script>
+<script src="${b}${versioned('assets/js/kb-ui.js')}"></script>
 <script src="${b}assets/vendor/katex/katex.min.js" defer></script>
 <script src="${b}assets/vendor/katex/auto-render.min.js" defer></script>
-<script src="${b}assets/js/math.js" defer></script>
-${(o.scripts || []).map((s) => `<script src="${b}${s}" defer></script>`).join('\n')}
+<script src="${b}${versioned('assets/js/math.js')}" defer></script>
+${(o.scripts || []).map((s) => `<script src="${b}${versioned(s)}" defer></script>`).join('\n')}
 </body>
 </html>
 `;
