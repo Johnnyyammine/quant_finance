@@ -421,6 +421,32 @@ test('build: generated data and pages carry no progress surface', () => {
   assert.deepStrictEqual(offenders, [], 'progress markup left in generated HTML');
 });
 
+test('build: a concept page carries the rail and not the subject tree', () => {
+  // Two things a stale template would quietly undo. The subject tree belongs on
+  // pages you browse from -- on a concept page it was a second column of links
+  // beside the one that navigates the concept itself. And the rail has to keep
+  // its explicit column, because the grid places children by name: an unplaced
+  // child auto-flows into track 1 and pushes the article out of the layout.
+  const fs = require('fs');
+  const root = path.join(__dirname, '..');
+  const dir = path.join(root, 'concepts');
+  const files = fs.readdirSync(dir).filter((f) => f.endsWith('.html'));
+  assert.ok(files.length, 'no concept pages built');
+
+  const offenders = [];
+  files.forEach((f) => {
+    const html = fs.readFileSync(path.join(dir, f), 'utf8');
+    if (/class="kb-nav"/.test(html)) offenders.push(f + ': subject tree');
+    if (!/class="kb-rail"/.test(html)) offenders.push(f + ': no rail');
+    if (!/class="kb-toc kb-rail-group"/.test(html)) offenders.push(f + ': no table of contents');
+  });
+  assert.deepStrictEqual(offenders, []);
+
+  const css = fs.readFileSync(path.join(root, 'assets/css/app.css'), 'utf8');
+  assert.match(css, /\.kb-main--concept > \.kb-rail\s*{[^}]*grid-column: 1/);
+  assert.match(css, /\.kb-main--concept > \.kb-article\s*{[^}]*grid-column: 2/);
+});
+
 test('build: no generated page leaks unrendered maths', () => {
   // The failure this catches is visible to every reader: a formula that never
   // reached KaTeX shows up as raw $...$ in the middle of a sentence. Scans the

@@ -208,7 +208,7 @@
     var hops = KB.neighbours(id, 2);
     var ids = Object.keys(hops);
     if (ids.length < 2) {
-      canvas.closest('.kb-side-minimap').style.display = 'none';
+      canvas.closest('.kb-neighbourhood').style.display = 'none';
       return;
     }
     var w = canvas.width, h = canvas.height;
@@ -217,11 +217,15 @@
     pos[id] = { x: cx, y: cy };
     var rings = { 1: [], 2: [] };
     ids.forEach(function (n) { if (hops[n]) rings[hops[n]].push(n); });
+    // Elliptical rings, not circular: the canvas is much wider than it is tall,
+    // and a radius taken from the short side would huddle every node into a
+    // narrow column down the middle with the width unused.
     [1, 2].forEach(function (ring) {
-      var r = ring === 1 ? Math.min(w, h) * 0.24 : Math.min(w, h) * 0.42;
+      var f = ring === 1 ? 0.26 : 0.44;
+      var rx = w * f, ry = h * f;
       rings[ring].forEach(function (n, i) {
         var a = (i / rings[ring].length) * Math.PI * 2 - Math.PI / 2 + (ring === 2 ? 0.4 : 0);
-        pos[n] = { x: cx + Math.cos(a) * r, y: cy + Math.sin(a) * r };
+        pos[n] = { x: cx + Math.cos(a) * rx, y: cy + Math.sin(a) * ry };
       });
     });
 
@@ -231,6 +235,7 @@
     var line = css.getPropertyValue('--line-strong').trim() || '#323d4c';
     var accent = css.getPropertyValue('--accent').trim() || '#4f8fd6';
     var muted = css.getPropertyValue('--ink-faint').trim() || '#5d6875';
+    var fontStack = css.getPropertyValue('--font-ui').trim() || 'system-ui, sans-serif';
 
     ctx.clearRect(0, 0, w, h);
     ctx.strokeStyle = line;
@@ -246,6 +251,7 @@
     ctx.globalAlpha = 1;
 
     hit.length = 0;
+    var labels = [];
     ids.forEach(function (n) {
       var c = KB.concept(n);
       if (!c) return;
@@ -255,6 +261,21 @@
       ctx.globalAlpha = n === id ? 1 : hops[n] === 1 ? 0.9 : 0.5;
       ctx.beginPath(); ctx.arc(p.x, p.y, r, 0, Math.PI * 2); ctx.fill();
       hit.push({ x: p.x, y: p.y, r: r + 5, id: n, title: c.title });
+      labels.push({ x: p.x, y: p.y + r + 12, text: c.title, self: n === id });
+    });
+
+    // Labels last, so no node is drawn over one. The map sits in the article
+    // column now rather than a 260px rail, and at that size a field of unnamed
+    // dots is decoration -- the names are what make it a map.
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    labels.forEach(function (l) {
+      ctx.font = (l.self ? '600 ' : '') + '11px ' + fontStack;
+      ctx.fillStyle = l.self ? accent : muted;
+      ctx.globalAlpha = l.self ? 1 : 0.85;
+      // Clamp so a name near the edge stays inside the canvas.
+      var half = ctx.measureText(l.text).width / 2;
+      ctx.fillText(l.text, Math.min(Math.max(l.x, half + 4), w - half - 4), l.y);
     });
     ctx.globalAlpha = 1;
 

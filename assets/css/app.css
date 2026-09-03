@@ -182,7 +182,7 @@ code, kbd, pre, .kb-mono { font-family: var(--font-mono); }
 
 /* Raised surfaces get a hairline highlight along their top edge. Real objects
    catch the light there; without it a lighter rectangle just looks like paint. */
-.kb-kpi, .kb-side-card, .kb-subject-card, .kb-module, .kb-formula,
+.kb-kpi, .kb-subject-card, .kb-module, .kb-formula,
 .kb-callout, .kb-drillcard, .kb-formula-recap-item, .kb-graph-panel,
 .kb-cram, .kb-track, .kb-conceptrow-link {
   box-shadow: inset 0 1px 0 var(--edge);
@@ -192,7 +192,6 @@ code, kbd, pre, .kb-mono { font-family: var(--font-mono); }
    to catch, so the lift has to come from below instead: a hairline ring plus a
    short, soft drop. Same intent as the dark theme's top highlight. */
 html[data-theme="light"] .kb-kpi,
-html[data-theme="light"] .kb-side-card,
 html[data-theme="light"] .kb-subject-card,
 html[data-theme="light"] .kb-module,
 html[data-theme="light"] .kb-formula,
@@ -383,17 +382,17 @@ html[data-theme="light"] .kb-pill--research     { color: #8d4c25; background: rg
 
 .kb-main--concept {
   display: grid;
-  /* Three columns: navigation, article, page rail. The nav is what makes this
-     a reference site rather than a set of pages -- you move between concepts
-     without going back to an index, and you can always see where you are in
-     the whole. It matters more the more concepts there are. */
-  grid-template-columns: 232px minmax(0, 1fr) 232px;
-  gap: 40px;
+  /* Two columns: a thin rail and the article. A concept page is for reading
+     one thing, so the only navigation it keeps is navigation *within* that
+     thing -- the subject tree belongs on the pages you browse from, and the
+     topbar carries search and the four section links from anywhere. */
+  grid-template-columns: 188px minmax(0, 1fr);
+  gap: 44px;
   /* Wide enough that tables, code and the interactive modules get real room.
      The reading measure is not enforced by starving the column -- it is set on
      the prose elements themselves, so text stays comfortable while anything
      wider than a sentence can use the whole width. */
-  max-width: 1420px;
+  max-width: 1180px;
 }
 /* Subject pages get navigation plus content; they have no page rail of their
    own, so two columns rather than three. */
@@ -410,9 +409,8 @@ html[data-theme="light"] .kb-pill--research     { color: #8d4c25; background: rg
    existed, say -- silently shifts everything one column left: the article
    lands in the 232px nav track and the table of contents takes the wide
    middle. Naming the track makes the layout correct with or without the nav. */
-.kb-main--concept > .kb-nav     { grid-column: 1; }
-.kb-main--concept > .kb-article { grid-column: 2; }
-.kb-main--concept > .kb-sidebar { grid-column: 3; }
+.kb-main--concept > .kb-rail    { grid-column: 1; grid-row: 1; }
+.kb-main--concept > .kb-article { grid-column: 2; grid-row: 1; }
 .kb-main--subject > .kb-nav { grid-column: 1; }
 .kb-main--subject > .kb-subject-wrap { grid-column: 2; }
 
@@ -420,14 +418,17 @@ html[data-theme="light"] .kb-pill--research     { color: #8d4c25; background: rg
    navigation goes too -- on a phone it is twenty-odd rows that would bury the
    prose. The topbar search and the bottom bar cover navigation there. */
 @media (max-width: 1180px) {
-  .kb-main--concept, .kb-main--subject { grid-template-columns: 232px minmax(0, 1fr); }
-  .kb-main--concept > .kb-sidebar { grid-column: 2; }
+  .kb-main--concept { grid-template-columns: 172px minmax(0, 1fr); gap: 34px; }
+  .kb-main--subject { grid-template-columns: 232px minmax(0, 1fr); }
 }
+/* One column below this. The rail keeps its source position -- after the
+   article -- so a phone gets the prose first and the links as an appendix,
+   rather than fourteen anchors standing between the title and the opening
+   paragraph. */
 @media (max-width: 900px) {
   .kb-main--concept, .kb-main--subject { grid-template-columns: minmax(0, 1fr); }
-  .kb-main--concept > .kb-nav,
-  .kb-main--concept > .kb-article,
-  .kb-main--concept > .kb-sidebar,
+  .kb-main--concept > .kb-article { grid-column: 1; grid-row: 1; }
+  .kb-main--concept > .kb-rail    { grid-column: 1; grid-row: 2; }
   .kb-main--subject > .kb-nav,
   .kb-main--subject > .kb-subject-wrap { grid-column: 1; }
   .kb-nav { display: none; }
@@ -816,35 +817,46 @@ html[data-theme="light"] .kb-pill--research     { color: #8d4c25; background: rg
 .kb-source-note { margin-top: 26px; font-size: 11px; color: var(--ink-faint); }
 .kb-source-note code { font-size: 10.5px; }
 
-/* ------------------------------------------------------------ sidebar ---- */
+/* --------------------------------------------------------------- rail ---- */
 
-.kb-sidebar { position: sticky; top: calc(var(--topbar-h) + 22px); align-self: start;
-  max-height: calc(100vh - var(--topbar-h) - 44px); overflow-y: auto; display: grid; gap: 16px; }
-.kb-sidebar::-webkit-scrollbar { width: 6px; }
-.kb-sidebar::-webkit-scrollbar-thumb { background: var(--line-strong); border-radius: 3px; }
+/* A margin note, not a panel. Nothing here is a surface: no card background,
+   no border box, no filled active state -- those all read as another piece of
+   furniture competing with the article, which is the one thing on the page
+   worth looking at. What is left is a hairline the links hang off, and the
+   active one lights that hairline up. */
+.kb-rail {
+  position: sticky; top: calc(var(--topbar-h) + 22px); align-self: start;
+  max-height: calc(100vh - var(--topbar-h) - 44px); overflow-y: auto;
+  display: grid; gap: 20px; align-content: start;
+}
+.kb-rail::-webkit-scrollbar { width: 6px; }
+.kb-rail::-webkit-scrollbar-thumb { background: var(--line-strong); border-radius: 3px; }
 
-.kb-toc h3, .kb-side-card h3 {
-  margin: 0 0 8px; font-size: 10px; letter-spacing: 0.11em;
+.kb-rail h3 {
+  margin: 0 0 7px; font-size: 9.5px; letter-spacing: 0.13em;
   text-transform: uppercase; color: var(--ink-faint); font-weight: 600;
 }
-/* The vertical rule is gone: the active item is marked by a rounded pill of
-   background instead, which is both softer and easier to spot than a 1px tick. */
-.kb-toc ol { list-style: none; margin: 0; padding: 0; }
-.kb-toc li a {
-  display: block; padding: 6px 11px; margin-left: -11px;
-  border-radius: var(--r); font-size: 12.5px; color: var(--ink-muted);
+.kb-rail ol, .kb-rail ul { list-style: none; margin: 0; padding: 0; }
+.kb-rail li a {
+  display: block; padding: 4px 0 4px 12px;
+  border-left: 1px solid var(--line);
+  font-size: 12px; line-height: 1.4; color: var(--ink-muted);
+  transition: color 90ms ease, border-color 90ms ease;
 }
-.kb-toc li a:hover { background: var(--bg-raised); color: var(--ink); text-decoration: none; }
-.kb-toc li a.is-active { background: var(--accent-bg); color: var(--accent-ink); font-weight: 500; }
+.kb-rail li a:hover { color: var(--ink); border-left-color: var(--line-strong); text-decoration: none; }
+.kb-rail li a.is-active { color: var(--accent-ink); border-left-color: var(--accent); }
 
-.kb-side-card { padding: 16px 17px; background: var(--bg-raised);
-  border: 0; border-radius: var(--r-lg); }
-.kb-side-formulas { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; font-size: 12.5px; }
-.kb-meta { display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; margin: 0; font-size: 12px; }
-.kb-meta dt { color: var(--ink-faint); }
-.kb-meta dd { margin: 0; color: var(--ink); text-align: right; }
-.kb-side-minimap canvas { width: 100%; height: auto; display: block; cursor: pointer; }
-.kb-side-more { display: block; margin-top: 8px; font-size: 11.5px; }
+/* The neighbourhood map, in Connections -- the section it illustrates. */
+.kb-neighbourhood { margin: 22px 0 0; padding: 0; }
+.kb-neighbourhood canvas {
+  width: 100%; height: auto; display: block; cursor: pointer;
+  background: var(--bg-raised); border-radius: var(--r-lg);
+}
+.kb-neighbourhood figcaption {
+  display: flex; justify-content: space-between; align-items: baseline; gap: 12px;
+  margin-top: 8px; font-size: 11.5px; color: var(--ink-faint);
+}
+.kb-side-more { font-size: 11.5px; white-space: nowrap; }
 
 /* ------------------------------------------------------------ modules ---- */
 
@@ -977,7 +989,7 @@ pre { overflow-x: auto; -webkit-overflow-scrolling: touch; }
      The rail follows the article as an appendix. The neighbourhood map is
      unreadable at this size and the graph page does it better, so it goes. */
   .kb-main--concept { gap: 30px; }
-  .kb-side-minimap { display: none; }
+  .kb-neighbourhood { display: none; }
   .kb-article { font-size: 15px; }
   .kb-concept-controls { flex-wrap: wrap; gap: 8px; }
 
@@ -991,7 +1003,7 @@ pre { overflow-x: auto; -webkit-overflow-scrolling: touch; }
   /* Interactive module sliders: the native thumb is too small to drag. */
   .kb-controls { grid-template-columns: 1fr; gap: 12px; }
   .kb-controls input[type="range"] { height: 40px; }
-  .kb-toc a, .kb-side-formulas a { display: block; padding: 9px 0; }
+  .kb-rail li a { padding: 9px 0 9px 12px; }
   .kb-formula-copy { min-height: 36px; padding: 0 12px; }
   .kb-subject-chip { min-height: 36px; }
   .kb-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -1011,7 +1023,7 @@ pre { overflow-x: auto; -webkit-overflow-scrolling: touch; }
 /* -------------------------------------------------------------- print ---- */
 
 @media print {
-  .kb-topbar, .kb-sidebar, .kb-prevnext, .kb-concept-controls, .kb-module, .kb-overlay { display: none !important; }
+  .kb-topbar, .kb-rail, .kb-prevnext, .kb-concept-controls, .kb-module, .kb-overlay { display: none !important; }
   body { background: #fff; color: #000; }
   .kb-main--concept { display: block; }
   .kb-derivation, .kb-answer, .kb-hint { open: true; }

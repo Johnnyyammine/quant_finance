@@ -32,68 +32,6 @@
   </div>
 </header>
 <main class="kb-main kb-main--concept" data-concept-id="expectation">
-  <nav class="kb-nav" aria-label="All concepts">
-    <a class="kb-nav-top" href="../index.html">Dashboard</a>
-    <a class="kb-nav-top" href="../library.html">Library</a>
-    <a class="kb-nav-top" href="../interview.html">Interview mode</a>
-    <a class="kb-nav-top" href="../graph.html">Knowledge graph</a>
-    <div class="kb-nav-heading">Subjects</div>
-    <details class="kb-nav-group" open>
-      <summary class="kb-nav-summary">
-        <span class="kb-nav-dot" style="background:#4f8fd6"></span>
-        <span class="kb-nav-name">Probability</span>
-        <span class="kb-nav-count">3</span>
-      </summary>
-      <ul class="kb-nav-list">
-        <li><a class="kb-nav-link" href="../concepts/conditional-probability.html">Conditional Probability</a></li><li><a class="kb-nav-link is-current" href="../concepts/expectation.html" aria-current="page">Expectation</a></li><li><a class="kb-nav-link" href="../concepts/bayes-theorem.html">Bayes&#39; Theorem</a></li>
-      </ul>
-    </details><details class="kb-nav-group">
-      <summary class="kb-nav-summary">
-        <span class="kb-nav-dot" style="background:#4f8fd6"></span>
-        <span class="kb-nav-name">Statistics</span>
-        <span class="kb-nav-count">3</span>
-      </summary>
-      <ul class="kb-nav-list">
-        <li><a class="kb-nav-link" href="../concepts/variance.html">Variance</a></li><li><a class="kb-nav-link" href="../concepts/covariance-and-correlation.html">Covariance &amp; Correlation</a></li><li><a class="kb-nav-link" href="../concepts/linear-regression.html">Linear Regression</a></li>
-      </ul>
-    </details><details class="kb-nav-group">
-      <summary class="kb-nav-summary">
-        <span class="kb-nav-dot" style="background:#4f8fd6"></span>
-        <span class="kb-nav-name">Linear Algebra</span>
-        <span class="kb-nav-count">1</span>
-      </summary>
-      <ul class="kb-nav-list">
-        <li><a class="kb-nav-link" href="../concepts/pca-and-eigenportfolios.html">PCA &amp; Eigenportfolios</a></li>
-      </ul>
-    </details><details class="kb-nav-group">
-      <summary class="kb-nav-summary">
-        <span class="kb-nav-dot" style="background:#7a63c9"></span>
-        <span class="kb-nav-name">Stochastic Processes</span>
-        <span class="kb-nav-count">2</span>
-      </summary>
-      <ul class="kb-nav-list">
-        <li><a class="kb-nav-link" href="../concepts/martingales.html">Martingales</a></li><li><a class="kb-nav-link" href="../concepts/brownian-motion.html">Brownian Motion</a></li>
-      </ul>
-    </details><details class="kb-nav-group">
-      <summary class="kb-nav-summary">
-        <span class="kb-nav-dot" style="background:#2f9e79"></span>
-        <span class="kb-nav-name">Portfolio Construction</span>
-        <span class="kb-nav-count">2</span>
-      </summary>
-      <ul class="kb-nav-list">
-        <li><a class="kb-nav-link" href="../concepts/kelly-criterion.html">Kelly Criterion</a></li><li><a class="kb-nav-link" href="../concepts/sharpe-ratio.html">Sharpe Ratio</a></li>
-      </ul>
-    </details><details class="kb-nav-group">
-      <summary class="kb-nav-summary">
-        <span class="kb-nav-dot" style="background:#2f9e79"></span>
-        <span class="kb-nav-name">Risk Management</span>
-        <span class="kb-nav-count">1</span>
-      </summary>
-      <ul class="kb-nav-list">
-        <li><a class="kb-nav-link" href="../concepts/effective-number-of-bets.html">Effective Number of Bets</a></li>
-      </ul>
-    </details>
-  </nav>
   <article class="kb-article">
     <header class="kb-concept-head">
       <div class="kb-concept-eyebrow">
@@ -359,6 +297,11 @@ by roughly  <span class="math-inline">\(\sigma^2/2\)</span> .</p></div></details
         </a></li></ul></section>
         
       </div>
+      <figure class="kb-neighbourhood">
+        <canvas data-kb-minimap="expectation" width="760" height="300" aria-label="Local knowledge graph"></canvas>
+        <figcaption>Two hops out from this concept.
+          <a class="kb-side-more" href="../graph.html?focus=expectation">Open full graph →</a></figcaption>
+      </figure>
       <div class="kb-references"><h3>References</h3><ul><li>Grimmett &amp; Stirzaker, *Probability and Random Processes*, ch. 3</li></ul></div>
     </section>
 
@@ -376,25 +319,12 @@ by roughly  <span class="math-inline">\(\sigma^2/2\)</span> .</p></div></details
     </footer>
   </article>
 
-  <aside class="kb-sidebar">
-    <nav class="kb-toc" aria-label="On this page"><h3>On this page</h3><ol><li><a href="#intuition">Intuition</a></li><li><a href="#mathematical-formulation">Mathematical Formulation</a></li><li><a href="#derivation">Derivation</a></li><li><a href="#assumptions-edge-cases">Assumptions &amp; Edge Cases</a></li><li><a href="#worked-example">Worked Example</a></li><li><a href="#why-it-matters-in-quant-finance">Why It Matters in Quant Finance</a></li><li><a href="#trading-research-application">Trading &amp; Research Application</a></li><li><a href="#implementation-notes">Implementation Notes</a></li><li><a href="#common-mistakes">Common Mistakes</a></li><li><a href="#30-second-revision">30-Second Revision</a></li><li><a href="#key-formulas">Key Formulas</a></li><li><a href="#interview-questions">Interview Questions</a></li><li><a href="#connections">Connections</a></li></ol></nav>
-    <section class="kb-side-card" id="side-formulas"><h3>Key formulas</h3><ul class="kb-side-formulas"><li><a href="#expectation-discrete">Expectation (discrete)</a></li><li><a href="#expectation-continuous">Expectation (continuous)</a></li><li><a href="#linearity-of-expectation">Linearity of expectation</a></li><li><a href="#risk-neutral-pricing">Risk-neutral pricing</a></li><li><a href="#jensens-inequality">Jensen&#39;s inequality</a></li></ul></section>
-    <section class="kb-side-card">
-      <h3>Metadata</h3>
-      <dl class="kb-meta">
-        <dt>Subject</dt><dd><a href="../subjects/probability.html">Probability</a></dd>
-        <dt>Difficulty</dt><dd>Foundational</dd>
-        <dt>Interview</dt><dd><span class="kb-stars" title="Interview relevance 5 of 5" aria-label="Interview relevance 5 of 5"><span class="kb-stars-on">★★★★★</span><span class="kb-stars-off"></span></span></dd>
-        <dt>Prereqs</dt><dd>—</dd>
-        <dt>Formulas</dt><dd>5</dd>
-        <dt>Questions</dt><dd>4</dd>
-      </dl>
-    </section>
-    <section class="kb-side-card kb-side-minimap">
-      <h3>Neighbourhood</h3>
-      <canvas data-kb-minimap="expectation" width="260" height="200" aria-label="Local knowledge graph"></canvas>
-      <a class="kb-side-more" href="../graph.html?focus=expectation">Open full graph →</a>
-    </section>
+  <!-- The rail sits in the left column but comes last in the source: the
+       article is what a reader (or a screen reader) wants first, and the
+       links here are a way back into it rather than a way into the page. -->
+  <aside class="kb-rail">
+    <nav class="kb-toc kb-rail-group" aria-label="On this page"><h3>On this page</h3><ol><li><a href="#intuition">Intuition</a></li><li><a href="#mathematical-formulation">Mathematical Formulation</a></li><li><a href="#derivation">Derivation</a></li><li><a href="#assumptions-edge-cases">Assumptions &amp; Edge Cases</a></li><li><a href="#worked-example">Worked Example</a></li><li><a href="#why-it-matters-in-quant-finance">Why It Matters in Quant Finance</a></li><li><a href="#trading-research-application">Trading &amp; Research Application</a></li><li><a href="#implementation-notes">Implementation Notes</a></li><li><a href="#common-mistakes">Common Mistakes</a></li><li><a href="#30-second-revision">30-Second Revision</a></li><li><a href="#key-formulas">Key Formulas</a></li><li><a href="#interview-questions">Interview Questions</a></li><li><a href="#connections">Connections</a></li></ol></nav>
+    <nav class="kb-rail-group" id="side-formulas" aria-label="Key formulas"><h3>Formulas</h3><ul><li><a href="#expectation-discrete">Expectation (discrete)</a></li><li><a href="#expectation-continuous">Expectation (continuous)</a></li><li><a href="#linearity-of-expectation">Linearity of expectation</a></li><li><a href="#risk-neutral-pricing">Risk-neutral pricing</a></li><li><a href="#jensens-inequality">Jensen&#39;s inequality</a></li></ul></nav>
   </aside>
 </main>
 <script src="../data/kb.data.js"></script>
