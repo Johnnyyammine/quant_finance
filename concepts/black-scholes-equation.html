@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en" data-page="concept">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Black–Scholes Equation · Quant Knowledge Base</title>
+<meta name="description" content="Hedge an option with the underlying, watch the randomness cancel, and impose that what is left must earn the risk-free rate — the derivation that turns a model of the stock into a price for anything written on it, and explains why the expected return never appears.">
+<link rel="icon" href="../assets/icons/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/vendor/katex/katex.min.css">
+<link rel="stylesheet" href="../assets/css/app.css?v=41eef34e">
+<link rel="stylesheet" href="../assets/css/views.css?v=e2266625">
+
+</head>
+<body class="kb-body kb-body--concept">
+<header class="kb-topbar">
+  <a class="kb-brand" href="../index.html" title="Home (H)">
+    <span class="kb-brand-mark">QF</span><span class="kb-brand-text">Quant Knowledge Base</span>
+  </a>
+  <nav class="kb-crumbs" aria-label="Breadcrumb"><ol><li><a href="../index.html">Dashboard</a></li><li class="kb-crumb-sep" aria-hidden="true">/</li><li><a href="../subjects/options.html">Options</a></li><li class="kb-crumb-sep" aria-hidden="true">/</li><li><span aria-current="page">The Black–Scholes Equation</span></li></ol></nav>
+  <div class="kb-topbar-actions">
+    <button class="kb-searchbtn" type="button" data-kb-open-search>
+      <span>Search concepts, formulas, questions</span><kbd>/</kbd>
+    </button>
+    <nav class="kb-toplinks" aria-label="Sections">
+      <a href="../index.html" data-nav="home">Dashboard</a>
+      <a href="../graph.html" data-nav="graph">Graph</a>
+      <a href="../interview.html" data-nav="interview">Interview</a>
+      <a href="../library.html" data-nav="library">Library</a>
+    </nav>
+    <button class="kb-iconbtn" type="button" data-kb-theme title="Toggle theme (T)" aria-label="Toggle theme">◑</button>
+    <button class="kb-iconbtn" type="button" data-kb-help title="Keyboard shortcuts (?)" aria-label="Keyboard shortcuts">?</button>
+  </div>
+</header>
+<main class="kb-main kb-main--concept" data-concept-id="black-scholes-equation">
+  <article class="kb-article">
+    <header class="kb-concept-head">
+      <div class="kb-concept-eyebrow">
+        <a class="kb-subject-chip" href="../subjects/options.html" style="--subject-color:#cfa14e">
+          <span class="kb-subject-mark">G</span>Options</a>
+        <span class="kb-pill kb-pill--advanced">Advanced</span>
+      </div>
+      <h1 class="kb-concept-title">The Black–Scholes Equation</h1>
+      <section class="kb-glance" aria-label="At a glance">
+      <p class="kb-glance-lead">Hedge an option with the underlying, watch the randomness cancel, and impose that what is left must earn the risk-free rate — the derivation that turns a model of the stock into a price for anything written on it, and explains why the expected return never appears.</p>
+      <a class="kb-glance-formula" href="#the-blackscholes-equation">
+        <span class="math-display">\[\frac{\partial V}{\partial t} + rS\frac{\partial V}{\partial S}
++ \frac{1}{2}\sigma^2S^2\frac{\partial^2 V}{\partial S^2} = rV\]</span>
+        <span class="kb-glance-formula-name">The Black–Scholes equation</span>
+      </a>
+      <ul class="kb-glance-points"><li><span class="math-inline">\(V_t + rSV_S + \tfrac12\sigma^2S^2V_{SS} = rV\)</span> . Backward parabolic; the heat equation after
+ <span class="math-inline">\(S=Ke^x\)</span> .</li><li>Derivation: Itô on  <span class="math-inline">\(V\)</span> ; hedge  <span class="math-inline">\(\Delta = V_S\)</span>  to cancel  <span class="math-inline">\(\d W\)</span> ; a riskless portfolio must earn  <span class="math-inline">\(r\)</span> .</li><li><span class="math-inline">\(\mu\)</span>  vanishes because the hedge that kills the noise kills the drift with it. Price is the cost of
+manufacture, not the value of a view.</li></ul>
+      <a class="kb-glance-more" href="#30-second-revision">Full revision →</a>
+    </section>
+      <div class="kb-concept-controls">
+        <button class="kb-btn kb-btn--ghost" type="button" data-kb-bookmark="black-scholes-equation">☆ Bookmark</button>
+        <button class="kb-btn kb-btn--ghost" type="button" data-kb-flashcards>Revision card</button>
+        <a class="kb-btn kb-btn--ghost" href="../graph.html?focus=black-scholes-equation">Show in graph</a>
+      </div>
+      <ul class="kb-taglist"><li><a class="kb-tag" href="../library.html?tag=options">#options</a></li><li><a class="kb-tag" href="../library.html?tag=pricing">#pricing</a></li><li><a class="kb-tag" href="../library.html?tag=hedging">#hedging</a></li><li><a class="kb-tag" href="../library.html?tag=pde">#pde</a></li><li><a class="kb-tag" href="../library.html?tag=replication">#replication</a></li><li><a class="kb-tag" href="../library.html?tag=risk-neutral">#risk-neutral</a></li><li><a class="kb-tag" href="../library.html?tag=no-arbitrage">#no-arbitrage</a></li><li><a class="kb-tag" href="../library.html?tag=gamma">#gamma</a></li></ul>
+    </header>
+
+    <div class="kb-content"><h2 id="intuition" class="kb-h kb-h2"><a class="kb-anchor" href="#intuition" aria-label="Link to this section">#</a>Intuition</h2>
+<p>The result that makes options tractable is not a formula. It is an argument, and it goes in three
+steps.</p>
+<p><strong>1. An option&#39;s randomness is the stock&#39;s randomness.</strong> Both are driven by the same  <span class="math-inline">\(\d W\)</span> . Itô&#39;s
+lemma says the option moves with  <span class="math-inline">\(\sigma SV_S\,\d W\)</span>  and the stock with  <span class="math-inline">\(\sigma S\,\d W\)</span> . So a
+position of  <span class="math-inline">\(V_S\)</span>  shares has exactly the option&#39;s noise, with the opposite sign.</p>
+<p><strong>2. So hold both, and the randomness is gone.</strong> Long the option, short  <span class="math-inline">\(V_S\)</span>  shares. Over the next
+instant the portfolio has no exposure to  <span class="math-inline">\(\d W\)</span>  whatsoever — it is riskless. Not approximately:
+exactly, in this model.</p>
+<p><strong>3. A riskless portfolio must earn the risk-free rate.</strong> Otherwise borrow at  <span class="math-inline">\(r\)</span> , buy it, and
+collect the difference for free. Imposing that gives one equation, and that equation is
+Black–Scholes.</p>
+<aside class="kb-callout kb-callout--insight"><div class="kb-callout-title">Insight</div><div class="kb-callout-body"><p>The trick is that <strong>the hedge ratio was chosen to cancel the noise, and the noise and the drift enter
+ <span class="math-inline">\(\d S\)</span>  together.</strong> Kill one and you kill the other. That single accident of algebra is why  <span class="math-inline">\(\mu\)</span>  —
+the expected return, the hardest quantity in finance to estimate — never appears in an option price.</p>
+<p>You are not forecasting the stock. You are costing a manufacturing process.</p></div></aside>
+<p>That reframing is the whole subject. An option is not a bet whose value depends on your view; it is
+a product that can be assembled from stock and cash, and its price is the cost of assembly. The
+assembly cost depends on how much the stock <em>wiggles</em> — because that is what forces you to
+rebalance — and not at all on where it drifts.</p>
+<h2 id="mathematical-formulation" class="kb-h kb-h2"><a class="kb-anchor" href="#mathematical-formulation" aria-label="Link to this section">#</a>Mathematical Formulation</h2>
+<figure class="kb-formula" id="the-blackscholes-equation" data-formula="the-blackscholes-equation"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">The Black–Scholes equation</span><button class="kb-formula-copy" type="button" data-latex="\frac{\partial V}{\partial t} + rS\frac{\partial V}{\partial S}
++ \frac{1}{2}\sigma^2S^2\frac{\partial^2 V}{\partial S^2} = rV" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[\frac{\partial V}{\partial t} + rS\frac{\partial V}{\partial S}
++ \frac{1}{2}\sigma^2S^2\frac{\partial^2 V}{\partial S^2} = rV\]</span> </div><p class="kb-formula-note">One equation for every payoff. Only the terminal condition changes — that is what makes a single finite-difference engine price a whole book.</p><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">All Derivatives Pricing</span><span class="kb-chip">PDE Methods</span></footer></figure>
+<figure class="kb-formula" id="greek-form" data-formula="greek-form"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">Greek form</span><button class="kb-formula-copy" type="button" data-latex="\Theta + rS\Delta + \tfrac12\sigma^2S^2\Gamma = rV" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[\Theta + rS\Delta + \tfrac12\sigma^2S^2\Gamma = rV\]</span> </div><p class="kb-formula-note">The same equation read as a P&amp;L identity: theta plus gamma plus carry on the delta equals the financing cost of the position.</p><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">Risk Management</span><span class="kb-chip">Desk P&amp;L</span></footer></figure>
+<figure class="kb-formula" id="delta-hedged-pl" data-formula="delta-hedged-pl"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">Delta-hedged P&amp;L</span><button class="kb-formula-copy" type="button" data-latex="\d\Pi = \tfrac12\Gamma\Big[(\d S)^2 - \sigma^2S^2\,\d t\Big]" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[\d\Pi = \tfrac12\Gamma\Big[(\d S)^2 - \sigma^2S^2\,\d t\Big]\]</span> </div><p class="kb-formula-note">What a hedged option actually earns over dt: pure convexity against the implied variance you paid for.</p><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">Gamma Trading</span><span class="kb-chip">Volatility Arbitrage</span></footer></figure>
+<figure class="kb-formula" id="risk-neutral-valuation-feynmankac" data-formula="risk-neutral-valuation-feynmankac"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">Risk-neutral valuation (Feynman–Kac)</span><button class="kb-formula-copy" type="button" data-latex="V(t,S) = \E^\Q\!\left[e^{-r(T-t)}H(S_T)\,\middle|\,S_t=S\right],
+\qquad \d S = rS\,\d t + \sigma S\,\d W^\Q" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[V(t,S) = \E^\Q\!\left[e^{-r(T-t)}H(S_T)\,\middle|\,S_t=S\right],
+\qquad \d S = rS\,\d t + \sigma S\,\d W^\Q\]</span> </div><p class="kb-formula-note">Same content as the PDE. The drift becomes r; the volatility is unchanged. Q is a pricing device, not a belief.</p><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">Monte Carlo</span><span class="kb-chip">Exotics</span></footer></figure>
+<figure class="kb-formula" id="terminal-and-boundary-conditions" data-formula="terminal-and-boundary-conditions"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">Terminal and boundary conditions</span><button class="kb-formula-copy" type="button" data-latex="V(T,S) = \max(S-K,0), \qquad V(t,0) = 0, \qquad V(t,S)\to S - Ke^{-r(T-t)} \text{ as } S\to\infty" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[V(T,S) = \max(S-K,0), \qquad V(t,0) = 0, \qquad V(t,S)\to S - Ke^{-r(T-t)} \text{ as } S\to\infty\]</span> </div><p class="kb-formula-note">The PDE is universal; these select the instrument. Get them wrong and a perfect solver prices the wrong contract.</p><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">Numerical Pricing</span></footer></figure>
+<h2 id="derivation" class="kb-h kb-h2"><a class="kb-anchor" href="#derivation" aria-label="Link to this section">#</a>Derivation</h2>
+<details class="kb-derivation"><summary>The hedging argument, in full</summary><div class="kb-derivation-body"><p><strong>Model.</strong>  <span class="math-inline">\(\d S_t = \mu S_t\,\d t + \sigma S_t\,\d W_t\)</span> , with  <span class="math-inline">\(r\)</span>  and  <span class="math-inline">\(\sigma\)</span>  constant. Let
+ <span class="math-inline">\(V(t,S)\)</span>  be the value of a claim written on  <span class="math-inline">\(S\)</span> .</p>
+<p><strong>Step 1 — Itô on the option.</strong> From <a class="kb-link" href="itos-lemma.html" data-concept="itos-lemma">Itô&#39;s Lemma</a>:</p>
+<span class="math-display">\[\d V = \left(V_t + \mu SV_S + \tfrac12\sigma^2S^2V_{SS}\right)\d t + \sigma SV_S\,\d W\]</span>
+<p><strong>Step 2 — form the hedged portfolio.</strong> Hold one option and short  <span class="math-inline">\(\Delta\)</span>  shares,
+ <span class="math-inline">\(\Pi = V - \Delta S\)</span> . Treating  <span class="math-inline">\(\Delta\)</span>  as fixed over  <span class="math-inline">\([t, t+\d t]\)</span>  (this is the self-financing
+condition — the hedge is set <em>before</em> the move, which is precisely why Itô rather than Stratonovich
+is the right calculus here):</p>
+<span class="math-display">\[\d\Pi = \d V - \Delta\,\d S
+= \left(V_t + \mu SV_S + \tfrac12\sigma^2S^2V_{SS} - \mu S\Delta\right)\d t
++ \sigma S(V_S - \Delta)\,\d W\]</span>
+<p><strong>Step 3 — choose  <span class="math-inline">\(\Delta\)</span>  to kill the noise.</strong> Set  <span class="math-inline">\(\Delta = V_S\)</span> . The  <span class="math-inline">\(\d W\)</span>  coefficient vanishes
+— and notice the  <span class="math-inline">\(\mu\)</span>  terms,  <span class="math-inline">\(\mu SV_S\)</span>  and  <span class="math-inline">\(-\mu S\Delta\)</span> , cancel at the same moment and for the
+same reason:</p>
+<span class="math-display">\[\d\Pi = \left(V_t + \tfrac12\sigma^2S^2V_{SS}\right)\d t\]</span>
+<p><strong>Step 4 — no arbitrage.</strong>  <span class="math-inline">\(\d\Pi\)</span>  is deterministic over the interval, so  <span class="math-inline">\(\Pi\)</span>  is a riskless
+portfolio and must earn  <span class="math-inline">\(r\)</span> :</p>
+<span class="math-display">\[\left(V_t + \tfrac12\sigma^2S^2V_{SS}\right)\d t = r\Pi\,\d t = r(V - SV_S)\,\d t\]</span>
+<p>Rearranging:</p>
+<span class="math-display">\[V_t + rSV_S + \tfrac12\sigma^2S^2V_{SS} = rV\]</span>
+<p><strong>Read the final equation as a sentence:</strong> the option&#39;s time decay, plus the interest on the shares
+you are short, plus the convexity gain from the stock&#39;s wiggling, must add up to the financing cost
+of the option itself. Every term is a real cash flow on a desk.</p></div></details>
+<details class="kb-derivation"><summary>The martingale route to the same equation</summary><div class="kb-derivation-body"><p>An alternative that generalises better. Discount the stock:  <span class="math-inline">\(\tilde S_t = e^{-rt}S_t\)</span> . By Itô&#39;s
+product rule (the  <span class="math-inline">\(e^{-rt}\)</span>  factor is deterministic, so there is no cross-variation term):</p>
+<span class="math-display">\[\d\tilde S_t = e^{-rt}\big[(\mu - r)S_t\,\d t + \sigma S_t\,\d W_t\big]\]</span>
+<p>This is a martingale exactly when  <span class="math-inline">\(\mu = r\)</span> . Girsanov&#39;s theorem says we may change measure to  <span class="math-inline">\(\Q\)</span> 
+under which  <span class="math-inline">\(\d W^\Q_t = \d W_t + \frac{\mu-r}{\sigma}\d t\)</span>  is Brownian — the quantity
+ <span class="math-inline">\(\lambda = (\mu-r)/\sigma\)</span>  is the market price of risk, and it is exactly what gets absorbed. Under
+ <span class="math-inline">\(\Q\)</span> :</p>
+<span class="math-display">\[\d S_t = rS_t\,\d t + \sigma S_t\,\d W^\Q_t\]</span>
+<p>The discounted option value  <span class="math-inline">\(e^{-rt}V(t,S_t)\)</span>  is then also a martingale, so</p>
+<span class="math-display">\[V(t,S) = \E^\Q\!\left[e^{-r(T-t)}H(S_T)\mid S_t=S\right]\]</span>
+<p>Applying Itô to  <span class="math-inline">\(e^{-rt}V\)</span>  and setting the  <span class="math-inline">\(\d t\)</span>  coefficient to zero — which is what &quot;is a
+martingale&quot; means — returns the PDE. <strong>The two derivations are the same theorem seen from two
+sides:</strong> the PDE view says <em>hedge it</em>, the martingale view says <em>change measure</em>, and Feynman–Kac
+is the dictionary. The martingale route survives into settings where a PDE is unwieldy, which is
+why it dominates modern treatments.</p></div></details>
+<details class="kb-derivation"><summary>Reduction to the heat equation</summary><div class="kb-derivation-body"><p>Substitute  <span class="math-inline">\(S = Ke^x\)</span> ,  <span class="math-inline">\(\tau = \tfrac12\sigma^2(T-t)\)</span> , and
+ <span class="math-inline">\(V = Ke^{\alpha x + \beta\tau}u(x,\tau)\)</span>  with  <span class="math-inline">\(k = 2r/\sigma^2\)</span> ,
+ <span class="math-inline">\(\alpha = -\tfrac12(k-1)\)</span> ,  <span class="math-inline">\(\beta = -\tfrac14(k+1)^2\)</span> . All first-order and zeroth-order terms
+cancel and what remains is</p>
+<span class="math-display">\[\frac{\partial u}{\partial\tau} = \frac{\partial^2 u}{\partial x^2}\]</span>
+<p>the heat equation on the whole line, whose solution by Gaussian convolution is textbook. Pushing the
+call&#39;s terminal condition through the substitution and doing the Gaussian integral produces the
+<a class="kb-link" href="black-scholes-formula.html" data-concept="black-scholes-formula">Black–Scholes formula</a> — the  <span class="math-inline">\(N(d_1)\)</span>  and  <span class="math-inline">\(N(d_2)\)</span>  appear as the two pieces
+of that integral.</p>
+<p><strong>Why this matters beyond the algebra:</strong> it identifies option pricing as diffusion. Value diffuses
+backwards from the payoff; irregularities smooth instantly, which is why a kinked payoff has a
+smooth price; and the log substitution is the reason every practical finite-difference grid is built
+in  <span class="math-inline">\(\ln S\)</span>  rather than  <span class="math-inline">\(S\)</span> .</p></div></details>
+<h2 id="assumptions-edge-cases" class="kb-h kb-h2"><a class="kb-anchor" href="#assumptions-edge-cases" aria-label="Link to this section">#</a>Assumptions &amp; Edge Cases</h2>
+<aside class="kb-callout kb-callout--assumption"><div class="kb-callout-title">Assumptions</div><div class="kb-callout-body"><p>The derivation needs all of the following, and the market violates every one:</p>
+<ul class="kb-list"><li><strong>Continuous, costless trading</strong> in arbitrary fractions of the stock.</li>
+<li><strong>Constant, known  <span class="math-inline">\(\sigma\)</span> </strong> — the assumption the smile falsifies most directly.</li>
+<li><strong>Continuous paths.</strong> No jumps, no gaps, no overnight.</li>
+<li><strong>Constant, single  <span class="math-inline">\(r\)</span> </strong> for borrowing and lending, and unlimited shorting.</li>
+<li><strong>No dividends</strong> in the basic form ( <span class="math-inline">\(r \to r-q\)</span>  fixes this cleanly).</li>
+<li><strong>A frictionless, infinitely liquid market</strong> with no price impact from your own hedging.</li></ul></div></aside>
+<aside class="kb-callout kb-callout--warning"><div class="kb-callout-title">Warning</div><div class="kb-callout-body"><p><strong>Jumps break the argument, not just the formula.</strong> Every other failed assumption degrades the answer
+gracefully — discrete hedging adds variance, costs add a spread, dividends are a known adjustment.
+Jumps are different in kind: the hedge portfolio is riskless only because the  <span class="math-inline">\(\d W\)</span>  terms cancel
+<em>to first order</em>, and a finite gap move is not first order. Trading faster does not help.</p>
+<p>The residual  <span class="math-inline">\(V(S+J) - V(S) - \Delta J\)</span>  is positive for a long-gamma position and negative for a
+short one, whatever the direction of the jump. So being short options carries an unhedgeable loss
+that no rebalancing frequency removes — which is the honest reason out-of-the-money puts trade above
+their lognormal value, and why the skew is a risk premium rather than a mispricing.</p></div></aside>
+<aside class="kb-callout kb-callout--warning"><div class="kb-callout-title">Warning</div><div class="kb-callout-body"><p><strong>The formula&#39;s own hedge is what makes it self-consistent, so an unhedged position is not covered by
+it.</strong> A trader who buys an option because Black–Scholes says it is cheap, and then does not delta
+hedge, has not put on the trade the model describes. Their P&amp;L depends on  <span class="math-inline">\(\mu\)</span>  — which the model
+was specifically built to be independent of. Cheapness relative to a hedging model is only
+realisable by hedging.</p></div></aside>
+<h2 id="worked-example" class="kb-h kb-h2"><a class="kb-anchor" href="#worked-example" aria-label="Link to this section">#</a>Worked Example</h2>
+<p><strong>Reading the equation as a desk P&amp;L statement.</strong> Long one at-the-money call:  <span class="math-inline">\(S = 100\)</span> ,  <span class="math-inline">\(K = 100\)</span> ,
+ <span class="math-inline">\(T = 0.25\)</span> ,  <span class="math-inline">\(\sigma = 20\%\)</span> ,  <span class="math-inline">\(r = 5\%\)</span> . The Greeks are  <span class="math-inline">\(V = 4.6150\)</span> ,  <span class="math-inline">\(\Delta = 0.5695\)</span> ,
+ <span class="math-inline">\(\Gamma = 0.03929\)</span> ,  <span class="math-inline">\(\Theta = -10.474\)</span>  per year.</p>
+<p>Check the equation, per year:</p>
+<div class="kb-table-wrap"><table class="kb-table"><thead><tr><th>Term</th><th>Value</th><th>What it is</th></tr></thead><tbody><tr><td><span class="math-inline">\(\Theta\)</span></td><td><span class="math-inline">\(-10.474\)</span></td><td>time decay you pay</td></tr>
+<tr><td><span class="math-inline">\(rS\Delta\)</span></td><td><span class="math-inline">\(0.05\times100\times0.5695 = +2.847\)</span></td><td>interest earned on the short stock hedge</td></tr>
+<tr><td><span class="math-inline">\(\tfrac12\sigma^2S^2\Gamma\)</span></td><td><span class="math-inline">\(0.5\times0.04\times10000\times0.03929 = +7.858\)</span></td><td>expected convexity gain</td></tr>
+<tr><td><strong>Sum</strong></td><td><span class="math-inline">\(\mathbf{+0.2307}\)</span></td><td></td></tr>
+<tr><td><span class="math-inline">\(rV\)</span></td><td><span class="math-inline">\(0.05\times4.6150 = 0.2307\)</span></td><td>financing the option</td></tr></tbody></table></div>
+<p><strong>The identity is exact</strong>, not approximate — the equation is not a rule of thumb about the Greeks,
+it is a constraint they satisfy to machine precision. The structure it enforces: <strong>theta is the rent
+you pay for gamma</strong>, adjusted by the interest on the hedge.</p>
+<p>Now make it concrete daily, on the delta-hedged position. The hedged carry is
+ <span class="math-inline">\((\Theta + rS\Delta)/252 = (-10.474 + 2.847)/252 = -\$0.0303\)</span>  a day, and the expected gamma gain is
+ <span class="math-inline">\(\tfrac12\Gamma\sigma^2S^2/252 = 7.858/252 = +\$0.0312\)</span> . They cancel to within  <span class="math-inline">\(rV/252 = \$0.0009\)</span> ,
+which is precisely the cost of financing the premium — <strong>if the stock realises exactly 20% vol.</strong></p>
+<p>Realise 25% instead and gamma pays  <span class="math-inline">\(\tfrac12(0.03929)(0.25^2)(100^2)/252 = \$0.0487\)</span>  against the same
+carry: an excess of  <span class="math-inline">\(\tfrac12\Gamma S^2(\sigma_r^2 - \sigma_i^2)/252 = \$0.0175\)</span>  a day, about 1.8
+cents, made without any view on direction. That difference is the entire volatility-arbitrage
+business, and the equation is where it comes from.</p>
+<h2 id="why-it-matters-in-quant-finance" class="kb-h kb-h2"><a class="kb-anchor" href="#why-it-matters-in-quant-finance" aria-label="Link to this section">#</a>Why It Matters in Quant Finance</h2>
+<p><strong>It converts a modelling problem into an engineering one.</strong> Given a payoff and a terminal condition,
+the price is the solution of a known parabolic PDE. Vanillas have a closed form; everything else is
+a grid or a simulation. The same equation prices a digital, a barrier, a convertible bond and an
+employee stock option — only the boundary data changes.</p>
+<p><strong>It defines the Greeks as the terms of one identity.</strong>  <span class="math-inline">\(\Theta\)</span> ,  <span class="math-inline">\(\Delta\)</span>  and  <span class="math-inline">\(\Gamma\)</span>  are not five
+separate risk numbers invented for reporting; they are the coefficients in the equation, and the
+equation says exactly how they trade off. A risk report that shows them in separate columns is
+showing you one relationship taken apart.</p>
+<p><strong>It is the template every later model extends.</strong> Add a variance process and you get Heston; add
+jumps and you get Merton or a Lévy model; make  <span class="math-inline">\(\sigma\)</span>  a function of  <span class="math-inline">\((t,S)\)</span>  and you get Dupire
+local volatility; make  <span class="math-inline">\(r\)</span>  stochastic and you get the multi-factor rates models. Each is the same
+three-step argument — Itô, hedge, no arbitrage — with more state variables and, crucially, an
+incomplete market where the hedge no longer removes all risk.</p>
+<p><strong>It tells you what completeness buys.</strong> One source of noise and one tradable asset means perfect
+replication, a unique price, and no role for preferences. Two sources of noise and one hedging
+instrument means a range of arbitrage-free prices and a genuine market price of risk to estimate.
+Almost everything hard in derivatives comes from that gap.</p>
+<h2 id="trading-research-application" class="kb-h kb-h2"><a class="kb-anchor" href="#trading-research-application" aria-label="Link to this section">#</a>Trading &amp; Research Application</h2>
+<aside class="kb-callout kb-callout--desk"><div class="kb-callout-title">On the desk</div><div class="kb-callout-body"><p><strong>Theta is rent on gamma, and the equation prices the rent.</strong> A long option position pays theta every
+day and is compensated by realised movement. The break-even daily move is  <span class="math-inline">\(\sigma S\sqrt{\d t}\)</span> .
+Every gamma trader carries that number for their book, and the equation is where it comes from.</p>
+<p><strong>Hedge on a band, not a clock.</strong> Discrete hedging error falls as  <span class="math-inline">\(n^{-1/2}\)</span>  while costs rise as
+ <span class="math-inline">\(n^{1/2}\)</span> ; the optimum is finite. The practical implementation is a delta tolerance — rebalance when
+delta leaves the band — which dominates fixed-interval hedging for the same cost.</p>
+<p><strong>Vol arbitrage is a bet on the gamma term.</strong> Buy the option at implied  <span class="math-inline">\(\sigma_i\)</span> , hedge, and you
+earn  <span class="math-inline">\(\tfrac12\Gamma[(\d S)^2 - \sigma_i^2S^2\d t]\)</span>  integrated over the life. If realised beats
+implied you win, and the direction of the stock never enters — provided you actually hedge, and
+provided nothing gaps.</p>
+<p><strong>Where you cannot hedge, do not trust the price.</strong> The model&#39;s authority comes entirely from the
+replication argument. In an illiquid underlying, a name that gaps, or a position too large to
+rebalance without moving the market, the price is an indication and the residual risk is yours.
+Reserve capital against that rather than against the model&#39;s confidence interval.</p>
+<p><strong>Use the equation as a consistency check on a book.</strong> Aggregate  <span class="math-inline">\(\Theta + rS\Delta +
+\tfrac12\sigma^2S^2\Gamma - rV\)</span>  across positions; it should be near zero on a book marked
+consistently. A large residual means someone&#39;s marks, dividends or rate curve disagree with someone
+else&#39;s.</p></div></aside>
+<h2 id="implementation-notes" class="kb-h kb-h2"><a class="kb-anchor" href="#implementation-notes" aria-label="Link to this section">#</a>Implementation Notes</h2>
+<figure class="kb-code" data-lang="python"><pre><code class="language-python">import numpy as np
+
+def crank_nicolson_call(S_max, K, r, sigma, T, M=400, N=400):
+    &quot;&quot;&quot;Solve the Black-Scholes PDE on a log-S grid.
+
+    Two choices that matter more than the scheme:
+      1. Grid in x = ln(S). The PDE has constant coefficients there (the S and
+         S^2 factors are exactly what the log substitution removes), so the
+         matrix is tridiagonal-Toeplitz and the truncation error is uniform
+         instead of concentrated near S = 0.
+      2. Put a grid NODE on the strike. The payoff kink between nodes is the
+         single largest error source in a vanilla PDE price, and it shows up as
+         oscillating gamma near the strike rather than as an obvious price error.
+    &quot;&quot;&quot;
+    x_min, x_max = np.log(K) - 5 * sigma * np.sqrt(T), np.log(K) + 5 * sigma * np.sqrt(T)
+    x = np.linspace(x_min, x_max, M + 1)
+    dx, dt = x[1] - x[0], T / N
+    V = np.maximum(np.exp(x) - K, 0.0)                     # terminal condition
+
+    a = 0.5 * sigma**2
+    b = r - 0.5 * sigma**2                                  # log-space drift
+    lower = dt * (a / dx**2 - b / (2 * dx))
+    diag = dt * (-2 * a / dx**2 - r)
+    upper = dt * (a / dx**2 + b / (2 * dx))
+
+    for _ in range(N):                                      # march backwards
+        V[1:-1] = V[1:-1] + 0.5 * (lower * V[:-2] + diag * V[1:-1] + upper * V[2:])
+        V[0] = 0.0                                          # S -&gt; 0
+        V[-1] = np.exp(x[-1]) - K * np.exp(-r * dt)         # S -&gt; infinity
+    return x, V
+
+def hedge_simulation(S0, K, r, sigma, T, n_hedges, n_paths, rng):
+    &quot;&quot;&quot;Discretely delta-hedge a short call and return the terminal P&amp;L.
+
+    The point of running this: the mean is ~0 (the model is right) but the
+    standard deviation is NOT, and it falls only as n_hedges**-0.5. That spread
+    is the desk&#39;s real daily P&amp;L, and it is invisible in the closed-form price.&quot;&quot;&quot;
+    dt = T / n_hedges
+    S = np.full(n_paths, float(S0))
+    cash = np.zeros(n_paths)
+    delta = np.zeros(n_paths)
+    for i in range(n_hedges):
+        tau = T - i * dt
+        d1 = (np.log(S / K) + (r + 0.5 * sigma**2) * tau) / (sigma * np.sqrt(tau))
+        new_delta = 0.5 * (1 + np.vectorize(np.math.erf)(d1 / np.sqrt(2)))
+        cash -= (new_delta - delta) * S                     # buy/sell the hedge
+        delta = new_delta
+        cash *= np.exp(r * dt)                              # finance it
+        S *= np.exp((r - 0.5 * sigma**2) * dt + sigma * np.sqrt(dt) * rng.standard_normal(n_paths))
+    return cash + delta * S - np.maximum(S - K, 0.0)</code></pre></figure>
+<h2 id="common-mistakes" class="kb-h kb-h2"><a class="kb-anchor" href="#common-mistakes" aria-label="Link to this section">#</a>Common Mistakes</h2>
+<aside class="kb-callout kb-callout--pitfall"><div class="kb-callout-title">Common pitfall</div><div class="kb-callout-body"><ul class="kb-list"><li><strong>Looking for  <span class="math-inline">\(\mu\)</span>  in the answer.</strong> It cancels. If it appears, the hedge ratio was not  <span class="math-inline">\(V_S\)</span>  or
+the portfolio was not self-financing.</li>
+<li><strong>Thinking  <span class="math-inline">\(\Q\)</span>  is a forecast.</strong> It is a change of measure that makes discounted prices
+martingales. Nobody believes stocks return  <span class="math-inline">\(r\)</span> .</li>
+<li><strong>Treating  <span class="math-inline">\(\Delta\)</span>  as constant inside the derivation&#39;s interval, then forgetting it is not.</strong>
+Over  <span class="math-inline">\(\d t\)</span>  it is fixed; over a day it moves, and that movement is gamma — the source of the
+hedging error the derivation assumes away.</li>
+<li><strong>Discounting an option at a risk-adjusted rate.</strong> Its beta is not constant, so there is no such
+single rate. Adjust the probabilities instead.</li>
+<li><strong>Believing faster hedging removes all risk.</strong> True for diffusion, false for jumps. This is the
+assumption the skew is priced against.</li>
+<li><strong>Applying the equation to an underlying you cannot trade</strong> — an index you cannot short, a
+temperature, a realised volatility. Without a tradable hedge there is no replication and no unique
+price.</li>
+<li><strong>Solving the PDE on a grid in  <span class="math-inline">\(S\)</span>  with the strike between nodes.</strong> Both choices degrade gamma near
+the strike badly, and the price error is small enough that it is easy to miss.</li>
+<li><strong>Quoting &quot;the Black–Scholes price&quot; of an exotic without saying which boundary conditions.</strong> The
+PDE is shared; the contract is entirely in the terminal and boundary data.</li></ul></div></aside>
+<h2 id="30-second-revision" class="kb-h kb-h2"><a class="kb-anchor" href="#30-second-revision" aria-label="Link to this section">#</a>30-Second Revision</h2>
+<ul class="kb-list"><li><span class="math-inline">\(V_t + rSV_S + \tfrac12\sigma^2S^2V_{SS} = rV\)</span> . Backward parabolic; the heat equation after
+ <span class="math-inline">\(S=Ke^x\)</span> .</li>
+<li>Derivation: Itô on  <span class="math-inline">\(V\)</span> ; hedge  <span class="math-inline">\(\Delta = V_S\)</span>  to cancel  <span class="math-inline">\(\d W\)</span> ; a riskless portfolio must earn  <span class="math-inline">\(r\)</span> .</li>
+<li><span class="math-inline">\(\mu\)</span>  vanishes because the hedge that kills the noise kills the drift with it. Price is the cost of
+manufacture, not the value of a view.</li>
+<li>Greek form:  <span class="math-inline">\(\Theta + rS\Delta + \tfrac12\sigma^2S^2\Gamma = rV\)</span>  — theta is rent on gamma.</li>
+<li>Feynman–Kac:  <span class="math-inline">\(V = \E^\Q[e^{-r(T-t)}H]\)</span>  with drift  <span class="math-inline">\(r\)</span> . PDE view and martingale view are one
+theorem.</li>
+<li>Same PDE for every payoff; the contract lives entirely in the terminal and boundary conditions.</li>
+<li>Delta-hedged P&amp;L  <span class="math-inline">\(=\tfrac12\Gamma[(\d S)^2 - \sigma^2S^2\d t]\)</span> : long realised vol, short implied.</li>
+<li>Discrete hedging error falls as  <span class="math-inline">\(n^{-1/2}\)</span> , costs rise as  <span class="math-inline">\(n^{1/2}\)</span>  — hedge on a delta band.</li>
+<li>The smile falsifies constant  <span class="math-inline">\(\sigma\)</span> ; jumps falsify the hedging argument itself, and that is what
+the skew charges for.</li></ul></div>
+    <section class="kb-section" id="key-formulas">
+        <h2 class="kb-h kb-h2"><a class="kb-anchor" href="#key-formulas" aria-label="Link to this section">#</a>Key Formulas</h2>
+        <div class="kb-formula-recap">
+          <a class="kb-formula-recap-item" href="#the-blackscholes-equation">
+            <span class="kb-formula-recap-name">The Black–Scholes equation</span>
+            <span class="math-display">\[\frac{\partial V}{\partial t} + rS\frac{\partial V}{\partial S}
++ \frac{1}{2}\sigma^2S^2\frac{\partial^2 V}{\partial S^2} = rV\]</span>
+          </a>
+          <a class="kb-formula-recap-item" href="#greek-form">
+            <span class="kb-formula-recap-name">Greek form</span>
+            <span class="math-display">\[\Theta + rS\Delta + \tfrac12\sigma^2S^2\Gamma = rV\]</span>
+          </a>
+          <a class="kb-formula-recap-item" href="#delta-hedged-pl">
+            <span class="kb-formula-recap-name">Delta-hedged P&amp;L</span>
+            <span class="math-display">\[\d\Pi = \tfrac12\Gamma\Big[(\d S)^2 - \sigma^2S^2\,\d t\Big]\]</span>
+          </a>
+          <a class="kb-formula-recap-item" href="#risk-neutral-valuation-feynmankac">
+            <span class="kb-formula-recap-name">Risk-neutral valuation (Feynman–Kac)</span>
+            <span class="math-display">\[V(t,S) = \E^\Q\!\left[e^{-r(T-t)}H(S_T)\,\middle|\,S_t=S\right],
+\qquad \d S = rS\,\d t + \sigma S\,\d W^\Q\]</span>
+          </a>
+          <a class="kb-formula-recap-item" href="#terminal-and-boundary-conditions">
+            <span class="kb-formula-recap-name">Terminal and boundary conditions</span>
+            <span class="math-display">\[V(T,S) = \max(S-K,0), \qquad V(t,0) = 0, \qquad V(t,S)\to S - Ke^{-r(T-t)} \text{ as } S\to\infty\]</span>
+          </a></div>
+      </section>
+    <section class="kb-section" id="interview-questions">
+        <h2 class="kb-h kb-h2"><a class="kb-anchor" href="#interview-questions" aria-label="Link to this section">#</a>Interview Questions</h2>
+        <ol class="kb-questions">
+          <li class="kb-question" id="q-black-scholes-equation-q1" data-difficulty="advanced">
+            <div class="kb-question-head">
+              <span class="kb-question-text">Derive the Black–Scholes PDE. Where exactly does μ disappear?</span>
+              <span class="kb-tagline">Advanced · core · derivation · replication</span>
+            </div>
+            <details class="kb-hint"><summary>Hint</summary><div><p>Form a portfolio whose dW term is zero, then ask what such a portfolio must earn.</p></div></details>
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>Take  <span class="math-inline">\(\d S = \mu S\,\d t + \sigma S\,\d W\)</span>  and  <span class="math-inline">\(V(t,S)\)</span> . Itô gives</p>
+<span class="math-display">\[\d V = \left(V_t + \mu S V_S + \tfrac12\sigma^2S^2V_{SS}\right)\d t + \sigma S V_S\,\d W\]</span>
+<p>Form  <span class="math-inline">\(\Pi = V - V_S\,S\)</span> . The  <span class="math-inline">\(\d W\)</span>  terms are  <span class="math-inline">\(\sigma SV_S\)</span>  from the option and
+ <span class="math-inline">\(-V_S\cdot\sigma S\)</span>  from the hedge — they cancel <strong>exactly</strong>, and so does every  <span class="math-inline">\(\mu\)</span>  term:</p>
+<span class="math-display">\[\d\Pi = \left(V_t + \tfrac12\sigma^2S^2V_{SS}\right)\d t\]</span>
+<p> <span class="math-inline">\(\Pi\)</span>  is riskless over  <span class="math-inline">\(\d t\)</span> , so no arbitrage forces  <span class="math-inline">\(\d\Pi = r\Pi\,\d t\)</span> :</p>
+<span class="math-display">\[\boxed{V_t + rSV_S + \tfrac12\sigma^2S^2V_{SS} = rV}\]</span>
+<p><strong>Where  <span class="math-inline">\(\mu\)</span>  went:</strong> it appears in the option&#39;s drift as  <span class="math-inline">\(\mu SV_S\)</span>  and in the hedge&#39;s as
+ <span class="math-inline">\(-V_S\cdot\mu S\)</span> . Both are multiplied by the <em>same</em>  <span class="math-inline">\(V_S\)</span> , because the hedge ratio was chosen
+to kill the noise — and killing the noise necessarily kills the drift with it, since they
+enter  <span class="math-inline">\(\d S\)</span>  together. Two people who disagree completely about  <span class="math-inline">\(\mu\)</span>  agree on the option
+price, because both can run the same hedge.</p></div></details>
+          </li>
+          <li class="kb-question" id="q-black-scholes-equation-q2" data-difficulty="advanced">
+            <div class="kb-question-head">
+              <span class="kb-question-text">Why is the expected return of the stock irrelevant to the option price? Give the economic version.</span>
+              <span class="kb-tagline">Advanced · risk-neutral · core · intuition</span>
+            </div>
+            
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p><strong>Mechanically:</strong> the hedge that removes the risk removes the drift with it, as above.</p>
+<p><strong>Economically:</strong> you are not being asked what the option is worth <em>to</em> you. You are being
+asked what it costs to manufacture. The option can be built out of stock and cash by a trading
+strategy, and the cost of running that strategy depends on how much the stock <em>moves</em>, not on
+where it ends up on average. A bullish view raises the value of the stock and of the hedge in
+exactly offsetting proportion.</p>
+<p><strong>The consequence that trips people:</strong> a stock with  <span class="math-inline">\(\mu = 30\%\)</span>  and one with  <span class="math-inline">\(\mu = 3\%\)</span> , same
+ <span class="math-inline">\(\sigma\)</span> , have identically priced options. If that felt wrong, the instinct being violated is
+&quot;higher expected return should make a call worth more&quot; — true for someone holding an
+unhedged call as a view, false for the price, because the price is set by whoever can hedge.</p>
+<p>Note this is a statement about a <em>complete</em> market. Where the payoff cannot be replicated —
+jumps, stochastic vol, an illiquid underlying —  <span class="math-inline">\(\mu\)</span>  and risk preferences do come back.</p></div></details>
+          </li>
+          <li class="kb-question" id="q-black-scholes-equation-q3" data-difficulty="advanced">
+            <div class="kb-question-head">
+              <span class="kb-question-text">What kind of PDE is it, and what does that tell you?</span>
+              <span class="kb-tagline">Advanced · pde · heat-equation · numerics</span>
+            </div>
+            
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>A <strong>backward parabolic</strong> PDE — the heat equation in disguise. Substituting
+ <span class="math-inline">\(S = Ke^x\)</span> ,  <span class="math-inline">\(t = T - 2\tau/\sigma^2\)</span>  and scaling  <span class="math-inline">\(V\)</span>  turns it into  <span class="math-inline">\(u_\tau = u_{xx}\)</span>  exactly.</p>
+<p>Three things follow:</p>
+<p><strong>1. It is solved backwards from the payoff.</strong> The terminal condition  <span class="math-inline">\(V(T,S) = \text{payoff}\)</span> 
+is the data; you integrate back to  <span class="math-inline">\(t=0\)</span> . Time runs the wrong way for a forward-diffusion
+intuition, which is why the substitution flips it.</p>
+<p><strong>2. It smooths.</strong> Heat equations destroy irregularity instantly, so a kinked payoff becomes
+analytic for any  <span class="math-inline">\(t &lt; T\)</span> . This is why option prices are smooth even though payoffs are not,
+and why gamma is finite before expiry and unbounded at it.</p>
+<p><strong>3. It is the same equation for every payoff.</strong> Only the terminal condition changes. Digitals,
+barriers, Asians and vanillas all solve the same PDE — which is what makes a single
+finite-difference engine price a whole book.</p></div></details>
+          </li>
+          <li class="kb-question" id="q-black-scholes-equation-q4" data-difficulty="advanced">
+            <div class="kb-question-head">
+              <span class="kb-question-text">State the Feynman–Kac link and use it to write the price as an expectation.</span>
+              <span class="kb-tagline">Advanced · feynman-kac · risk-neutral · martingales</span>
+            </div>
+            
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>Feynman–Kac says the solution of
+ <span class="math-inline">\(V_t + rSV_S + \tfrac12\sigma^2S^2V_{SS} - rV = 0\)</span>  with  <span class="math-inline">\(V(T,\cdot) = H\)</span>  is</p>
+<span class="math-display">\[V(t,S) = \E^\Q\!\left[e^{-r(T-t)}H(S_T)\;\middle|\;S_t = S\right]\]</span>
+<p>where under  <span class="math-inline">\(\Q\)</span>  the stock follows  <span class="math-inline">\(\d S = rS\,\d t + \sigma S\,\d W^\Q\)</span>  — the same volatility,
+the drift replaced by  <span class="math-inline">\(r\)</span> .</p>
+<p><strong>The two views are one theorem.</strong> The PDE is the hedging argument; the expectation is the
+martingale argument; Feynman–Kac is the bridge. Practically you pick whichever is cheaper:
+PDE for low dimension, early exercise and Greeks; Monte Carlo under  <span class="math-inline">\(\Q\)</span>  for high dimension
+and path dependence.</p>
+<p><strong>The standard trap:</strong>  <span class="math-inline">\(\Q\)</span>  is not anyone&#39;s belief about the world. It is a change of measure
+that makes discounted prices <a class="kb-link" href="martingales.html" data-concept="martingales">martingales</a>. Nobody thinks stocks return  <span class="math-inline">\(r\)</span> .</p></div></details>
+          </li>
+          <li class="kb-question" id="q-black-scholes-equation-q5" data-difficulty="advanced">
+            <div class="kb-question-head">
+              <span class="kb-question-text">A colleague says &quot;we should use a higher discount rate for the option because it is riskier than the stock.&quot; Respond.</span>
+              <span class="kb-tagline">Advanced · risk-neutral · discounting · misconception</span>
+            </div>
+            
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>An option <em>is</em> riskier than the stock — a call is a leveraged position, with beta several times
+the underlying&#39;s. The colleague&#39;s premise is correct and the conclusion is still wrong.</p>
+<p>The reason: the correct risk-adjusted discount rate for an option is <strong>not constant</strong>. A call&#39;s
+beta changes continuously with spot, time and volatility, so there is no single rate to apply.
+Risk-neutral pricing sidesteps the problem entirely — it adjusts the <em>probabilities</em> rather
+than the discount rate, and then discounts everything at  <span class="math-inline">\(r\)</span> .</p>
+<p>You can verify the two agree: compute a call&#39;s price by Black–Scholes, then compute
+ <span class="math-inline">\(\E^\P[\text{payoff}]\)</span>  under the true measure and solve for the discount rate that reproduces
+the price. You get the option&#39;s correct risk-adjusted rate — a different number for every
+strike, maturity and spot level. Black–Scholes gives you that answer without ever needing to
+know  <span class="math-inline">\(\mu\)</span>  or the market price of risk.</p></div></details>
+          </li>
+          <li class="kb-question" id="q-black-scholes-equation-q6" data-difficulty="advanced">
+            <div class="kb-question-head">
+              <span class="kb-question-text">The derivation assumes continuous, costless rebalancing. What actually happens when you hedge discretely?</span>
+              <span class="kb-tagline">Advanced · hedging-error · gamma · transaction-costs · desk</span>
+            </div>
+            
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>Hedging  <span class="math-inline">\(n\)</span>  times over the life of the option leaves a residual P&amp;L whose standard deviation
+scales as  <span class="math-inline">\(n^{-1/2}\)</span>  — so halving the error costs four times the trades. Per step the error is
+the gamma term:</p>
+<span class="math-display">\[\varepsilon = \tfrac12\Gamma\big[(\Delta S)^2 - \sigma^2S^2\Delta t\big]\]</span>
+<p>and it has <strong>mean zero but non-zero variance</strong>, so discrete hedging is unbiased and imprecise
+rather than wrong.</p>
+<p>Transaction costs run the other way, scaling as  <span class="math-inline">\(n^{+1/2}\)</span>  (more trades, more spread paid).
+The two combine into a finite optimum: rebalance until marginal variance reduction equals
+marginal cost. In practice desks hedge on a delta <em>band</em> rather than a clock — trade when
+delta drifts outside a tolerance — which is the solution to the Whalley–Wilmott problem and
+strictly better than fixed-interval hedging.</p>
+<p>The honest summary: continuous hedging is a mathematical device, and the residual it hides is
+the desk&#39;s actual daily P&amp;L.</p></div></details>
+          </li>
+          <li class="kb-question" id="q-black-scholes-equation-q7" data-difficulty="advanced">
+            <div class="kb-question-head">
+              <span class="kb-question-text">Which assumption of the derivation does the volatility smile falsify?</span>
+              <span class="kb-tagline">Advanced · smile · assumptions · limitations</span>
+            </div>
+            
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p><strong>Constant  <span class="math-inline">\(\sigma\)</span>  — and the market says so explicitly.</strong> If Black–Scholes were right, one
+volatility would price every strike and maturity. Instead implied vol varies by strike (skew)
+and by maturity (term structure), which is the market&#39;s direct statement that the model is
+wrong in a specific way.</p>
+<p>What it is compensating for: real returns have fat left tails and jumps, and volatility is
+itself stochastic and negatively correlated with spot. Out-of-the-money puts must therefore
+cost more than a lognormal says, and the skew is that surcharge.</p>
+<p><strong>The deeper point:</strong> the smile is not a flaw in the formula&#39;s arithmetic. It is the market
+pricing the failure of the <em>hedging argument</em> — with jumps, delta hedging cannot be made safe
+by trading faster, so the residual risk of being short a crash carries a genuine premium.
+Traders keep the formula and let  <span class="math-inline">\(\sigma\)</span>  vary by strike, using it as a quoting convention
+rather than a belief.</p></div></details>
+          </li></ol>
+      </section>
+
+    <section class="kb-section" id="connections">
+      <h2 class="kb-h kb-h2"><a class="kb-anchor" href="#connections" aria-label="Link to this section">#</a>Connections</h2>
+      <div class="kb-connections">
+        <section class="kb-relgroup"><h3>Prerequisites</h3><p class="kb-relnote">Understand these first.</p><ul class="kb-rellist"><li><a href="../concepts/itos-lemma.html" class="kb-relitem">
+          <span class="kb-relitem-title">Itô&#39;s Lemma</span>
+          <span class="kb-relitem-meta">Stochastic Processes · Advanced</span>
+          <span class="kb-relitem-sum">The chain rule for functions of a diffusion — a second-order term survives because the squared Brownian increment equals dt, and that surviving term is every convexity effect in finance, from gamma P&amp;L to volatility drag.</span>
+        </a></li></ul></section>
+        <section class="kb-relgroup"><h3>Builds towards</h3><p class="kb-relnote">Concepts that depend on this one.</p><ul class="kb-rellist"><li><a href="../concepts/black-scholes-formula.html" class="kb-relitem">
+          <span class="kb-relitem-title">Black–Scholes Formula</span>
+          <span class="kb-relitem-meta">Options · Advanced</span>
+          <span class="kb-relitem-sum">The closed-form price of a European call and put — two probability-weighted terms whose meaning is often garbled, a formula nobody believes literally, and the quoting language of the entire options market.</span>
+        </a></li></ul></section>
+        <section class="kb-relgroup"><h3>Related</h3><ul class="kb-rellist"><li><a href="../concepts/martingales.html" class="kb-relitem">
+          <span class="kb-relitem-title">Martingales</span>
+          <span class="kb-relitem-meta">Stochastic Processes · Advanced</span>
+          <span class="kb-relitem-sum">A process whose best forecast of its own future value is its present value — the formal statement of &quot;no predictable edge&quot;, and the object that makes arbitrage-free pricing work.</span>
+        </a></li><li><a href="../concepts/put-call-parity.html" class="kb-relitem">
+          <span class="kb-relitem-title">Put–Call Parity</span>
+          <span class="kb-relitem-meta">Options · Foundational</span>
+          <span class="kb-relitem-sum">A long call and a short put at the same strike are a forward — an identity that holds with no model, no volatility and no distributional assumption, and the first sanity check any option price must pass.</span>
+        </a></li><li><a href="../concepts/black-scholes-formula.html" class="kb-relitem">
+          <span class="kb-relitem-title">Black–Scholes Formula</span>
+          <span class="kb-relitem-meta">Options · Advanced</span>
+          <span class="kb-relitem-sum">The closed-form price of a European call and put — two probability-weighted terms whose meaning is often garbled, a formula nobody believes literally, and the quoting language of the entire options market.</span>
+        </a></li><li><a href="../concepts/itos-lemma.html" class="kb-relitem">
+          <span class="kb-relitem-title">Itô&#39;s Lemma</span>
+          <span class="kb-relitem-meta">Stochastic Processes · Advanced</span>
+          <span class="kb-relitem-sum">The chain rule for functions of a diffusion — a second-order term survives because the squared Brownian increment equals dt, and that surviving term is every convexity effect in finance, from gamma P&amp;L to volatility drag.</span>
+        </a></li><li><a href="../concepts/option-greeks.html" class="kb-relitem">
+          <span class="kb-relitem-title">Option Greeks</span>
+          <span class="kb-relitem-meta">Options · Intermediate</span>
+          <span class="kb-relitem-sum">Delta, gamma, vega, theta and rho are the terms of one Taylor expansion, not five separate risk numbers — and the Black–Scholes equation is the identity that ties them together into a single statement about what a hedged position earns.</span>
+        </a></li></ul></section>
+        
+      </div>
+      <figure class="kb-neighbourhood">
+        <canvas data-kb-minimap="black-scholes-equation" width="760" height="300" aria-label="Local knowledge graph"></canvas>
+        <figcaption>Two hops out from this concept.
+          <a class="kb-side-more" href="../graph.html?focus=black-scholes-equation">Open full graph →</a></figcaption>
+      </figure>
+      <div class="kb-references"><h3>References</h3><ul><li>Black &amp; Scholes (1973), *The Pricing of Options and Corporate Liabilities*</li><li>Merton (1973), *Theory of Rational Option Pricing*</li><li>Shreve, *Stochastic Calculus for Finance II*, ch. 4–5</li></ul></div>
+    </section>
+
+    <nav class="kb-prevnext" aria-label="Concept navigation">
+    <a class="kb-prevnext-item kb-prevnext-prev" href="../concepts/put-call-parity.html" rel="prev">
+      <span class="kb-prevnext-label">← Previous</span><span>Put–Call Parity</span></a>
+    <a class="kb-prevnext-item kb-prevnext-up" href="../subjects/options.html">
+      <span class="kb-prevnext-label">Subject</span><span>Options</span></a>
+    <a class="kb-prevnext-item kb-prevnext-next" href="../concepts/option-greeks.html" rel="next">
+      <span class="kb-prevnext-label">Next →</span><span>Option Greeks</span></a>
+  </nav>
+    <footer class="kb-source-note">
+      Source: <code>content/concepts/black-scholes-equation.md</code> · updated 2026-09-03
+    </footer>
+  </article>
+
+  <!-- The rail sits in the left column but comes last in the source: the
+       article is what a reader (or a screen reader) wants first, and the
+       links here are a way back into it rather than a way into the page. -->
+  <aside class="kb-rail">
+    <nav class="kb-toc kb-rail-group" aria-label="On this page"><h3>On this page</h3><ol><li><a href="#intuition">Intuition</a></li><li><a href="#mathematical-formulation">Mathematical Formulation</a></li><li><a href="#derivation">Derivation</a></li><li><a href="#assumptions-edge-cases">Assumptions &amp; Edge Cases</a></li><li><a href="#worked-example">Worked Example</a></li><li><a href="#why-it-matters-in-quant-finance">Why It Matters in Quant Finance</a></li><li><a href="#trading-research-application">Trading &amp; Research Application</a></li><li><a href="#implementation-notes">Implementation Notes</a></li><li><a href="#common-mistakes">Common Mistakes</a></li><li><a href="#30-second-revision">30-Second Revision</a></li><li><a href="#key-formulas">Key Formulas</a></li><li><a href="#interview-questions">Interview Questions</a></li><li><a href="#connections">Connections</a></li></ol></nav>
+    <nav class="kb-rail-group" id="side-formulas" aria-label="Key formulas"><h3>Formulas</h3><ul><li><a href="#the-blackscholes-equation">The Black–Scholes equation</a></li><li><a href="#greek-form">Greek form</a></li><li><a href="#delta-hedged-pl">Delta-hedged P&amp;L</a></li><li><a href="#risk-neutral-valuation-feynmankac">Risk-neutral valuation (Feynman–Kac)</a></li><li><a href="#terminal-and-boundary-conditions">Terminal and boundary conditions</a></li></ul></nav>
+  </aside>
+</main>
+<script src="../data/kb.data.js?v=8381a4e4"></script>
+<script src="../data/search.index.js?v=6eb1e318"></script>
+<script src="../assets/js/kb-core.js?v=a4c20d2d"></script>
+<script src="../assets/js/kb-ui.js?v=a48ca814"></script>
+<script src="../assets/vendor/katex/katex.min.js" defer></script>
+<script src="../assets/vendor/katex/auto-render.min.js" defer></script>
+<script src="../assets/js/math.js?v=44b57f03" defer></script>
+<script src="../assets/js/concept.js?v=c6248b59" defer></script>
+</body>
+</html>

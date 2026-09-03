@@ -20,6 +20,11 @@
         '\\Cov': '\\operatorname{Cov}',
         '\\Corr': '\\operatorname{Corr}',
         '\\P': '\\mathbb{P}',
+        // The risk-neutral measure. Content used \Q from the start; without it
+        // declared here KaTeX rendered the literal text "\Q" in errorColor --
+        // twenty red control sequences across four concept pages, and nothing
+        // in the build noticed because the failure happens at render time.
+        '\\Q': '\\mathbb{Q}',
         '\\R': '\\mathbb{R}',
         '\\d': '\\mathrm{d}',
         '\\1': '\\mathbf{1}',

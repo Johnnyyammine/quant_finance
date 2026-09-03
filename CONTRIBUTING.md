@@ -168,7 +168,8 @@ Long working goes here, collapsed by default so the page stays scannable.
 
 The build finds `assets/js/modules/random-walk.js`, adds the script tag, and mounts the module with
 that config. If the file doesn't exist you get a build warning. Available today: `random-walk`,
-`bayes-explorer`, `regression-lab`, `distribution-explorer`, `diversification-lab`. Writing a new one is documented in
+`bayes-explorer`, `regression-lab`, `distribution-explorer`, `diversification-lab`,
+`black-scholes-lab`. Writing a new one is documented in
 [ARCHITECTURE.md](ARCHITECTURE.md#interactive-modules).
 
 ### Jargon tooltips

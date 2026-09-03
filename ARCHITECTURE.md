@@ -364,6 +364,7 @@ would need a CDN. This is ~350 lines and does exactly what the modules need.
 | `regression-lab` | OLS under noise; standard error shrinking as 1/√n |
 | `distribution-explorer` | CLT convergence, and its failure for Cauchy draws |
 | `diversification-lab` | Eigenvalue spectrum vs a portfolio's risk contributions; N_eff and ENB |
+| `black-scholes-lab` | Price and each Greek across spot; gamma spiking at expiry, vega growing with it |
 
 ---
 

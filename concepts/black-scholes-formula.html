@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en" data-page="concept">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Black–Scholes Formula · Quant Knowledge Base</title>
+<meta name="description" content="The closed-form price of a European call and put — two probability-weighted terms whose meaning is often garbled, a formula nobody believes literally, and the quoting language of the entire options market.">
+<link rel="icon" href="../assets/icons/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/vendor/katex/katex.min.css">
+<link rel="stylesheet" href="../assets/css/app.css?v=41eef34e">
+<link rel="stylesheet" href="../assets/css/views.css?v=e2266625">
+
+</head>
+<body class="kb-body kb-body--concept">
+<header class="kb-topbar">
+  <a class="kb-brand" href="../index.html" title="Home (H)">
+    <span class="kb-brand-mark">QF</span><span class="kb-brand-text">Quant Knowledge Base</span>
+  </a>
+  <nav class="kb-crumbs" aria-label="Breadcrumb"><ol><li><a href="../index.html">Dashboard</a></li><li class="kb-crumb-sep" aria-hidden="true">/</li><li><a href="../subjects/options.html">Options</a></li><li class="kb-crumb-sep" aria-hidden="true">/</li><li><span aria-current="page">Black–Scholes Formula</span></li></ol></nav>
+  <div class="kb-topbar-actions">
+    <button class="kb-searchbtn" type="button" data-kb-open-search>
+      <span>Search concepts, formulas, questions</span><kbd>/</kbd>
+    </button>
+    <nav class="kb-toplinks" aria-label="Sections">
+      <a href="../index.html" data-nav="home">Dashboard</a>
+      <a href="../graph.html" data-nav="graph">Graph</a>
+      <a href="../interview.html" data-nav="interview">Interview</a>
+      <a href="../library.html" data-nav="library">Library</a>
+    </nav>
+    <button class="kb-iconbtn" type="button" data-kb-theme title="Toggle theme (T)" aria-label="Toggle theme">◑</button>
+    <button class="kb-iconbtn" type="button" data-kb-help title="Keyboard shortcuts (?)" aria-label="Keyboard shortcuts">?</button>
+  </div>
+</header>
+<main class="kb-main kb-main--concept" data-concept-id="black-scholes-formula">
+  <article class="kb-article">
+    <header class="kb-concept-head">
+      <div class="kb-concept-eyebrow">
+        <a class="kb-subject-chip" href="../subjects/options.html" style="--subject-color:#cfa14e">
+          <span class="kb-subject-mark">G</span>Options</a>
+        <span class="kb-pill kb-pill--advanced">Advanced</span>
+      </div>
+      <h1 class="kb-concept-title">Black–Scholes Formula</h1>
+      <section class="kb-glance" aria-label="At a glance">
+      <p class="kb-glance-lead">The closed-form price of a European call and put — two probability-weighted terms whose meaning is often garbled, a formula nobody believes literally, and the quoting language of the entire options market.</p>
+      <a class="kb-glance-formula" href="#blackscholes-call">
+        <span class="math-display">\[C = S_0e^{-qT}N(d_1) - Ke^{-rT}N(d_2)\]</span>
+        <span class="kb-glance-formula-name">Black–Scholes call</span>
+      </a>
+      <ul class="kb-glance-points"><li><span class="math-inline">\(C = Se^{-qT}N(d_1) - Ke^{-rT}N(d_2)\)</span> ;  <span class="math-inline">\(P\)</span>  follows from parity, never derived separately.</li><li><span class="math-inline">\(d_1 = [\ln(S/K) + (r-q+\tfrac12\sigma^2)T]/(\sigma\sqrt T)\)</span> ,  <span class="math-inline">\(d_2 = d_1 - \sigma\sqrt T\)</span> .</li><li><span class="math-inline">\(N(d_2) = \Q(\text{exercise})\)</span> , exactly.  <span class="math-inline">\(N(d_1) = \Delta\)</span>  and a stock-numéraire probability — not
+a probability of exercise.</li></ul>
+      <a class="kb-glance-more" href="#30-second-revision">Full revision →</a>
+    </section>
+      <div class="kb-concept-controls">
+        <button class="kb-btn kb-btn--ghost" type="button" data-kb-bookmark="black-scholes-formula">☆ Bookmark</button>
+        <button class="kb-btn kb-btn--ghost" type="button" data-kb-flashcards>Revision card</button>
+        <a class="kb-btn kb-btn--ghost" href="../graph.html?focus=black-scholes-formula">Show in graph</a>
+      </div>
+      <ul class="kb-taglist"><li><a class="kb-tag" href="../library.html?tag=options">#options</a></li><li><a class="kb-tag" href="../library.html?tag=pricing">#pricing</a></li><li><a class="kb-tag" href="../library.html?tag=implied-volatility">#implied-volatility</a></li><li><a class="kb-tag" href="../library.html?tag=lognormal">#lognormal</a></li><li><a class="kb-tag" href="../library.html?tag=smile">#smile</a></li><li><a class="kb-tag" href="../library.html?tag=european">#european</a></li><li><a class="kb-tag" href="../library.html?tag=moneyness">#moneyness</a></li></ul>
+    </header>
+
+    <div class="kb-content"><h2 id="intuition" class="kb-h kb-h2"><a class="kb-anchor" href="#intuition" aria-label="Link to this section">#</a>Intuition</h2>
+<p>The formula is the answer to one question: <strong>what does it cost to manufacture a call option?</strong></p>
+<p><a class="kb-link" href="black-scholes-equation.html" data-concept="black-scholes-equation">The hedging argument</a> established that the cost of manufacture is the
+answer, and that it satisfies a PDE. Solving that PDE for the payoff  <span class="math-inline">\(\max(S_T - K, 0)\)</span>  produces a
+difference of two terms, and both have a direct reading:</p>
+<span class="math-display">\[C = \underbrace{S_0N(d_1)}_{\text{stock you expect to receive}} - \underbrace{Ke^{-rT}N(d_2)}_{\text{cash you expect to pay}}\]</span>
+<p>You will receive one share, but only if the option finishes in the money. You will pay  <span class="math-inline">\(K\)</span> , but only
+in the same states. Discount both, weight both by the appropriate probability, and take the
+difference.</p>
+<aside class="kb-callout kb-callout--insight"><div class="kb-callout-title">Insight</div><div class="kb-callout-body"><p> <span class="math-inline">\(N(d_2)\)</span>  is the <strong>risk-neutral probability of exercise</strong>.  <span class="math-inline">\(N(d_1)\)</span>  is <em>not</em> a probability — it is the
+same event measured under a different numéraire, and it doubles as the call&#39;s delta.</p>
+<p>Confusing them is the classic error. They are close for at-the-money options (which is why the
+mistake survives) and far apart in the wings, where it produces visibly wrong answers.</p></div></aside>
+<p>The other thing worth seeing immediately is what the formula does <em>not</em> contain:  <span class="math-inline">\(\mu\)</span> . Two stocks
+with identical volatility and wildly different expected returns have identically priced options.
+That absence is not a simplification — it is the whole content of the hedging argument, and if it
+still feels wrong, the instinct being violated belongs to someone holding an unhedged option as a
+directional view, not to someone pricing one.</p>
+<h2 id="mathematical-formulation" class="kb-h kb-h2"><a class="kb-anchor" href="#mathematical-formulation" aria-label="Link to this section">#</a>Mathematical Formulation</h2>
+<figure class="kb-formula" id="blackscholes-call" data-formula="blackscholes-call"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">Black–Scholes call</span><button class="kb-formula-copy" type="button" data-latex="C = S_0e^{-qT}N(d_1) - Ke^{-rT}N(d_2)" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[C = S_0e^{-qT}N(d_1) - Ke^{-rT}N(d_2)\]</span> </div><p class="kb-formula-note">N(d₂) is the risk-neutral probability of exercise; N(d₁) is the delta and the stock-numéraire probability. They are not the same thing.</p><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">Equity Options</span><span class="kb-chip">All Vanilla Pricing</span></footer></figure>
+<figure class="kb-formula" id="blackscholes-put" data-formula="blackscholes-put"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">Black–Scholes put</span><button class="kb-formula-copy" type="button" data-latex="P = Ke^{-rT}N(-d_2) - S_0e^{-qT}N(-d_1)" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[P = Ke^{-rT}N(-d_2) - S_0e^{-qT}N(-d_1)\]</span> </div><p class="kb-formula-note">Never derived separately in practice — it follows from the call by put-call parity, which also guarantees the two share one implied volatility.</p><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">Equity Options</span><span class="kb-chip">Protection</span><span class="kb-chip">Skew</span></footer></figure>
+<figure class="kb-formula" id="d-and-d" data-formula="d-and-d"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">d₁ and d₂</span><button class="kb-formula-copy" type="button" data-latex="d_1 = \frac{\ln(S_0/K) + (r - q + \tfrac12\sigma^2)T}{\sigma\sqrt T},
+\qquad d_2 = d_1 - \sigma\sqrt T" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[d_1 = \frac{\ln(S_0/K) + (r - q + \tfrac12\sigma^2)T}{\sigma\sqrt T},
+\qquad d_2 = d_1 - \sigma\sqrt T\]</span> </div><p class="kb-formula-note">d₂ = d₁ − σ√T always. The numerator is log-moneyness measured against the forward; the denominator is the standard deviation of log return over the life.</p><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">Option Pricing</span><span class="kb-chip">Greeks</span><span class="kb-chip">Delta Approximation</span></footer></figure>
+<figure class="kb-formula" id="black-76-forward-form" data-formula="black-76-forward-form"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">Black-76 (forward form)</span><button class="kb-formula-copy" type="button" data-latex="C = e^{-rT}\big[F_0N(d_1) - KN(d_2)\big],
+\qquad d_{1,2} = \frac{\ln(F_0/K) \pm \tfrac12\sigma^2T}{\sigma\sqrt T}" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[C = e^{-rT}\big[F_0N(d_1) - KN(d_2)\big],
+\qquad d_{1,2} = \frac{\ln(F_0/K) \pm \tfrac12\sigma^2T}{\sigma\sqrt T}\]</span> </div><p class="kb-formula-note">The market-standard form. Carry is absorbed into F, so the same code prices options on anything with a forward.</p><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">Futures Options</span><span class="kb-chip">Caps</span><span class="kb-chip">Swaptions</span><span class="kb-chip">FX</span></footer></figure>
+<figure class="kb-formula" id="at-the-money-approximation" data-formula="at-the-money-approximation"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">At-the-money approximation</span><button class="kb-formula-copy" type="button" data-latex="C_{\text{ATM}} \approx \frac{1}{\sqrt{2\pi}}\,S\sigma\sqrt{T} \approx 0.4\,S\sigma\sqrt{T}" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[C_{\text{ATM}} \approx \frac{1}{\sqrt{2\pi}}\,S\sigma\sqrt{T} \approx 0.4\,S\sigma\sqrt{T}\]</span> </div><p class="kb-formula-note">Accurate to a few percent for σ√T below about 0.3. The single most useful option formula to carry in your head.</p><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">Mental Math</span><span class="kb-chip">Desk Quoting</span></footer></figure>
+<figure class="kb-formula" id="risk-neutral-density" data-formula="risk-neutral-density"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">Risk-neutral density</span><button class="kb-formula-copy" type="button" data-latex="\frac{\partial^2 C}{\partial K^2} = e^{-rT} q_\Q(K)" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[\frac{\partial^2 C}{\partial K^2} = e^{-rT} q_\Q(K)\]</span> </div><p class="kb-formula-note">The second strike-derivative of call prices IS the density. This is how the market&#39;s implied distribution is extracted without assuming one.</p><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">Surface Fitting</span><span class="kb-chip">Exotics</span><span class="kb-chip">Breeden–Litzenberger</span></footer></figure>
+<h2 id="derivation" class="kb-h kb-h2"><a class="kb-anchor" href="#derivation" aria-label="Link to this section">#</a>Derivation</h2>
+<details class="kb-derivation"><summary>Direct integration under the risk-neutral measure</summary><div class="kb-derivation-body"><p>By <a class="kb-link" href="black-scholes-equation.html" data-concept="black-scholes-equation">Feynman–Kac</a>,  <span class="math-inline">\(C = e^{-rT}\E^\Q[\max(S_T-K,0)]\)</span>  where under  <span class="math-inline">\(\Q\)</span> </p>
+<span class="math-display">\[S_T = S_0\exp\!\left[(r - q - \tfrac{\sigma^2}{2})T + \sigma\sqrt T\,Z\right], \quad Z\sim N(0,1)\]</span>
+<p>Exercise happens when  <span class="math-inline">\(S_T &gt; K\)</span> , i.e. when</p>
+<span class="math-display">\[Z &gt; \frac{\ln(K/S_0) - (r-q-\tfrac{\sigma^2}{2})T}{\sigma\sqrt T} = -d_2\]</span>
+<p>So  <span class="math-inline">\(\Q(\text{exercise}) = \P(Z &gt; -d_2) = N(d_2)\)</span>  — <strong>that is where the second term&#39;s probability
+comes from, and it is exactly a probability.</strong> Split the expectation:</p>
+<span class="math-display">\[C = e^{-rT}\Big(\underbrace{\E^\Q[S_T\1\{Z&gt;-d_2\}]}_{\text{(i)}} - K\underbrace{\Q(Z&gt;-d_2)}_{N(d_2)}\Big)\]</span>
+<p>For (i), write out the integral and complete the square in the exponent:</p>
+<span class="math-display">\[\E^\Q[S_T\1] = \int_{-d_2}^{\infty} S_0e^{(r-q-\sigma^2/2)T + \sigma\sqrt T z}\,\frac{e^{-z^2/2}}{\sqrt{2\pi}}\,\d z\]</span>
+<p>The exponent is  <span class="math-inline">\(-\tfrac12(z - \sigma\sqrt T)^2 + (r-q)T\)</span> , so substituting  <span class="math-inline">\(u = z - \sigma\sqrt T\)</span> 
+shifts the lower limit to  <span class="math-inline">\(-d_2 - \sigma\sqrt T = -d_1\)</span> :</p>
+<span class="math-display">\[\E^\Q[S_T\1] = S_0e^{(r-q)T}\int_{-d_1}^{\infty}\frac{e^{-u^2/2}}{\sqrt{2\pi}}\d u = S_0e^{(r-q)T}N(d_1)\]</span>
+<p>Assembling:  <span class="math-inline">\(C = S_0e^{-qT}N(d_1) - Ke^{-rT}N(d_2)\)</span> .</p>
+<p><strong>The whole derivation is one completed square</strong>, and that completed square is the entire difference
+between  <span class="math-inline">\(d_1\)</span>  and  <span class="math-inline">\(d_2\)</span> . The shift  <span class="math-inline">\(\sigma\sqrt T\)</span>  appears because weighting by  <span class="math-inline">\(S_T\)</span>  tilts the
+distribution towards higher outcomes — which is precisely what &quot;changing numéraire to the stock&quot;
+means.</p></div></details>
+<details class="kb-derivation"><summary>Why  <span class="math-inline">\(d_2 = d_1 - \sigma\sqrt T\)</span> , without algebra</summary><div class="kb-derivation-body"><p> <span class="math-inline">\(N(d_2)\)</span>  answers: <em>how likely is exercise?</em>  <span class="math-inline">\(N(d_1)\)</span>  answers: *how likely is exercise, when each
+scenario is weighted by how much stock it delivers?* The second question over-weights the upside,
+because up-scenarios deliver more stock. Tilting a lognormal by its own value shifts its log-mean up
+by exactly one variance unit,  <span class="math-inline">\(\sigma^2T\)</span>  — hence one standard deviation,  <span class="math-inline">\(\sigma\sqrt T\)</span> , in
+ <span class="math-inline">\(d\)</span> -space.</p>
+<p>This is the Cameron–Martin/Esscher tilt, and the same shift shows up everywhere the same structure
+does: in the  <span class="math-inline">\(\tfrac12\sigma^2\)</span>  of the GBM drift, in the difference between the mean and median of a
+lognormal, and in the convexity adjustments of rates modelling.</p>
+<p><strong>The practical marker:</strong> as  <span class="math-inline">\(T\to0\)</span>  or  <span class="math-inline">\(\sigma\to0\)</span> ,  <span class="math-inline">\(d_1\)</span>  and  <span class="math-inline">\(d_2\)</span>  converge — the option becomes
+a forward and delta becomes a step function. In the far wings they diverge, which is why &quot; <span class="math-inline">\(N(d_1)\)</span> 
+is the probability of exercise&quot; produces visibly wrong numbers for deep in-the-money options.</p></div></details>
+<details class="kb-derivation"><summary>Extracting the market&#39;s implied distribution</summary><div class="kb-derivation-body"><p>Differentiate  <span class="math-inline">\(C = e^{-rT}\int_K^\infty (S-K)q_\Q(S)\,\d S\)</span>  with respect to  <span class="math-inline">\(K\)</span> :</p>
+<span class="math-display">\[\frac{\partial C}{\partial K} = -e^{-rT}\int_K^\infty q_\Q(S)\,\d S = -e^{-rT}\,\Q(S_T&gt;K)\]</span>
+<p>and once more:</p>
+<span class="math-display">\[\frac{\partial^2 C}{\partial K^2} = e^{-rT}q_\Q(K)\]</span>
+<p><strong>Breeden–Litzenberger:</strong> a continuum of call prices <em>is</em> the risk-neutral density. No model is
+needed — the surface already contains the market&#39;s whole distribution, and Black–Scholes is only the
+coordinate system it is quoted in.</p>
+<p>Two immediate uses. First, this is how the market&#39;s implied distribution is plotted, and it makes
+the fat left tail directly visible rather than inferred. Second, it is an arbitrage constraint:
+ <span class="math-inline">\(\partial^2C/\partial K^2 \ge 0\)</span>  is required (butterfly arbitrage), as is monotonicity in  <span class="math-inline">\(K\)</span> 
+(call spread) and in  <span class="math-inline">\(T\)</span>  (calendar). Any fitted surface must respect all three, and a naive
+interpolation of implied vols routinely does not.</p></div></details>
+<h2 id="assumptions-edge-cases" class="kb-h kb-h2"><a class="kb-anchor" href="#assumptions-edge-cases" aria-label="Link to this section">#</a>Assumptions &amp; Edge Cases</h2>
+<aside class="kb-callout kb-callout--assumption"><div class="kb-callout-title">Assumptions</div><div class="kb-callout-body"><p>Beyond the assumptions of the <a class="kb-link" href="black-scholes-equation.html" data-concept="black-scholes-equation">hedging argument</a>, the closed form adds:</p>
+<ul class="kb-list"><li><strong>European exercise only.</strong> No early exercise; American puts have no closed form.</li>
+<li><strong>A single terminal payoff</strong>  <span class="math-inline">\(\max(S_T-K,0)\)</span> , path-independent.</li>
+<li><strong>Lognormal  <span class="math-inline">\(S_T\)</span> </strong> with constant  <span class="math-inline">\(\sigma\)</span>  — the assumption the smile falsifies directly.</li>
+<li><strong>Deterministic  <span class="math-inline">\(r\)</span>  and  <span class="math-inline">\(q\)</span> </strong> over the option&#39;s life.</li></ul></div></aside>
+<aside class="kb-callout kb-callout--warning"><div class="kb-callout-title">Warning</div><div class="kb-callout-body"><p><strong>Implied volatility is a quoting convention, not a forecast.</strong> Because vega is positive, the map
+from price to vol is monotone and invertible, so any price can be quoted as a vol. That is all the
+number is. When someone says &quot;the market expects 23% volatility&quot;, the accurate statement is
+&quot;the market is charging what a 23% Black–Scholes hedge would cost, plus a premium for the risks the
+model cannot hedge&quot;. Implied vol has exceeded subsequent realised vol on equity indices for
+essentially the whole history of listed options — the gap is the variance risk premium, and reading
+implied vol as an unbiased forecast is how volatility sellers explain their returns as alpha.</p></div></aside>
+<aside class="kb-callout kb-callout--warning"><div class="kb-callout-title">Warning</div><div class="kb-callout-body"><p><strong>The wings are where the model is weakest and where inversion is most fragile.</strong> Deep
+out-of-the-money options have tiny vega, so a one-tick price change moves implied vol by whole
+points. A surface fitted naively through those quotes will oscillate and can easily violate the
+butterfly no-arbitrage condition. Fit to prices with a shape constraint, or fit in a parameterisation
+(SVI, SABR) that is arbitrage-free by construction — do not interpolate raw implied vols and hope.</p></div></aside>
+<h2 id="worked-example" class="kb-h kb-h2"><a class="kb-anchor" href="#worked-example" aria-label="Link to this section">#</a>Worked Example</h2>
+<p><strong>A three-month call, worked and then read.</strong>  <span class="math-inline">\(S = 100\)</span> ,  <span class="math-inline">\(K = 105\)</span> ,  <span class="math-inline">\(T = 0.25\)</span> ,  <span class="math-inline">\(\sigma = 30\%\)</span> ,
+ <span class="math-inline">\(r = 5\%\)</span> ,  <span class="math-inline">\(q = 0\)</span> .</p>
+<span class="math-display">\[d_1 = \frac{\ln(100/105) + (0.05 + 0.045)(0.25)}{0.30\times0.5}
+= \frac{-0.04879 + 0.02375}{0.15} = -0.1669\]</span>
+<span class="math-display">\[d_2 = -0.1669 - 0.15 = -0.3169\]</span>
+<p> <span class="math-inline">\(N(d_1) = 0.4337\)</span> ,  <span class="math-inline">\(N(d_2) = 0.3756\)</span> .</p>
+<span class="math-display">\[C = 100(0.4337) - 105e^{-0.0125}(0.3756) = 43.37 - 38.95 = \$4.42\]</span>
+<p><strong>Now read it, which is the part that matters:</strong></p>
+<div class="kb-table-wrap"><table class="kb-table"><thead><tr><th>Quantity</th><th>Value</th><th>Meaning</th></tr></thead><tbody><tr><td><span class="math-inline">\(N(d_2) = 0.376\)</span></td><td>37.6%</td><td>risk-neutral chance of finishing above 105</td></tr>
+<tr><td><span class="math-inline">\(N(d_1) = 0.434\)</span></td><td>—</td><td>delta: 43.4 shares per 100 options</td></tr>
+<tr><td>Intrinsic</td><td>$0</td><td>it is out of the money</td></tr>
+<tr><td>Time value</td><td>$4.42</td><td><strong>all</strong> of the premium</td></tr>
+<tr><td>Forward</td><td><span class="math-inline">\(100e^{0.0125} = 101.26\)</span></td><td>still below the strike</td></tr></tbody></table></div>
+<p>The option costs $4.42 for a 37.6% chance of a payoff. That is not a bad bet or a good one — it is
+the cost of the hedge, and the two numbers are related by the fact that the payoff is larger in the
+scenarios that are less likely.</p>
+<p><strong>Sanity-check with the approximation.</strong> At-the-money-forward the call would be
+ <span class="math-inline">\(0.4\times101.26\times0.30\times0.5 = \$6.08\)</span> ; we are 3.7% out of the money, roughly  <span class="math-inline">\(0.25\sigma\sqrt T\)</span> ,
+so a delta-weighted haircut of about  <span class="math-inline">\(0.43\times3.74 = \$1.6\)</span>  gives  <span class="math-inline">\(\approx\$4.5\)</span> . Within 2% of the
+exact answer, in ten seconds, with no calculator.</p>
+<h2 id="why-it-matters-in-quant-finance" class="kb-h kb-h2"><a class="kb-anchor" href="#why-it-matters-in-quant-finance" aria-label="Link to this section">#</a>Why It Matters in Quant Finance</h2>
+<p><strong>It is the language, not the model.</strong> Nobody on a derivatives desk believes returns are lognormal.
+Everybody quotes in Black–Scholes implied volatility, because it is a monotone map that converts a
+price — which depends on strike, spot, maturity and rates — into one comparable number. Comparing a
+$4.41 option to a $0.85 option is meaningless; comparing 30 vol to 34 vol is not.</p>
+<p><strong>It makes the market&#39;s beliefs observable.</strong> Breeden–Litzenberger turns the quoted surface into a
+risk-neutral density. Parity turns it into implied dividends and implied borrow. The formula is the
+instrument through which an options market is read.</p>
+<p><strong>It is the base case every extension is measured against.</strong> Local vol reprices the surface exactly
+by construction; stochastic vol adds a variance factor; jump models add a Poisson term. Each is
+judged by what it fixes relative to Black–Scholes and what it costs in tractability — and each still
+quotes its output in Black–Scholes vol.</p>
+<p><strong>It gives closed-form Greeks.</strong> Because the solution is explicit, so are all its
+<a class="kb-link" href="option-greeks.html" data-concept="option-greeks">derivatives</a>, and that is what makes real-time risk on a large book computationally
+possible. A model without closed-form Greeks needs a bump-and-reprice for every risk number, which
+for a book of hundreds of thousands of positions is a materially different engineering problem.</p>
+<h2 id="trading-research-application" class="kb-h kb-h2"><a class="kb-anchor" href="#trading-research-application" aria-label="Link to this section">#</a>Trading &amp; Research Application</h2>
+<aside class="kb-callout kb-callout--desk"><div class="kb-callout-title">On the desk</div><div class="kb-callout-body"><p><strong>Convert price to vol before forming any opinion.</strong> A price is not comparable across strikes,
+maturities or underlyings; a vol is. &quot;That option is expensive&quot; is not a sentence a desk uses — &quot;that
+strike is 4 vols over the 30-day&quot; is.</p>
+<p><strong>Carry  <span class="math-inline">\(0.4S\sigma\sqrt T\)</span>  everywhere.</strong> It converts an at-the-money price to a vol and back in your
+head, and it is the fastest way to catch a fat-fingered quote or a mis-specified maturity in a model
+output.</p>
+<p><strong>Trade the surface, not the option.</strong> Vanilla options are the coordinate system; the tradable
+structures are relative — call spreads (strike), calendars (maturity), risk reversals (skew),
+butterflies (convexity). Each isolates one dimension of the surface&#39;s deviation from flat.</p>
+<p><strong>Respect what implied vol is for.</strong> It is the market&#39;s price of hedging, systematically above
+realised vol on indices. Selling that premium is a real strategy with a real risk profile — short
+gamma, short jump, positively skewed until it is catastrophically not — and dressing it up as a
+volatility forecast disagreement hides exactly the risk that eventually shows up.</p>
+<p><strong>Check parity and the butterfly condition before believing any surface.</strong> A fitted vol surface that
+implies a negative density is producing prices no market can support, and a naive spline through raw
+implied vols does this routinely in the wings.</p></div></aside>
+<h2 id="implementation-notes" class="kb-h kb-h2"><a class="kb-anchor" href="#implementation-notes" aria-label="Link to this section">#</a>Implementation Notes</h2>
+<figure class="kb-code" data-lang="python"><pre><code class="language-python">import numpy as np
+from math import erf, log, sqrt, exp
+
+def _N(x):
+    &quot;&quot;&quot;Standard normal CDF via erf. Fine in double precision; for the far wings
+    of a survival function you would want erfc to avoid catastrophic
+    cancellation, but option prices there are below a tick anyway.&quot;&quot;&quot;
+    return 0.5 * (1.0 + erf(x / sqrt(2.0)))
+
+def black_scholes(S, K, r, sigma, T, q=0.0, call=True):
+    &quot;&quot;&quot;European vanilla. Handles the degenerate cases explicitly rather than
+    letting them produce nan: T=0 or sigma=0 are not errors, they are the
+    intrinsic/forward limits, and a pricing library hit with an expiring option
+    should return a number rather than a nan that poisons a whole book.&quot;&quot;&quot;
+    if T &lt;= 0 or sigma &lt;= 0:
+        fwd = S * exp(-q * T) - K * exp(-r * T)
+        return max(fwd, 0.0) if call else max(-fwd, 0.0)
+    d1 = (log(S / K) + (r - q + 0.5 * sigma**2) * T) / (sigma * sqrt(T))
+    d2 = d1 - sigma * sqrt(T)
+    if call:
+        return S * exp(-q * T) * _N(d1) - K * exp(-r * T) * _N(d2)
+    return K * exp(-r * T) * _N(-d2) - S * exp(-q * T) * _N(-d1)
+
+def implied_vol(price, S, K, r, T, q=0.0, call=True, tol=1e-10):
+    &quot;&quot;&quot;Invert for sigma. Bisection on a bracketed interval, not Newton.
+
+    Newton on vega is faster but fails exactly where it is most needed: deep
+    out-of-the-money, vega -&gt; 0 and the step explodes. Bisection on [1e-9, 5]
+    always converges because price is strictly monotone in sigma, and ~50
+    iterations is nothing next to the market data call that fetched the price.&quot;&quot;&quot;
+    intrinsic = black_scholes(S, K, r, 0.0, T, q, call)
+    if price &lt; intrinsic - tol:
+        return float(&#39;nan&#39;)          # below intrinsic: the quote is stale or wrong
+    lo, hi = 1e-9, 5.0
+    for _ in range(200):
+        mid = 0.5 * (lo + hi)
+        if black_scholes(S, K, r, mid, T, q, call) &lt; price:
+            lo = mid
+        else:
+            hi = mid
+        if hi - lo &lt; tol:
+            break
+    return 0.5 * (lo + hi)
+
+def risk_neutral_density(strikes, calls, r, T):
+    &quot;&quot;&quot;Breeden-Litzenberger: the second strike-derivative of call prices is the
+    discounted risk-neutral density. Noisy in practice -- differentiating market
+    quotes twice amplifies the bid-ask enormously -- so smooth the IMPLIED VOLS
+    first, reprice, then differentiate. Differentiating raw prices produces
+    negative densities and is the standard way to get this wrong.&quot;&quot;&quot;
+    d2C = np.gradient(np.gradient(calls, strikes), strikes)
+    return np.exp(r * T) * d2C
+
+# Checks worth having in the test suite:
+#   parity: C - P == S*exp(-qT) - K*exp(-rT)   for every sigma, to 1e-12
+#   monotone in sigma, so implied_vol(black_scholes(sigma)) == sigma
+#   ATM approx: black_scholes(100,100,0,0.2,0.25) ~= 0.4*100*0.2*0.5 = 4.0</code></pre></figure>
+<h2 id="common-mistakes" class="kb-h kb-h2"><a class="kb-anchor" href="#common-mistakes" aria-label="Link to this section">#</a>Common Mistakes</h2>
+<aside class="kb-callout kb-callout--pitfall"><div class="kb-callout-title">Common pitfall</div><div class="kb-callout-body"><ul class="kb-list"><li><strong>Calling  <span class="math-inline">\(N(d_1)\)</span>  the probability of exercise.</strong> It is  <span class="math-inline">\(N(d_2)\)</span> .  <span class="math-inline">\(N(d_1)\)</span>  is delta and a
+numéraire-shifted probability; they diverge in the wings.</li>
+<li><strong>Reading implied vol as a forecast.</strong> It is a quoting convention that embeds a risk premium, and
+it has exceeded realised vol on indices for decades.</li>
+<li><strong>Expecting one vol to price the surface.</strong> The smile is the market telling you the model is
+wrong; use it, do not argue with it.</li>
+<li><strong>Newton&#39;s method for implied vol.</strong> Vega vanishes in the wings and the iteration blows up exactly
+where you needed an answer. Bracket and bisect.</li>
+<li><strong>Forgetting  <span class="math-inline">\(q\)</span> .</strong> A 2% dividend yield on a one-year option is a first-order price error and
+contaminates every implied vol derived from it.</li>
+<li><strong>Using it on American options.</strong> No closed form. American puts need a tree, a PDE or an
+approximation.</li>
+<li><strong>Interpolating raw implied vols across strikes.</strong> Routinely produces a negative implied density.
+Fit prices under a shape constraint, or use an arbitrage-free parameterisation.</li>
+<li><strong>Expecting deep in-the-money to converge to  <span class="math-inline">\(S-K\)</span> .</strong> It converges to  <span class="math-inline">\(S - Ke^{-rT}\)</span> ; the gap is
+deferred payment of the strike, and it is why American calls are not exercised early.</li>
+<li><strong>Quoting a price with more precision than the inputs deserve.</strong> The dividend forecast alone is
+usually worth more basis points than the fourth decimal of the answer.</li></ul></div></aside>
+<h2 id="30-second-revision" class="kb-h kb-h2"><a class="kb-anchor" href="#30-second-revision" aria-label="Link to this section">#</a>30-Second Revision</h2>
+<ul class="kb-list"><li><span class="math-inline">\(C = Se^{-qT}N(d_1) - Ke^{-rT}N(d_2)\)</span> ;  <span class="math-inline">\(P\)</span>  follows from parity, never derived separately.</li>
+<li><span class="math-inline">\(d_1 = [\ln(S/K) + (r-q+\tfrac12\sigma^2)T]/(\sigma\sqrt T)\)</span> ,  <span class="math-inline">\(d_2 = d_1 - \sigma\sqrt T\)</span> .</li>
+<li><span class="math-inline">\(N(d_2) = \Q(\text{exercise})\)</span> , exactly.  <span class="math-inline">\(N(d_1) = \Delta\)</span>  and a stock-numéraire probability — not
+a probability of exercise.</li>
+<li>Structure: expected stock received minus expected cash paid, each weighted by its own measure.</li>
+<li><span class="math-inline">\(C_{\text{ATM}}\approx 0.4S\sigma\sqrt T\)</span> . Inverts in your head to turn a price into a vol.</li>
+<li><span class="math-inline">\(\sqrt T\)</span> , not  <span class="math-inline">\(T\)</span>  — variances add. So theta  <span class="math-inline">\(\propto 1/\sqrt T\)</span>  and decay accelerates.</li>
+<li>Deep ITM  <span class="math-inline">\(\to S - Ke^{-rT}\)</span> , the forward, not  <span class="math-inline">\(S-K\)</span> . That gap is why American calls are not
+exercised early.</li>
+<li>Implied vol is a quoting convention with a risk premium in it, not a forecast.</li>
+<li><span class="math-inline">\(\partial^2C/\partial K^2 = e^{-rT}q_\Q(K)\)</span> : the surface <em>is</em> the market&#39;s distribution, and
+ <span class="math-inline">\(\ge 0\)</span>  is a no-arbitrage constraint.</li>
+<li>No  <span class="math-inline">\(\mu\)</span>  anywhere. The price is the cost of a hedge, not the value of a view.</li></ul></div>
+    <section class="kb-section" id="key-formulas">
+        <h2 class="kb-h kb-h2"><a class="kb-anchor" href="#key-formulas" aria-label="Link to this section">#</a>Key Formulas</h2>
+        <div class="kb-formula-recap">
+          <a class="kb-formula-recap-item" href="#blackscholes-call">
+            <span class="kb-formula-recap-name">Black–Scholes call</span>
+            <span class="math-display">\[C = S_0e^{-qT}N(d_1) - Ke^{-rT}N(d_2)\]</span>
+          </a>
+          <a class="kb-formula-recap-item" href="#blackscholes-put">
+            <span class="kb-formula-recap-name">Black–Scholes put</span>
+            <span class="math-display">\[P = Ke^{-rT}N(-d_2) - S_0e^{-qT}N(-d_1)\]</span>
+          </a>
+          <a class="kb-formula-recap-item" href="#d-and-d">
+            <span class="kb-formula-recap-name">d₁ and d₂</span>
+            <span class="math-display">\[d_1 = \frac{\ln(S_0/K) + (r - q + \tfrac12\sigma^2)T}{\sigma\sqrt T},
+\qquad d_2 = d_1 - \sigma\sqrt T\]</span>
+          </a>
+          <a class="kb-formula-recap-item" href="#black-76-forward-form">
+            <span class="kb-formula-recap-name">Black-76 (forward form)</span>
+            <span class="math-display">\[C = e^{-rT}\big[F_0N(d_1) - KN(d_2)\big],
+\qquad d_{1,2} = \frac{\ln(F_0/K) \pm \tfrac12\sigma^2T}{\sigma\sqrt T}\]</span>
+          </a>
+          <a class="kb-formula-recap-item" href="#at-the-money-approximation">
+            <span class="kb-formula-recap-name">At-the-money approximation</span>
+            <span class="math-display">\[C_{\text{ATM}} \approx \frac{1}{\sqrt{2\pi}}\,S\sigma\sqrt{T} \approx 0.4\,S\sigma\sqrt{T}\]</span>
+          </a>
+          <a class="kb-formula-recap-item" href="#risk-neutral-density">
+            <span class="kb-formula-recap-name">Risk-neutral density</span>
+            <span class="math-display">\[\frac{\partial^2 C}{\partial K^2} = e^{-rT} q_\Q(K)\]</span>
+          </a></div>
+      </section>
+    <section class="kb-section" id="interview-questions">
+        <h2 class="kb-h kb-h2"><a class="kb-anchor" href="#interview-questions" aria-label="Link to this section">#</a>Interview Questions</h2>
+        <ol class="kb-questions">
+          <li class="kb-question" id="q-black-scholes-formula-q1" data-difficulty="advanced">
+            <div class="kb-question-head">
+              <span class="kb-question-text">What do N(d₁) and N(d₂) actually mean? Be precise.</span>
+              <span class="kb-tagline">Advanced · core · interpretation · risk-neutral</span>
+            </div>
+            <details class="kb-hint"><summary>Hint</summary><div><p>One of them is a probability. The other is not, though it is numerically close to a Greek.</p></div></details>
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p><strong> <span class="math-inline">\(N(d_2)\)</span>  is a probability:</strong> the risk-neutral probability that the option finishes in the
+money,  <span class="math-inline">\(\Q(S_T &gt; K)\)</span> . That interpretation is exact.</p>
+<p><strong> <span class="math-inline">\(N(d_1)\)</span>  is not a probability.</strong> It is  <span class="math-inline">\(\Q(S_T &gt; K)\)</span>  computed under a <em>different</em> measure —
+the one that uses the stock itself as numéraire rather than the money-market account.
+Equivalently,  <span class="math-inline">\(S_0N(d_1) = e^{-rT}\E^\Q[S_T\1\{S_T&gt;K\}]\)</span> , the discounted expected value of the
+stock <em>conditional on exercise</em>, times the probability of exercise. It is the &quot;how much stock
+do I receive&quot; term.</p>
+<p>So the formula reads: <strong>expected stock received, minus expected cash paid, each weighted by the
+chance of the exercise happening.</strong></p>
+<p> <span class="math-inline">\(N(d_1)\)</span>  also happens to equal  <span class="math-inline">\(\Delta\)</span>  for a call. That is a true and useful coincidence, but
+calling  <span class="math-inline">\(N(d_1)\)</span>  &quot;the probability of exercise&quot; is the single most common error in option
+interviews — it confuses the two terms and gets the answer wrong for deep in-the-money options,
+where  <span class="math-inline">\(N(d_1)\)</span>  and  <span class="math-inline">\(N(d_2)\)</span>  diverge substantially.</p></div></details>
+          </li>
+          <li class="kb-question" id="q-black-scholes-formula-q2" data-difficulty="intermediate">
+            <div class="kb-question-head">
+              <span class="kb-question-text">Give the at-the-money call price approximation and derive it.</span>
+              <span class="kb-tagline">Intermediate · approximation · mental-math · desk</span>
+            </div>
+            <details class="kb-hint"><summary>Hint</summary><div><p>For small x, N(x) ≈ ½ + x/√(2π).</p></div></details>
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><span class="math-display">\[C_{\text{ATM}} \approx 0.4\,S\sigma\sqrt{T}\]</span>
+<p><strong>Derivation.</strong> At  <span class="math-inline">\(K = F\)</span>  (at-the-money forward),  <span class="math-inline">\(d_1 = \tfrac12\sigma\sqrt T\)</span>  and
+ <span class="math-inline">\(d_2 = -\tfrac12\sigma\sqrt T\)</span> . Using  <span class="math-inline">\(N(x)\approx\tfrac12 + \phi(0)x\)</span>  with
+ <span class="math-inline">\(\phi(0)=1/\sqrt{2\pi}\approx 0.399\)</span> :</p>
+<span class="math-display">\[C \approx S\Big[\big(\tfrac12 + \tfrac{0.399\sigma\sqrt T}{2}\big)
+- \big(\tfrac12 - \tfrac{0.399\sigma\sqrt T}{2}\big)\Big]
+= 0.399\,S\sigma\sqrt T\]</span>
+<p><strong>Use it constantly.</strong> A 3-month at-the-money call on a $100 stock at 20% vol:
+ <span class="math-inline">\(0.4\times100\times0.2\times0.5 = \$4.00\)</span>  (exact answer 4.61 with  <span class="math-inline">\(r=5\%\)</span> ; 3.99 with  <span class="math-inline">\(r=0\)</span> ).</p>
+<p>The reverse direction is more useful still: an at-the-money option quoted at 4% of spot for
+three months implies  <span class="math-inline">\(\sigma = 0.04/(0.4\times0.5) = 20\%\)</span> . Being able to convert price to vol
+in your head is a basic desk skill, and this is the whole of it.</p></div></details>
+          </li>
+          <li class="kb-question" id="q-black-scholes-formula-q3" data-difficulty="intermediate">
+            <div class="kb-question-head">
+              <span class="kb-question-text">What is implied volatility, and why does the smile exist?</span>
+              <span class="kb-tagline">Intermediate · implied-volatility · smile · core</span>
+            </div>
+            
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p><strong>Implied vol is the  <span class="math-inline">\(\sigma\)</span>  that makes the formula reproduce the market price.</strong> Since vega
+is strictly positive, the map  <span class="math-inline">\(\sigma \mapsto C\)</span>  is monotone, so the inverse exists and is
+unique. It is a <em>quoting convention</em>, not an estimate: a price expressed in different units.</p>
+<p><strong>The smile exists because the model is wrong in a known direction.</strong> If Black–Scholes held,
+one  <span class="math-inline">\(\sigma\)</span>  would price every strike. Instead implied vol rises for low strikes (equity skew)
+because:</p>
+<ul class="kb-list"><li>Real return distributions have <strong>fat left tails</strong> — crashes happen far more often than
+lognormal allows, so out-of-the-money puts must cost more.</li>
+<li>Volatility is <strong>stochastic and negatively correlated with spot</strong> — markets fall and get
+wilder together, which fattens the left tail further.</li>
+<li><strong>Jumps cannot be delta hedged</strong>, so being short a crash carries an irreducible risk premium.</li>
+<li><strong>Structural demand:</strong> institutions buy puts for protection and sell calls for yield.</li></ul>
+<p>The smile is therefore the market&#39;s correction to the model, expressed in the model&#39;s own
+language. Traders keep the formula because it is a monotone, well-understood map from price to
+a comparable number — not because they believe returns are lognormal.</p></div></details>
+          </li>
+          <li class="kb-question" id="q-black-scholes-formula-q4" data-difficulty="intermediate">
+            <div class="kb-question-head">
+              <span class="kb-question-text">A call is deep in the money. What does the price converge to, and why is that not obvious?</span>
+              <span class="kb-tagline">Intermediate · limits · bounds · forwards</span>
+            </div>
+            
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>As  <span class="math-inline">\(S \to \infty\)</span> ,  <span class="math-inline">\(d_1, d_2 \to \infty\)</span> , both  <span class="math-inline">\(N\)</span>  terms  <span class="math-inline">\(\to 1\)</span> , so</p>
+<span class="math-display">\[C \to S - Ke^{-rT}\]</span>
+<p>— <strong>the forward, not the intrinsic value  <span class="math-inline">\(S - K\)</span> .</strong> The extra  <span class="math-inline">\(K(1 - e^{-rT})\)</span>  is the interest
+saved by not paying the strike until  <span class="math-inline">\(T\)</span> .</p>
+<p><strong>Why it is not obvious:</strong> a deep in-the-money call is certain to be exercised, so it feels
+like owning the stock. It is not — it is owning the stock <em>and</em> deferring the payment. That
+deferral is worth money, and it is why an American call on a non-dividend payer is never
+exercised early: doing so throws away exactly this interest.</p>
+<p>Introduce a dividend yield and  <span class="math-inline">\(C \to Se^{-qT} - Ke^{-rT}\)</span> ; if  <span class="math-inline">\(q\)</span>  is large enough the
+early-exercise calculus flips, which is the entire theory of when to exercise an American call.</p></div></details>
+          </li>
+          <li class="kb-question" id="q-black-scholes-formula-q5" data-difficulty="intermediate">
+            <div class="kb-question-head">
+              <span class="kb-question-text">Price a 3-month at-the-money call on a $50 stock, σ = 40%, r = 4%. Do it without a calculator.</span>
+              <span class="kb-tagline">Intermediate · mental-math · desk · numerical</span>
+            </div>
+            
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p><strong>Approximation first.</strong>  <span class="math-inline">\(0.4 \times 50 \times 0.40 \times \sqrt{0.25} = 0.4\times50\times0.40\times0.5 = \$4.00\)</span> .</p>
+<p><strong>Refine for the rate.</strong>  <span class="math-inline">\(r\)</span>  raises the forward to  <span class="math-inline">\(50e^{0.01}\approx 50.50\)</span> , so the option is
+slightly in the money against the forward — worth roughly  <span class="math-inline">\(\Delta\times0.50 \approx +\$0.25\)</span> 
+more. Call it <strong>$4.2</strong>, and quote it with an error bar rather than a decimal.</p>
+<p>The exact Black–Scholes value is $4.22 — the approximation was 5% low before the rate
+adjustment and within 1% after it.</p>
+<p><strong>What the exercise is really testing:</strong> whether you can decompose a price into
+<em>volatility value</em> (the  <span class="math-inline">\(0.4S\sigma\sqrt T\)</span>  term, which is nearly everything) and <em>carry</em> (a
+small correction through the forward). An interviewer asking this wants to see the
+approximation, the size of the correction, and an honest error bar — not a memorised formula
+evaluated badly.</p></div></details>
+          </li>
+          <li class="kb-question" id="q-black-scholes-formula-q6" data-difficulty="intermediate">
+            <div class="kb-question-head">
+              <span class="kb-question-text">Why is √T in the formula rather than T, and what does that imply for time decay?</span>
+              <span class="kb-tagline">Intermediate · scaling · theta · time</span>
+            </div>
+            
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>Because <strong>variances add, standard deviations do not</strong>. Over  <span class="math-inline">\(T\)</span>  the log-price has variance
+ <span class="math-inline">\(\sigma^2T\)</span>  and hence dispersion  <span class="math-inline">\(\sigma\sqrt T\)</span> , and an option&#39;s value is driven by dispersion.</p>
+<p><strong>The consequence for decay:</strong> an at-the-money option is worth  <span class="math-inline">\(\propto\sqrt T\)</span> , so</p>
+<span class="math-display">\[\Theta_{\text{ATM}} \propto -\frac{\partial\sqrt T}{\partial t} \propto -\frac{1}{\sqrt T}\]</span>
+<p>Decay <strong>accelerates</strong> as expiry approaches — it is not linear. Half the time value of a
+one-year at-the-money option is still there with three months left
+( <span class="math-inline">\(\sqrt{0.25}/\sqrt{1} = 0.5\)</span> ), and then it vanishes in a hurry.</p>
+<p>Two practical readings: a one-month option costs about  <span class="math-inline">\(\sqrt{12}\approx3.5\)</span>  times a one-year
+option per unit of time, which is why systematic short-dated premium selling looks so
+attractive and carries so much gamma risk; and doubling the maturity of a long position buys
+only  <span class="math-inline">\(\sqrt2\)</span>  times the vol exposure, not twice.</p></div></details>
+          </li>
+          <li class="kb-question" id="q-black-scholes-formula-q7" data-difficulty="advanced">
+            <div class="kb-question-head">
+              <span class="kb-question-text">Your model says a call is worth $4.00 and it trades at $4.60. Do you buy it?</span>
+              <span class="kb-tagline">Advanced · desk · implied-volatility · judgement</span>
+            </div>
+            
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p><strong>No — first work out what the market is telling you.</strong> Invert both prices to vols. Suppose
+yours implies 20% and the market 23%. The question is no longer &quot;is the option cheap&quot; but
+&quot;will this stock realise more or less than 23%?&quot;</p>
+<p>Then the checklist:</p>
+<ul class="kb-list"><li><strong>Is there an event?</strong> Earnings, a court ruling, an FDA decision, a central bank meeting
+inside the option&#39;s life will lift implied vol legitimately. A model fitted to trailing
+realised vol has no idea a catalyst exists.</li>
+<li><strong>Are your inputs right?</strong> Wrong dividend, wrong borrow, or a stale spot will manufacture an
+apparent 3-vol edge instantly. Check parity first.</li>
+<li><strong>Is the skew the explanation?</strong> If this is an out-of-the-money put, 23% against a 20%
+at-the-money vol may just be the surface.</li>
+<li><strong>Can you actually run the hedge?</strong> The edge is  <span class="math-inline">\(\tfrac12\Gamma[(\d S)^2 - \sigma_i^2S^2\d t]\)</span> 
+integrated over the life, and it only accrues if you rebalance. Unhedged, you are taking a
+directional position the model says nothing about.</li></ul>
+<p><strong>The professional answer starts by suspecting your own inputs.</strong> A persistent 3-vol edge in a
+liquid listed option is far more likely to be a bad dividend forecast than an inefficiency.</p></div></details>
+          </li></ol>
+      </section>
+
+    <section class="kb-section" id="connections">
+      <h2 class="kb-h kb-h2"><a class="kb-anchor" href="#connections" aria-label="Link to this section">#</a>Connections</h2>
+      <div class="kb-connections">
+        <section class="kb-relgroup"><h3>Prerequisites</h3><p class="kb-relnote">Understand these first.</p><ul class="kb-rellist"><li><a href="../concepts/black-scholes-equation.html" class="kb-relitem">
+          <span class="kb-relitem-title">The Black–Scholes Equation</span>
+          <span class="kb-relitem-meta">Options · Advanced</span>
+          <span class="kb-relitem-sum">Hedge an option with the underlying, watch the randomness cancel, and impose that what is left must earn the risk-free rate — the derivation that turns a model of the stock into a price for anything written on it, and explains why the expected return never appears.</span>
+        </a></li><li><a href="../concepts/put-call-parity.html" class="kb-relitem">
+          <span class="kb-relitem-title">Put–Call Parity</span>
+          <span class="kb-relitem-meta">Options · Foundational</span>
+          <span class="kb-relitem-sum">A long call and a short put at the same strike are a forward — an identity that holds with no model, no volatility and no distributional assumption, and the first sanity check any option price must pass.</span>
+        </a></li></ul></section>
+        <section class="kb-relgroup"><h3>Builds towards</h3><p class="kb-relnote">Concepts that depend on this one.</p><ul class="kb-rellist"><li><a href="../concepts/option-greeks.html" class="kb-relitem">
+          <span class="kb-relitem-title">Option Greeks</span>
+          <span class="kb-relitem-meta">Options · Intermediate</span>
+          <span class="kb-relitem-sum">Delta, gamma, vega, theta and rho are the terms of one Taylor expansion, not five separate risk numbers — and the Black–Scholes equation is the identity that ties them together into a single statement about what a hedged position earns.</span>
+        </a></li></ul></section>
+        <section class="kb-relgroup"><h3>Related</h3><ul class="kb-rellist"><li><a href="../concepts/option-greeks.html" class="kb-relitem">
+          <span class="kb-relitem-title">Option Greeks</span>
+          <span class="kb-relitem-meta">Options · Intermediate</span>
+          <span class="kb-relitem-sum">Delta, gamma, vega, theta and rho are the terms of one Taylor expansion, not five separate risk numbers — and the Black–Scholes equation is the identity that ties them together into a single statement about what a hedged position earns.</span>
+        </a></li><li><a href="../concepts/expectation.html" class="kb-relitem">
+          <span class="kb-relitem-title">Expectation</span>
+          <span class="kb-relitem-meta">Probability · Foundational</span>
+          <span class="kb-relitem-sum">The probability-weighted average of a random variable — the number a long-run average converges to, and the object almost every pricing and sizing argument is really about.</span>
+        </a></li><li><a href="../concepts/black-scholes-equation.html" class="kb-relitem">
+          <span class="kb-relitem-title">The Black–Scholes Equation</span>
+          <span class="kb-relitem-meta">Options · Advanced</span>
+          <span class="kb-relitem-sum">Hedge an option with the underlying, watch the randomness cancel, and impose that what is left must earn the risk-free rate — the derivation that turns a model of the stock into a price for anything written on it, and explains why the expected return never appears.</span>
+        </a></li><li><a href="../concepts/put-call-parity.html" class="kb-relitem">
+          <span class="kb-relitem-title">Put–Call Parity</span>
+          <span class="kb-relitem-meta">Options · Foundational</span>
+          <span class="kb-relitem-sum">A long call and a short put at the same strike are a forward — an identity that holds with no model, no volatility and no distributional assumption, and the first sanity check any option price must pass.</span>
+        </a></li></ul></section>
+        
+      </div>
+      <figure class="kb-neighbourhood">
+        <canvas data-kb-minimap="black-scholes-formula" width="760" height="300" aria-label="Local knowledge graph"></canvas>
+        <figcaption>Two hops out from this concept.
+          <a class="kb-side-more" href="../graph.html?focus=black-scholes-formula">Open full graph →</a></figcaption>
+      </figure>
+      <div class="kb-references"><h3>References</h3><ul><li>Black &amp; Scholes (1973), *The Pricing of Options and Corporate Liabilities*</li><li>Hull, *Options, Futures and Other Derivatives*, ch. 15</li><li>Haug, *The Complete Guide to Option Pricing Formulas*</li></ul></div>
+    </section>
+
+    <nav class="kb-prevnext" aria-label="Concept navigation">
+    <a class="kb-prevnext-item kb-prevnext-prev" href="../concepts/option-greeks.html" rel="prev">
+      <span class="kb-prevnext-label">← Previous</span><span>Option Greeks</span></a>
+    <a class="kb-prevnext-item kb-prevnext-up" href="../subjects/options.html">
+      <span class="kb-prevnext-label">Subject</span><span>Options</span></a>
+    <span></span>
+  </nav>
+    <footer class="kb-source-note">
+      Source: <code>content/concepts/black-scholes-formula.md</code> · updated 2026-09-03
+    </footer>
+  </article>
+
+  <!-- The rail sits in the left column but comes last in the source: the
+       article is what a reader (or a screen reader) wants first, and the
+       links here are a way back into it rather than a way into the page. -->
+  <aside class="kb-rail">
+    <nav class="kb-toc kb-rail-group" aria-label="On this page"><h3>On this page</h3><ol><li><a href="#intuition">Intuition</a></li><li><a href="#mathematical-formulation">Mathematical Formulation</a></li><li><a href="#derivation">Derivation</a></li><li><a href="#assumptions-edge-cases">Assumptions &amp; Edge Cases</a></li><li><a href="#worked-example">Worked Example</a></li><li><a href="#why-it-matters-in-quant-finance">Why It Matters in Quant Finance</a></li><li><a href="#trading-research-application">Trading &amp; Research Application</a></li><li><a href="#implementation-notes">Implementation Notes</a></li><li><a href="#common-mistakes">Common Mistakes</a></li><li><a href="#30-second-revision">30-Second Revision</a></li><li><a href="#key-formulas">Key Formulas</a></li><li><a href="#interview-questions">Interview Questions</a></li><li><a href="#connections">Connections</a></li></ol></nav>
+    <nav class="kb-rail-group" id="side-formulas" aria-label="Key formulas"><h3>Formulas</h3><ul><li><a href="#blackscholes-call">Black–Scholes call</a></li><li><a href="#blackscholes-put">Black–Scholes put</a></li><li><a href="#d-and-d">d₁ and d₂</a></li><li><a href="#black-76-forward-form">Black-76 (forward form)</a></li><li><a href="#at-the-money-approximation">At-the-money approximation</a></li><li><a href="#risk-neutral-density">Risk-neutral density</a></li></ul></nav>
+  </aside>
+</main>
+<script src="../data/kb.data.js?v=8381a4e4"></script>
+<script src="../data/search.index.js?v=6eb1e318"></script>
+<script src="../assets/js/kb-core.js?v=a4c20d2d"></script>
+<script src="../assets/js/kb-ui.js?v=a48ca814"></script>
+<script src="../assets/vendor/katex/katex.min.js" defer></script>
+<script src="../assets/vendor/katex/auto-render.min.js" defer></script>
+<script src="../assets/js/math.js?v=44b57f03" defer></script>
+<script src="../assets/js/concept.js?v=c6248b59" defer></script>
+</body>
+</html>

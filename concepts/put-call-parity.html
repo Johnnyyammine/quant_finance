@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en" data-page="concept">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Put–Call Parity · Quant Knowledge Base</title>
+<meta name="description" content="A long call and a short put at the same strike are a forward — an identity that holds with no model, no volatility and no distributional assumption, and the first sanity check any option price must pass.">
+<link rel="icon" href="../assets/icons/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/vendor/katex/katex.min.css">
+<link rel="stylesheet" href="../assets/css/app.css?v=41eef34e">
+<link rel="stylesheet" href="../assets/css/views.css?v=e2266625">
+
+</head>
+<body class="kb-body kb-body--concept">
+<header class="kb-topbar">
+  <a class="kb-brand" href="../index.html" title="Home (H)">
+    <span class="kb-brand-mark">QF</span><span class="kb-brand-text">Quant Knowledge Base</span>
+  </a>
+  <nav class="kb-crumbs" aria-label="Breadcrumb"><ol><li><a href="../index.html">Dashboard</a></li><li class="kb-crumb-sep" aria-hidden="true">/</li><li><a href="../subjects/options.html">Options</a></li><li class="kb-crumb-sep" aria-hidden="true">/</li><li><span aria-current="page">Put–Call Parity</span></li></ol></nav>
+  <div class="kb-topbar-actions">
+    <button class="kb-searchbtn" type="button" data-kb-open-search>
+      <span>Search concepts, formulas, questions</span><kbd>/</kbd>
+    </button>
+    <nav class="kb-toplinks" aria-label="Sections">
+      <a href="../index.html" data-nav="home">Dashboard</a>
+      <a href="../graph.html" data-nav="graph">Graph</a>
+      <a href="../interview.html" data-nav="interview">Interview</a>
+      <a href="../library.html" data-nav="library">Library</a>
+    </nav>
+    <button class="kb-iconbtn" type="button" data-kb-theme title="Toggle theme (T)" aria-label="Toggle theme">◑</button>
+    <button class="kb-iconbtn" type="button" data-kb-help title="Keyboard shortcuts (?)" aria-label="Keyboard shortcuts">?</button>
+  </div>
+</header>
+<main class="kb-main kb-main--concept" data-concept-id="put-call-parity">
+  <article class="kb-article">
+    <header class="kb-concept-head">
+      <div class="kb-concept-eyebrow">
+        <a class="kb-subject-chip" href="../subjects/options.html" style="--subject-color:#cfa14e">
+          <span class="kb-subject-mark">G</span>Options</a>
+        <span class="kb-pill kb-pill--foundational">Foundational</span>
+      </div>
+      <h1 class="kb-concept-title">Put–Call Parity</h1>
+      <section class="kb-glance" aria-label="At a glance">
+      <p class="kb-glance-lead">A long call and a short put at the same strike are a forward — an identity that holds with no model, no volatility and no distributional assumption, and the first sanity check any option price must pass.</p>
+      <a class="kb-glance-formula" href="#putcall-parity-european-no-dividends">
+        <span class="math-display">\[C(K,T) - P(K,T) = S_0 - Ke^{-rT}\]</span>
+        <span class="kb-glance-formula-name">Put–call parity (European, no dividends)</span>
+      </a>
+      <ul class="kb-glance-points"><li><span class="math-inline">\(C - P = S_0 - Ke^{-rT}\)</span> ; with income,  <span class="math-inline">\(C - P = S_0e^{-qT} - Ke^{-rT}\)</span> .</li><li>Proof:  <span class="math-inline">\(\max(x,0) - \max(-x,0) = x\)</span> . Long call, short put <strong>is</strong> a forward — in every state.</li><li>Model-free: no volatility, no distribution, no preferences. Static replication only.</li></ul>
+      <a class="kb-glance-more" href="#30-second-revision">Full revision →</a>
+    </section>
+      <div class="kb-concept-controls">
+        <button class="kb-btn kb-btn--ghost" type="button" data-kb-bookmark="put-call-parity">☆ Bookmark</button>
+        <button class="kb-btn kb-btn--ghost" type="button" data-kb-flashcards>Revision card</button>
+        <a class="kb-btn kb-btn--ghost" href="../graph.html?focus=put-call-parity">Show in graph</a>
+      </div>
+      <ul class="kb-taglist"><li><a class="kb-tag" href="../library.html?tag=options">#options</a></li><li><a class="kb-tag" href="../library.html?tag=no-arbitrage">#no-arbitrage</a></li><li><a class="kb-tag" href="../library.html?tag=replication">#replication</a></li><li><a class="kb-tag" href="../library.html?tag=pricing">#pricing</a></li><li><a class="kb-tag" href="../library.html?tag=parity">#parity</a></li><li><a class="kb-tag" href="../library.html?tag=synthetic">#synthetic</a></li></ul>
+    </header>
+
+    <div class="kb-content"><h2 id="intuition" class="kb-h kb-h2"><a class="kb-anchor" href="#intuition" aria-label="Link to this section">#</a>Intuition</h2>
+<p>Options look like they need a model. Put–call parity is the surprise: one <em>combination</em> of options
+needs no model at all.</p>
+<p>Hold a call and sell a put at the same strike  <span class="math-inline">\(K\)</span>  and expiry  <span class="math-inline">\(T\)</span> . Whatever happens:</p>
+<ul class="kb-list"><li>If  <span class="math-inline">\(S_T &gt; K\)</span> , your call pays  <span class="math-inline">\(S_T - K\)</span>  and the put expires worthless.</li>
+<li>If  <span class="math-inline">\(S_T &lt; K\)</span> , your call expires worthless and you are assigned on the put, paying  <span class="math-inline">\(K - S_T\)</span>  — i.e.
+receiving  <span class="math-inline">\(S_T - K\)</span> , a negative number.</li></ul>
+<p>Either way, you end up with exactly  <span class="math-inline">\(S_T - K\)</span> . <strong>You are long a forward at  <span class="math-inline">\(K\)</span> </strong>, and you got there
+without knowing anything about volatility. So the two must cost the same today, and a
+<a class="kb-link" href="forwards-and-futures.html" data-concept="forwards-and-futures">forward struck at  <span class="math-inline">\(K\)</span> </a> costs  <span class="math-inline">\(S_0 - Ke^{-rT}\)</span> .</p>
+<aside class="kb-callout kb-callout--insight"><div class="kb-callout-title">Insight</div><div class="kb-callout-body"><p>Parity says the call and the put are not two independent instruments — they are one instrument plus
+a forward. All the modelling difficulty lives in the <em>symmetric</em> part they share; the difference
+between them is pure carry, and carry is contractual.</p>
+<p>The practical consequence: you never need to model a put. Price the call, then read the put off
+parity. Every option pricer in production does exactly this.</p></div></aside>
+<h2 id="mathematical-formulation" class="kb-h kb-h2"><a class="kb-anchor" href="#mathematical-formulation" aria-label="Link to this section">#</a>Mathematical Formulation</h2>
+<figure class="kb-formula" id="putcall-parity-european-no-dividends" data-formula="putcall-parity-european-no-dividends"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">Put–call parity (European, no dividends)</span><button class="kb-formula-copy" type="button" data-latex="C(K,T) - P(K,T) = S_0 - Ke^{-rT}" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[C(K,T) - P(K,T) = S_0 - Ke^{-rT}\]</span> </div><p class="kb-formula-note">Model-free. Holds for any distribution of S_T, any volatility, any risk preferences — it is an identity about payoffs.</p><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">Options</span><span class="kb-chip">Market Making</span><span class="kb-chip">Risk</span></footer></figure>
+<figure class="kb-formula" id="with-dividends" data-formula="with-dividends"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">With dividends</span><button class="kb-formula-copy" type="button" data-latex="C - P = S_0e^{-qT} - Ke^{-rT} \qquad\text{(discrete: } C - P = S_0 - D - Ke^{-rT})" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[C - P = S_0e^{-qT} - Ke^{-rT} \qquad\text{(discrete: } C - P = S_0 - D - Ke^{-rT})\]</span> </div><p class="kb-formula-note">D is the present value of dividends before T, or use a continuous yield q. This is the version that matters in practice.</p><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">Equity Options</span><span class="kb-chip">Index Options</span></footer></figure>
+<figure class="kb-formula" id="parity-in-forward-terms" data-formula="parity-in-forward-terms"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">Parity in forward terms</span><button class="kb-formula-copy" type="button" data-latex="C - P = e^{-rT}(F_0 - K), \qquad F_0 = S_0e^{(r-q)T}" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[C - P = e^{-rT}(F_0 - K), \qquad F_0 = S_0e^{(r-q)T}\]</span> </div><p class="kb-formula-note">The cleanest statement: the synthetic is a forward. At-the-money-forward (K = F) the call and put are worth the same.</p><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">FX Options</span><span class="kb-chip">Futures Options</span><span class="kb-chip">Black-76</span></footer></figure>
+<figure class="kb-formula" id="american-bounds" data-formula="american-bounds"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">American bounds</span><button class="kb-formula-copy" type="button" data-latex="S_0 - K \;\le\; C_{\text{Am}} - P_{\text{Am}} \;\le\; S_0 - Ke^{-rT}" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[S_0 - K \;\le\; C_{\text{Am}} - P_{\text{Am}} \;\le\; S_0 - Ke^{-rT}\]</span> </div><p class="kb-formula-note">An inequality, not an identity: early exercise on the put breaks the state-by-state matching.</p><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">Equity Options</span><span class="kb-chip">Early Exercise</span></footer></figure>
+<figure class="kb-formula" id="box-spread" data-formula="box-spread"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">Box spread</span><button class="kb-formula-copy" type="button" data-latex="\big[C(K_1) - P(K_1)\big] - \big[C(K_2) - P(K_2)\big] = (K_2 - K_1)e^{-rT}" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[\big[C(K_1) - P(K_1)\big] - \big[C(K_2) - P(K_2)\big] = (K_2 - K_1)e^{-rT}\]</span> </div><p class="kb-formula-note">Parity at two strikes. The payoff is a constant, so a box is a zero-coupon bond and its implied rate is a traded funding rate.</p><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">Funding</span><span class="kb-chip">Rates</span><span class="kb-chip">Arbitrage</span></footer></figure>
+<h2 id="derivation" class="kb-h kb-h2"><a class="kb-anchor" href="#derivation" aria-label="Link to this section">#</a>Derivation</h2>
+<details class="kb-derivation"><summary>The payoff identity, then the price identity</summary><div class="kb-derivation-body"><p><strong>Step 1 — the payoffs agree in every state.</strong> For any real number  <span class="math-inline">\(x\)</span> ,</p>
+<span class="math-display">\[\max(x,0) - \max(-x,0) = x\]</span>
+<p>Put  <span class="math-inline">\(x = S_T - K\)</span> : the long call minus the short put pays  <span class="math-inline">\(S_T - K\)</span> , always. This is an algebraic
+identity, not an approximation, and it holds for every possible  <span class="math-inline">\(S_T\)</span>  — there is no distribution
+anywhere in it.</p>
+<p><strong>Step 2 — build the same payoff a second way.</strong> Buy one share (cost  <span class="math-inline">\(S_0\)</span> ) and borrow  <span class="math-inline">\(Ke^{-rT}\)</span> 
+(receive  <span class="math-inline">\(Ke^{-rT}\)</span>  now, repay  <span class="math-inline">\(K\)</span>  at  <span class="math-inline">\(T\)</span> ). At  <span class="math-inline">\(T\)</span>  this portfolio is worth  <span class="math-inline">\(S_T - K\)</span> .</p>
+<p><strong>Step 3 — equate costs.</strong> Two portfolios with identical payoffs in every state must cost the same,
+or the cheaper one is bought and the dearer sold for a riskless profit:</p>
+<span class="math-display">\[C - P = S_0 - Ke^{-rT}\]</span>
+<p>The argument uses only <em>static</em> replication: set the trade up once, do nothing, wait. That is why
+no model appears. Contrast option pricing itself, where the replication is dynamic and the cost of
+running the hedge depends on how much the stock moves — which is exactly where volatility enters.</p></div></details>
+<details class="kb-derivation"><summary>The two arbitrage trades, explicitly</summary><div class="kb-derivation-body"><p>Write  <span class="math-inline">\(\Delta = (C - P) - (S_0 - Ke^{-rT})\)</span>  for the parity gap.</p>
+<p><strong>If  <span class="math-inline">\(\Delta &gt; 0\)</span>  (synthetic rich) — a conversion.</strong> Sell the call, buy the put, buy the stock,
+borrow  <span class="math-inline">\(Ke^{-rT}\)</span> . Net cash in today  <span class="math-inline">\(= \Delta &gt; 0\)</span> .</p>
+<div class="kb-table-wrap"><table class="kb-table"><thead><tr><th>At  <span class="math-inline">\(T\)</span></th><th><span class="math-inline">\(S_T &lt; K\)</span></th><th><span class="math-inline">\(S_T &gt; K\)</span></th></tr></thead><tbody><tr><td>Short call</td><td><span class="math-inline">\(0\)</span></td><td><span class="math-inline">\(-(S_T-K)\)</span></td></tr>
+<tr><td>Long put</td><td><span class="math-inline">\(K - S_T\)</span></td><td><span class="math-inline">\(0\)</span></td></tr>
+<tr><td>Long stock</td><td><span class="math-inline">\(S_T\)</span></td><td><span class="math-inline">\(S_T\)</span></td></tr>
+<tr><td>Repay loan</td><td><span class="math-inline">\(-K\)</span></td><td><span class="math-inline">\(-K\)</span></td></tr>
+<tr><td><strong>Total</strong></td><td><span class="math-inline">\(\mathbf{0}\)</span></td><td><span class="math-inline">\(\mathbf{0}\)</span></td></tr></tbody></table></div>
+<p>Zero in both states,  <span class="math-inline">\(\Delta\)</span>  banked today.</p>
+<p><strong>If  <span class="math-inline">\(\Delta &lt; 0\)</span>  (synthetic cheap) — a reversal.</strong> Reverse every leg: buy the call, sell the put,
+short the stock, lend the proceeds. Same table with signs flipped, net cash  <span class="math-inline">\(-\Delta &gt; 0\)</span> .</p>
+<p>Note the asymmetry that matters in practice: the conversion needs no stock borrow, the reversal
+does. So the upper bound is enforced by anyone, and the lower bound only by those who can short.</p></div></details>
+<details class="kb-derivation"><summary>Why call and put share one implied volatility</summary><div class="kb-derivation-body"><p>Black–Scholes prices satisfy parity identically — for <strong>every</strong>  <span class="math-inline">\(\sigma\)</span> , not just the right one:</p>
+<span class="math-display">\[C_{\text{BS}}(\sigma) - P_{\text{BS}}(\sigma) = S_0e^{-qT} - Ke^{-rT}\]</span>
+<p>(Substitute the formulas and use  <span class="math-inline">\(\Phi(-x) = 1 - \Phi(x)\)</span> ; the  <span class="math-inline">\(\Phi\)</span>  terms collapse.) The right-hand
+side has no  <span class="math-inline">\(\sigma\)</span>  in it at all.</p>
+<p>Now suppose the market call price is matched by  <span class="math-inline">\(\sigma_C\)</span> . Then</p>
+<span class="math-display">\[P_{\text{mkt}} = C_{\text{mkt}} - (S_0e^{-qT} - Ke^{-rT})
+= C_{\text{BS}}(\sigma_C) - (S_0e^{-qT} - Ke^{-rT}) = P_{\text{BS}}(\sigma_C)\]</span>
+<p>so  <span class="math-inline">\(\sigma_P = \sigma_C\)</span> . <strong>The implied volatility belongs to the strike, not to the option type.</strong>
+Any observed difference is a data problem — a stale leg, a wide spread, or wrong carry inputs — and
+the standard fix is to build the surface from out-of-the-money options on both sides, which are the
+liquid ones, and let parity supply the rest.</p></div></details>
+<h2 id="assumptions-edge-cases" class="kb-h kb-h2"><a class="kb-anchor" href="#assumptions-edge-cases" aria-label="Link to this section">#</a>Assumptions &amp; Edge Cases</h2>
+<aside class="kb-callout kb-callout--assumption"><div class="kb-callout-title">Assumptions</div><div class="kb-callout-body"><p>Parity is an identity under four conditions, each of which is violated somewhere real:</p>
+<ul class="kb-list"><li><strong>European exercise.</strong> American puts break it into an inequality.</li>
+<li><strong>Known income.</strong> Dividends must be forecastable; the residual is dividend risk.</li>
+<li><strong>Shorting is possible.</strong> Otherwise only the conversion side is enforced.</li>
+<li><strong>One financing rate.</strong> A borrow-lend spread turns the identity into a no-arbitrage <em>band</em>.</li></ul></div></aside>
+<aside class="kb-callout kb-callout--warning"><div class="kb-callout-title">Warning</div><div class="kb-callout-body"><p><strong>A parity violation is a diagnostic, not a trade.</strong> Genuine free money in a liquid listed market
+is rare enough that the base rate should dominate your reasoning. Work through the causes in order:
+an unmodelled dividend, a hard-to-borrow spread, a stale or non-simultaneous quote, an
+early-exercise premium on the put, a wide bid-ask where you priced both legs at mid, or a mismatched
+settlement convention.</p>
+<p>Only after all six come back clean does &quot;arbitrage&quot; become the leading hypothesis — and by then the
+gap will usually be inside the spread anyway. What the gap <em>is</em> good for is inference: solve it for
+the implied borrow rate or the implied dividend, both of which are useful numbers you cannot observe
+directly.</p></div></aside>
+<h2 id="worked-example" class="kb-h kb-h2"><a class="kb-anchor" href="#worked-example" aria-label="Link to this section">#</a>Worked Example</h2>
+<p><strong>Backing out the market&#39;s dividend forecast.</strong> An index at 4,000, one-year options,  <span class="math-inline">\(r = 5\%\)</span> . The
+4,000-strike call trades at 240.0 and the put at 158.0.</p>
+<p>Parity with a dividend yield  <span class="math-inline">\(q\)</span> :</p>
+<span class="math-display">\[C - P = S_0e^{-qT} - Ke^{-rT}\]</span>
+<span class="math-display">\[240.0 - 158.0 = 4000e^{-q} - 4000e^{-0.05}\]</span>
+<span class="math-display">\[82.0 = 4000e^{-q} - 3804.9\]</span>
+<span class="math-display">\[e^{-q} = \frac{3886.9}{4000} = 0.97173 \;\Longrightarrow\; q = 2.87\%\]</span>
+<p><strong>The options market is pricing a 2.87% dividend yield</strong>, and it got there without anybody quoting a
+dividend. That number is directly tradable — it is what a dividend swap references — and comparing
+it to your own bottom-up forecast is a real strategy on an equity derivatives desk.</p>
+<p>Run the same calculation on single stocks and the residual after a known dividend is the implied
+<em>borrow</em> rate. Both quantities come out of one line of algebra that contains no model.</p>
+<h2 id="why-it-matters-in-quant-finance" class="kb-h kb-h2"><a class="kb-anchor" href="#why-it-matters-in-quant-finance" aria-label="Link to this section">#</a>Why It Matters in Quant Finance</h2>
+<p><strong>It is the first validation any pricing system must pass.</strong> Before comparing a model against the
+market, check that it satisfies parity to machine precision. A model that violates parity is
+arbitrageable by construction and is wrong for a reason that has nothing to do with its dynamics.
+This is a standard unit test in every derivatives library.</p>
+<p><strong>It halves the modelling problem.</strong> Price the call, get the put free. Build the volatility surface
+from liquid out-of-the-money options — puts below the forward, calls above — and use parity to fill
+in the illiquid in-the-money wing rather than trusting its wide quotes.</p>
+<p><strong>It generates synthetic positions.</strong> Long call plus short put is a forward; the equivalences run
+both ways and are the basis of conversions, reversals, boxes and jelly rolls. When one instrument is
+expensive or unavailable, parity says which combination replaces it.</p>
+<p><strong>It disciplines the vocabulary of skew.</strong> Because implied vol attaches to the strike rather than
+the option type, &quot;put vol above call vol&quot; is meaningless at a fixed strike and the smile must be
+described as a function of moneyness. Getting this wrong is a fast way to reveal that a surface has
+never actually been examined.</p>
+<p><strong>It is where funding shows up in option prices.</strong> Box rates are traded funding curves; parity gaps
+in hard-to-borrow names are traded borrow rates. Both are examples of a general lesson: a persistent
+apparent arbitrage is almost always a price for something you were not charging for.</p>
+<h2 id="trading-research-application" class="kb-h kb-h2"><a class="kb-anchor" href="#trading-research-application" aria-label="Link to this section">#</a>Trading &amp; Research Application</h2>
+<aside class="kb-callout kb-callout--desk"><div class="kb-callout-title">On the desk</div><div class="kb-callout-body"><p><strong>Quote the synthetic, not the leg.</strong> Market makers price and risk-manage in terms of the synthetic
+forward and one option, because parity means the second option carries no new information. It also
+means a call and a put at one strike must be hedged as a single risk, not two.</p>
+<p><strong>The parity gap is a data-quality alarm.</strong> Run it across the surface continuously. Gaps outside the
+bid-ask band flag stale feeds, bad dividend inputs or a borrow that has tightened — usually before
+anything else on the desk notices.</p>
+<p><strong>Boxes fund the book.</strong> Selling a box on European index options borrows at the implied box rate,
+which for institutions is frequently inside the unsecured bank rate. Never sell an American box: the
+short legs can be assigned and the position stops being riskless exactly when it matters.</p>
+<p><strong>Implied borrow is an alpha signal.</strong> In single names, the parity residual after dividends is the
+market&#39;s borrow rate. A borrow that is widening is a real-time measure of short demand, and it leads
+public short-interest data by weeks.</p>
+<p><strong>Do not exercise an in-the-money call for the dividend without doing the arithmetic</strong>, and do not
+forget to when the arithmetic says yes. Both errors are pure operational P&amp;L.</p></div></aside>
+<h2 id="implementation-notes" class="kb-h kb-h2"><a class="kb-anchor" href="#implementation-notes" aria-label="Link to this section">#</a>Implementation Notes</h2>
+<figure class="kb-code" data-lang="python"><pre><code class="language-python">import numpy as np
+
+def parity_gap(call, put, spot, strike, r, T, q=0.0):
+    &quot;&quot;&quot;Signed distance from parity. Positive means the synthetic forward
+    (long call / short put) is rich to the actual forward.
+
+    In a pricing library this belongs in the test suite, not just the analytics:
+    any model whose call and put prices give a non-zero gap is arbitrageable by
+    construction, whatever its dynamics.&quot;&quot;&quot;
+    return (call - put) - (spot * np.exp(-q * T) - strike * np.exp(-r * T))
+
+def implied_dividend_yield(call, put, spot, strike, r, T):
+    &quot;&quot;&quot;Solve parity for q. This is the market&#39;s dividend forecast, extracted
+    with no model at all -- and on an index it is directly comparable to the
+    quoted dividend swap.&quot;&quot;&quot;
+    forward_pv = (call - put) + strike * np.exp(-r * T)
+    return -np.log(forward_pv / spot) / T
+
+def implied_borrow_rate(call, put, spot, strike, r, T, q):
+    &quot;&quot;&quot;Same algebra, but attribute the residual to the borrow leg instead. Only
+    meaningful once q is known independently -- otherwise you are solving one
+    equation for two unknowns and will call a dividend a borrow.&quot;&quot;&quot;
+    forward_pv = (call - put) + strike * np.exp(-r * T)
+    return -np.log(forward_pv / spot) / T - q
+
+def put_from_call(call, spot, strike, r, T, q=0.0):
+    &quot;&quot;&quot;Never model a put. Price the call and read the put off parity: it is
+    exact, it is faster, and it guarantees the two are mutually consistent.&quot;&quot;&quot;
+    return call - spot * np.exp(-q * T) + strike * np.exp(-r * T)
+
+# The test that every option library should have:
+#   assert abs(parity_gap(bs_call(...), bs_put(...), ...)) &lt; 1e-12
+# for a grid of strikes, maturities AND volatilities -- parity must hold for
+# every sigma, which is what forces one implied vol per strike.</code></pre></figure>
+<h2 id="common-mistakes" class="kb-h kb-h2"><a class="kb-anchor" href="#common-mistakes" aria-label="Link to this section">#</a>Common Mistakes</h2>
+<aside class="kb-callout kb-callout--pitfall"><div class="kb-callout-title">Common pitfall</div><div class="kb-callout-body"><ul class="kb-list"><li><strong>Applying the European identity to American options.</strong> It becomes a two-sided inequality, and the
+slack is the early-exercise premium on the put.</li>
+<li><strong>Omitting dividends.</strong> On a 2–3% yielder over a year this is larger than most quoted parity
+&quot;arbitrages&quot;, and it is the first thing to check.</li>
+<li><strong>Calling a gap an arbitrage.</strong> Borrow cost, stale quotes, mid-pricing a wide spread and
+early-exercise value explain nearly all of them.</li>
+<li><strong>Believing puts and calls at the same strike have different implied vols.</strong> They cannot. The
+observation is always a data artefact.</li>
+<li><strong>Selling American boxes.</strong> Assignment on the short legs turns a &quot;riskless loan&quot; into a leveraged
+directional position.</li>
+<li><strong>Using mid prices on both legs.</strong> You cannot trade two mids; a parity screen that ignores the
+spread manufactures signals at exactly the rate the spread is wide.</li>
+<li><strong>Forgetting that parity constrains prices, not dynamics.</strong> It says nothing about whether your
+volatility model is right — only that whatever it is, it must not break this identity.</li></ul></div></aside>
+<h2 id="30-second-revision" class="kb-h kb-h2"><a class="kb-anchor" href="#30-second-revision" aria-label="Link to this section">#</a>30-Second Revision</h2>
+<ul class="kb-list"><li><span class="math-inline">\(C - P = S_0 - Ke^{-rT}\)</span> ; with income,  <span class="math-inline">\(C - P = S_0e^{-qT} - Ke^{-rT}\)</span> .</li>
+<li>Proof:  <span class="math-inline">\(\max(x,0) - \max(-x,0) = x\)</span> . Long call, short put <strong>is</strong> a forward — in every state.</li>
+<li>Model-free: no volatility, no distribution, no preferences. Static replication only.</li>
+<li>Therefore one implied vol per strike; call vol  <span class="math-inline">\(\ne\)</span>  put vol at a shared strike is a data error.</li>
+<li>American: an inequality,  <span class="math-inline">\(S_0 - K \le C - P \le S_0 - Ke^{-rT}\)</span> . Slack is the put&#39;s early-exercise
+value.</li>
+<li>Conversion needs no borrow; reversal does — so in hard-to-borrow names parity is one-sided.</li>
+<li>Box  <span class="math-inline">\(= (K_2-K_1)e^{-rT}\)</span> : a zero-coupon bond, a funding trade, and never safe on American options.</li>
+<li>Practical uses: never model a put; back out implied dividends and implied borrow; use it as the
+first unit test of any pricer.</li></ul></div>
+    <section class="kb-section" id="key-formulas">
+        <h2 class="kb-h kb-h2"><a class="kb-anchor" href="#key-formulas" aria-label="Link to this section">#</a>Key Formulas</h2>
+        <div class="kb-formula-recap">
+          <a class="kb-formula-recap-item" href="#putcall-parity-european-no-dividends">
+            <span class="kb-formula-recap-name">Put–call parity (European, no dividends)</span>
+            <span class="math-display">\[C(K,T) - P(K,T) = S_0 - Ke^{-rT}\]</span>
+          </a>
+          <a class="kb-formula-recap-item" href="#with-dividends">
+            <span class="kb-formula-recap-name">With dividends</span>
+            <span class="math-display">\[C - P = S_0e^{-qT} - Ke^{-rT} \qquad\text{(discrete: } C - P = S_0 - D - Ke^{-rT})\]</span>
+          </a>
+          <a class="kb-formula-recap-item" href="#parity-in-forward-terms">
+            <span class="kb-formula-recap-name">Parity in forward terms</span>
+            <span class="math-display">\[C - P = e^{-rT}(F_0 - K), \qquad F_0 = S_0e^{(r-q)T}\]</span>
+          </a>
+          <a class="kb-formula-recap-item" href="#american-bounds">
+            <span class="kb-formula-recap-name">American bounds</span>
+            <span class="math-display">\[S_0 - K \;\le\; C_{\text{Am}} - P_{\text{Am}} \;\le\; S_0 - Ke^{-rT}\]</span>
+          </a>
+          <a class="kb-formula-recap-item" href="#box-spread">
+            <span class="kb-formula-recap-name">Box spread</span>
+            <span class="math-display">\[\big[C(K_1) - P(K_1)\big] - \big[C(K_2) - P(K_2)\big] = (K_2 - K_1)e^{-rT}\]</span>
+          </a></div>
+      </section>
+    <section class="kb-section" id="interview-questions">
+        <h2 class="kb-h kb-h2"><a class="kb-anchor" href="#interview-questions" aria-label="Link to this section">#</a>Interview Questions</h2>
+        <ol class="kb-questions">
+          <li class="kb-question" id="q-put-call-parity-q1" data-difficulty="foundational">
+            <div class="kb-question-head">
+              <span class="kb-question-text">State put–call parity and prove it in one line.</span>
+              <span class="kb-tagline">Foundational · core · no-arbitrage · replication</span>
+            </div>
+            <details class="kb-hint"><summary>Hint</summary><div><p>What is max(S−K,0) − max(K−S,0)?</p></div></details>
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><span class="math-display">\[C - P = S_0 - Ke^{-rT}\]</span>
+<p><strong>The one line:</strong> at expiry,
+ <span class="math-inline">\(\max(S_T-K,0) - \max(K-S_T,0) = S_T - K\)</span>  for every value of  <span class="math-inline">\(S_T\)</span>  — check the two cases and
+they agree. So long call plus short put has exactly the payoff of a forward struck at  <span class="math-inline">\(K\)</span> , in
+every state of the world. Two portfolios with identical payoffs in every state have identical
+prices today, and the forward&#39;s price is  <span class="math-inline">\(S_0 - Ke^{-rT}\)</span> .</p>
+<p><strong>What is not in the statement:</strong> volatility, drift, the distribution of  <span class="math-inline">\(S_T\)</span> , anyone&#39;s risk
+preferences, or any model. Parity is a statement about payoffs, not about dynamics. That makes
+it the strongest result in option pricing and the first thing to check when a quoted surface
+looks wrong.</p></div></details>
+          </li>
+          <li class="kb-question" id="q-put-call-parity-q2" data-difficulty="intermediate">
+            <div class="kb-question-head">
+              <span class="kb-question-text">Does put–call parity hold for American options?</span>
+              <span class="kb-tagline">Intermediate · american · early-exercise · bounds</span>
+            </div>
+            
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>No — it weakens to an inequality, because early exercise breaks the &quot;identical payoff in every
+state&quot; argument. For non-dividend-paying stock:</p>
+<span class="math-display">\[S_0 - K \;\le\; C - P \;\le\; S_0 - Ke^{-rT}\]</span>
+<p><strong>Why the upper bound still binds:</strong> an American call on a non-dividend payer is never
+optimally exercised early (exercising throws away the interest on  <span class="math-inline">\(K\)</span>  and the remaining
+optionality), so  <span class="math-inline">\(C_{\text{Am}} = C_{\text{Eur}}\)</span> . The American <em>put</em> can be worth exercising
+early — deep in the money, you would rather have the cash — so  <span class="math-inline">\(P_{\text{Am}} &gt; P_{\text{Eur}}\)</span> 
+and the difference  <span class="math-inline">\(C - P\)</span>  falls below the European value.</p>
+<p>With dividends the call can also be worth exercising early, just before an ex-date large
+enough to exceed the remaining time value. Both bounds then loosen.</p></div></details>
+          </li>
+          <li class="kb-question" id="q-put-call-parity-q3" data-difficulty="intermediate">
+            <div class="kb-question-head">
+              <span class="kb-question-text">A stock trades at 100. The 100-strike call is 6.20, the put is 4.00, r = 5%, T = 1 year. Is there an arbitrage?</span>
+              <span class="kb-tagline">Intermediate · arbitrage · desk · numerical</span>
+            </div>
+            
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>Parity requires  <span class="math-inline">\(C - P = S - Ke^{-rT} = 100 - 100e^{-0.05} = 100 - 95.12 = 4.88\)</span> .</p>
+<p>Observed:  <span class="math-inline">\(6.20 - 4.00 = 2.20\)</span> . The call is <strong>cheap relative to the put</strong> by  <span class="math-inline">\(2.68\)</span> .</p>
+<p><strong>The trade (a reversal):</strong> buy the call, sell the put, sell the stock short, invest the
+proceeds. Payoff at  <span class="math-inline">\(T\)</span>  from the synthetic long forward plus the short stock is exactly zero
+in every state; the cash left over is  <span class="math-inline">\(2.68\)</span>  today, or  <span class="math-inline">\(2.68e^{0.05} = 2.82\)</span>  at expiry.</p>
+<p><strong>Before sizing it, ask what is really wrong.</strong> A 2.68 gap on a 100 stock is enormous and
+essentially never a genuine free lunch. In order of likelihood: an unmodelled dividend
+(a 2.7% yield explains it exactly); a hard-to-borrow stock, so the short leg costs a stub fee;
+stale or non-simultaneous quotes; or an American put with early-exercise value. The
+professional answer names the missing carry term before naming the trade.</p></div></details>
+          </li>
+          <li class="kb-question" id="q-put-call-parity-q4" data-difficulty="intermediate">
+            <div class="kb-question-head">
+              <span class="kb-question-text">How do dividends change parity, and what does that imply about early exercise?</span>
+              <span class="kb-tagline">Intermediate · dividends · american · carry</span>
+            </div>
+            
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>Discrete dividends with present value  <span class="math-inline">\(D\)</span> , or a continuous yield  <span class="math-inline">\(q\)</span> :</p>
+<span class="math-display">\[C - P = S_0 - D - Ke^{-rT} \qquad\text{or}\qquad C - P = S_0e^{-qT} - Ke^{-rT}\]</span>
+<p>Holding the stock earns the dividend; holding the synthetic does not, so the synthetic is worth
+less by exactly the dividend&#39;s present value.</p>
+<p><strong>Implication for early exercise:</strong> exercising an American call early buys you the dividend but
+costs you the interest on  <span class="math-inline">\(K\)</span>  and the remaining time value. It is therefore optimal only just
+before an ex-date where the dividend exceeds roughly  <span class="math-inline">\(K(1 - e^{-r\tau})\)</span>  plus the time value
+given up. This is a live operational issue: an option desk that fails to exercise a deep
+in-the-money call before a large ex-date simply gives the dividend away.</p></div></details>
+          </li>
+          <li class="kb-question" id="q-put-call-parity-q5" data-difficulty="advanced">
+            <div class="kb-question-head">
+              <span class="kb-question-text">You cannot short the stock. Which half of parity survives?</span>
+              <span class="kb-tagline">Advanced · frictions · bounds · short-selling</span>
+            </div>
+            <details class="kb-hint"><summary>Hint</summary><div><p>Which direction of the arbitrage needs a borrow?</p></div></details>
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>The <strong>conversion</strong> (buy stock, sell call, buy put) needs no borrow, so the bound it enforces
+survives:  <span class="math-inline">\(C - P \le S_0 - Ke^{-rT}\)</span>  still holds.</p>
+<p>The <strong>reversal</strong> (short stock, buy call, sell put) requires borrowing the shares. If the borrow
+is impossible or expensive at rate  <span class="math-inline">\(b\)</span> , the lower bound loosens to
+ <span class="math-inline">\(C - P \ge S_0e^{-bT} - Ke^{-rT}\)</span> .</p>
+<p><strong>So parity becomes one-sided.</strong> In a hard-to-borrow name the puts can look permanently rich
+and stay that way, because nobody can trade against it. This is not a market inefficiency — it
+is the borrow cost showing up in the option market, and the implied borrow rate backed out of
+the parity gap is a genuinely traded quantity that stock-loan desks quote against.</p></div></details>
+          </li>
+          <li class="kb-question" id="q-put-call-parity-q6" data-difficulty="advanced">
+            <div class="kb-question-head">
+              <span class="kb-question-text">Why do traders say a box spread is a loan?</span>
+              <span class="kb-tagline">Advanced · box · rates · funding · desk</span>
+            </div>
+            
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>A box is parity applied at two strikes: long the  <span class="math-inline">\(K_1\)</span>  synthetic forward, short the  <span class="math-inline">\(K_2\)</span>  one.
+The stock cancels and the terminal payoff is the constant  <span class="math-inline">\(K_2 - K_1\)</span>  in every state, so today
+it must cost</p>
+<span class="math-display">\[(K_2 - K_1)e^{-rT}\]</span>
+<p><strong>A guaranteed fixed cash flow at a fixed date — that is a zero-coupon bond.</strong> Buying a box
+lends money at the implied rate; selling one borrows. Institutions use boxes to fund at rates
+inside their bank spread, and the implied box rate is a directly observable market funding
+curve.</p>
+<p><strong>The famous caveat:</strong> boxes on <em>American</em> options are not riskless, because the short legs can
+be assigned early. A retail trader on Robinhood in 2019 discovered this by selling boxes and
+being assigned; the &quot;riskless arbitrage&quot; became a leveraged short position overnight. Sell
+boxes on European-style index options or not at all.</p></div></details>
+          </li>
+          <li class="kb-question" id="q-put-call-parity-q7" data-difficulty="advanced">
+            <div class="kb-question-head">
+              <span class="kb-question-text">An interviewer says implied vol on the 90-strike put is 24% and on the 90-strike call is 21%. What do you say?</span>
+              <span class="kb-tagline">Advanced · implied-volatility · skew · desk</span>
+            </div>
+            
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p><strong>That cannot be a real observation about the same strike and expiry.</strong> Put–call parity forces
+the call and the put at the same strike to have the <em>same</em> implied volatility. The proof needs
+no model beyond Black–Scholes being invertible: parity is  <span class="math-inline">\(C - P = S - Ke^{-rT}\)</span> , and the
+Black–Scholes prices satisfy the same identity for <em>any</em>  <span class="math-inline">\(\sigma\)</span>  — so the  <span class="math-inline">\(\sigma\)</span>  that
+reprices the call must reprice the put.</p>
+<p>So the difference is not information about the market&#39;s view. It is a data artefact: stale
+quotes on one leg, a mid taken from a wide spread, a wrong dividend or borrow assumption in the
+inverter, or mismatched timestamps.</p>
+<p><strong>The skew is a function of strike, not of option type.</strong> A 90-strike put and a 110-strike call
+can and do have different vols; a 90-put and a 90-call cannot. Being clear on this distinction
+is a reliable marker of someone who has actually looked at a surface.</p></div></details>
+          </li></ol>
+      </section>
+
+    <section class="kb-section" id="connections">
+      <h2 class="kb-h kb-h2"><a class="kb-anchor" href="#connections" aria-label="Link to this section">#</a>Connections</h2>
+      <div class="kb-connections">
+        <section class="kb-relgroup"><h3>Prerequisites</h3><p class="kb-relnote">Understand these first.</p><ul class="kb-rellist"><li><a href="../concepts/forwards-and-futures.html" class="kb-relitem">
+          <span class="kb-relitem-title">Forwards &amp; Futures</span>
+          <span class="kb-relitem-meta">Derivatives · Foundational</span>
+          <span class="kb-relitem-sum">The simplest derivative and the cleanest pricing argument in finance — a forward price is fixed entirely by the cost of carrying the asset, with no model, no volatility and no view on where the price is going.</span>
+        </a></li></ul></section>
+        <section class="kb-relgroup"><h3>Builds towards</h3><p class="kb-relnote">Concepts that depend on this one.</p><ul class="kb-rellist"><li><a href="../concepts/black-scholes-formula.html" class="kb-relitem">
+          <span class="kb-relitem-title">Black–Scholes Formula</span>
+          <span class="kb-relitem-meta">Options · Advanced</span>
+          <span class="kb-relitem-sum">The closed-form price of a European call and put — two probability-weighted terms whose meaning is often garbled, a formula nobody believes literally, and the quoting language of the entire options market.</span>
+        </a></li></ul></section>
+        <section class="kb-relgroup"><h3>Related</h3><ul class="kb-rellist"><li><a href="../concepts/black-scholes-formula.html" class="kb-relitem">
+          <span class="kb-relitem-title">Black–Scholes Formula</span>
+          <span class="kb-relitem-meta">Options · Advanced</span>
+          <span class="kb-relitem-sum">The closed-form price of a European call and put — two probability-weighted terms whose meaning is often garbled, a formula nobody believes literally, and the quoting language of the entire options market.</span>
+        </a></li><li><a href="../concepts/option-greeks.html" class="kb-relitem">
+          <span class="kb-relitem-title">Option Greeks</span>
+          <span class="kb-relitem-meta">Options · Intermediate</span>
+          <span class="kb-relitem-sum">Delta, gamma, vega, theta and rho are the terms of one Taylor expansion, not five separate risk numbers — and the Black–Scholes equation is the identity that ties them together into a single statement about what a hedged position earns.</span>
+        </a></li><li><a href="../concepts/black-scholes-equation.html" class="kb-relitem">
+          <span class="kb-relitem-title">The Black–Scholes Equation</span>
+          <span class="kb-relitem-meta">Options · Advanced</span>
+          <span class="kb-relitem-sum">Hedge an option with the underlying, watch the randomness cancel, and impose that what is left must earn the risk-free rate — the derivation that turns a model of the stock into a price for anything written on it, and explains why the expected return never appears.</span>
+        </a></li><li><a href="../concepts/forwards-and-futures.html" class="kb-relitem">
+          <span class="kb-relitem-title">Forwards &amp; Futures</span>
+          <span class="kb-relitem-meta">Derivatives · Foundational</span>
+          <span class="kb-relitem-sum">The simplest derivative and the cleanest pricing argument in finance — a forward price is fixed entirely by the cost of carrying the asset, with no model, no volatility and no view on where the price is going.</span>
+        </a></li></ul></section>
+        
+      </div>
+      <figure class="kb-neighbourhood">
+        <canvas data-kb-minimap="put-call-parity" width="760" height="300" aria-label="Local knowledge graph"></canvas>
+        <figcaption>Two hops out from this concept.
+          <a class="kb-side-more" href="../graph.html?focus=put-call-parity">Open full graph →</a></figcaption>
+      </figure>
+      <div class="kb-references"><h3>References</h3><ul><li>Hull, *Options, Futures and Other Derivatives*, ch. 11</li><li>Stoll (1969), *The Relationship Between Put and Call Option Prices*</li></ul></div>
+    </section>
+
+    <nav class="kb-prevnext" aria-label="Concept navigation">
+    <span></span>
+    <a class="kb-prevnext-item kb-prevnext-up" href="../subjects/options.html">
+      <span class="kb-prevnext-label">Subject</span><span>Options</span></a>
+    <a class="kb-prevnext-item kb-prevnext-next" href="../concepts/black-scholes-equation.html" rel="next">
+      <span class="kb-prevnext-label">Next →</span><span>The Black–Scholes Equation</span></a>
+  </nav>
+    <footer class="kb-source-note">
+      Source: <code>content/concepts/put-call-parity.md</code> · updated 2026-09-03
+    </footer>
+  </article>
+
+  <!-- The rail sits in the left column but comes last in the source: the
+       article is what a reader (or a screen reader) wants first, and the
+       links here are a way back into it rather than a way into the page. -->
+  <aside class="kb-rail">
+    <nav class="kb-toc kb-rail-group" aria-label="On this page"><h3>On this page</h3><ol><li><a href="#intuition">Intuition</a></li><li><a href="#mathematical-formulation">Mathematical Formulation</a></li><li><a href="#derivation">Derivation</a></li><li><a href="#assumptions-edge-cases">Assumptions &amp; Edge Cases</a></li><li><a href="#worked-example">Worked Example</a></li><li><a href="#why-it-matters-in-quant-finance">Why It Matters in Quant Finance</a></li><li><a href="#trading-research-application">Trading &amp; Research Application</a></li><li><a href="#implementation-notes">Implementation Notes</a></li><li><a href="#common-mistakes">Common Mistakes</a></li><li><a href="#30-second-revision">30-Second Revision</a></li><li><a href="#key-formulas">Key Formulas</a></li><li><a href="#interview-questions">Interview Questions</a></li><li><a href="#connections">Connections</a></li></ol></nav>
+    <nav class="kb-rail-group" id="side-formulas" aria-label="Key formulas"><h3>Formulas</h3><ul><li><a href="#putcall-parity-european-no-dividends">Put–call parity (European, no dividends)</a></li><li><a href="#with-dividends">With dividends</a></li><li><a href="#parity-in-forward-terms">Parity in forward terms</a></li><li><a href="#american-bounds">American bounds</a></li><li><a href="#box-spread">Box spread</a></li></ul></nav>
+  </aside>
+</main>
+<script src="../data/kb.data.js?v=8381a4e4"></script>
+<script src="../data/search.index.js?v=6eb1e318"></script>
+<script src="../assets/js/kb-core.js?v=a4c20d2d"></script>
+<script src="../assets/js/kb-ui.js?v=a48ca814"></script>
+<script src="../assets/vendor/katex/katex.min.js" defer></script>
+<script src="../assets/vendor/katex/auto-render.min.js" defer></script>
+<script src="../assets/js/math.js?v=44b57f03" defer></script>
+<script src="../assets/js/concept.js?v=c6248b59" defer></script>
+</body>
+</html>

@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en" data-page="concept">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Forwards &amp; Futures · Quant Knowledge Base</title>
+<meta name="description" content="The simplest derivative and the cleanest pricing argument in finance — a forward price is fixed entirely by the cost of carrying the asset, with no model, no volatility and no view on where the price is going.">
+<link rel="icon" href="../assets/icons/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/vendor/katex/katex.min.css">
+<link rel="stylesheet" href="../assets/css/app.css?v=41eef34e">
+<link rel="stylesheet" href="../assets/css/views.css?v=e2266625">
+
+</head>
+<body class="kb-body kb-body--concept">
+<header class="kb-topbar">
+  <a class="kb-brand" href="../index.html" title="Home (H)">
+    <span class="kb-brand-mark">QF</span><span class="kb-brand-text">Quant Knowledge Base</span>
+  </a>
+  <nav class="kb-crumbs" aria-label="Breadcrumb"><ol><li><a href="../index.html">Dashboard</a></li><li class="kb-crumb-sep" aria-hidden="true">/</li><li><a href="../subjects/derivatives.html">Derivatives</a></li><li class="kb-crumb-sep" aria-hidden="true">/</li><li><span aria-current="page">Forwards &amp; Futures</span></li></ol></nav>
+  <div class="kb-topbar-actions">
+    <button class="kb-searchbtn" type="button" data-kb-open-search>
+      <span>Search concepts, formulas, questions</span><kbd>/</kbd>
+    </button>
+    <nav class="kb-toplinks" aria-label="Sections">
+      <a href="../index.html" data-nav="home">Dashboard</a>
+      <a href="../graph.html" data-nav="graph">Graph</a>
+      <a href="../interview.html" data-nav="interview">Interview</a>
+      <a href="../library.html" data-nav="library">Library</a>
+    </nav>
+    <button class="kb-iconbtn" type="button" data-kb-theme title="Toggle theme (T)" aria-label="Toggle theme">◑</button>
+    <button class="kb-iconbtn" type="button" data-kb-help title="Keyboard shortcuts (?)" aria-label="Keyboard shortcuts">?</button>
+  </div>
+</header>
+<main class="kb-main kb-main--concept" data-concept-id="forwards-and-futures">
+  <article class="kb-article">
+    <header class="kb-concept-head">
+      <div class="kb-concept-eyebrow">
+        <a class="kb-subject-chip" href="../subjects/derivatives.html" style="--subject-color:#cfa14e">
+          <span class="kb-subject-mark">D</span>Derivatives</a>
+        <span class="kb-pill kb-pill--foundational">Foundational</span>
+      </div>
+      <h1 class="kb-concept-title">Forwards &amp; Futures</h1>
+      <section class="kb-glance" aria-label="At a glance">
+      <p class="kb-glance-lead">The simplest derivative and the cleanest pricing argument in finance — a forward price is fixed entirely by the cost of carrying the asset, with no model, no volatility and no view on where the price is going.</p>
+      <a class="kb-glance-formula" href="#forward-price-no-income">
+        <span class="math-display">\[F_0 = S_0e^{rT}\]</span>
+        <span class="kb-glance-formula-name">Forward price, no income</span>
+      </a>
+      <ul class="kb-glance-points"><li><span class="math-inline">\(F_0 = S_0e^{(r-q)T}\)</span> . Financing minus income. No volatility, no probability, no forecast.</li><li>The argument is static replication: identical payoffs in <strong>every</strong> state, so identical prices.</li><li><span class="math-inline">\(F_0 = \E^\Q[S_T] \ne \E^\P[S_T]\)</span> ; the gap is the risk premium.</li></ul>
+      <a class="kb-glance-more" href="#30-second-revision">Full revision →</a>
+    </section>
+      <div class="kb-concept-controls">
+        <button class="kb-btn kb-btn--ghost" type="button" data-kb-bookmark="forwards-and-futures">☆ Bookmark</button>
+        <button class="kb-btn kb-btn--ghost" type="button" data-kb-flashcards>Revision card</button>
+        <a class="kb-btn kb-btn--ghost" href="../graph.html?focus=forwards-and-futures">Show in graph</a>
+      </div>
+      <ul class="kb-taglist"><li><a class="kb-tag" href="../library.html?tag=derivatives">#derivatives</a></li><li><a class="kb-tag" href="../library.html?tag=no-arbitrage">#no-arbitrage</a></li><li><a class="kb-tag" href="../library.html?tag=replication">#replication</a></li><li><a class="kb-tag" href="../library.html?tag=cost-of-carry">#cost-of-carry</a></li><li><a class="kb-tag" href="../library.html?tag=pricing">#pricing</a></li><li><a class="kb-tag" href="../library.html?tag=basis">#basis</a></li></ul>
+    </header>
+
+    <div class="kb-content"><h2 id="intuition" class="kb-h kb-h2"><a class="kb-anchor" href="#intuition" aria-label="Link to this section">#</a>Intuition</h2>
+<p>A forward contract is an agreement made today to trade an asset at a fixed price on a fixed future
+date. No money changes hands now. The only question is what that fixed price should be.</p>
+<p>The answer needs no forecasting, because there are two ways to own the asset at  <span class="math-inline">\(T\)</span> :</p>
+<ol class="kb-list"><li><strong>Buy it now</strong> — pay  <span class="math-inline">\(S_0\)</span>  today, finance it at  <span class="math-inline">\(r\)</span> , collect any income it pays.</li>
+<li><strong>Buy it forward</strong> — pay nothing now, pay  <span class="math-inline">\(F_0\)</span>  at  <span class="math-inline">\(T\)</span> .</li></ol>
+<p>Both leave you holding the asset at  <span class="math-inline">\(T\)</span> . If they are not equally expensive, the cheaper route
+combined with the more expensive one is a money machine. Setting the two costs equal gives the
+forward price — and nothing about the asset&#39;s volatility or expected return enters, because neither
+affects what the financing costs.</p>
+<aside class="kb-callout kb-callout--insight"><div class="kb-callout-title">Insight</div><div class="kb-callout-body"><p>The forward price is not a prediction. It is the <strong>cost of carrying the asset to the delivery date</strong>
+— financing minus income, plus storage. An upward-sloping futures curve (contango) means carry is
+expensive, not that the market expects prices to rise. Traders who read the curve as a forecast are
+the reason the roll-yield trade exists.</p></div></aside>
+<p>This is worth internalising before anything harder, because the entire options-pricing edifice is
+the same argument made dynamic. Forwards can be replicated <em>once, statically</em>, so no model is
+needed. Options require a hedge that changes as the price moves, and the price of the option becomes
+the cost of running that hedge — which is where a model, and therefore volatility, finally enters.</p>
+<h2 id="mathematical-formulation" class="kb-h kb-h2"><a class="kb-anchor" href="#mathematical-formulation" aria-label="Link to this section">#</a>Mathematical Formulation</h2>
+<figure class="kb-formula" id="forward-price-no-income" data-formula="forward-price-no-income"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">Forward price, no income</span><button class="kb-formula-copy" type="button" data-latex="F_0 = S_0e^{rT}" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[F_0 = S_0e^{rT}\]</span> </div><p class="kb-formula-note">Pure financing. No volatility, no drift, no probability — the replication is pathwise.</p><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">Equities</span><span class="kb-chip">Delta-One</span><span class="kb-chip">Index Futures</span></footer></figure>
+<figure class="kb-formula" id="cost-of-carry-general" data-formula="cost-of-carry-general"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">Cost of carry, general</span><button class="kb-formula-copy" type="button" data-latex="F_0 = S_0\,e^{(r - q + u - y)T}" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[F_0 = S_0\,e^{(r - q + u - y)T}\]</span> </div><p class="kb-formula-note">q is income (dividend or foreign rate), u is storage, y is convenience or lease yield. Every apparent arbitrage is usually a missing term here.</p><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">Commodities</span><span class="kb-chip">FX</span><span class="kb-chip">Equities</span></footer></figure>
+<figure class="kb-formula" id="covered-interest-parity" data-formula="covered-interest-parity"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">Covered interest parity</span><button class="kb-formula-copy" type="button" data-latex="F_0^{\text{FX}} = S_0\,e^{(r_{\text{dom}} - r_{\text{for}})T}" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[F_0^{\text{FX}} = S_0\,e^{(r_{\text{dom}} - r_{\text{for}})T}\]</span> </div><p class="kb-formula-note">The FX case of cost of carry: the forward points are the interest-rate differential, not a currency forecast.</p><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">FX</span><span class="kb-chip">Rates</span></footer></figure>
+<figure class="kb-formula" id="value-of-an-existing-forward" data-formula="value-of-an-existing-forward"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">Value of an existing forward</span><button class="kb-formula-copy" type="button" data-latex="V_t = (F_t - K)\,e^{-r(T-t)}" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[V_t = (F_t - K)\,e^{-r(T-t)}\]</span> </div><p class="kb-formula-note">Zero at inception because F_0 is set to K. Afterwards it is the discounted change in the forward price.</p><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">Mark-to-Market</span><span class="kb-chip">Risk</span></footer></figure>
+<figure class="kb-formula" id="forward-as-a-risk-neutral-expectation" data-formula="forward-as-a-risk-neutral-expectation"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">Forward as a risk-neutral expectation</span><button class="kb-formula-copy" type="button" data-latex="F_0 = \E^\Q[S_T]" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[F_0 = \E^\Q[S_T]\]</span> </div><p class="kb-formula-note">The bridge to option pricing: F_0 is an expectation, but under Q, not P. This is why F replaces S e^{rT} in Black-76.</p><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">Pricing Theory</span></footer></figure>
+<h2 id="derivation" class="kb-h kb-h2"><a class="kb-anchor" href="#derivation" aria-label="Link to this section">#</a>Derivation</h2>
+<details class="kb-derivation"><summary>The cash-and-carry argument, both directions</summary><div class="kb-derivation-body"><p><strong>Suppose  <span class="math-inline">\(F_0 &gt; S_0e^{rT}\)</span> .</strong> Today: sell the forward (costs nothing), borrow  <span class="math-inline">\(S_0\)</span>  at  <span class="math-inline">\(r\)</span> , buy the
+asset. At  <span class="math-inline">\(T\)</span> : deliver the asset into the forward, receive  <span class="math-inline">\(F_0\)</span> , repay  <span class="math-inline">\(S_0e^{rT}\)</span> . Profit
+ <span class="math-inline">\(F_0 - S_0e^{rT} &gt; 0\)</span> , locked in today, with no position left over and no exposure to  <span class="math-inline">\(S_T\)</span> .</p>
+<p><strong>Suppose  <span class="math-inline">\(F_0 &lt; S_0e^{rT}\)</span> .</strong> Reverse everything: buy the forward, short the asset, lend the
+proceeds. At  <span class="math-inline">\(T\)</span> : collect  <span class="math-inline">\(S_0e^{rT}\)</span> , pay  <span class="math-inline">\(F_0\)</span> , take delivery and close the short. Profit
+ <span class="math-inline">\(S_0e^{rT} - F_0 &gt; 0\)</span> .</p>
+<p>Both trades are riskless and self-financing, so neither inequality can persist:</p>
+<span class="math-display">\[F_0 = S_0e^{rT}\]</span>
+<p>Note what the argument did <em>not</em> use: any assumption about the distribution of  <span class="math-inline">\(S_T\)</span> , any risk
+preference, any model. It used only that the two portfolios have identical payoffs in <strong>every</strong>
+state — and that shorting is possible, which is the assumption that actually fails in practice.</p></div></details>
+<details class="kb-derivation"><summary>Adding income, and why you buy fewer than one share</summary><div class="kb-derivation-body"><p>With a continuous dividend yield  <span class="math-inline">\(q\)</span> , buy  <span class="math-inline">\(e^{-qT}\)</span>  shares today and reinvest the dividends in more
+shares. The holding grows at rate  <span class="math-inline">\(q\)</span> , so it reaches exactly one share at  <span class="math-inline">\(T\)</span>  — which is what the
+forward requires you to deliver.</p>
+<p>The financing cost of that smaller initial position is  <span class="math-inline">\(S_0e^{-qT}\cdot e^{rT}\)</span> , so</p>
+<span class="math-display">\[F_0 = S_0e^{(r-q)T}\]</span>
+<p>For discrete dividends with present value  <span class="math-inline">\(D\)</span> , the same logic gives  <span class="math-inline">\(F_0 = (S_0 - D)e^{rT}\)</span> : pay
+for the share, immediately recover the dividend stream&#39;s present value, finance the remainder.</p>
+<p><strong>Read  <span class="math-inline">\(r - q\)</span>  as the net carry.</strong> If  <span class="math-inline">\(q &gt; r\)</span>  the forward trades below spot even with positive
+rates. That is not a bearish signal — it is the market saying the asset pays you more to hold than
+the money costs.</p></div></details>
+<details class="kb-derivation"><summary>Why futures and forwards differ under stochastic rates</summary><div class="kb-derivation-body"><p>Consider holding one futures contract and reinvesting every daily settlement at the overnight rate.
+The terminal value of the accumulated margin flows is</p>
+<span class="math-display">\[\sum_i (F_{t_{i+1}} - F_{t_i})\,e^{r(T-t_{i+1})}\]</span>
+<p>Each increment is scaled by a <em>random</em> reinvestment factor. If  <span class="math-inline">\(\d F\)</span>  and  <span class="math-inline">\(\d r\)</span>  are positively
+correlated, the large positive increments get the large multipliers and the negative ones the small
+— so the sum has positive expectation relative to the single settlement a forward provides. To keep
+both contracts worth zero at inception, the futures price must be higher.</p>
+<p>Formally, the futures price is a martingale under  <span class="math-inline">\(\Q\)</span>  with the <em>rolling</em> money-market numéraire
+while the forward price is a martingale under the  <span class="math-inline">\(T\)</span> -forward measure; the difference is a
+covariance term. With deterministic  <span class="math-inline">\(r\)</span>  the two measures coincide and the prices are equal — which
+is why the distinction can be ignored for equity index futures and cannot be for SOFR futures,
+where the underlying <em>is</em> the rate and the correlation is  <span class="math-inline">\(-1\)</span>  by construction.</p></div></details>
+<h2 id="assumptions-edge-cases" class="kb-h kb-h2"><a class="kb-anchor" href="#assumptions-edge-cases" aria-label="Link to this section">#</a>Assumptions &amp; Edge Cases</h2>
+<aside class="kb-callout kb-callout--assumption"><div class="kb-callout-title">Assumptions</div><div class="kb-callout-body"><p>The cost-of-carry relation assumes:</p>
+<ul class="kb-list"><li><strong>Shorting the asset is possible</strong> at no extra cost. Frequently false — hard-to-borrow stocks,
+physical commodities, electricity.</li>
+<li><strong>One risk-free rate</strong> for lending and borrowing. Real desks face a spread, so the no-arbitrage
+band has width rather than being a point.</li>
+<li><strong>No transaction costs, no margin drag, no balance-sheet charge.</strong> Post-2008, funding and capital
+charges are large enough to be part of the fair value.</li>
+<li><strong>The asset is storable.</strong> Electricity is not, so its forward curve is <em>not</em> pinned by carry and
+genuinely does contain expectations.</li>
+<li><strong>Deterministic income.</strong> Dividend forecasts are not certain; the residual is dividend risk, a
+real P&amp;L line on a delta-one desk.</li></ul></div></aside>
+<aside class="kb-callout kb-callout--warning"><div class="kb-callout-title">Warning</div><div class="kb-callout-body"><p><strong>Convenience yield is not an observable — it is the plug.</strong> When a commodity forward trades below
+ <span class="math-inline">\(Se^{(r+u)T}\)</span> , the difference is <em>labelled</em> a convenience yield, but that label is fitted, not
+measured. It absorbs the value of physical availability, storage constraints, and the plain
+impossibility of shorting a physical barrel. Treating a fitted plug as a tradable rate is how
+commodity carry strategies discover that the &quot;arbitrage&quot; they measured was a cost they could not
+pay.</p></div></aside>
+<h2 id="worked-example" class="kb-h kb-h2"><a class="kb-anchor" href="#worked-example" aria-label="Link to this section">#</a>Worked Example</h2>
+<p><strong>An index at 4,000,  <span class="math-inline">\(r = 5\%\)</span> ,  <span class="math-inline">\(q = 2\%\)</span> , three-month future quoted at 4,050. Is it rich?</strong></p>
+<p>Fair value:</p>
+<span class="math-display">\[F_0 = 4000\,e^{(0.05-0.02)\times 0.25} = 4000\,e^{0.0075} = 4030.1\]</span>
+<p>The future is <strong>20 points rich</strong>, about 0.5%. The trade: sell the future, buy the basket, finance
+it. You collect  <span class="math-inline">\(4050 - 4030 = 20\)</span>  points at convergence.</p>
+<p>Before sizing it, price the frictions honestly:</p>
+<div class="kb-table-wrap"><table class="kb-table"><thead><tr><th>Item</th><th>Cost (index points)</th></tr></thead><tbody><tr><td>Gross basis</td><td><span class="math-inline">\(+20.0\)</span></td></tr>
+<tr><td>Bid-ask on 500 names</td><td><span class="math-inline">\(-6\)</span>  to  <span class="math-inline">\(-10\)</span></td></tr>
+<tr><td>Financing spread over risk-free (30bp)</td><td><span class="math-inline">\(-3.0\)</span></td></tr>
+<tr><td>Dividend forecast error ( <span class="math-inline">\(\pm10\%\)</span>  of 20pt)</td><td><span class="math-inline">\(\pm2.0\)</span></td></tr>
+<tr><td>Margin funding on the short future</td><td><span class="math-inline">\(-1.5\)</span></td></tr>
+<tr><td><strong>Net</strong></td><td><span class="math-inline">\(\approx +4\)</span>  to  <span class="math-inline">\(+8\)</span></td></tr></tbody></table></div>
+<p><strong>A 20-point mispricing is a 5-point trade.</strong> That ratio is typical, and it is the entire reason
+index-arbitrage is a business for whoever has the cheapest balance sheet rather than the best model.
+Note also that the dividend forecast error is the <em>only</em> line that is not contractual — which makes
+dividend risk, not basis risk, the thing that actually loses money on this desk.</p>
+<h2 id="why-it-matters-in-quant-finance" class="kb-h kb-h2"><a class="kb-anchor" href="#why-it-matters-in-quant-finance" aria-label="Link to this section">#</a>Why It Matters in Quant Finance</h2>
+<p><strong>It is the template for every pricing argument you will meet.</strong> Replicate the payoff, equate the
+costs, conclude the price. Options use the same three steps; the only difference is that the
+replicating portfolio must be rebalanced, so the cost of the hedge depends on how much the price
+moves — and <em>that</em> is where volatility enters the story. Understanding why forwards need no
+volatility is the fastest route to understanding why options do.</p>
+<p><strong>It gives you the forward, which is what options are actually written on.</strong> In Black–Scholes,
+ <span class="math-inline">\(S_0e^{(r-q)T}\)</span>  appears everywhere; rewriting the formula in terms of  <span class="math-inline">\(F\)</span>  gives Black-76, which is
+the market standard for options on futures, caps, floors and swaptions. Practitioners quote and
+hedge in forward space because the forward is directly tradable and absorbs all the carry
+assumptions into one number.</p>
+<p><strong>It separates carry from expectation, permanently.</strong> Once the curve is understood as carry, three
+things follow: the futures curve is not a forecast; roll yield is a real return source with a
+mechanical explanation; and any strategy claiming to profit from &quot;the market&#39;s mistaken forecast in
+the curve&quot; needs to explain which carry component it is really trading.</p>
+<p><strong>It is where the no-arbitrage bounds on option prices come from.</strong>  <span class="math-inline">\(C \ge \max(S - Ke^{-rT}, 0)\)</span> 
+is the statement that a call is worth at least a forward, and
+<a class="kb-link" href="put-call-parity.html" data-concept="put-call-parity">put-call parity</a> is the statement that a call minus a put <em>is</em> a forward.</p>
+<h2 id="trading-research-application" class="kb-h kb-h2"><a class="kb-anchor" href="#trading-research-application" aria-label="Link to this section">#</a>Trading &amp; Research Application</h2>
+<aside class="kb-callout kb-callout--desk"><div class="kb-callout-title">On the desk</div><div class="kb-callout-body"><p><strong>Basis is a funding trade dressed as an arbitrage.</strong> The gross basis on index futures is roughly
+the financing spread you can achieve. Whoever funds cheapest wins, which is why this sits on bank
+delta-one desks and not in hedge funds. If your model says the basis is rich and you cannot fund at
+the rate the model assumed, your model priced someone else&#39;s trade.</p>
+<p><strong>Roll yield is carry, and it is persistent.</strong> A commodity in contango bleeds as long futures roll
+up the curve into cheaper spot; in backwardation it earns. Long-only commodity index products have
+lost more to contango than to spot moves. The mechanism is completely mechanical, which is why the
+premium has survived being widely known.</p>
+<p><strong>Hedge linear exposure with linear instruments.</strong> A known future quantity of an asset is hedged
+exactly by a forward, at zero cost and with no gamma to manage. Reaching for options there buys
+convexity you do not need and pays theta for it. Save options for exposures that are genuinely
+non-linear, or for genuine uncertainty about the <em>quantity</em> you will need to hedge.</p>
+<p><strong>Watch the dividend line.</strong> On a forward or a delta-one book, the only non-contractual input is
+projected income. Dividend risk is the residual that survives a perfect basis hedge, and it is
+usually the largest single unhedged exposure on the desk.</p></div></aside>
+<h2 id="implementation-notes" class="kb-h kb-h2"><a class="kb-anchor" href="#implementation-notes" aria-label="Link to this section">#</a>Implementation Notes</h2>
+<figure class="kb-code" data-lang="python"><pre><code class="language-python">import numpy as np
+
+def forward_price(spot, r, T, q=0.0, storage=0.0, convenience=0.0):
+    &quot;&quot;&quot;Cost of carry. Every input is a RATE, continuously compounded, so the
+    exponent is just the net carry. Keeping storage and convenience separate
+    from q matters: q is contractual income, convenience is a fitted plug --
+    conflating them is how a storage cost silently becomes &#39;alpha&#39;.&quot;&quot;&quot;
+    net_carry = r - q + storage - convenience
+    return spot * np.exp(net_carry * T)
+
+def implied_carry(forward, spot, T):
+    &quot;&quot;&quot;Back out the net carry the market is quoting. Compare this to your own
+    funding rate before calling a basis rich or cheap: the answer is usually
+    that the market&#39;s carry is right and your funding is worse.&quot;&quot;&quot;
+    return np.log(forward / spot) / T
+
+def forward_value(forward_now, strike, r, T_remaining):
+    &quot;&quot;&quot;A forward struck at `strike` is worth zero at inception and this
+    afterwards. Discounting matters: the P&amp;L is realised at maturity, not now.&quot;&quot;&quot;
+    return (forward_now - strike) * np.exp(-r * T_remaining)
+
+# The sanity check that catches a sign error in q:
+#   forward_price(100, 0.05, 1, q=0.05) == 100.0   (carry nets to zero)
+#   forward_price(100, 0.02, 1, q=0.05) &lt; 100.0    (income beats funding)</code></pre></figure>
+<h2 id="common-mistakes" class="kb-h kb-h2"><a class="kb-anchor" href="#common-mistakes" aria-label="Link to this section">#</a>Common Mistakes</h2>
+<aside class="kb-callout kb-callout--pitfall"><div class="kb-callout-title">Common pitfall</div><div class="kb-callout-body"><ul class="kb-list"><li><strong>Reading the futures curve as a forecast.</strong> It is carry. This is the most common error in
+commodities and FX, and it is made confidently.</li>
+<li><strong>Confusing  <span class="math-inline">\(F_0\)</span>  with  <span class="math-inline">\(\E^\P[S_T]\)</span> .</strong> They differ by the risk premium.  <span class="math-inline">\(F_0 = \E^\Q[S_T]\)</span>  is the
+correct statement.</li>
+<li><strong>Dropping the dividend yield.</strong> A 2% error on an index forward dwarfs every spread in the trade
+and contaminates every option priced off it.</li>
+<li><strong>Treating futures and forwards as identical without checking the rate correlation.</strong> Fine for
+short-dated equities, wrong for rate futures, which need a convexity adjustment.</li>
+<li><strong>Assuming you can short.</strong> The reverse cash-and-carry needs a borrow. Where the borrow is
+expensive or unavailable, the no-arbitrage bound is one-sided and the &quot;mispricing&quot; is real but
+untradeable.</li>
+<li><strong>Quoting a basis without netting frictions.</strong> Gross basis is not P&amp;L; funding spread, bid-ask
+and dividend uncertainty routinely eat three-quarters of it.</li>
+<li><strong>Mixing compounding conventions.</strong>  <span class="math-inline">\(e^{rT}\)</span>  and  <span class="math-inline">\((1+r)^T\)</span>  differ enough to swamp a basis trade;
+pick continuous compounding and stay there.</li></ul></div></aside>
+<h2 id="30-second-revision" class="kb-h kb-h2"><a class="kb-anchor" href="#30-second-revision" aria-label="Link to this section">#</a>30-Second Revision</h2>
+<ul class="kb-list"><li><span class="math-inline">\(F_0 = S_0e^{(r-q)T}\)</span> . Financing minus income. No volatility, no probability, no forecast.</li>
+<li>The argument is static replication: identical payoffs in <strong>every</strong> state, so identical prices.</li>
+<li><span class="math-inline">\(F_0 = \E^\Q[S_T] \ne \E^\P[S_T]\)</span> ; the gap is the risk premium.</li>
+<li>General carry:  <span class="math-inline">\(F_0 = S_0e^{(r-q+u-y)T}\)</span> . An apparent arbitrage is usually a missing carry term.</li>
+<li>Contango means expensive carry, not bullish expectations. Roll yield is the return to that carry.</li>
+<li>Futures  <span class="math-inline">\(&gt;\)</span>  forwards when  <span class="math-inline">\(\Corr(\d S,\d r) &gt; 0\)</span>  — daily margin gets reinvested. Equal under
+deterministic rates; the source of the futures convexity adjustment.</li>
+<li>Value of an existing forward:  <span class="math-inline">\((F_t - K)e^{-r(T-t)}\)</span> ; zero at inception.</li>
+<li>Delta  <span class="math-inline">\(1\)</span> , gamma  <span class="math-inline">\(0\)</span>  — perfect for linear exposure, useless as a static hedge for an option.</li>
+<li>Options are this argument made dynamic: that is where a model and a volatility appear.</li></ul></div>
+    <section class="kb-section" id="key-formulas">
+        <h2 class="kb-h kb-h2"><a class="kb-anchor" href="#key-formulas" aria-label="Link to this section">#</a>Key Formulas</h2>
+        <div class="kb-formula-recap">
+          <a class="kb-formula-recap-item" href="#forward-price-no-income">
+            <span class="kb-formula-recap-name">Forward price, no income</span>
+            <span class="math-display">\[F_0 = S_0e^{rT}\]</span>
+          </a>
+          <a class="kb-formula-recap-item" href="#cost-of-carry-general">
+            <span class="kb-formula-recap-name">Cost of carry, general</span>
+            <span class="math-display">\[F_0 = S_0\,e^{(r - q + u - y)T}\]</span>
+          </a>
+          <a class="kb-formula-recap-item" href="#covered-interest-parity">
+            <span class="kb-formula-recap-name">Covered interest parity</span>
+            <span class="math-display">\[F_0^{\text{FX}} = S_0\,e^{(r_{\text{dom}} - r_{\text{for}})T}\]</span>
+          </a>
+          <a class="kb-formula-recap-item" href="#value-of-an-existing-forward">
+            <span class="kb-formula-recap-name">Value of an existing forward</span>
+            <span class="math-display">\[V_t = (F_t - K)\,e^{-r(T-t)}\]</span>
+          </a>
+          <a class="kb-formula-recap-item" href="#forward-as-a-risk-neutral-expectation">
+            <span class="kb-formula-recap-name">Forward as a risk-neutral expectation</span>
+            <span class="math-display">\[F_0 = \E^\Q[S_T]\]</span>
+          </a></div>
+      </section>
+    <section class="kb-section" id="interview-questions">
+        <h2 class="kb-h kb-h2"><a class="kb-anchor" href="#interview-questions" aria-label="Link to this section">#</a>Interview Questions</h2>
+        <ol class="kb-questions">
+          <li class="kb-question" id="q-forwards-and-futures-q1" data-difficulty="foundational">
+            <div class="kb-question-head">
+              <span class="kb-question-text">Derive the forward price of a non-dividend-paying stock and explain why no probability appears.</span>
+              <span class="kb-tagline">Foundational · no-arbitrage · core · replication</span>
+            </div>
+            <details class="kb-hint"><summary>Hint</summary><div><p>Build the forward payoff out of the stock and a bond, then compare costs.</p></div></details>
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p><strong>Replicate it.</strong> Borrow  <span class="math-inline">\(S_0\)</span> , buy the share, hold to  <span class="math-inline">\(T\)</span> . At  <span class="math-inline">\(T\)</span>  you own the share and owe
+ <span class="math-inline">\(S_0e^{rT}\)</span> . That is exactly the payoff of a long forward struck at  <span class="math-inline">\(S_0e^{rT}\)</span> , and it cost
+nothing to set up. A forward also costs nothing to enter, so</p>
+<span class="math-display">\[F_0 = S_0e^{rT}\]</span>
+<p><strong>Why no probability:</strong> the replication is <em>pathwise</em> — it delivers the same payoff as the
+forward in every state of the world, not on average. Two portfolios with identical payoffs in
+every state must have identical prices, whatever anyone believes about the distribution of
+ <span class="math-inline">\(S_T\)</span> . Volatility, drift and risk preferences are all absent because none of them can change
+what the replicating trade costs.</p>
+<p>This is the cleanest instance of the principle behind all derivatives pricing: <strong>you are not
+forecasting, you are costing a hedge.</strong></p></div></details>
+          </li>
+          <li class="kb-question" id="q-forwards-and-futures-q2" data-difficulty="intermediate">
+            <div class="kb-question-head">
+              <span class="kb-question-text">Why is the forward price not the expected future spot price?</span>
+              <span class="kb-tagline">Intermediate · expectation · risk-premium · core</span>
+            </div>
+            
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>Because  <span class="math-inline">\(F_0 = S_0e^{rT}\)</span>  contains  <span class="math-inline">\(r\)</span> , not the asset&#39;s expected return  <span class="math-inline">\(\mu\)</span> . Under the real
+measure  <span class="math-inline">\(\P\)</span> ,  <span class="math-inline">\(\E[S_T] = S_0e^{\mu T}\)</span> , so</p>
+<span class="math-display">\[F_0 = \E^\P[S_T]\,e^{-(\mu - r)T}\]</span>
+<p>The gap is the risk premium. For equities  <span class="math-inline">\(\mu &gt; r\)</span> , so the forward trades <em>below</em> the
+expected spot — a long forward is expected to make money, which is the compensation for
+bearing the risk.</p>
+<p>Equivalently:  <span class="math-inline">\(F_0 = \E^\Q[S_T]\)</span>  exactly. The forward price is an expectation, but under the
+risk-neutral measure, where the drift is  <span class="math-inline">\(r\)</span>  by construction. &quot;The futures curve is the
+market&#39;s forecast&quot; is one of the most common and most confidently stated errors in finance:
+an upward-sloping curve tells you about carry, not about direction.</p></div></details>
+          </li>
+          <li class="kb-question" id="q-forwards-and-futures-q3" data-difficulty="intermediate">
+            <div class="kb-question-head">
+              <span class="kb-question-text">A stock pays a continuous dividend yield q. What is the forward price, and what breaks if you ignore q?</span>
+              <span class="kb-tagline">Intermediate · dividends · cost-of-carry</span>
+            </div>
+            
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><span class="math-display">\[F_0 = S_0e^{(r-q)T}\]</span>
+<p>Holding the share now earns the dividends; holding the forward does not. The replication buys
+ <span class="math-inline">\(e^{-qT}\)</span>  shares rather than one, since reinvested dividends grow the holding to exactly one
+share by  <span class="math-inline">\(T\)</span> .</p>
+<p><strong>What breaks if you ignore it:</strong> you overprice the forward by  <span class="math-inline">\(S_0(1 - e^{-qT})\)</span> , roughly the
+present value of the dividends. On an index at  <span class="math-inline">\(q = 2\%\)</span>  over one year that is a 2% error —
+vastly larger than any bid-ask spread, and it flows straight into every option priced off that
+forward. Index futures fair value, dividend-risk on a delta-one desk and the early-exercise
+boundary of an American call are all this one term.</p></div></details>
+          </li>
+          <li class="kb-question" id="q-forwards-and-futures-q4" data-difficulty="advanced">
+            <div class="kb-question-head">
+              <span class="kb-question-text">Forwards and futures have the same payoff. Why can their prices differ?</span>
+              <span class="kb-tagline">Advanced · futures · margin · correlation · convexity</span>
+            </div>
+            <details class="kb-hint"><summary>Hint</summary><div><p>One of them pays you cash along the way.</p></div></details>
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>Futures are <strong>marked to market daily</strong>; forwards settle once at  <span class="math-inline">\(T\)</span> . So a futures holder
+receives or pays cash before maturity, and that cash is invested or financed at the prevailing
+short rate.</p>
+<p>If rates and the asset price are <strong>positively correlated</strong>, you receive margin gains exactly
+when reinvestment rates are high and fund losses when rates are low — an advantage. Futures
+must therefore trade <em>above</em> forwards to compensate. Negative correlation reverses it, and if
+rates are deterministic the two are identical.</p>
+<span class="math-display">\[\text{Futures} &gt; \text{Forward} \iff \Corr(\d S, \d r) &gt; 0\]</span>
+<p><strong>Where it matters:</strong> it is negligible for short-dated equity futures and material for
+long-dated interest-rate futures, where the asset <em>is</em> the rate — hence the convexity
+adjustment applied to Eurodollar and SOFR futures. A second difference matters just as much in
+practice: a future has no counterparty risk to speak of, a forward has plenty.</p></div></details>
+          </li>
+          <li class="kb-question" id="q-forwards-and-futures-q5" data-difficulty="advanced">
+            <div class="kb-question-head">
+              <span class="kb-question-text">Gold forwards trade at a 3% annual premium to spot. Rates are 5%. Is there an arbitrage?</span>
+              <span class="kb-tagline">Advanced · arbitrage · storage · desk</span>
+            </div>
+            
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>Cost-of-carry says  <span class="math-inline">\(F = S e^{(r + u - y)T}\)</span>  with  <span class="math-inline">\(u\)</span>  storage and  <span class="math-inline">\(y\)</span>  any convenience or lease
+yield. The observed premium is 3% against a 5% funding cost, so the market is quoting an
+implied  <span class="math-inline">\(y - u \approx 2\%\)</span> .</p>
+<p><strong>The cash-and-carry direction:</strong> sell the forward, borrow at 5%, buy and store gold. You earn
+the 3% premium and pay 5% plus storage — a loss. So no arbitrage that way.</p>
+<p><strong>The reverse direction requires borrowing gold</strong>, and that is the point: you must pay the
+lease rate. If the gold lease market clears near 2%, the quote is fair and there is nothing to
+do. Only if you can borrow gold below that does a trade exist.</p>
+<p>The general lesson: an apparent violation of cost-of-carry is nearly always a missing carry
+component — a lease rate, a storage cost, a hard-to-borrow spread, a tax or a balance-sheet
+charge — rather than free money. The honest first move is to ask which one you have failed to
+price, not to size the trade.</p></div></details>
+          </li>
+          <li class="kb-question" id="q-forwards-and-futures-q6" data-difficulty="foundational">
+            <div class="kb-question-head">
+              <span class="kb-question-text">What does a long forward&#39;s payoff diagram look like, and why does that make it a bad hedge for a call?</span>
+              <span class="kb-tagline">Foundational · payoff · hedging · delta</span>
+            </div>
+            
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>Linear:  <span class="math-inline">\(S_T - K\)</span> , unbounded both ways, crossing zero at  <span class="math-inline">\(K\)</span> . Delta is exactly  <span class="math-inline">\(1\)</span>  everywhere
+and gamma is exactly zero.</p>
+<p><strong>Why it cannot hedge a call:</strong> a call&#39;s delta runs from 0 to 1 depending on where spot is, so
+a fixed one-for-one forward hedge is right at exactly one price and wrong everywhere else. The
+mismatch is gamma, and gamma is precisely the thing a linear instrument cannot supply.</p>
+<p>This is the structural reason options need <em>dynamic</em> hedging while forwards need none. It also
+explains what a forward <em>can</em> do perfectly: hedge a known future quantity of the asset. If
+your exposure is linear, hedge it linearly; reaching for options there just buys convexity you
+did not need and pays theta for the privilege.</p></div></details>
+          </li></ol>
+      </section>
+
+    <section class="kb-section" id="connections">
+      <h2 class="kb-h kb-h2"><a class="kb-anchor" href="#connections" aria-label="Link to this section">#</a>Connections</h2>
+      <div class="kb-connections">
+        
+        <section class="kb-relgroup"><h3>Builds towards</h3><p class="kb-relnote">Concepts that depend on this one.</p><ul class="kb-rellist"><li><a href="../concepts/put-call-parity.html" class="kb-relitem">
+          <span class="kb-relitem-title">Put–Call Parity</span>
+          <span class="kb-relitem-meta">Options · Foundational</span>
+          <span class="kb-relitem-sum">A long call and a short put at the same strike are a forward — an identity that holds with no model, no volatility and no distributional assumption, and the first sanity check any option price must pass.</span>
+        </a></li></ul></section>
+        <section class="kb-relgroup"><h3>Related</h3><ul class="kb-rellist"><li><a href="../concepts/expectation.html" class="kb-relitem">
+          <span class="kb-relitem-title">Expectation</span>
+          <span class="kb-relitem-meta">Probability · Foundational</span>
+          <span class="kb-relitem-sum">The probability-weighted average of a random variable — the number a long-run average converges to, and the object almost every pricing and sizing argument is really about.</span>
+        </a></li><li><a href="../concepts/put-call-parity.html" class="kb-relitem">
+          <span class="kb-relitem-title">Put–Call Parity</span>
+          <span class="kb-relitem-meta">Options · Foundational</span>
+          <span class="kb-relitem-sum">A long call and a short put at the same strike are a forward — an identity that holds with no model, no volatility and no distributional assumption, and the first sanity check any option price must pass.</span>
+        </a></li></ul></section>
+        
+      </div>
+      <figure class="kb-neighbourhood">
+        <canvas data-kb-minimap="forwards-and-futures" width="760" height="300" aria-label="Local knowledge graph"></canvas>
+        <figcaption>Two hops out from this concept.
+          <a class="kb-side-more" href="../graph.html?focus=forwards-and-futures">Open full graph →</a></figcaption>
+      </figure>
+      <div class="kb-references"><h3>References</h3><ul><li>Hull, *Options, Futures and Other Derivatives*, ch. 5</li><li>Baxter &amp; Rennie, *Financial Calculus*, ch. 1</li></ul></div>
+    </section>
+
+    <nav class="kb-prevnext" aria-label="Concept navigation">
+    <span></span>
+    <a class="kb-prevnext-item kb-prevnext-up" href="../subjects/derivatives.html">
+      <span class="kb-prevnext-label">Subject</span><span>Derivatives</span></a>
+    <span></span>
+  </nav>
+    <footer class="kb-source-note">
+      Source: <code>content/concepts/forwards-and-futures.md</code> · updated 2026-09-03
+    </footer>
+  </article>
+
+  <!-- The rail sits in the left column but comes last in the source: the
+       article is what a reader (or a screen reader) wants first, and the
+       links here are a way back into it rather than a way into the page. -->
+  <aside class="kb-rail">
+    <nav class="kb-toc kb-rail-group" aria-label="On this page"><h3>On this page</h3><ol><li><a href="#intuition">Intuition</a></li><li><a href="#mathematical-formulation">Mathematical Formulation</a></li><li><a href="#derivation">Derivation</a></li><li><a href="#assumptions-edge-cases">Assumptions &amp; Edge Cases</a></li><li><a href="#worked-example">Worked Example</a></li><li><a href="#why-it-matters-in-quant-finance">Why It Matters in Quant Finance</a></li><li><a href="#trading-research-application">Trading &amp; Research Application</a></li><li><a href="#implementation-notes">Implementation Notes</a></li><li><a href="#common-mistakes">Common Mistakes</a></li><li><a href="#30-second-revision">30-Second Revision</a></li><li><a href="#key-formulas">Key Formulas</a></li><li><a href="#interview-questions">Interview Questions</a></li><li><a href="#connections">Connections</a></li></ol></nav>
+    <nav class="kb-rail-group" id="side-formulas" aria-label="Key formulas"><h3>Formulas</h3><ul><li><a href="#forward-price-no-income">Forward price, no income</a></li><li><a href="#cost-of-carry-general">Cost of carry, general</a></li><li><a href="#covered-interest-parity">Covered interest parity</a></li><li><a href="#value-of-an-existing-forward">Value of an existing forward</a></li><li><a href="#forward-as-a-risk-neutral-expectation">Forward as a risk-neutral expectation</a></li></ul></nav>
+  </aside>
+</main>
+<script src="../data/kb.data.js?v=8381a4e4"></script>
+<script src="../data/search.index.js?v=6eb1e318"></script>
+<script src="../assets/js/kb-core.js?v=a4c20d2d"></script>
+<script src="../assets/js/kb-ui.js?v=a48ca814"></script>
+<script src="../assets/vendor/katex/katex.min.js" defer></script>
+<script src="../assets/vendor/katex/auto-render.min.js" defer></script>
+<script src="../assets/js/math.js?v=44b57f03" defer></script>
+<script src="../assets/js/concept.js?v=c6248b59" defer></script>
+</body>
+</html>
