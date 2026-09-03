@@ -72,7 +72,7 @@ questions:
     a: |
       For normal data the relative standard error of $\hat\sigma$ is approximately
       $1/\sqrt{2(n-1)}$. With $n=20$ that is $\approx 16\%$ — so 1.2% ± 0.19% at one standard error,
-      and roughly $[0.85\%, 1.55\%]$ at two.
+      and roughly $[0.81\%, 1.59\%]$ at two.
 
       **Volatility needs far less data than mean return, but far more than people assume.** For
       comparison, estimating a mean return to comparable relative precision takes decades. That

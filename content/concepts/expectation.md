@@ -207,8 +207,9 @@ Jensen's inequality is the bridge between "expectation" and "what actually happe
 g \text{ convex} \implies \E[g(X)] \ge g(\E[X])
 :::
 
-Applied to $\ln$ (concave, so the inequality flips), it gives the volatility drag
-$g \approx \mu - \sigma^2/2$ that separates arithmetic from geometric returns.
+Applied to $\ln$ (concave, so the inequality flips), it gives the gap that separates arithmetic
+from geometric returns: the compounded growth rate is $\mu - \sigma^2/2$, and the $\sigma^2/2$
+is volatility drag.
 
 ## Implementation Notes
 

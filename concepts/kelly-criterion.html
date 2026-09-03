@@ -134,9 +134,10 @@ constraint Kelly does not know about, and fractional Kelly is how that constrain
 <p><strong>Why it is not the answer.</strong> At  <span class="math-inline">\(9.4\times\)</span> , the portfolio&#39;s volatility is
  <span class="math-inline">\(9.4 \times 8\% = 75\%\)</span>  annualised, and the expected drawdown is catastrophic. Worse,  <span class="math-inline">\(\mu = 6\%\)</span> 
 is an <em>estimate</em>: from <a class="kb-link" href="sharpe-ratio.html" data-concept="sharpe-ratio">Sharpe Ratio</a>, the standard error of a Sharpe of 0.75 over 5 years is
- <span class="math-inline">\(\sqrt{(1+0.75^2/2)/5} \approx 0.51\)</span> . The true Sharpe could plausibly be 0.25, in which case the
-true  <span class="math-inline">\(f^\star\)</span>  is one ninth of what you computed and you are at  <span class="math-inline">\(9\times\)</span>  Kelly — deep into
-negative growth.</p>
+ <span class="math-inline">\(\sqrt{(1+0.75^2/2)/5} \approx 0.51\)</span> . The true Sharpe could plausibly be 0.25, and  <span class="math-inline">\(f^\star\)</span>  is
+<strong>linear</strong> in  <span class="math-inline">\(\mu\)</span>  — so the true fraction is one third of what you computed and you are at
+ <span class="math-inline">\(3\times\)</span>  Kelly, past the  <span class="math-inline">\(2\times\)</span>  point and into negative growth. (The <em>growth rate</em> falls by
+the square, to one ninth:  <span class="math-inline">\(SR^2/2\)</span>  goes from 28.1% to 3.1%.)</p>
 <p><strong>Quarter Kelly:</strong></p>
 <span class="math-display">\[f = 2.35\times, \quad \sigma_p = 18.8\%, \quad g = 0.25(1.75)(28.1\%) = 12.3\%\]</span>
 <p>You keep 44% of the theoretical growth at a quarter of the leverage, and you survive being wrong
@@ -257,9 +258,12 @@ maximises  <span class="math-inline">\(\E[W]\)</span> . But wealth compounds, so
 <p>Negative. A typical pair of rounds gives  <span class="math-inline">\(2.0 \times 0.4 = 0.8\)</span>  — a 20% loss. By the law of
 large numbers  <span class="math-inline">\(W_n \approx W_0 e^{-0.112n} \to 0\)</span>  almost surely.</p>
 <p>The expectation still grows without bound, carried by the vanishing set of paths that win
-every round. <strong>The mean is not where you live.</strong> Kelly asks what fraction  <span class="math-inline">\(f\)</span>  of wealth to
-stake; here  <span class="math-inline">\(f^\star = (0.5)(1.0)/(1.0) \cdot \ldots\)</span>  works out well below 1, and at any
- <span class="math-inline">\(f\)</span>  above roughly 0.4 the growth rate turns negative.</p></div></details>
+every round. <strong>The mean is not where you live.</strong></p>
+<p>Kelly asks what fraction  <span class="math-inline">\(f\)</span>  of wealth to stake. Wealth multiplies by  <span class="math-inline">\((1+f)\)</span>  on a win and
+ <span class="math-inline">\((1-0.6f)\)</span>  on a loss, so maximising  <span class="math-inline">\(g(f) = \tfrac12\ln(1+f) + \tfrac12\ln(1-0.6f)\)</span>  gives</p>
+<span class="math-display">\[f^\star = \frac{p}{\ell} - \frac{q}{w} = \frac{0.5}{0.6} - \frac{0.5}{1.0} = \frac13\]</span>
+<p>Stake a third, not everything. Growth is positive up to  <span class="math-inline">\(2f^\star = 2/3\)</span>  and negative beyond
+it — betting the full bankroll is three times the Kelly fraction, which is why it ruins you.</p></div></details>
           </li>
           <li class="kb-question" id="q-kelly-criterion-q2" data-difficulty="intermediate">
             <div class="kb-question-head">
@@ -413,8 +417,8 @@ expensive mistake — it is over-betting by exactly the amount the correlation i
     <nav class="kb-rail-group" id="side-formulas" aria-label="Key formulas"><h3>Formulas</h3><ul><li><a href="#kelly-fraction-discrete-bet">Kelly fraction (discrete bet)</a></li><li><a href="#kelly-fraction-continuous">Kelly fraction (continuous)</a></li><li><a href="#optimal-growth-rate">Optimal growth rate</a></li><li><a href="#multivariate-kelly">Multivariate Kelly</a></li><li><a href="#growth-at-a-fraction-of-kelly">Growth at a fraction of Kelly</a></li></ul></nav>
   </aside>
 </main>
-<script src="../data/kb.data.js?v=8381a4e4"></script>
-<script src="../data/search.index.js?v=6eb1e318"></script>
+<script src="../data/kb.data.js?v=e3db0308"></script>
+<script src="../data/search.index.js?v=1f8f5d11"></script>
 <script src="../assets/js/kb-core.js?v=a4c20d2d"></script>
 <script src="../assets/js/kb-ui.js?v=a48ca814"></script>
 <script src="../assets/vendor/katex/katex.min.js" defer></script>

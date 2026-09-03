@@ -411,10 +411,16 @@ else's.
 ```python
 import numpy as np
 
-def crank_nicolson_call(S_max, K, r, sigma, T, M=400, N=400):
-    """Solve the Black-Scholes PDE on a log-S grid.
+def crank_nicolson_call(K, r, sigma, T, M=400, N=400):
+    """Solve the Black-Scholes PDE on a log-S grid, Crank-Nicolson in time.
 
-    Two choices that matter more than the scheme:
+    Crank-Nicolson averages the explicit and implicit operators, so every step
+    solves a tridiagonal system. That is the entire reason to use it: the
+    explicit half alone is only conditionally stable (it needs
+    dt <= dx^2 / sigma^2, which these grid sizes violate), while CN is
+    unconditionally stable and second-order accurate in time.
+
+    Two grid choices that matter more than the scheme:
       1. Grid in x = ln(S). The PDE has constant coefficients there (the S and
          S^2 factors are exactly what the log substitution removes), so the
          matrix is tridiagonal-Toeplitz and the truncation error is uniform
@@ -423,37 +429,55 @@ def crank_nicolson_call(S_max, K, r, sigma, T, M=400, N=400):
          single largest error source in a vanilla PDE price, and it shows up as
          oscillating gamma near the strike rather than as an obvious price error.
     """
-    x_min, x_max = np.log(K) - 5 * sigma * np.sqrt(T), np.log(K) + 5 * sigma * np.sqrt(T)
-    x = np.linspace(x_min, x_max, M + 1)
+    x = np.linspace(np.log(K) - 5 * sigma * np.sqrt(T),
+                    np.log(K) + 5 * sigma * np.sqrt(T), M + 1)
     dx, dt = x[1] - x[0], T / N
-    V = np.maximum(np.exp(x) - K, 0.0)                     # terminal condition
+    V = np.maximum(np.exp(x) - K, 0.0)                      # terminal condition
 
     a = 0.5 * sigma**2
     b = r - 0.5 * sigma**2                                  # log-space drift
-    lower = dt * (a / dx**2 - b / (2 * dx))
-    diag = dt * (-2 * a / dx**2 - r)
-    upper = dt * (a / dx**2 + b / (2 * dx))
+    lo = a / dx**2 - b / (2 * dx)                           # the spatial operator L,
+    di = -2 * a / dx**2 - r                                 # as three constant
+    up = a / dx**2 + b / (2 * dx)                           # diagonals
 
-    for _ in range(N):                                      # march backwards
-        V[1:-1] = V[1:-1] + 0.5 * (lower * V[:-2] + diag * V[1:-1] + upper * V[2:])
-        V[0] = 0.0                                          # S -> 0
-        V[-1] = np.exp(x[-1]) - K * np.exp(-r * dt)         # S -> infinity
+    n = M - 1                                               # interior nodes
+    A = (np.diag(np.full(n, 1 - dt / 2 * di))               # (I - dt/2 L) V_new
+         + np.diag(np.full(n - 1, -dt / 2 * up), 1)         #   = (I + dt/2 L) V_old
+         + np.diag(np.full(n - 1, -dt / 2 * lo), -1))
+
+    for step in range(N):                                   # march backwards
+        tau = (step + 1) * dt                               # life left at the NEW level
+        rhs = V[1:-1] + dt / 2 * (lo * V[:-2] + di * V[1:-1] + up * V[2:])
+        # Discount the upper boundary over the REMAINING life, not over one step:
+        # using dt here is a small error that compounds at every one of N steps.
+        low, high = 0.0, np.exp(x[-1]) - K * np.exp(-r * tau)
+        rhs[0] += dt / 2 * lo * low
+        rhs[-1] += dt / 2 * up * high
+        V = np.concatenate([[low], np.linalg.solve(A, rhs), [high]])
     return x, V
 
-def hedge_simulation(S0, K, r, sigma, T, n_hedges, n_paths, rng):
-    """Discretely delta-hedge a short call and return the terminal P&L.
+def hedge_simulation(S0, K, r, sigma, T, n_hedges, n_paths, rng, premium):
+    """Discretely delta-hedge a SHORT call and return the terminal P&L.
 
-    The point of running this: the mean is ~0 (the model is right) but the
-    standard deviation is NOT, and it falls only as n_hedges**-0.5. That spread
+    `premium` is the option price received at inception, and it has to be an
+    argument: start the cash account at zero instead and the mean P&L is
+    -premium*exp(rT), not zero. The replication argument says the premium is
+    exactly what running the hedge costs, which is the thing being tested.
+
+    The point of running this: the mean IS ~0 (the model is right) but the
+    standard deviation is not, and it falls only as n_hedges**-0.5. That spread
     is the desk's real daily P&L, and it is invisible in the closed-form price."""
+    from math import erf                    # np.math was removed in NumPy 2.0
+    Phi = np.vectorize(lambda z: 0.5 * (1.0 + erf(z / np.sqrt(2.0))))
+
     dt = T / n_hedges
     S = np.full(n_paths, float(S0))
-    cash = np.zeros(n_paths)
+    cash = np.full(n_paths, float(premium))                 # premium received
     delta = np.zeros(n_paths)
     for i in range(n_hedges):
         tau = T - i * dt
         d1 = (np.log(S / K) + (r + 0.5 * sigma**2) * tau) / (sigma * np.sqrt(tau))
-        new_delta = 0.5 * (1 + np.vectorize(np.math.erf)(d1 / np.sqrt(2)))
+        new_delta = Phi(d1)
         cash -= (new_delta - delta) * S                     # buy/sell the hedge
         delta = new_delta
         cash *= np.exp(r * dt)                              # finance it

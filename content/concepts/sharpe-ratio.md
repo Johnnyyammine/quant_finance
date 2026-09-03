@@ -35,7 +35,11 @@ questions:
       sampling frequency does not help. Going from daily to 5-minute data multiplies the number of
       observations by 78 and leaves the precision of the Sharpe estimate essentially unchanged,
       because both the numerator and the denominator scale together. **Only calendar time helps.**
-      To establish $SR = 1$ at $t = 2$ takes roughly 4–5 years of data.
+
+      To establish $SR = 1$ at $t = 2$: set $SR/\operatorname{SE} = 2$ with
+      $\operatorname{SE} = \sqrt{(1+SR^2/2)/T}$, giving $T = 4(1 + \tfrac12) = 6$ years. (The
+      cruder $t \approx SR\sqrt T$ rule says 4; the difference is the $SR^2/2$ term, and 6 is the
+      honest number.)
   - q: How do you annualise a monthly Sharpe ratio, and when is that wrong?
     difficulty: intermediate
     tags: [annualisation, autocorrelation]
@@ -80,9 +84,12 @@ questions:
       **Insufficient information — you need the correlation to the existing book.** Sharpe is a
       standalone statistic, and allocation is a marginal decision.
 
-      For a two-asset combination the optimal risk-weight ratio is
+      For a two-asset combination the optimal weight ratio is
 
-      $$\frac{w_A}{w_B} \propto \frac{SR_A - \rho\,SR_B}{SR_B - \rho\,SR_A}$$
+      $$\frac{w_A}{w_B} = \frac{\sigma_B}{\sigma_A}\cdot\frac{SR_A - \rho\,SR_B}{SR_B - \rho\,SR_A}$$
+
+      — the second factor is the part that matters here; the $\sigma_B/\sigma_A$ in front simply
+      converts the answer from risk weights to capital weights.
 
       If B is uncorrelated with the existing portfolio and A is 0.8 correlated with it, B may well
       deserve the larger allocation despite the worse standalone number. The right quantity is the
@@ -258,9 +265,10 @@ $\sqrt{(1-0.25)/(1+0.25)} = 0.77$, so the honest Sharpe is $1.125 \times 0.77 = 
 **Skew.** If the strategy shows $\gamma_3 = -1.5$ and $\gamma_4 = 8$ (typical for short volatility),
 the standard error becomes
 
-$$\sqrt{\frac{1 - (-1.5)(1.125) + \frac{8-1}{4}(1.125)^2}{3}} = \sqrt{\frac{1 + 1.69 + 2.21}{3}} = 1.21$$
+$$\sqrt{\frac{1 - (-1.5)(1.125) + \frac{8-1}{4}(1.125)^2}{3}} = \sqrt{\frac{1 + 1.69 + 2.21}{3}}
+= \sqrt{1.634} = 1.28$$
 
-— 64% wider than the normal-case estimate. The reported 1.125 now sits inside $[-1.3, 3.5]$.
+— 73% wider than the normal-case estimate. The reported 1.125 now sits inside $[-1.4, 3.6]$.
 
 **Conclusion:** the honest statement is "estimated Sharpe 0.9, indistinguishable from zero on this
 sample, with a return distribution that will look worse in a crisis." That is a very different

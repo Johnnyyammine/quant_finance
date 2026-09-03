@@ -35,9 +35,15 @@ questions:
       large numbers $W_n \approx W_0 e^{-0.112n} \to 0$ almost surely.
 
       The expectation still grows without bound, carried by the vanishing set of paths that win
-      every round. **The mean is not where you live.** Kelly asks what fraction $f$ of wealth to
-      stake; here $f^\star = (0.5)(1.0)/(1.0) \cdot \ldots$ works out well below 1, and at any
-      $f$ above roughly 0.4 the growth rate turns negative.
+      every round. **The mean is not where you live.**
+
+      Kelly asks what fraction $f$ of wealth to stake. Wealth multiplies by $(1+f)$ on a win and
+      $(1-0.6f)$ on a loss, so maximising $g(f) = \tfrac12\ln(1+f) + \tfrac12\ln(1-0.6f)$ gives
+
+      $$f^\star = \frac{p}{\ell} - \frac{q}{w} = \frac{0.5}{0.6} - \frac{0.5}{1.0} = \frac13$$
+
+      Stake a third, not everything. Growth is positive up to $2f^\star = 2/3$ and negative beyond
+      it — betting the full bankroll is three times the Kelly fraction, which is why it ruins you.
   - q: Derive the Kelly fraction for a bet paying b-to-1 with win probability p.
     difficulty: intermediate
     tags: [derivation, core]
@@ -268,9 +274,10 @@ Nine times leverage on a Sharpe-0.75 strategy. That number should stop you.
 **Why it is not the answer.** At $9.4\times$, the portfolio's volatility is
 $9.4 \times 8\% = 75\%$ annualised, and the expected drawdown is catastrophic. Worse, $\mu = 6\%$
 is an *estimate*: from [[sharpe-ratio]], the standard error of a Sharpe of 0.75 over 5 years is
-$\sqrt{(1+0.75^2/2)/5} \approx 0.51$. The true Sharpe could plausibly be 0.25, in which case the
-true $f^\star$ is one ninth of what you computed and you are at $9\times$ Kelly — deep into
-negative growth.
+$\sqrt{(1+0.75^2/2)/5} \approx 0.51$. The true Sharpe could plausibly be 0.25, and $f^\star$ is
+**linear** in $\mu$ — so the true fraction is one third of what you computed and you are at
+$3\times$ Kelly, past the $2\times$ point and into negative growth. (The *growth rate* falls by
+the square, to one ninth: $SR^2/2$ goes from 28.1% to 3.1%.)
 
 **Quarter Kelly:**
 
