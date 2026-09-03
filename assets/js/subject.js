@@ -84,9 +84,9 @@
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
     var css = getComputedStyle(document.documentElement);
-    var colLine = css.getPropertyValue('--line-strong').trim() || '#323d4c';
-    var colInk = css.getPropertyValue('--ink').trim() || '#dde3ea';
-    var colCard = css.getPropertyValue('--bg-sunken').trim() || '#0a0d12';
+    var colLine = css.getPropertyValue('--line-strong').trim() || '#2d323c';
+    var colInk = css.getPropertyValue('--ink').trim() || '#d8dbe2';
+    var colCard = css.getPropertyValue('--bg-sunken').trim() || '#050609';
 
     var colW = w / Math.max(1, layers.length);
     var boxW = Math.min(190, colW - 26);

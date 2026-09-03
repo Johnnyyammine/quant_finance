@@ -143,7 +143,7 @@ function normaliseSubject(raw, order) {
     name: String(raw.name || raw.title || id).trim(),
     description: String(raw.description || '').trim(),
     icon: String(raw.icon || '').trim() || defaultIcon(id),
-    color: String(raw.color || '').trim() || '#6f7f95',
+    color: String(raw.color || '').trim() || '#6b7180',
     group: slugify(raw.group || 'other'),
     order: Number.isFinite(Number(raw.order)) ? Number(raw.order) : order * 10,
     path: `subjects/${id}.html`,

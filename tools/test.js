@@ -429,10 +429,16 @@ test('build: local assets are cache-busted, vendored ones are not', () => {
   // and 600 KB worth keeping in the cache across deploys.
   const fs = require('fs');
   const root = path.join(__dirname, '..');
-  const html = fs.readFileSync(path.join(root, 'concepts/kelly-criterion.html'), 'utf8');
+  // A generated page and a hand-written one. The root pages are authored by
+  // hand and were the gap here: the build stamps them, but nothing checked it,
+  // so index.html could quietly go back to serving a cacheable app.css URL.
+  const sources = ['concepts/kelly-criterion.html', 'index.html', 'library.html'];
 
   const refs = [];
-  html.replace(/(?:href|src)="([^"]+\.(?:css|js)(?:\?[^"]*)?)"/g, (_, u) => refs.push(u));
+  sources.forEach((rel) => {
+    fs.readFileSync(path.join(root, rel), 'utf8')
+      .replace(/(?:href|src)="([^"]+\.(?:css|js)(?:\?[^"]*)?)"/g, (_, u) => refs.push(u));
+  });
   assert.ok(refs.length > 6, 'expected the shell to reference several assets');
 
   const unversioned = refs.filter((u) => !/\.(css|js)\?v=[0-9a-f]{8}$/.test(u));
@@ -444,12 +450,17 @@ test('build: local assets are cache-busted, vendored ones are not', () => {
     refs.filter((u) => u.includes('/vendor/')).every((u) => !u.includes('?v=')),
     'vendored KaTeX must stay unversioned');
 
-  // The hash has to be the file's own, or it is decoration.
+  // Every hash has to be its own file's, or it is decoration -- and a tag that
+  // has gone stale is worse than none, because it looks deliberate.
   const crypto = require('crypto');
-  const css = refs.find((u) => u.includes('app.css'));
-  const want = crypto.createHash('sha1')
-    .update(fs.readFileSync(path.join(root, 'assets/css/app.css'))).digest('hex').slice(0, 8);
-  assert.strictEqual(css.split('?v=')[1], want, 'app.css hash does not match the file');
+  const wrong = [];
+  refs.filter((u) => u.includes('?v=')).forEach((u) => {
+    const [rel, tag] = u.split('?v=');
+    const file = path.join(root, rel.replace(/^(?:\.\.\/)+/, ''));
+    const want = crypto.createHash('sha1').update(fs.readFileSync(file)).digest('hex').slice(0, 8);
+    if (tag !== want) wrong.push(`${rel} tagged ${tag}, file hashes ${want}`);
+  });
+  assert.deepStrictEqual(wrong, [], 'asset tags do not match the files they name');
 });
 
 test('css: every color-mix fill keeps a flat fallback under it', () => {
@@ -477,6 +488,67 @@ test('css: every color-mix fill keeps a flat fallback under it', () => {
   assert.deepStrictEqual(offenders, [], 'color-mix background with no flat fallback above it');
   // And the guard is only meaningful if such fills actually exist.
   assert.ok(css.includes('color-mix'), 'expected at least one color-mix fill to guard');
+});
+
+test('css: every typeface the stack names is a vendored file', () => {
+  // The stack named Inter and JetBrains Mono for a long time without ever
+  // loading them, so every visitor saw their system UI font in a layout tuned
+  // for someone else's metrics. Nothing about the page looks broken when that
+  // happens, which is exactly why it went unnoticed -- so the check is that
+  // every family a --font-* token asks for first is one this stylesheet
+  // actually declares, and that the file behind each declaration exists.
+  const fs = require('fs');
+  const repo = path.join(__dirname, '..');
+  const css = fs.readFileSync(path.join(repo, 'assets/css/app.css'), 'utf8');
+
+  const declared = new Set();
+  const faces = css.match(/@font-face\s*{[^}]*}/g) || [];
+  assert.ok(faces.length >= 2, 'expected vendored @font-face rules');
+  faces.forEach((face) => {
+    const fam = face.match(/font-family:\s*"([^"]+)"/);
+    const src = face.match(/url\("([^"]+)"\)/);
+    assert.ok(fam && src, '@font-face missing a family or a src: ' + face.slice(0, 60));
+    declared.add(fam[1]);
+    // src urls are relative to the stylesheet, which lives in assets/css/.
+    const file = path.join(repo, 'assets/css', src[1]);
+    assert.ok(fs.existsSync(file), 'font file named but not shipped: ' + src[1]);
+  });
+
+  const tokens = css.match(/--font-[a-z]+:\s*"([^"]+)"/g) || [];
+  assert.ok(tokens.length >= 3, 'expected --font-ui, --font-mono and --font-read');
+  tokens.forEach((t) => {
+    const fam = t.match(/"([^"]+)"/)[1];
+    assert.ok(declared.has(fam), 'font stack leads with an unvendored family: ' + fam);
+  });
+});
+
+test('css: the light theme restates every colour the dark theme sets', () => {
+  // Every colour token is declared twice, once per theme. A token added to
+  // :root and forgotten in the light block does not fail loudly -- it inherits
+  // the dark value, so one swatch stays dark-theme-coloured on a white page
+  // and only the eye catches it. Structural tokens (radii, durations, fonts,
+  // widths) are deliberately shared and are identified by having no colour in
+  // their value.
+  const fs = require('fs');
+  const css = fs.readFileSync(path.join(__dirname, '..', 'assets/css/app.css'), 'utf8');
+  const block = (start) => {
+    const i = css.indexOf(start);
+    assert.ok(i !== -1, 'missing block: ' + start);
+    return css.slice(i, css.indexOf('\n}', i));
+  };
+  const names = (text) => {
+    const found = new Set();
+    (text.match(/--[a-z0-9-]+:[^;]+;/g) || []).forEach((d) => {
+      const [name, value] = [d.slice(0, d.indexOf(':')), d.slice(d.indexOf(':') + 1)];
+      if (/#[0-9a-f]{3,8}|rgba?\(|color-mix/i.test(value)) found.add(name);
+    });
+    return found;
+  };
+  const dark = names(block(':root {'));
+  const light = names(block('html[data-theme="light"] {'));
+  assert.ok(dark.size >= 20, 'expected the dark theme to define the palette');
+  const missing = [...dark].filter((n) => !light.has(n)).sort();
+  assert.deepStrictEqual(missing, [], 'colour tokens the light theme never overrides');
 });
 
 test('build: no relevance rating survives in the generated output', () => {

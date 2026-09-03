@@ -133,7 +133,7 @@
 
   function nodeColour(n) {
     var subject = KB.subject(n.c.subject) || {};
-    return subject.color || css('--accent', '#4f8fd6');
+    return subject.color || css('--accent', '#4d7cff');
   }
 
   /** Quadratic control point: bow the edge sideways so parallel links separate
@@ -165,8 +165,8 @@
     // canvas a middle and keeps the corners from reading as dead space.
     var vg = ctx.createRadialGradient(w / 2 + view.x, h / 2 + view.y, 0,
                                       w / 2 + view.x, h / 2 + view.y, Math.max(w, h) * 0.62);
-    vg.addColorStop(0, css('--bg-raised', '#151a22'));
-    vg.addColorStop(1, css('--bg', '#0c0f14'));
+    vg.addColorStop(0, css('--bg-raised', '#101217'));
+    vg.addColorStop(1, css('--bg', '#08090c'));
     ctx.globalAlpha = 0.55;
     ctx.fillStyle = vg;
     ctx.fillRect(0, 0, w, h);
@@ -187,7 +187,7 @@
       });
     }
 
-    var accent = css('--accent', '#4f8fd6');
+    var accent = css('--accent', '#4d7cff');
     var inv = 1 / view.k;
 
     /* ------------------------------------------------------------- edges -- */
@@ -269,7 +269,7 @@
       // through the node as a cross.
       if (!dim) {
         ctx.globalAlpha = 1;
-        ctx.fillStyle = css('--bg', '#0c0f14');
+        ctx.fillStyle = css('--bg', '#08090c');
         ctx.beginPath();
         ctx.arc(n.x, n.y, r, 0, Math.PI * 2);
         ctx.fill();
@@ -306,15 +306,15 @@
     ctx.textAlign = 'center';
     ctx.textBaseline = 'top';
     ctx.lineJoin = 'round';
+    var uiFont = css('--font-ui', 'system-ui, sans-serif');
     labelled.forEach(function (item) {
       var size = (item.active ? 12.5 : 11.5) * inv;
-      ctx.font = (item.active ? '600 ' : '') + size.toFixed(2) +
-        'px "Inter Variable", Inter, system-ui, sans-serif';
+      ctx.font = (item.active ? '600 ' : '') + size.toFixed(2) + 'px ' + uiFont;
       var y = item.n.y + item.r + 7 * inv;
-      ctx.strokeStyle = css('--bg', '#0c0f14');
+      ctx.strokeStyle = css('--bg', '#08090c');
       ctx.lineWidth = 3.5 * inv;
       ctx.strokeText(item.n.c.title, item.n.x, y);
-      ctx.fillStyle = item.active ? css('--ink-strong', '#f4f6fa') : css('--ink', '#dfe4ec');
+      ctx.fillStyle = item.active ? css('--ink-strong', '#f6f7f9') : css('--ink', '#d8dbe2');
       ctx.fillText(item.n.c.title, item.n.x, y);
     });
 
