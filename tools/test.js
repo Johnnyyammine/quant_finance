@@ -452,6 +452,33 @@ test('build: local assets are cache-busted, vendored ones are not', () => {
   assert.strictEqual(css.split('?v=')[1], want, 'app.css hash does not match the file');
 });
 
+test('css: every color-mix fill keeps a flat fallback under it', () => {
+  // color-mix is recent. A browser that does not understand it drops the whole
+  // declaration -- and for the primary button that means falling back to
+  // .kb-btn's grey, so the primary action silently stops looking primary. The
+  // guard is a plain `background:` on the line before, which is easy to lose
+  // in a later edit and invisible in every browser we test in.
+  const fs = require('fs');
+  const css = fs.readFileSync(path.join(__dirname, '..', 'assets/css/app.css'), 'utf8');
+  const lines = css.split('\n');
+
+  const offenders = [];
+  lines.forEach((line, i) => {
+    if (!/^\s*background:/.test(line)) return;
+    // Find the whole declaration; a gradient wraps over several lines.
+    let decl = line, j = i;
+    while (!decl.includes(';') && j + 1 < lines.length) { j += 1; decl += lines[j]; }
+    if (!decl.includes('color-mix')) return;
+    const prev = (lines[i - 1] || '').trim();
+    if (!/^background:\s*[^;]+;$/.test(prev) || prev.includes('color-mix')) {
+      offenders.push('line ' + (i + 1) + ': ' + line.trim().slice(0, 48));
+    }
+  });
+  assert.deepStrictEqual(offenders, [], 'color-mix background with no flat fallback above it');
+  // And the guard is only meaningful if such fills actually exist.
+  assert.ok(css.includes('color-mix'), 'expected at least one color-mix fill to guard');
+});
+
 test('build: no relevance rating survives in the generated output', () => {
   // Relevance is still in the data -- it ranks the dashboard's "Start here" and
   // filters the library -- but it is no longer *displayed* as a row of stars on
