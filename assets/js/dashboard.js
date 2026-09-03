@@ -150,12 +150,12 @@
 
   /* --------------------------------------------------------------- subjects -- */
 
-  /* Every subject, filled or not. The empty ones used to be hidden and counted
-     in a note instead, on the grounds that a plan is not knowledge -- but the
-     taxonomy IS the thing this page is showing, and eighteen greyed cards is
-     an honest picture of how much of it is written. They are spans rather than
-     links: there is a generated page behind each one, and it has nothing on
-     it. */
+  /* Every subject, filled or not. The empty ones used to be hidden -- on the
+     grounds that a plan is not knowledge -- but the taxonomy IS the thing this
+     page is showing, and sixteen greyed cards reading EMPTY are an honest
+     picture of how much of it is written, without needing a count to say so.
+     They are spans rather than links: there is a generated page behind each
+     one, and it has nothing on it. */
   function renderSubjects() {
     var host = UI.$('[data-kb-subjects]');
     if (!host) return;
@@ -179,11 +179,6 @@
         '</section>';
     }).join('') || '<p class="kb-empty">No subjects declared yet.</p>';
 
-    var note = UI.$('[data-kb-subjects-note]');
-    if (note) {
-      var filled = KB.subjects.filter(function (s) { return s.conceptCount; }).length;
-      note.textContent = filled + ' of ' + KB.subjects.length + ' have concepts written.';
-    }
   }
 
   function subjectCard(s) {
@@ -222,13 +217,6 @@
 
   function renderAll() {
     renderKpis(); renderOrbit(); renderStartHere(); renderSubjects(); renderTracks();
-    var stamp = UI.$('[data-kb-generated]');
-    if (stamp) {
-      // The build is deterministic, so there is no build timestamp to show. The
-      // content hash it uses instead means nothing to a reader, so only the date
-      // the newest concept changed goes here.
-      stamp.textContent = KB.data.contentUpdated ? 'content updated ' + KB.data.contentUpdated : '';
-    }
   }
 
   KB.on(function (type) { if (type !== 'bookmark') renderAll(); });

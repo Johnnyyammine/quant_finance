@@ -545,8 +545,11 @@ kbd {
 .kb-iconbtn:hover { background: var(--accent-bg); border-color: var(--accent-bg); color: var(--accent-ink); }
 /* Draw the theme toggle rather than relying on a glyph the font may not have:
    a circle cut down its vertical diameter, which is the same half-moon the
-   Lucide set draws and needs no icon file to say it. */
-.kb-iconbtn[data-kb-theme] { font-size: 0; }
+   Lucide set draws and needs no icon file to say it. The button is deliberately
+   EMPTY in the markup -- `aria-label` names it, and a "\u25d1" left inside it
+   became a second anonymous grid item next to this pseudo-element, so the grid
+   laid out two rows (24.5px + 9.5px) and centred the pair rather than the
+   circle. `font-size: 0` hid the character without removing the row it took. */
 .kb-iconbtn[data-kb-theme]::before {
   content: ""; width: 15px; height: 15px; border-radius: 50%;
   border: 1.6px solid currentColor;
