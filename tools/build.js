@@ -206,9 +206,7 @@ function build() {
       warn(c.source, 'the revision section has no bullet list, so the summary card has no points');
     }
 
-    const text = md.toText(body);
-    plainText.set(c.id, text);
-    c.wordCount = text ? text.split(/\s+/).length : 0;
+    plainText.set(c.id, md.toText(body));
 
     const have = new Set(c.sections.map((s) => s.canonical).filter(Boolean));
     const missing = model.RECOMMENDED.filter((s) => !have.has(s));
@@ -281,7 +279,7 @@ function build() {
       id: c.id, title: c.title, subject: c.subject, summary: c.summary,
       difficulty: c.difficulty, interviewRelevance: c.interviewRelevance,
       tags: c.tags, prerequisites: c.prerequisites, related: c.related, builtOn: c.builtOn,
-      tracks: c.tracks, path: c.path, estimatedMinutes: c.estimatedMinutes, wordCount: c.wordCount,
+      tracks: c.tracks, path: c.path,
       updated: c.updated, modules: c.modules,
       sections: c.sections.map((s) => ({ id: s.id, label: s.label })),
       formulas: c.formulas.map((f) => ({ id: f.id, name: f.name, latex: f.latex, usedIn: f.usedIn })),
@@ -296,7 +294,6 @@ function build() {
       subjects: subjects.length,
       formulas: concepts.reduce((n, c) => n + c.formulas.length, 0),
       questions: concepts.reduce((n, c) => n + c.questions.length, 0),
-      words: concepts.reduce((n, c) => n + c.wordCount, 0),
     },
   };
 
@@ -362,7 +359,7 @@ function build() {
     console.log(
       `${C.green}${C.bold}built${C.off} ${payload.stats.concepts} concepts · ` +
       `${payload.stats.subjects} subjects · ${payload.stats.formulas} formulas · ` +
-      `${payload.stats.questions} questions · ${payload.stats.words.toLocaleString()} words\n` +
+      `${payload.stats.questions} questions\n` +
       `${C.dim}${stats.written} files written, ${stats.unchanged} unchanged, ` +
       `${problems.warnings.length} warnings, ${problems.errors.length} errors in ${ms}ms${C.off}`
     );

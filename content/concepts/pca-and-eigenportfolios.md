@@ -9,7 +9,6 @@ tags: [linear-algebra, pca, eigenvalues, factor-models, risk, dimensionality-red
 prerequisites: [covariance-and-correlation]
 related: [linear-regression, effective-number-of-bets]
 aliases: [PCA, principal component analysis, eigendecomposition, spectral decomposition, eigenportfolio, principal portfolios, eigenvalue decomposition, factor rotation]
-minutes: 16
 updated: 2026-09-02
 references:
   - title: "Laloux, Cizeau, Bouchaud & Potters, *Noise Dressing of Financial Correlation Matrices*, Phys. Rev. Lett. 83 (1999)"

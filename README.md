@@ -41,7 +41,7 @@ dependency list — everything runs on Node built-ins, and KaTeX is vendored int
 | `npm run build` | Regenerate all indexes and pages |
 | `npm run watch` | Rebuild automatically as you edit `content/` |
 | `npm run new -- "Title" -s subject` | Scaffold a new concept from the template, then build |
-| `npm run check` | Health report: coverage, gaps, thin pages, orphans |
+| `npm run check` | Health report: coverage, gaps, orphans, missing questions |
 | `npm test` | 43 self-tests over the parser, model and build |
 | `npm run serve` | Optional local HTTP server (not needed for normal use) |
 

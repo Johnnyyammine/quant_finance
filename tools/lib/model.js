@@ -119,7 +119,6 @@ function normaliseConcept(raw, { file, sourceId }) {
       aliases: asArray(raw.aliases),
       references: asArray(raw.references).map((r) =>
         (typeof r === 'string' ? { title: r, url: '' } : { title: r.title || r.name || '', url: r.url || '' })),
-      estimatedMinutes: clampInt(raw.minutes ?? raw.estimated_minutes, 1, 600, 12),
       updated: String(raw.updated || '').trim(),
       source: file,
       // filled in by the build
@@ -129,7 +128,6 @@ function normaliseConcept(raw, { file, sourceId }) {
       sections: [],
       links: [],
       builtOn: [],
-      wordCount: 0,
     },
     errors,
     warnings,

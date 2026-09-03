@@ -9,7 +9,6 @@ tags: [probability, conditioning, information, bayes]
 prerequisites: []
 related: [bayes-theorem, expectation]
 aliases: [conditioning, P(A|B)]
-minutes: 11
 updated: 2026-01-14
 questions:
   - q: A family has two children. At least one is a boy. What is the probability both are boys?

@@ -66,7 +66,6 @@
         case 'title': return a.title.localeCompare(b.title) * -dir;
         case 'subject': return (a.subject.localeCompare(b.subject) || a.title.localeCompare(b.title)) * -dir;
         case 'difficulty': return ((diffRank[a.difficulty] - diffRank[b.difficulty]) || a.title.localeCompare(b.title)) * dir;
-        case 'length': return (a.wordCount - b.wordCount) * dir;
         default: return ((a.interviewRelevance - b.interviewRelevance) || a.title.localeCompare(b.title) * -1) * dir;
       }
     });
@@ -118,7 +117,6 @@
     { id: 'subject', label: 'Subject' },
     { id: 'difficulty', label: 'Level' },
     { id: 'relevance', label: 'Relevance' },
-    { id: 'length', label: 'Words' },
   ];
 
   function renderTable() {
@@ -142,10 +140,9 @@
           esc((KB.subject(c.subject) || {}).name) + '</a></td>' +
           '<td><span class="kb-pill kb-pill--' + esc(c.difficulty) + '">' +
           esc(KB.difficultyMeta[c.difficulty].label) + '</span></td>' +
-          '<td class="kb-cell-num">' + c.interviewRelevance + '</td>' +
-          '<td class="kb-cell-num">' + c.wordCount.toLocaleString() + '</td></tr>';
+          '<td class="kb-cell-num">' + c.interviewRelevance + '</td></tr>';
       }).join('')
-        : '<tr><td colspan="5" class="kb-empty">No concepts match these filters.</td></tr>') +
+        : '<tr><td colspan="' + COLUMNS.length + '" class="kb-empty">No concepts match these filters.</td></tr>') +
       '</tbody>';
   }
 

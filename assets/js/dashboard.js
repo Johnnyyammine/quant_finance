@@ -25,7 +25,6 @@
       { label: 'Concepts', value: s.concepts, note: KB.subjects.filter(function (x) { return x.conceptCount; }).length + ' subjects covered' },
       { label: 'Formulas', value: s.formulas, note: 'indexed & searchable' },
       { label: 'Questions', value: s.questions, note: 'in the interview bank' },
-      { label: 'Words', value: s.words.toLocaleString(), note: 'of written explanation' },
       { label: 'Interview core', value: highValue, note: 'relevance 4 and up' },
     ];
     host.innerHTML = items.map(function (i) {
@@ -35,13 +34,17 @@
     }).join('');
   }
 
+  // Empty subjects are a plan, not knowledge, and there are far more of them
+  // than filled ones early on -- shown as cards they bury the six subjects that
+  // actually have something in them. The taxonomy still lives in
+  // content/subjects.json; the note under the heading keeps the count honest.
   function renderSubjects() {
     var host = UI.$('[data-kb-subjects]');
     if (!host) return;
-    var showEmpty = KB.prefs.showEmptySubjects !== false;
     var groups = [];
+    var planned = 0;
     KB.subjects.forEach(function (s) {
-      if (!showEmpty && !s.conceptCount) return;
+      if (!s.conceptCount) { planned++; return; }
       var g = groups.find(function (x) { return x.id === s.group; });
       if (!g) { g = { id: s.group, subjects: [] }; groups.push(g); }
       g.subjects.push(s);
@@ -53,7 +56,13 @@
         '<span class="kb-groupbar-label">' + g.subjects.reduce(function (n, s) { return n + s.conceptCount; }, 0) +
         ' concepts</span></div>' +
         '<div class="kb-subjects">' + g.subjects.map(card).join('') + '</div>';
-    }).join('');
+    }).join('') || '<p class="kb-empty">No subjects have concepts yet.</p>';
+
+    var note = UI.$('[data-kb-subjects-note]');
+    if (note) {
+      note.textContent = 'Grouped by domain.' +
+        (planned ? ' ' + planned + ' more subject' + (planned === 1 ? '' : 's') + ' planned.' : '');
+    }
   }
 
   function card(s) {
@@ -91,7 +100,9 @@
   function renderTags() {
     var host = UI.$('[data-kb-tags]');
     if (!host) return;
-    host.innerHTML = KB.tags.slice(0, 28).map(function (t) {
+    // A tag used once connects nothing -- it is a label, not a theme. The
+    // library's facet list still carries every tag for filtering.
+    host.innerHTML = KB.tags.filter(function (t) { return t.count > 1; }).slice(0, 28).map(function (t) {
       return '<a class="kb-tag" href="library.html?tag=' + encodeURIComponent(t.id) + '">#' +
         esc(t.id) + ' <span style="opacity:.55">' + t.count + '</span></a>';
     }).join('') || '<p class="kb-empty">No tags yet.</p>';
@@ -101,12 +112,10 @@
     renderKpis(); renderSubjects(); renderRecent(); renderTags();
     var stamp = UI.$('[data-kb-generated]');
     if (stamp) {
-      // The build is deterministic, so there is no build timestamp to show —
-      // the content fingerprint is the more useful thing anyway.
-      var bits = [];
-      if (KB.data.contentUpdated) bits.push('content updated ' + KB.data.contentUpdated);
-      if (KB.data.contentHash) bits.push('index ' + KB.data.contentHash);
-      stamp.textContent = bits.join(' · ');
+      // The build is deterministic, so there is no build timestamp to show. The
+      // content hash it uses instead means nothing to a reader, so only the date
+      // the newest concept changed goes here.
+      stamp.textContent = KB.data.contentUpdated ? 'content updated ' + KB.data.contentUpdated : '';
     }
   }
 

@@ -9,7 +9,6 @@ tags: [statistics, moments, risk, volatility, dispersion]
 prerequisites: [expectation]
 related: [covariance-and-correlation, sharpe-ratio]
 aliases: [volatility, sigma, second moment, stdev, dispersion]
-minutes: 13
 updated: 2026-01-14
 questions:
   - q: Why divide by n−1 rather than n in the sample variance?

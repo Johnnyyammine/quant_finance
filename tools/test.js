@@ -421,6 +421,40 @@ test('build: generated data and pages carry no progress surface', () => {
   assert.deepStrictEqual(offenders, [], 'progress markup left in generated HTML');
 });
 
+test('build: no length metric survives in the generated output', () => {
+  // Word counts and a hand-typed reading time measured the page, not the
+  // subject -- and the reading time was a guess in frontmatter, so it could not
+  // even be trusted. Both are gone; this is the guard against one drifting back
+  // in through the payload, where it would immediately be free to render.
+  const fs = require('fs');
+  const root = path.join(__dirname, '..');
+  const payload = JSON.parse(fs.readFileSync(path.join(root, 'data/kb.json'), 'utf8'));
+
+  assert.ok(!('words' in payload.stats), 'stats.words must be gone');
+  assert.ok(payload.concepts.length, 'expected concepts to check');
+  payload.concepts.forEach((c) => {
+    assert.ok(!('wordCount' in c), c.id + ' still carries a word count');
+    assert.ok(!('estimatedMinutes' in c), c.id + ' still carries a reading time');
+  });
+
+  // Frontmatter is the other end of the same pipe: a `minutes:` key there is
+  // silently ignored now, which is worse than an author noticing it is gone.
+  const dir = path.join(root, 'content/concepts');
+  const stale = fs.readdirSync(dir).filter((f) => f.endsWith('.md'))
+    .filter((f) => /^minutes:/m.test(fs.readFileSync(path.join(dir, f), 'utf8')));
+  assert.deepStrictEqual(stale, [], 'concepts still declaring a reading time');
+
+  const offenders = [];
+  ['concepts', 'subjects'].forEach((sub) => {
+    const d = path.join(root, sub);
+    if (!fs.existsSync(d)) return;
+    fs.readdirSync(d).filter((f) => f.endsWith('.html')).forEach((f) => {
+      if (/kb-readtime/.test(fs.readFileSync(path.join(d, f), 'utf8'))) offenders.push(sub + '/' + f);
+    });
+  });
+  assert.deepStrictEqual(offenders, [], 'reading-time markup left in generated HTML');
+});
+
 test('build: local assets are cache-busted, vendored ones are not', () => {
   // The failure this catches is silent and looks like a broken site: a browser
   // holding an old app.css pairs it with freshly deployed HTML, and the layout

@@ -33,7 +33,6 @@ npm run new -- "Concept Title" --subject <subject-id> [options]
 | `-t, --tags` | `comma,separated` |
 | `-p, --prereqs` | `comma,separated` concept ids you should learn first |
 | `--related` | `comma,separated` sibling concepts |
-| `-m, --minutes` | Estimated reading time; defaults to 12 |
 | `--id` | Override the generated id |
 | `--from <file>` | Seed the body from a file — see the Claude workflow below |
 | `--force` | Overwrite an existing file |
@@ -67,7 +66,6 @@ prerequisites: [brownian-motion]      # directed edge; reverse is AUTOMATIC
 related: [martingales]                # symmetric; declare on either side
 tracks: []                            # usually unnecessary — see below
 aliases: [Ito lemma, stochastic chain rule]   # extra search terms
-minutes: 15
 updated: 2026-01-14
 
 references:
@@ -210,14 +208,13 @@ Extra headings outside the list are fine and appear in document order.
 
 ```bash
 npm run build     # or: npm run watch, which rebuilds as you save
-npm run check     # coverage, gaps, thin pages, orphans, missing questions
+npm run check     # coverage, gaps, orphans, missing questions, missing summaries
 ```
 
 `npm run check` is the useful one before a study session. It reports:
 
 - concept counts per subject and per interview track
 - **orphans** — concepts with no prerequisites, relations or inbound links
-- **thin pages** under 250 words
 - interview-relevant concepts (4★+) with **no questions**
 - maths concepts with no `:::formula` block
 - every build warning

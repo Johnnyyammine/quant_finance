@@ -9,7 +9,6 @@ tags: [sizing, leverage, compounding, growth, risk]
 prerequisites: [expectation, variance]
 related: [sharpe-ratio]
 aliases: [Kelly, optimal f, log-optimal, growth-optimal, edge over odds]
-minutes: 14
 updated: 2026-01-14
 references:
   - title: "Kelly (1956), *A New Interpretation of Information Rate*, Bell System Technical Journal"

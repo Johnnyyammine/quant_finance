@@ -9,7 +9,6 @@ tags: [probability, moments, pricing, linearity]
 prerequisites: []
 related: [variance, conditional-probability]
 aliases: [expected value, mean, first moment, EV]
-minutes: 12
 updated: 2026-01-14
 references:
   - title: "Grimmett & Stirzaker, *Probability and Random Processes*, ch. 3"

@@ -9,7 +9,6 @@ tags: [statistics, econometrics, ols, factor-models, estimation]
 prerequisites: [covariance-and-correlation, variance]
 related: [expectation, sharpe-ratio]
 aliases: [OLS, least squares, beta, regression]
-minutes: 16
 updated: 2026-01-14
 references:
   - title: "Hayashi, *Econometrics*, ch. 1–2"

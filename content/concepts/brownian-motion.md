@@ -9,7 +9,6 @@ tags: [stochastic-processes, wiener-process, diffusion, pricing, quadratic-varia
 prerequisites: [martingales, variance]
 related: [expectation]
 aliases: [Wiener process, Wt, diffusion, random walk limit]
-minutes: 16
 updated: 2026-01-14
 references:
   - title: "Shreve, *Stochastic Calculus for Finance II*, ch. 3"

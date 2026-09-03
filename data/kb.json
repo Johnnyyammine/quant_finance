@@ -948,8 +948,6 @@
       "builtOn": [],
       "tracks": [],
       "path": "concepts/bayes-theorem.html",
-      "estimatedMinutes": 13,
-      "wordCount": 1119,
       "updated": "2026-01-14",
       "modules": [
         "bayes-explorer"
@@ -1110,8 +1108,6 @@
       "builtOn": [],
       "tracks": [],
       "path": "concepts/brownian-motion.html",
-      "estimatedMinutes": 16,
-      "wordCount": 1621,
       "updated": "2026-01-14",
       "modules": [
         "random-walk"
@@ -1294,8 +1290,6 @@
       ],
       "tracks": [],
       "path": "concepts/conditional-probability.html",
-      "estimatedMinutes": 11,
-      "wordCount": 1104,
       "updated": "2026-01-14",
       "modules": [],
       "sections": [
@@ -1463,8 +1457,6 @@
       ],
       "tracks": [],
       "path": "concepts/covariance-and-correlation.html",
-      "estimatedMinutes": 14,
-      "wordCount": 1233,
       "updated": "2026-01-14",
       "modules": [],
       "sections": [
@@ -1649,8 +1641,6 @@
       "builtOn": [],
       "tracks": [],
       "path": "concepts/effective-number-of-bets.html",
-      "estimatedMinutes": 18,
-      "wordCount": 2682,
       "updated": "2026-09-02",
       "modules": [
         "diversification-lab"
@@ -1879,8 +1869,6 @@
       ],
       "tracks": [],
       "path": "concepts/expectation.html",
-      "estimatedMinutes": 12,
-      "wordCount": 1240,
       "updated": "2026-01-14",
       "modules": [],
       "sections": [
@@ -2057,8 +2045,6 @@
       "builtOn": [],
       "tracks": [],
       "path": "concepts/kelly-criterion.html",
-      "estimatedMinutes": 14,
-      "wordCount": 1570,
       "updated": "2026-01-14",
       "modules": [],
       "sections": [
@@ -2264,8 +2250,6 @@
       "builtOn": [],
       "tracks": [],
       "path": "concepts/linear-regression.html",
-      "estimatedMinutes": 16,
-      "wordCount": 1369,
       "updated": "2026-01-14",
       "modules": [
         "regression-lab"
@@ -2447,8 +2431,6 @@
       ],
       "tracks": [],
       "path": "concepts/martingales.html",
-      "estimatedMinutes": 15,
-      "wordCount": 1556,
       "updated": "2026-01-14",
       "modules": [],
       "sections": [
@@ -2617,8 +2599,6 @@
       ],
       "tracks": [],
       "path": "concepts/pca-and-eigenportfolios.html",
-      "estimatedMinutes": 16,
-      "wordCount": 1967,
       "updated": "2026-09-02",
       "modules": [
         "diversification-lab"
@@ -2826,8 +2806,6 @@
         "systematic-macro"
       ],
       "path": "concepts/sharpe-ratio.html",
-      "estimatedMinutes": 18,
-      "wordCount": 1678,
       "updated": "2026-01-14",
       "modules": [],
       "sections": [
@@ -3035,8 +3013,6 @@
       ],
       "tracks": [],
       "path": "concepts/variance.html",
-      "estimatedMinutes": 13,
-      "wordCount": 1117,
       "updated": "2026-01-14",
       "modules": [
         "distribution-explorer"
@@ -3194,7 +3170,6 @@
     "concepts": 12,
     "subjects": 24,
     "formulas": 50,
-    "questions": 62,
-    "words": 18256
+    "questions": 62
   }
 }
