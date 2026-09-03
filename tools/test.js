@@ -421,6 +421,37 @@ test('build: generated data and pages carry no progress surface', () => {
   assert.deepStrictEqual(offenders, [], 'progress markup left in generated HTML');
 });
 
+test('build: local assets are cache-busted, vendored ones are not', () => {
+  // The failure this catches is silent and looks like a broken site: a browser
+  // holding an old app.css pairs it with freshly deployed HTML, and the layout
+  // comes apart. Every local asset URL must carry its own content hash so a
+  // changed file is a changed URL. KaTeX must NOT -- it is pinned, unchanging,
+  // and 600 KB worth keeping in the cache across deploys.
+  const fs = require('fs');
+  const root = path.join(__dirname, '..');
+  const html = fs.readFileSync(path.join(root, 'concepts/kelly-criterion.html'), 'utf8');
+
+  const refs = [];
+  html.replace(/(?:href|src)="([^"]+\.(?:css|js)(?:\?[^"]*)?)"/g, (_, u) => refs.push(u));
+  assert.ok(refs.length > 6, 'expected the shell to reference several assets');
+
+  const unversioned = refs.filter((u) => !/\.(css|js)\?v=[0-9a-f]{8}$/.test(u));
+  assert.deepStrictEqual(
+    unversioned.filter((u) => !u.includes('/vendor/')), [],
+    'local assets must carry ?v=<hash>');
+  assert.ok(
+    refs.some((u) => u.includes('/vendor/katex/')) &&
+    refs.filter((u) => u.includes('/vendor/')).every((u) => !u.includes('?v=')),
+    'vendored KaTeX must stay unversioned');
+
+  // The hash has to be the file's own, or it is decoration.
+  const crypto = require('crypto');
+  const css = refs.find((u) => u.includes('app.css'));
+  const want = crypto.createHash('sha1')
+    .update(fs.readFileSync(path.join(root, 'assets/css/app.css'))).digest('hex').slice(0, 8);
+  assert.strictEqual(css.split('?v=')[1], want, 'app.css hash does not match the file');
+});
+
 test('build: a concept page carries the rail and not the subject tree', () => {
   // Two things a stale template would quietly undo. The subject tree belongs on
   // pages you browse from -- on a concept page it was a second column of links
