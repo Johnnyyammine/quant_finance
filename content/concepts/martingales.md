@@ -9,7 +9,6 @@ tags: [stochastic-processes, conditioning, pricing, no-arbitrage, efficiency]
 prerequisites: [expectation, conditional-probability]
 related: [brownian-motion]
 aliases: [martingale, fair game, optional stopping, supermartingale]
-minutes: 15
 updated: 2026-01-14
 references:
   - title: "Williams, *Probability with Martingales*"

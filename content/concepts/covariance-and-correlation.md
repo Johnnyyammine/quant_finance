@@ -9,7 +9,6 @@ tags: [statistics, dependence, risk, diversification, linear-algebra]
 prerequisites: [variance, expectation]
 related: [linear-regression, sharpe-ratio]
 aliases: [rho, correlation matrix, covariance matrix, dependence]
-minutes: 14
 updated: 2026-01-14
 questions:
   - q: Correlation is zero. Are the variables independent?

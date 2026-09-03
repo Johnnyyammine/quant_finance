@@ -238,19 +238,25 @@
 .kb-table-concepts th[aria-sort]::after { content: " ▾"; color: var(--accent); }
 .kb-table-concepts th[aria-sort="ascending"]::after { content: " ▴"; }
 .kb-table-concepts td { padding: 7px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+/* Auto table layout shares slack between every column, which left the three
+   metadata columns drifting apart across a wide screen. Giving the title cell
+   all of it instead pins Subject, Level and Relevance together on the right
+   and lets the summary line use the width it gains. */
+.kb-table-concepts th:first-child, .kb-table-concepts td:first-child { width: 100%; }
+/* ...which then squeezes Subject to its narrowest wrap. Keep it on one line. */
+.kb-table-concepts td:nth-child(2) { white-space: nowrap; }
 .kb-table-concepts tbody tr:hover { background: var(--bg-hover); }
 .kb-cell-title a { display: block; color: var(--ink-strong); font-weight: 500; }
 .kb-cell-title .kb-cell-sum {
   display: block; margin-top: 1px; font-size: 11.5px; color: var(--ink-muted);
   max-width: 70ch; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden;
 }
-/* Six columns do not fit on a phone. Rather than scroll the table sideways,
-   drop the three that are least useful for picking something to read
-   (Subject, Level, Words) and keep Concept, Interview relevance and Status. */
+/* Four columns do not fit on a phone. Rather than scroll the table sideways,
+   drop Subject and Level -- the facets on the left already filter by both --
+   and keep Concept and Interview relevance, which are what you pick on. */
 @media (max-width: 700px) {
   .kb-table-concepts th:nth-child(2), .kb-table-concepts td:nth-child(2),
-  .kb-table-concepts th:nth-child(3), .kb-table-concepts td:nth-child(3),
-  .kb-table-concepts th:nth-child(6), .kb-table-concepts td:nth-child(6) { display: none; }
+  .kb-table-concepts th:nth-child(3), .kb-table-concepts td:nth-child(3) { display: none; }
   .kb-table-concepts th { padding: 10px 6px; }
   .kb-table-concepts td { padding: 10px 6px; }
   .kb-cell-title .kb-cell-sum { -webkit-line-clamp: 2; }

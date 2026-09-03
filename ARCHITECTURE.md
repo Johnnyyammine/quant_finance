@@ -99,10 +99,10 @@ The unit of knowledge. One markdown file, one record.
 | `related` | id[] | **Symmetric.** Declaring on one side shows it on both. |
 | `aliases` | string[] | Extra search terms only. |
 | `tracks` | id[] | Force track membership; usually unnecessary. |
-| `references`, `estimatedMinutes`, `updated` | | Presentation metadata. |
+| `references`, `updated` | | Presentation metadata. |
 | `questions` | Question[] | Co-located, not a separate bank. |
 | `source` | path | The markdown file it came from, shown in the page footer. |
-| **derived** | | `formulas`, `sections`, `builtOn`, `links`, `modules`, `wordCount`, `path` |
+| **derived** | | `formulas`, `sections`, `builtOn`, `links`, `modules`, `path` |
 
 There is no reading-status field. See §6.
 

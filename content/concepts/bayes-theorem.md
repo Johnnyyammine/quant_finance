@@ -9,7 +9,6 @@ tags: [probability, bayes, inference, base-rates, updating]
 prerequisites: [conditional-probability]
 related: [expectation]
 aliases: [Bayes rule, posterior, base rate, likelihood ratio]
-minutes: 13
 updated: 2026-01-14
 references:
   - title: "Jaynes, *Probability Theory: The Logic of Science*, ch. 4"

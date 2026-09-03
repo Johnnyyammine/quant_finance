@@ -44,8 +44,6 @@ tracks: []
 # Alternative names people search for ("vol", "stdev", "sigma").
 aliases: []
 
-# Roughly how long a focused read takes, in minutes.
-minutes: 12
 
 updated: 2026-01-01
 

@@ -4,8 +4,10 @@
  * Content health report: `npm run check`.
  *
  * Builds without writing anything meaningful and reports what needs attention —
- * thin pages, orphan concepts, missing interview questions, broken links,
- * unbalanced subjects. Useful before a study session, and as a CI gate.
+ * orphan concepts, missing interview questions, missing summaries, maths pages
+ * with no formula, unbalanced subjects. Useful before a study session, and as a
+ * CI gate. Depth is caught by the build's own "missing recommended section"
+ * warning, which names what is absent rather than counting words at it.
  */
 
 const { build } = require('./build');
@@ -27,7 +29,6 @@ concepts.forEach((c) => {
   if (!c.questions.length && c.interviewRelevance >= 4) {
     push('questions', `${c.id} is interview-relevant (${c.interviewRelevance}★) but has no questions`);
   }
-  if (c.wordCount < 250) push('thin', `${c.id} is only ${c.wordCount} words`);
   if (!c.summary) push('summary', `${c.id} has no one-sentence summary`);
   if (!c.formulas.length && ['mathematics', 'modelling'].includes(
     (subjects.find((s) => s.id === c.subject) || {}).group)) {
@@ -37,8 +38,7 @@ concepts.forEach((c) => {
 
 console.log(`\n${C.bold}Knowledge base health${C.off}`);
 console.log(`${C.dim}${'─'.repeat(64)}${C.off}`);
-console.log(`  ${stats.concepts} concepts · ${stats.formulas} formulas · ${stats.questions} questions · ` +
-  `${stats.words.toLocaleString()} words`);
+console.log(`  ${stats.concepts} concepts · ${stats.formulas} formulas · ${stats.questions} questions`);
 
 console.log(`\n${C.bold}Coverage by subject${C.off}`);
 subjects.slice().sort((a, b) => b.conceptCount - a.conceptCount).forEach((s) => {
@@ -59,7 +59,6 @@ const grouped = issues.reduce((m, i) => { (m[i.kind] = m[i.kind] || []).push(i.m
 const LABEL = {
   orphan: 'Unconnected concepts (add prerequisites/related)',
   questions: 'Missing interview questions',
-  thin: 'Thin pages (< 250 words)',
   summary: 'Missing summaries',
   formulas: 'Maths concepts with no key formula',
 };

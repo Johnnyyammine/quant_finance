@@ -9,7 +9,6 @@ tags: [risk, diversification, pca, eigenvalues, concentration, factor-models, po
 prerequisites: [pca-and-eigenportfolios, covariance-and-correlation]
 related: [sharpe-ratio, kelly-criterion]
 aliases: [ENB, effective number of independent bets, effective dimension, effective rank, participation ratio, diversification ratio, N_eff, absorption ratio, risk concentration]
-minutes: 18
 updated: 2026-09-02
 references:
   - title: "Meucci, *Managing Diversification*, Risk, 22(5) (2009)"

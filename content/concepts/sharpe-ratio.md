@@ -10,7 +10,6 @@ prerequisites: [variance, expectation]
 related: [covariance-and-correlation, linear-regression]
 tracks: [quant-research, quant-trader, stat-arb, equity-long-short, systematic-macro]
 aliases: [SR, risk-adjusted return, information ratio, Sharpe]
-minutes: 18
 updated: 2026-01-14
 references:
   - title: "Sharpe (1994), *The Sharpe Ratio*, Journal of Portfolio Management"

@@ -37,7 +37,7 @@ each new page has somewhere to attach in the graph:
 9. **Mental Math & Brainteasers** — the highest interview-ROI subject and the cheapest to write,
    since each entry is mostly `questions:`.
 
-Use `npm run check` to see what is thin, orphaned, or missing questions.
+Use `npm run check` to see what is orphaned, unsummarised, or missing questions.
 
 ### Small fixes that pay for themselves immediately
 

@@ -257,8 +257,6 @@ function conceptPage(c, ctx) {
         <a class="kb-subject-chip" href="${base}subjects/${attr(subject.id)}.html" style="--subject-color:${attr(subject.color)}">
           <span class="kb-subject-mark">${escapeHtml(subject.icon)}</span>${escapeHtml(subject.name)}</a>
         <span class="kb-pill kb-pill--${attr(c.difficulty)}">${escapeHtml(DIFF_LABEL.get(c.difficulty))}</span>
-        <span class="kb-meta-dot">·</span>
-        <span class="kb-readtime">${c.estimatedMinutes} min</span>
       </div>
       <h1 class="kb-concept-title">${escapeHtml(c.title)}</h1>
       ${glance}
@@ -297,7 +295,6 @@ function conceptPage(c, ctx) {
     ${nav}
     <footer class="kb-source-note">
       Source: <code>${escapeHtml(c.source)}</code>${c.updated ? ` · updated ${escapeHtml(c.updated)}` : ''}
-      · edit the markdown and run <code>npm run build</code>.
     </footer>
   </article>
 

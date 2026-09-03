@@ -26,7 +26,6 @@ const FLAGS = {
   prereqs: ['--prereqs', '-p'],
   related: ['--related'],
   id: ['--id'],
-  minutes: ['--minutes', '-m'],
   from: ['--from'],
 };
 
@@ -66,7 +65,6 @@ Usage: npm run new -- "Concept Title" --subject <subject-id> [options]
   -t, --tags        comma,separated
   -p, --prereqs     comma,separated concept ids
       --related     comma,separated concept ids
-  -m, --minutes     estimated reading time (default 12)
       --id          override the generated id
       --from        seed the body from a file (e.g. a Claude conversation)
       --force       overwrite an existing file
@@ -106,7 +104,6 @@ Usage: npm run new -- "Concept Title" --subject <subject-id> [options]
     .replace(/^tags: .*$/m, `tags: ${yamlList(list(a.tags))}`)
     .replace(/^prerequisites: .*$/m, `prerequisites: ${yamlList(list(a.prereqs))}`)
     .replace(/^related: .*$/m, `related: ${yamlList(list(a.related))}`)
-    .replace(/^minutes: .*$/m, `minutes: ${a.minutes || 12}`)
     .replace(/^updated: .*$/m, `updated: ${today}`)
     // strip the template's own explanatory banner
     .replace(/^# ─+\n(?:#.*\n)*?# ─+\n\n/m, '');
