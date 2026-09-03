@@ -387,12 +387,14 @@ html[data-theme="light"] .kb-pill--research     { color: #8d4c25; background: rg
      thing -- the subject tree belongs on the pages you browse from, and the
      topbar carries search and the four section links from anywhere. */
   grid-template-columns: 188px minmax(0, 1fr);
-  gap: 44px;
+  gap: 40px;
   /* Wide enough that tables, code and the interactive modules get real room.
      The reading measure is not enforced by starving the column -- it is set on
      the prose elements themselves, so text stays comfortable while anything
      wider than a sentence can use the whole width. */
-  max-width: 1180px;
+  /* Was 1180, which on a wide window left a broad empty margin to the left of
+     the rail and pushed the whole page toward the middle. */
+  max-width: 1400px;
 }
 /* Subject pages get navigation plus content; they have no page rail of their
    own, so two columns rather than three. */
@@ -410,7 +412,12 @@ html[data-theme="light"] .kb-pill--research     { color: #8d4c25; background: rg
    lands in the 232px nav track and the table of contents takes the wide
    middle. Naming the track makes the layout correct with or without the nav. */
 .kb-main--concept > .kb-rail    { grid-column: 1; grid-row: 1; }
-.kb-main--concept > .kb-article { grid-column: 2; grid-row: 1; }
+/* Capped so the wider page does not simply stretch the column. The grid grew
+   to 1400 to pull the content leftward on a big window; without this the extra
+   width lands entirely in the article, and every section rule then runs a long
+   way past the end of the prose it belongs to. The cap keeps that overhang
+   roughly where it has always been while the leftward shift still happens. */
+.kb-main--concept > .kb-article { grid-column: 2; grid-row: 1; max-width: 960px; }
 
 /* A page cached before the rail existed still has the old shape: a subject
    tree in column 1 and the page links in an aside called `.kb-sidebar`. That
@@ -429,7 +436,7 @@ html[data-theme="light"] .kb-pill--research     { color: #8d4c25; background: rg
    navigation goes too -- on a phone it is twenty-odd rows that would bury the
    prose. The topbar search and the bottom bar cover navigation there. */
 @media (max-width: 1180px) {
-  .kb-main--concept { grid-template-columns: 172px minmax(0, 1fr); gap: 34px; }
+  .kb-main--concept { grid-template-columns: 172px minmax(0, 1fr); gap: 28px; }
   .kb-main--subject { grid-template-columns: 232px minmax(0, 1fr); }
 }
 /* One column below this. The rail keeps its source position -- after the
@@ -543,7 +550,26 @@ html[data-theme="light"] .kb-pill--research     { color: #8d4c25; background: rg
 .kb-content > p,
 .kb-content > ul,
 .kb-content > ol,
-.kb-content > blockquote { max-width: 72ch; }
+.kb-content > blockquote { max-width: 78ch; }
+
+/* Prose is justified: both edges flush, so the column reads as a block rather
+   than a ragged shape. Hyphenation is not optional alongside it -- justifying
+   without it leaves the browser nothing to stretch but the word spaces, and
+   the gaps line up down the column as white rivers. Worst around inline maths,
+   which cannot break at any point. Safari still wants the prefix.
+
+   Scoped to prose. A heading, a table cell, a formula and a line of code are
+   all things you scan rather than read, and stretching their spaces only
+   makes them harder to parse. */
+.kb-content p,
+.kb-content li,
+.kb-answer-body p,
+.kb-answer-body li,
+.kb-concept-summary {
+  text-align: justify;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
 
 .kb-concept-head { padding-bottom: 22px; border-bottom: 1px solid var(--line); margin-bottom: 30px; }
 
@@ -588,7 +614,7 @@ html[data-theme="light"] .kb-pill--research     { color: #8d4c25; background: rg
   margin: 0; padding-left: 12px;
   border-left: 2px solid var(--accent);
   font-size: 15.5px; line-height: 1.6; color: var(--ink);
-  max-width: 74ch;
+  max-width: 80ch;
 }
 .kb-concept-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 18px; }
 
@@ -1023,6 +1049,12 @@ pre { overflow-x: auto; -webkit-overflow-scrolling: touch; }
   .kb-main--concept { gap: 30px; }
   .kb-neighbourhood { display: none; }
   .kb-article { font-size: 15px; }
+  /* Justification needs a line long enough to absorb the stretch. At phone
+     width the measure is around 38 characters, where even hyphenated text
+     opens gaps you cannot read past -- so the prose goes back to ragged. */
+  .kb-content p, .kb-content li,
+  .kb-answer-body p, .kb-answer-body li,
+  .kb-concept-summary { text-align: left; }
   .kb-concept-controls { flex-wrap: wrap; gap: 8px; }
 
   /* -- controls ----------------------------------------------------------
