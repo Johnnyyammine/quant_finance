@@ -141,7 +141,7 @@ quant_finance/
 │   │            dashboard.js · library.js · graph.js · interview.js
 │   │            concept.js · subject.js · math.js · lib/plot.js
 │   │            modules/    interactive modules, one file each
-│   ├── fonts/   Plus Jakarta Sans + JetBrains Mono, variable (97 KB)
+│   ├── fonts/   Literata (reading) + Plus Jakarta Sans (UI) + JetBrains Mono (255 KB)
 │   └── vendor/katex/                                      offline maths (608 KB)
 ├── data/            GENERATED  kb.data.js · search.index.js · kb.json
 ├── concepts/        GENERATED  one HTML page per concept

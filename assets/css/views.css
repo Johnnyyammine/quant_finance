@@ -370,8 +370,15 @@
 }
 .kb-drillcard-eyebrow { display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
   margin-bottom: 14px; font-size: 11px; color: var(--ink-faint); }
-.kb-drillcard-q { font-size: 18px; line-height: 1.45; color: var(--ink-strong); margin: 0 0 16px; }
-.kb-drillcard-a { font-size: 14px; line-height: 1.65; }
+/* The drill card is reading matter, not chrome, and it sits outside
+   .kb-article -- so it names the reading face rather than inheriting the
+   interface one. Same reasoning as the concept body: these questions are full
+   of inline maths, and the serif is what makes that maths read as prose. */
+.kb-drillcard-q { font-family: var(--font-read); font-size: 18.5px; line-height: 1.5;
+  color: var(--ink-strong); margin: 0 0 16px; letter-spacing: normal;
+  font-optical-sizing: auto; }
+.kb-drillcard-a { font-family: var(--font-read); font-size: 14.5px; line-height: 1.7;
+  letter-spacing: normal; font-optical-sizing: auto; }
 .kb-drillcard-a[hidden] { display: none; }
 .kb-drillcard-foot { display: flex; align-items: center; gap: 8px; margin-top: auto; padding-top: 20px; flex-wrap: wrap; }
 .kb-drill-progress { margin-left: auto; font-family: var(--font-mono); font-size: 11.5px; color: var(--ink-faint); }

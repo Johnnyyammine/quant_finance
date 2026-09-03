@@ -355,6 +355,30 @@ A render error is caught and displayed inside the module frame rather than break
 A general charting library would be ~200 KB for the 10% used, would not read the theme tokens, and
 would need a CDN. This is ~350 lines and does exactly what the modules need.
 
+### Typography
+
+Three vendored faces, split by what you do with the text rather than by where it
+sits in the DOM:
+
+| Face | Token | Used for | Why |
+|---|---|---|---|
+| Literata | `--font-read` | concept prose, question text and answers, the drill card, the at-a-glance summary, titles | KaTeX sets maths in a serif, so a serif body makes inline maths part of the sentence instead of an inclusion |
+| Plus Jakarta Sans | `--font-ui` | nav, buttons, labels, facets, tables, cards, module controls | a geometric grotesque against the serif separates chrome from content at a glance |
+| JetBrains Mono | `--font-mono` | figures, code, tags, formula ids | tabular by default |
+
+`.kb-article` sets the reading face and everything under it inherits, so a single
+rule in `app.css` lists the interface elements inside that subtree — buttons,
+summaries, pills, table cells, captions — that go back to the sans. The test is
+whether you *read* it or *scan* it.
+
+Only the Literata roman carries the optical-size axis; the italic ships
+weight-only. opsz is worth its 58 KB on a 31px title, where it gives a real
+display cut rather than body text scaled up, and no heading in the corpus
+contains an italic — italics appear only at 13–15.5px, where the two cuts are
+indistinguishable.
+
+---
+
 ### Shipped modules
 
 | Module | Demonstrates |
