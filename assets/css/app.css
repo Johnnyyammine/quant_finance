@@ -358,9 +358,6 @@ html[data-theme="light"] .kb-pill--intermediate { color: #1d5488; background: rg
 html[data-theme="light"] .kb-pill--advanced     { color: #533b96; background: rgba(122, 99, 201, 0.13); }
 html[data-theme="light"] .kb-pill--research     { color: #8d4c25; background: rgba(192, 127, 62, 0.14); }
 
-.kb-stars { font-size: 11px; letter-spacing: 0.5px; white-space: nowrap; }
-.kb-stars-on { color: var(--warn); }
-.kb-stars-off { color: var(--ink-faint); opacity: 0.55; }
 
 .kb-chip {
   display: inline-block; padding: 3px 9px; margin-left: 5px;
@@ -573,7 +570,7 @@ html[data-theme="light"] .kb-pill--research     { color: #8d4c25; background: rg
 .kb-content li,
 .kb-answer-body p,
 .kb-answer-body li,
-.kb-concept-summary {
+.kb-glance-lead {
   text-align: justify;
   -webkit-hyphens: auto;
   hyphens: auto;
@@ -618,12 +615,49 @@ html[data-theme="light"] .kb-pill--research     { color: #8d4c25; background: rg
 }
 
 .kb-concept-title { margin: 0 0 10px; font-size: 30px; line-height: 1.15; letter-spacing: -0.022em; }
-.kb-concept-summary {
-  margin: 0; padding-left: 12px;
+/* At a glance. The accent rule that used to mark the summary now runs the
+   height of the whole card, because the card *is* the summary: one line of
+   what it is, the formula it comes down to, and the first few revision
+   points. It is deliberately not a raised panel -- another filled box under
+   the title would compete with the title. */
+.kb-glance {
+  margin: 0; padding: 2px 0 2px 14px;
   border-left: 2px solid var(--accent);
-  font-size: 15.5px; line-height: 1.6; color: var(--ink);
   max-width: var(--measure);
 }
+.kb-glance-lead {
+  margin: 0; font-size: 15.5px; line-height: 1.6; color: var(--ink);
+  -webkit-hyphens: auto; hyphens: auto;
+}
+
+/* The headline formula, set apart and clickable through to its full entry. */
+.kb-glance-formula {
+  display: block; margin: 14px 0 0; padding: 12px 14px;
+  background: var(--bg-raised); border-radius: var(--r);
+  text-align: center; color: inherit;
+}
+.kb-glance-formula:hover { text-decoration: none; background: var(--bg-sunken); }
+.kb-glance-formula .math-display { margin: 0; font-size: 15px; }
+.kb-glance-formula-name {
+  display: block; margin-top: 7px; font-size: 10px; letter-spacing: 0.11em;
+  text-transform: uppercase; color: var(--ink-faint);
+}
+
+.kb-glance-points {
+  margin: 13px 0 0; padding: 0; list-style: none;
+  display: grid; gap: 7px; font-size: 13.5px; line-height: 1.55; color: var(--ink-muted);
+}
+.kb-glance-points li { padding-left: 15px; position: relative; }
+/* A dot rather than a bullet glyph: at this size a disc reads as debris. */
+.kb-glance-points li::before {
+  content: ''; position: absolute; left: 2px; top: 0.62em;
+  width: 4px; height: 4px; border-radius: 50%; background: var(--line-strong);
+}
+.kb-glance-more {
+  display: inline-block; margin-top: 11px;
+  font-size: 11.5px; color: var(--ink-faint);
+}
+.kb-glance-more:hover { color: var(--accent-ink); }
 .kb-concept-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 18px; }
 
 .kb-content { font-size: 15px; line-height: 1.68; }
@@ -1062,7 +1096,7 @@ pre { overflow-x: auto; -webkit-overflow-scrolling: touch; }
      opens gaps you cannot read past -- so the prose goes back to ragged. */
   .kb-content p, .kb-content li,
   .kb-answer-body p, .kb-answer-body li,
-  .kb-concept-summary { text-align: left; }
+  .kb-glance-lead { text-align: left; }
   .kb-concept-controls { flex-wrap: wrap; gap: 8px; }
 
   /* -- controls ----------------------------------------------------------

@@ -327,8 +327,7 @@
 
     var node = UI.el('div', { class: 'kb-flashcard' });
     node.innerHTML = '<h2>' + KB.util.escapeHtml(c.title) + '</h2>' +
-      '<p class="kb-fc-sub">' + KB.util.escapeHtml((KB.subject(c.subject) || {}).name || '') +
-      ' · ' + KB.util.stars(c.interviewRelevance) + '</p>' +
+      '<p class="kb-fc-sub">' + KB.util.escapeHtml((KB.subject(c.subject) || {}).name || '') + '</p>' +
       '<div class="kb-flashcard-body">' + html + '</div>' +
       '<div class="kb-flashcard-foot">' +
       '<button class="kb-btn kb-btn--primary" data-fc="close">Close</button></div>';

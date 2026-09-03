@@ -50,13 +50,6 @@ function versioned(rel) {
 const attr = escapeHtml;
 const DIFF_LABEL = new Map(DIFFICULTY.map((d) => [d.id, d.label]));
 
-function stars(n) {
-  const full = '★'.repeat(n);
-  const empty = '☆'.repeat(5 - n);
-  return `<span class="kb-stars" title="Interview relevance ${n} of 5" aria-label="Interview relevance ${n} of 5">` +
-    `<span class="kb-stars-on">${full}</span><span class="kb-stars-off">${empty}</span></span>`;
-}
-
 /**
  * @param {object} o { base, title, description, bodyClass, head, body, scripts, page }
  */
@@ -182,6 +175,25 @@ function conceptPage(c, ctx) {
       }).join('')}</ul></section>`;
   };
 
+  // At a glance: the summary, the headline formula and the first few revision
+  // bullets, in one block under the title. A concept page is a long read, and
+  // this is the twenty seconds of it that answers "what is this and why".
+  // Every part is lifted from what the author already wrote, so there is no
+  // second copy to keep in step.
+  const keyFormula = c.formulas[0];
+  const revisionSection = (c.sections || []).find((s) => s.canonical === 'revision');
+  const points = c.glance || [];
+  const glance = `<section class="kb-glance" aria-label="At a glance">
+      <p class="kb-glance-lead">${ctx.inlineMd(c.summary)}</p>
+      ${keyFormula ? `<a class="kb-glance-formula" href="#${attr(keyFormula.id)}">
+        <span class="math-display">\\[${escapeHtml(keyFormula.latex)}\\]</span>
+        ${keyFormula.name ? `<span class="kb-glance-formula-name">${escapeHtml(keyFormula.name)}</span>` : ''}
+      </a>` : ''}
+      ${points.length ? `<ul class="kb-glance-points">${
+        points.map((li) => `<li>${li}</li>`).join('')}</ul>` : ''}
+      ${revisionSection ? `<a class="kb-glance-more" href="#${attr(revisionSection.id)}">Full revision \u2192</a>` : ''}
+    </section>`;
+
   const toc = c.sections.length
     ? `<nav class="kb-toc kb-rail-group" aria-label="On this page"><h3>On this page</h3><ol>${
         c.sections.map((s) => `<li><a href="#${attr(s.id)}">${escapeHtml(s.label)}</a></li>`).join('')
@@ -245,12 +257,11 @@ function conceptPage(c, ctx) {
         <a class="kb-subject-chip" href="${base}subjects/${attr(subject.id)}.html" style="--subject-color:${attr(subject.color)}">
           <span class="kb-subject-mark">${escapeHtml(subject.icon)}</span>${escapeHtml(subject.name)}</a>
         <span class="kb-pill kb-pill--${attr(c.difficulty)}">${escapeHtml(DIFF_LABEL.get(c.difficulty))}</span>
-        ${stars(c.interviewRelevance)}
         <span class="kb-meta-dot">·</span>
         <span class="kb-readtime">${c.estimatedMinutes} min</span>
       </div>
       <h1 class="kb-concept-title">${escapeHtml(c.title)}</h1>
-      <p class="kb-concept-summary">${ctx.inlineMd(c.summary)}</p>
+      ${glance}
       <div class="kb-concept-controls">
         <button class="kb-btn kb-btn--ghost" type="button" data-kb-bookmark="${attr(c.id)}">☆ Bookmark</button>
         <button class="kb-btn kb-btn--ghost" type="button" data-kb-flashcards>Revision card</button>
@@ -324,7 +335,6 @@ function subjectPage(s, concepts, ctx) {
         </span>
         <span class="kb-conceptrow-meta">
           <span class="kb-pill kb-pill--${attr(c.difficulty)}">${escapeHtml(DIFF_LABEL.get(c.difficulty))}</span>
-          ${stars(c.interviewRelevance)}
         </span>
       </a>
     </li>`).join('');
@@ -354,7 +364,7 @@ function subjectPage(s, concepts, ctx) {
       <select data-kb-filter="difficulty"><option value="">All difficulty</option>${
         DIFFICULTY.map((d) => `<option value="${d.id}">${d.label}</option>`).join('')}</select>
       <select data-kb-filter="relevance"><option value="">Any relevance</option>${
-        [5, 4, 3, 2, 1].map((n) => `<option value="${n}">${'★'.repeat(n)} and up</option>`).join('')}</select>
+        [5, 4, 3, 2, 1].map((n) => `<option value="${n}">${n} and up</option>`).join('')}</select>
       <span class="kb-filter-count" data-kb-filter-count></span>
     </div>
 
@@ -378,4 +388,4 @@ function subjectPage(s, concepts, ctx) {
   });
 }
 
-module.exports = { shell, topbar, conceptPage, subjectPage, stars };
+module.exports = { shell, topbar, conceptPage, subjectPage };

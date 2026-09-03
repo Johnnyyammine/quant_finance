@@ -116,9 +116,10 @@
 
     function renderRow(doc_) {
       var sub = doc_.t === 'concept' ? (doc_.sum || doc_.ctx) : doc_.ctx;
-      var meta = '';
-      if (doc_.t === 'concept') meta = KB.util.stars(doc_.rel || 0);
-      else if (doc_.t === 'question') meta = '<span class="kb-pill kb-pill--' + doc_.diff + '">' + doc_.diff + '</span>';
+      // Concept rows carry no meta chip now that the relevance stars are gone.
+      var meta = doc_.t === 'question'
+        ? '<span class="kb-pill kb-pill--' + doc_.diff + '">' + doc_.diff + '</span>'
+        : '';
       return '<a class="kb-result" href="' + KB.base + doc_.path + '" role="option">' +
         '<span class="kb-result-kind">' + (KIND_LABEL[doc_.t] || doc_.t) + '</span>' +
         '<span class="kb-result-main">' +

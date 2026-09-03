@@ -7,7 +7,7 @@
 <meta name="description" content="The probability-weighted average of a random variable — the number a long-run average converges to, and the object almost every pricing and sizing argument is really about.">
 <link rel="icon" href="../assets/icons/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="../assets/vendor/katex/katex.min.css">
-<link rel="stylesheet" href="../assets/css/app.css?v=e1868265">
+<link rel="stylesheet" href="../assets/css/app.css?v=be51795a">
 <link rel="stylesheet" href="../assets/css/views.css?v=5c14ed69">
 
 </head>
@@ -38,12 +38,19 @@
         <a class="kb-subject-chip" href="../subjects/probability.html" style="--subject-color:#4f8fd6">
           <span class="kb-subject-mark">P</span>Probability</a>
         <span class="kb-pill kb-pill--foundational">Foundational</span>
-        <span class="kb-stars" title="Interview relevance 5 of 5" aria-label="Interview relevance 5 of 5"><span class="kb-stars-on">★★★★★</span><span class="kb-stars-off"></span></span>
         <span class="kb-meta-dot">·</span>
         <span class="kb-readtime">12 min</span>
       </div>
       <h1 class="kb-concept-title">Expectation</h1>
-      <p class="kb-concept-summary">The probability-weighted average of a random variable — the number a long-run average converges to, and the object almost every pricing and sizing argument is really about.</p>
+      <section class="kb-glance" aria-label="At a glance">
+      <p class="kb-glance-lead">The probability-weighted average of a random variable — the number a long-run average converges to, and the object almost every pricing and sizing argument is really about.</p>
+      <a class="kb-glance-formula" href="#expectation-discrete">
+        <span class="math-display">\[\E[X] = \sum_i x_i \, p_i\]</span>
+        <span class="kb-glance-formula-name">Expectation (discrete)</span>
+      </a>
+      <ul class="kb-glance-points"><li><span class="math-inline">\(\E[X] = \sum x_i p_i\)</span>  or  <span class="math-inline">\(\int x f(x)\,\d x\)</span> ; the balance point of the distribution.</li><li><strong>Linearity is unconditional</strong>:  <span class="math-inline">\(\E[\sum a_i X_i] = \sum a_i \E[X_i]\)</span> , independence irrelevant.</li><li><span class="math-inline">\(\E[XY] = \E[X]\E[Y] + \Cov(X,Y)\)</span>  — independence <em>is</em> needed here.</li></ul>
+      <a class="kb-glance-more" href="#30-second-revision">Full revision →</a>
+    </section>
       <div class="kb-concept-controls">
         <button class="kb-btn kb-btn--ghost" type="button" data-kb-bookmark="expectation">☆ Bookmark</button>
         <button class="kb-btn kb-btn--ghost" type="button" data-kb-flashcards>Revision card</button>
@@ -329,11 +336,11 @@ by roughly  <span class="math-inline">\(\sigma^2/2\)</span> .</p></div></details
 </main>
 <script src="../data/kb.data.js?v=6d72e37b"></script>
 <script src="../data/search.index.js?v=82e0efd6"></script>
-<script src="../assets/js/kb-core.js?v=670223d7"></script>
-<script src="../assets/js/kb-ui.js?v=f776352b"></script>
+<script src="../assets/js/kb-core.js?v=a4c20d2d"></script>
+<script src="../assets/js/kb-ui.js?v=a48ca814"></script>
 <script src="../assets/vendor/katex/katex.min.js" defer></script>
 <script src="../assets/vendor/katex/auto-render.min.js" defer></script>
 <script src="../assets/js/math.js?v=671c5aed" defer></script>
-<script src="../assets/js/concept.js?v=d9f2793e" defer></script>
+<script src="../assets/js/concept.js?v=3cde2650" defer></script>
 </body>
 </html>

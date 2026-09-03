@@ -452,6 +452,68 @@ test('build: local assets are cache-busted, vendored ones are not', () => {
   assert.strictEqual(css.split('?v=')[1], want, 'app.css hash does not match the file');
 });
 
+test('build: no relevance rating survives in the generated output', () => {
+  // Relevance is still in the data -- it ranks the dashboard's "Start here" and
+  // filters the library -- but it is no longer *displayed* as a row of stars on
+  // every concept, card and table row. The one star glyph allowed anywhere is
+  // the bookmark toggle, which is a control rather than a rating.
+  const fs = require('fs');
+  const root = path.join(__dirname, '..');
+  const files = [];
+  ['concepts', 'subjects'].forEach((dir) => {
+    const d = path.join(root, dir);
+    if (fs.existsSync(d)) {
+      fs.readdirSync(d).filter((f) => f.endsWith('.html')).forEach((f) => files.push(path.join(d, f)));
+    }
+  });
+  ['index.html', 'library.html', 'interview.html', 'graph.html'].forEach((f) => {
+    const p2 = path.join(root, f);
+    if (fs.existsSync(p2)) files.push(p2);
+  });
+  assert.ok(files.length > 10, 'expected the generated pages to be present');
+
+  const offenders = [];
+  files.forEach((f) => {
+    const html = fs.readFileSync(f, 'utf8');
+    const name = path.relative(root, f);
+    if (html.includes('kb-stars')) offenders.push(name + ': kb-stars markup');
+    if (html.includes('\u2605')) offenders.push(name + ': filled star glyph');
+    // A hollow star is only ever the bookmark button's own label.
+    html.replace(/[^\n]*\u2606[^\n]*/g, (line) => {
+      if (!line.includes('data-kb-bookmark')) offenders.push(name + ': stray star glyph');
+      return line;
+    });
+  });
+  assert.deepStrictEqual(offenders, []);
+});
+
+test('build: every concept page opens with an at-a-glance card', () => {
+  // The card is built from the concept's own summary, its first formula and the
+  // opening bullets of its revision section -- so it can never disagree with the
+  // page, but it can silently go missing if the extraction stops matching the
+  // rendered markup. That failure is invisible without this.
+  const fs = require('fs');
+  const root = path.join(__dirname, '..');
+  const dir = path.join(root, 'concepts');
+  const files = fs.readdirSync(dir).filter((f) => f.endsWith('.html'));
+  assert.ok(files.length, 'no concept pages built');
+
+  const offenders = [];
+  files.forEach((f) => {
+    const html = fs.readFileSync(path.join(dir, f), 'utf8');
+    const card = html.match(/<section class="kb-glance"[\s\S]*?<\/section>/);
+    if (!card) { offenders.push(f + ': no card'); return; }
+    const body = card[0];
+    if (!/<p class="kb-glance-lead">\s*\S/.test(body)) offenders.push(f + ': no lead');
+    const points = (body.match(/<li>/g) || []).length;
+    if (points < 1) offenders.push(f + ': no revision points');
+    if (points > 3) offenders.push(f + ': ' + points + ' points, expected at most 3');
+    // The old standalone summary must not linger alongside it.
+    if (html.includes('kb-concept-summary')) offenders.push(f + ': duplicate summary paragraph');
+  });
+  assert.deepStrictEqual(offenders, []);
+});
+
 test('build: a concept page carries the rail and not the subject tree', () => {
   // Two things a stale template would quietly undo. The subject tree belongs on
   // pages you browse from -- on a concept page it was a second column of links

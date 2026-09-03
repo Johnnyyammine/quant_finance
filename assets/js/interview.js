@@ -72,7 +72,7 @@
       return '<a class="kb-cram-item" href="' + esc(c.path) + '">' +
         '<span><strong>' + esc(c.title) + '</strong>' +
         '<small>' + esc((KB.subject(c.subject) || {}).name) + ' · ' + esc(c.summary) + '</small></span>' +
-        '<span class="kb-result-meta">' + KB.util.stars(c.interviewRelevance) + '</span></a>';
+        '</a>';
     }).join('') : '<p class="kb-empty">No concepts match. Lower the relevance threshold, or add content for this track.</p>';
   }
 
@@ -108,7 +108,6 @@
       '<div class="kb-drillcard-eyebrow">' +
         '<a href="' + esc(c.path) + '" style="color:var(--ink-muted)">' + esc(c.title) + '</a>' +
         '<span class="kb-pill kb-pill--' + esc(q.difficulty) + '">' + esc(q.difficulty) + '</span>' +
-        KB.util.stars(c.interviewRelevance) +
         (drill.seen ? '<span style="margin-left:auto">seen ' + drill.seen + '× · ' +
           drill.right + ' right</span>' : '') +
       '</div>' +
