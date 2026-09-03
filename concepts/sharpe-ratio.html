@@ -134,8 +134,9 @@ record cannot distinguish a Sharpe of 1.1 from zero.</strong></p>
  <span class="math-inline">\(\sqrt{(1-0.25)/(1+0.25)} = 0.77\)</span> , so the honest Sharpe is  <span class="math-inline">\(1.125 \times 0.77 = 0.87\)</span> .</p>
 <p><strong>Skew.</strong> If the strategy shows  <span class="math-inline">\(\gamma_3 = -1.5\)</span>  and  <span class="math-inline">\(\gamma_4 = 8\)</span>  (typical for short volatility),
 the standard error becomes</p>
-<span class="math-display">\[\sqrt{\frac{1 - (-1.5)(1.125) + \frac{8-1}{4}(1.125)^2}{3}} = \sqrt{\frac{1 + 1.69 + 2.21}{3}} = 1.21\]</span>
-<p>— 64% wider than the normal-case estimate. The reported 1.125 now sits inside  <span class="math-inline">\([-1.3, 3.5]\)</span> .</p>
+<span class="math-display">\[\sqrt{\frac{1 - (-1.5)(1.125) + \frac{8-1}{4}(1.125)^2}{3}} = \sqrt{\frac{1 + 1.69 + 2.21}{3}}
+= \sqrt{1.634} = 1.28\]</span>
+<p>— 73% wider than the normal-case estimate. The reported 1.125 now sits inside  <span class="math-inline">\([-1.4, 3.6]\)</span> .</p>
 <p><strong>Conclusion:</strong> the honest statement is &quot;estimated Sharpe 0.9, indistinguishable from zero on this
 sample, with a return distribution that will look worse in a crisis.&quot; That is a very different
 sentence from &quot;Sharpe 1.13&quot;.</p>
@@ -279,8 +280,11 @@ with  <span class="math-inline">\(T\)</span>  in <strong>years</strong>. With  <
 <p>This is the most important practical fact about the Sharpe ratio, and it surprises people:
 sampling frequency does not help. Going from daily to 5-minute data multiplies the number of
 observations by 78 and leaves the precision of the Sharpe estimate essentially unchanged,
-because both the numerator and the denominator scale together. <strong>Only calendar time helps.</strong>
-To establish  <span class="math-inline">\(SR = 1\)</span>  at  <span class="math-inline">\(t = 2\)</span>  takes roughly 4–5 years of data.</p></div></details>
+because both the numerator and the denominator scale together. <strong>Only calendar time helps.</strong></p>
+<p>To establish  <span class="math-inline">\(SR = 1\)</span>  at  <span class="math-inline">\(t = 2\)</span> : set  <span class="math-inline">\(SR/\operatorname{SE} = 2\)</span>  with
+ <span class="math-inline">\(\operatorname{SE} = \sqrt{(1+SR^2/2)/T}\)</span> , giving  <span class="math-inline">\(T = 4(1 + \tfrac12) = 6\)</span>  years. (The
+cruder  <span class="math-inline">\(t \approx SR\sqrt T\)</span>  rule says 4; the difference is the  <span class="math-inline">\(SR^2/2\)</span>  term, and 6 is the
+honest number.)</p></div></details>
           </li>
           <li class="kb-question" id="q-sharpe-ratio-q2" data-difficulty="intermediate">
             <div class="kb-question-head">
@@ -327,8 +331,10 @@ excluding financing costs achieves it.</p></div></details>
             <details class="kb-hint"><summary>Hint</summary><div><p>The question is incomplete as asked. What is missing?</p></div></details>
             <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p><strong>Insufficient information — you need the correlation to the existing book.</strong> Sharpe is a
 standalone statistic, and allocation is a marginal decision.</p>
-<p>For a two-asset combination the optimal risk-weight ratio is</p>
-<span class="math-display">\[\frac{w_A}{w_B} \propto \frac{SR_A - \rho\,SR_B}{SR_B - \rho\,SR_A}\]</span>
+<p>For a two-asset combination the optimal weight ratio is</p>
+<span class="math-display">\[\frac{w_A}{w_B} = \frac{\sigma_B}{\sigma_A}\cdot\frac{SR_A - \rho\,SR_B}{SR_B - \rho\,SR_A}\]</span>
+<p>— the second factor is the part that matters here; the  <span class="math-inline">\(\sigma_B/\sigma_A\)</span>  in front simply
+converts the answer from risk weights to capital weights.</p>
 <p>If B is uncorrelated with the existing portfolio and A is 0.8 correlated with it, B may well
 deserve the larger allocation despite the worse standalone number. The right quantity is the
 <strong>marginal</strong> contribution to portfolio Sharpe, not the standalone Sharpe.</p>
@@ -440,8 +446,8 @@ one most often omitted.</p></div></details>
     <nav class="kb-rail-group" id="side-formulas" aria-label="Key formulas"><h3>Formulas</h3><ul><li><a href="#sharpe-ratio">Sharpe ratio</a></li><li><a href="#annualisation">Annualisation</a></li><li><a href="#standard-error-of-an-estimated-sharpe-lo-2002">Standard error of an estimated Sharpe (Lo, 2002)</a></li><li><a href="#non-normal-standard-error">Non-normal standard error</a></li><li><a href="#fundamental-law-of-active-management">Fundamental law of active management</a></li></ul></nav>
   </aside>
 </main>
-<script src="../data/kb.data.js?v=8381a4e4"></script>
-<script src="../data/search.index.js?v=6eb1e318"></script>
+<script src="../data/kb.data.js?v=e3db0308"></script>
+<script src="../data/search.index.js?v=1f8f5d11"></script>
 <script src="../assets/js/kb-core.js?v=a4c20d2d"></script>
 <script src="../assets/js/kb-ui.js?v=a48ca814"></script>
 <script src="../assets/vendor/katex/katex.min.js" defer></script>

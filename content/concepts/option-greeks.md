@@ -463,12 +463,17 @@ def greeks(S, K, r, sigma, T, q=0.0, call=True):
         theta = decay - q * S * disc_q * _N(-d1) + r * K * disc_r * _N(-d2)
         rho = -K * T * disc_r * _N(-d2)
 
+    # Every sensitivity to sigma is reported per VOL POINT, the second-order
+    # ones included: vanna carries one factor of sigma and volga two, so they
+    # need one and two factors of 1/100 to be in the same units as vega. Mixing
+    # a per-point vega with a per-unit volga in one dict is a 100x error waiting
+    # to be summed into a risk report.
     return {'price': price, 'delta': delta, 'gamma': gamma,
             'vega': vega / 100.0,                       # per 1 vol point
             'theta': theta / 252.0,                     # per trading day
             'rho': rho / 100.0,                         # per 1% rate move
-            'vanna': -disc_q * pdf * d2 / sigma,
-            'volga': vega * d1 * d2 / sigma}
+            'vanna': -disc_q * pdf * d2 / sigma / 100.0,        # per vol point
+            'volga': vega * d1 * d2 / sigma / 100.0**2}         # per vol point^2
 
 def attribute_pnl(g0, S0, S1, sigma0, sigma1, dt):
     """Explain a day's P&L with the Taylor expansion, and return the residual.
@@ -482,7 +487,7 @@ def attribute_pnl(g0, S0, S1, sigma0, sigma1, dt):
             'gamma': 0.5 * g0['gamma'] * dS**2,
             'vega': g0['vega'] * dsig,
             'theta': g0['theta'] * dt * 252.0,
-            'vanna': g0['vanna'] * dS * dsig / 100.0}
+            'vanna': g0['vanna'] * dS * dsig}
 
 # Consistency checks worth asserting:
 #   gamma and vega identical for call and put at the same strike

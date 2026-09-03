@@ -123,8 +123,11 @@ then before the news arrived,  <span class="math-inline">\(\E[P_{t+1}\mid \mathc
 increment. Decompose it: suppose the news is either &quot;positive&quot; (probability  <span class="math-inline">\(p\)</span> , price → 55) or
 &quot;negative&quot; (probability  <span class="math-inline">\(1-p\)</span> , price →  <span class="math-inline">\(x\)</span> ). The martingale property pins down the pair:</p>
 <span class="math-display">\[0.40 = p(0.55) + (1-p)x\]</span>
-<p>If the market assessed  <span class="math-inline">\(p = 0.5\)</span> , then  <span class="math-inline">\(x = 0.25\)</span> . The 15¢ up-move was always paired with a
-30¢ down-move at equal probability — the asymmetry is what makes the fair game fair.</p>
+<p>If the market assessed  <span class="math-inline">\(p = 0.5\)</span> , then  <span class="math-inline">\(x = 0.25\)</span> : the 15¢ up-move was always paired with an
+equal 15¢ down-move, and 40¢ was the midpoint. Fair game, symmetric moves.</p>
+<p>Change the odds and the sizes must change with them. If the market had assessed  <span class="math-inline">\(p = 2/3\)</span> , the
+same 55¢ upside would have required  <span class="math-inline">\(x = 0.10\)</span>  — a 30¢ downside, <strong>twice</strong> the 15¢ up-move,
+because a move that happens twice as often must be half as large to keep the mean at 40¢.</p>
 <p><strong>This is the correct way to interrogate a quote after the fact.</strong> The question is never &quot;did the
 price move?&quot; but &quot;was the <em>distribution</em> of possible moves centred on the quote?&quot; A market maker
 whose realised moves are systematically upward is not unlucky; their quotes are biased.</p>
@@ -348,8 +351,8 @@ research reviews.</p></div></details>
     <nav class="kb-rail-group" id="side-formulas" aria-label="Key formulas"><h3>Formulas</h3><ul><li><a href="#martingale-property">Martingale property</a></li><li><a href="#optional-stopping-theorem">Optional stopping theorem</a></li><li><a href="#martingale-convergence-theorem">Martingale convergence theorem</a></li></ul></nav>
   </aside>
 </main>
-<script src="../data/kb.data.js?v=8381a4e4"></script>
-<script src="../data/search.index.js?v=6eb1e318"></script>
+<script src="../data/kb.data.js?v=e3db0308"></script>
+<script src="../data/search.index.js?v=1f8f5d11"></script>
 <script src="../assets/js/kb-core.js?v=a4c20d2d"></script>
 <script src="../assets/js/kb-ui.js?v=a48ca814"></script>
 <script src="../assets/vendor/katex/katex.min.js" defer></script>

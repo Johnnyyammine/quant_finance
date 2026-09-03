@@ -208,8 +208,12 @@ increment. Decompose it: suppose the news is either "positive" (probability $p$,
 
 $$0.40 = p(0.55) + (1-p)x$$
 
-If the market assessed $p = 0.5$, then $x = 0.25$. The 15¢ up-move was always paired with a
-30¢ down-move at equal probability — the asymmetry is what makes the fair game fair.
+If the market assessed $p = 0.5$, then $x = 0.25$: the 15¢ up-move was always paired with an
+equal 15¢ down-move, and 40¢ was the midpoint. Fair game, symmetric moves.
+
+Change the odds and the sizes must change with them. If the market had assessed $p = 2/3$, the
+same 55¢ upside would have required $x = 0.10$ — a 30¢ downside, **twice** the 15¢ up-move,
+because a move that happens twice as often must be half as large to keep the mean at 40¢.
 
 **This is the correct way to interrogate a quote after the fact.** The question is never "did the
 price move?" but "was the *distribution* of possible moves centred on the quote?" A market maker

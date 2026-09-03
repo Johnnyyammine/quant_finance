@@ -264,12 +264,17 @@ def greeks(S, K, r, sigma, T, q=0.0, call=True):
         theta = decay - q * S * disc_q * _N(-d1) + r * K * disc_r * _N(-d2)
         rho = -K * T * disc_r * _N(-d2)
 
+    # Every sensitivity to sigma is reported per VOL POINT, the second-order
+    # ones included: vanna carries one factor of sigma and volga two, so they
+    # need one and two factors of 1/100 to be in the same units as vega. Mixing
+    # a per-point vega with a per-unit volga in one dict is a 100x error waiting
+    # to be summed into a risk report.
     return {&#39;price&#39;: price, &#39;delta&#39;: delta, &#39;gamma&#39;: gamma,
             &#39;vega&#39;: vega / 100.0,                       # per 1 vol point
             &#39;theta&#39;: theta / 252.0,                     # per trading day
             &#39;rho&#39;: rho / 100.0,                         # per 1% rate move
-            &#39;vanna&#39;: -disc_q * pdf * d2 / sigma,
-            &#39;volga&#39;: vega * d1 * d2 / sigma}
+            &#39;vanna&#39;: -disc_q * pdf * d2 / sigma / 100.0,        # per vol point
+            &#39;volga&#39;: vega * d1 * d2 / sigma / 100.0**2}         # per vol point^2
 
 def attribute_pnl(g0, S0, S1, sigma0, sigma1, dt):
     &quot;&quot;&quot;Explain a day&#39;s P&amp;L with the Taylor expansion, and return the residual.
@@ -283,7 +288,7 @@ def attribute_pnl(g0, S0, S1, sigma0, sigma1, dt):
             &#39;gamma&#39;: 0.5 * g0[&#39;gamma&#39;] * dS**2,
             &#39;vega&#39;: g0[&#39;vega&#39;] * dsig,
             &#39;theta&#39;: g0[&#39;theta&#39;] * dt * 252.0,
-            &#39;vanna&#39;: g0[&#39;vanna&#39;] * dS * dsig / 100.0}
+            &#39;vanna&#39;: g0[&#39;vanna&#39;] * dS * dsig}
 
 # Consistency checks worth asserting:
 #   gamma and vega identical for call and put at the same strike
@@ -552,8 +557,8 @@ Greeks, the binding risk constraint on a large book.</p></div></details>
     <nav class="kb-rail-group" id="side-formulas" aria-label="Key formulas"><h3>Formulas</h3><ul><li><a href="#delta">Delta</a></li><li><a href="#gamma">Gamma</a></li><li><a href="#vega">Vega</a></li><li><a href="#theta-call">Theta (call)</a></li><li><a href="#rho">Rho</a></li><li><a href="#gammavegatheta-identity">Gamma–vega–theta identity</a></li><li><a href="#second-order-cross-greeks">Second-order cross Greeks</a></li></ul></nav>
   </aside>
 </main>
-<script src="../data/kb.data.js?v=8381a4e4"></script>
-<script src="../data/search.index.js?v=6eb1e318"></script>
+<script src="../data/kb.data.js?v=e3db0308"></script>
+<script src="../data/search.index.js?v=1f8f5d11"></script>
 <script src="../assets/js/kb-core.js?v=a4c20d2d"></script>
 <script src="../assets/js/kb-ui.js?v=a48ca814"></script>
 <script src="../assets/vendor/katex/katex.min.js" defer></script>
