@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en" data-page="concept">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vanilla Option Strategies · Quant Knowledge Base</title>
+<meta name="description" content="Spreads, straddles, butterflies and risk reversals are not a catalogue of trades to memorise — each one isolates a different feature of the risk-neutral distribution, and the structure you choose is the statement of which feature you think the market has priced wrong.">
+<link rel="icon" href="../assets/icons/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/vendor/katex/katex.min.css">
+<link rel="stylesheet" href="../assets/css/app.css?v=23b7d03b">
+<link rel="stylesheet" href="../assets/css/views.css?v=c187c4d6">
+
+</head>
+<body class="kb-body kb-body--concept">
+<header class="kb-topbar">
+  <a class="kb-brand" href="../index.html" title="Home (H)">
+    <span class="kb-brand-mark">QF</span><span class="kb-brand-text">Quant Knowledge Base</span>
+  </a>
+  <nav class="kb-toplinks" aria-label="Sections">
+    <a href="../index.html" data-nav="home">Dashboard</a>
+    <a href="../graph.html" data-nav="graph">Graph</a>
+    <a href="../interview.html" data-nav="interview">Interview</a>
+    <a href="../library.html" data-nav="library">Library</a>
+  </nav>
+  <nav class="kb-crumbs" aria-label="Breadcrumb"><ol><li><a href="../subjects/options.html">Options</a></li><li class="kb-crumb-sep" aria-hidden="true">/</li><li><span aria-current="page">Vanilla Option Strategies</span></li></ol></nav>
+  <div class="kb-topbar-actions">
+    <button class="kb-searchbtn" type="button" data-kb-open-search>
+      <svg class="kb-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+      <span>Search concepts and subjects</span><kbd>/</kbd>
+    </button>
+    <button class="kb-iconbtn" type="button" data-kb-theme title="Toggle theme (T)" aria-label="Toggle theme"></button>
+    <button class="kb-iconbtn" type="button" data-kb-help title="Keyboard shortcuts (?)" aria-label="Keyboard shortcuts">?</button>
+  </div>
+</header>
+<main class="kb-main kb-main--concept" data-concept-id="vanilla-option-strategies">
+  <article class="kb-article">
+    <header class="kb-concept-head">
+      <div class="kb-concept-eyebrow">
+        <a class="kb-subject-chip" href="../subjects/options.html" style="--subject-color:#ae6332">
+          <span class="kb-subject-mark">G</span>Options</a>
+        <span class="kb-pill kb-pill--intermediate">Intermediate</span>
+      </div>
+      <h1 class="kb-concept-title">Vanilla Option Strategies</h1>
+      <section class="kb-glance" aria-label="At a glance">
+      <p class="kb-glance-lead">Spreads, straddles, butterflies and risk reversals are not a catalogue of trades to memorise — each one isolates a different feature of the risk-neutral distribution, and the structure you choose is the statement of which feature you think the market has priced wrong.</p>
+      <a class="kb-glance-formula" href="#portfolio-of-vanillas">
+        <span class="math-display">\[\Pi(S_T) = \sum_i w_i (S_T-K_i)^+ + \sum_j v_j (L_j-S_T)^+ + \alpha S_T + \beta\]</span>
+        <span class="kb-glance-formula-name">Portfolio of vanillas</span>
+      </a>
+      <ul class="kb-glance-points"><li><strong>Choose the exposure, not the strategy.</strong> Direction → verticals. Magnitude → straddles/strangles.
+Which tail → risk reversals. Timing → calendars.</li><li><strong>Verticals are first differences in strike</strong>; normalised by width they converge to a digital,
+ <span class="math-inline">\(e^{-rT}N(d_2)\)</span>  — the risk-neutral CDF.</li><li><strong>Butterflies are second differences</strong>; normalised by  <span class="math-inline">\(h^2\)</span>  they <em>are</em> the discounted risk-neutral
+density. Hence: call prices must be convex in strike.</li></ul>
+      <a class="kb-glance-more" href="#30-second-revision">Full revision →</a>
+    </section>
+      <div class="kb-concept-controls">
+        <button class="kb-btn kb-btn--ghost" type="button" data-kb-bookmark="vanilla-option-strategies">☆ Bookmark</button>
+        <button class="kb-btn kb-btn--ghost" type="button" data-kb-flashcards>Revision card</button>
+        <a class="kb-btn kb-btn--ghost" href="../graph.html?focus=vanilla-option-strategies">Show in graph</a>
+      </div>
+      <ul class="kb-taglist"><li><a class="kb-tag" href="../library.html?tag=options">#options</a></li><li><a class="kb-tag" href="../library.html?tag=strategies">#strategies</a></li><li><a class="kb-tag" href="../library.html?tag=spreads">#spreads</a></li><li><a class="kb-tag" href="../library.html?tag=straddle">#straddle</a></li><li><a class="kb-tag" href="../library.html?tag=strangle">#strangle</a></li><li><a class="kb-tag" href="../library.html?tag=butterfly">#butterfly</a></li><li><a class="kb-tag" href="../library.html?tag=condor">#condor</a></li><li><a class="kb-tag" href="../library.html?tag=risk-reversal">#risk-reversal</a></li><li><a class="kb-tag" href="../library.html?tag=collar">#collar</a></li><li><a class="kb-tag" href="../library.html?tag=calendar">#calendar</a></li><li><a class="kb-tag" href="../library.html?tag=skew">#skew</a></li><li><a class="kb-tag" href="../library.html?tag=volatility">#volatility</a></li><li><a class="kb-tag" href="../library.html?tag=payoff">#payoff</a></li><li><a class="kb-tag" href="../library.html?tag=static-replication">#static-replication</a></li></ul>
+    </header>
+
+    <div class="kb-content"><h2 id="intuition" class="kb-h kb-h2"><a class="kb-anchor" href="#intuition" aria-label="Link to this section">#</a>Intuition</h2>
+<p>There is a temptation to learn option strategies as a catalogue: here is the bull call spread, here
+is the iron condor, here is when to use each. That is the wrong shape for the knowledge, and it
+falls apart the moment an interviewer asks <em>why</em> rather than <em>which</em>.</p>
+<p>The useful frame is this. A vanilla option market gives you one instrument per strike, per expiry.
+Combining them lets you build almost any payoff you like — so the question is never &quot;which strategy&quot;
+but <strong>which feature of the distribution do I think is mispriced, and what is the cheapest way to own
+exactly that feature and nothing else?</strong></p>
+<p>Four questions determine the structure completely:</p>
+<div class="kb-table-wrap"><table class="kb-table"><thead><tr><th>Question</th><th>The exposure</th><th>The instrument</th></tr></thead><tbody><tr><td>Which way?</td><td>delta</td><td>calls, puts, verticals</td></tr>
+<tr><td>How much will it move?</td><td>gamma / vega</td><td>straddles, strangles</td></tr>
+<tr><td>Which tail is scarier?</td><td>skew</td><td>risk reversals, collars</td></tr>
+<tr><td>When will it move?</td><td>term structure</td><td>calendars, diagonals</td></tr></tbody></table></div>
+<p>Everything else is a combination. An iron condor is two verticals. A collar is a risk reversal plus
+stock. A covered call is a short put in disguise — <a class="kb-link" href="put-call-parity.html" data-concept="put-call-parity">parity</a> says so, and that is
+not a metaphor but an identity.</p>
+<aside class="kb-callout kb-callout--insight"><div class="kb-callout-title">Insight</div><div class="kb-callout-body"><p>The legs are not the trade. <strong>The trade is the exposure profile</strong>, and the legs are one of several
+ways to build it.</p>
+<p>This matters commercially, not just conceptually. If you want long gamma and you are indifferent to
+direction, a straddle and a strangle both deliver it — you pick between them on cost, on where the
+gamma sits, and on which strikes are liquid. And if a market maker can build your requested profile
+more cheaply out of different legs, they will, and the price you get reflects <em>their</em> cheapest
+construction. Knowing what you actually want is what stops you paying for exposures you did not ask
+for.</p></div></aside>
+<h2 id="mathematical-formulation" class="kb-h kb-h2"><a class="kb-anchor" href="#mathematical-formulation" aria-label="Link to this section">#</a>Mathematical Formulation</h2>
+<p>Every structure here is a weighted sum of hockey sticks. Write the terminal payoff of a portfolio
+holding  <span class="math-inline">\(w_i\)</span>  of a call at strike  <span class="math-inline">\(K_i\)</span> ,  <span class="math-inline">\(v_j\)</span>  of a put at strike  <span class="math-inline">\(L_j\)</span> ,  <span class="math-inline">\(\alpha\)</span>  shares and  <span class="math-inline">\(\beta\)</span> 
+in cash:</p>
+<figure class="kb-formula" id="portfolio-of-vanillas" data-formula="portfolio-of-vanillas"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">Portfolio of vanillas</span><button class="kb-formula-copy" type="button" data-latex="\Pi(S_T) = \sum_i w_i (S_T-K_i)^+ + \sum_j v_j (L_j-S_T)^+ + \alpha S_T + \beta" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[\Pi(S_T) = \sum_i w_i (S_T-K_i)^+ + \sum_j v_j (L_j-S_T)^+ + \alpha S_T + \beta\]</span> </div><p class="kb-formula-note">Piecewise linear in S_T, with a kink at every strike held. The slope between strikes is the expiry delta, and it steps by the position size at each kink.</p><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">Options</span><span class="kb-chip">Structuring</span><span class="kb-chip">Risk</span></footer></figure>
+<p>The three structures that matter most are the three finite differences in strike.</p>
+<figure class="kb-formula" id="vertical-spread-as-a-first-difference" data-formula="vertical-spread-as-a-first-difference"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">Vertical spread as a first difference</span><button class="kb-formula-copy" type="button" data-latex="C(K_1) - C(K_2) \;\xrightarrow[\;K_2 \to K_1\;]{}\; -(K_2-K_1)\frac{\partial C}{\partial K}
+= (K_2-K_1)\,e^{-rT}\,\mathbb{Q}(S_T &gt; K_1)" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[C(K_1) - C(K_2) \;\xrightarrow[\;K_2 \to K_1\;]{}\; -(K_2-K_1)\frac{\partial C}{\partial K}
+= (K_2-K_1)\,e^{-rT}\,\mathbb{Q}(S_T &gt; K_1)\]</span> </div><p class="kb-formula-note">Normalised by the width it converges to a digital: the risk-neutral CDF. Bounded payoff, bounded loss, capped gain.</p><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">Options</span><span class="kb-chip">Directional Trading</span><span class="kb-chip">Digitals</span></footer></figure>
+<figure class="kb-formula" id="butterfly-as-a-second-difference-breeden-litzenberger" data-formula="butterfly-as-a-second-difference-breeden-litzenberger"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">Butterfly as a second difference (Breeden-Litzenberger)</span><button class="kb-formula-copy" type="button" data-latex="C(K-h) - 2C(K) + C(K+h) \;\approx\; h^2\,\frac{\partial^2 C}{\partial K^2}
+= h^2\,e^{-rT} f_{\mathbb{Q}}(K)" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[C(K-h) - 2C(K) + C(K+h) \;\approx\; h^2\,\frac{\partial^2 C}{\partial K^2}
+= h^2\,e^{-rT} f_{\mathbb{Q}}(K)\]</span> </div><p class="kb-formula-note">The single most useful identity in the strike dimension: a butterfly IS the discounted risk-neutral density. Non-negativity of the density is a no-arbitrage constraint on quotes.</p><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">Options</span><span class="kb-chip">Volatility Surface</span><span class="kb-chip">Density Estimation</span></footer></figure>
+<figure class="kb-formula" id="carr-madan-spanning-formula" data-formula="carr-madan-spanning-formula"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">Carr-Madan spanning formula</span><button class="kb-formula-copy" type="button" data-latex="g(S_T) = g(F) + g&#39;(F)(S_T-F) + \int_0^{F} g&#39;&#39;(K)(K-S_T)^+\d K + \int_{F}^{\infty} g&#39;&#39;(K)(S_T-K)^+\d K" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[g(S_T) = g(F) + g&#39;(F)(S_T-F) + \int_0^{F} g&#39;&#39;(K)(K-S_T)^+\d K + \int_{F}^{\infty} g&#39;&#39;(K)(S_T-K)^+\d K\]</span> </div><p class="kb-formula-note">An identity, not an approximation. Any European payoff is bonds plus a forward plus a strip of vanillas weighted by g&#39;&#39;. This is why the VIX is computed from option prices.</p><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">Variance Swaps</span><span class="kb-chip">VIX</span><span class="kb-chip">Exotic Replication</span></footer></figure>
+<figure class="kb-formula" id="at-the-money-straddle-approximation" data-formula="at-the-money-straddle-approximation"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">At-the-money straddle approximation</span><button class="kb-formula-copy" type="button" data-latex="\text{Straddle}_{\text{ATM}} \approx \sqrt{\tfrac{2}{\pi}}\,S\sigma\sqrt{T} \approx 0.8\,S\sigma\sqrt{T}" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[\text{Straddle}_{\text{ATM}} \approx \sqrt{\tfrac{2}{\pi}}\,S\sigma\sqrt{T} \approx 0.8\,S\sigma\sqrt{T}\]</span> </div><p class="kb-formula-note">Accurate to well under 1% for short maturities. Worth memorising: it converts a volatility quote into a price in one step.</p><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">Market Making</span><span class="kb-chip">Quick Pricing</span><span class="kb-chip">Mental Math</span></footer></figure>
+<p>The Greeks of a structure are the same weighted sums, because differentiation is linear:
+ <span class="math-inline">\(\Delta_\Pi = \sum_i w_i \Delta_i\)</span> , and likewise for  <span class="math-inline">\(\Gamma\)</span> ,  <span class="math-inline">\(\mathcal{V}\)</span>  and  <span class="math-inline">\(\Theta\)</span> . This is
+why reading a structure is mechanical once you can read a single option — see <a class="kb-link" href="option-greeks.html" data-concept="option-greeks">Option Greeks</a>.</p>
+<h2 id="derivation" class="kb-h kb-h2"><a class="kb-anchor" href="#derivation" aria-label="Link to this section">#</a>Derivation</h2>
+<details class="kb-derivation"><summary>Why a butterfly is the risk-neutral density</summary><div class="kb-derivation-body"><p>Start from risk-neutral pricing:  <span class="math-inline">\(C(K) = e^{-rT}\E_{\mathbb{Q}}\big[(S_T-K)^+\big]
+= e^{-rT}\int_K^\infty (s-K) f_{\mathbb{Q}}(s)\,\d s\)</span> .</p>
+<p><strong>First derivative.</strong> Differentiate under the integral in  <span class="math-inline">\(K\)</span> . The boundary term vanishes because
+the integrand is zero at  <span class="math-inline">\(s=K\)</span> :</p>
+<span class="math-display">\[\frac{\partial C}{\partial K} = -e^{-rT}\int_K^\infty f_{\mathbb{Q}}(s)\,\d s
+= -e^{-rT}\,\mathbb{Q}(S_T &gt; K)\]</span>
+<p>So the negative slope of the call curve in strike is the discounted survival function — the digital
+price. That is the vertical-spread limit.</p>
+<p><strong>Second derivative.</strong> Differentiate once more:</p>
+<span class="math-display">\[\frac{\partial^2 C}{\partial K^2} = e^{-rT} f_{\mathbb{Q}}(K)\]</span>
+<p><strong>Now connect it to a tradable structure.</strong> The central second difference is exactly the
+butterfly&#39;s cost, and Taylor expansion of  <span class="math-inline">\(C\)</span>  about  <span class="math-inline">\(K\)</span>  gives</p>
+<span class="math-display">\[C(K-h) - 2C(K) + C(K+h) = h^2 C&#39;&#39;(K) + \frac{h^4}{12}C&#39;&#39;&#39;&#39;(K) + O(h^6)\]</span>
+<p>so the error is  <span class="math-inline">\(O(h^2)\)</span>  <em>relative</em>, which matches the numbers in the table above: halving the
+spacing quarters the error. Convergence is one-sided (the fly under-states the density) because
+ <span class="math-inline">\(C\)</span>  is convex in  <span class="math-inline">\(K\)</span>  with positive fourth derivative in the usual case.</p>
+<p><strong>The corollary worth carrying into an interview.</strong>  <span class="math-inline">\(f_{\mathbb{Q}} \ge 0\)</span>  forces
+ <span class="math-inline">\(C(K-h) - 2C(K) + C(K+h) \ge 0\)</span> : <strong>call prices must be convex in strike</strong>. Together with
+monotonicity ( <span class="math-inline">\(C\)</span>  decreasing in  <span class="math-inline">\(K\)</span> , slope bounded by  <span class="math-inline">\(-e^{-rT}\)</span>  and  <span class="math-inline">\(0\)</span> ), that is the complete set
+of static no-arbitrage conditions along a single expiry, and it is what a surface fitter enforces.</p></div></details>
+<details class="kb-derivation"><summary>The ATM straddle rule of thumb</summary><div class="kb-derivation-body"><p>At the money forward,  <span class="math-inline">\(d_1 = -d_2 = \tfrac12\sigma\sqrt{T}\)</span> . The straddle is  <span class="math-inline">\(C + P\)</span> , and by
+<a class="kb-link" href="put-call-parity.html" data-concept="put-call-parity">parity</a> at  <span class="math-inline">\(K = F\)</span>  the two are equal, so the straddle is  <span class="math-inline">\(2C\)</span> :</p>
+<span class="math-display">\[C = e^{-rT}F\big[N(d_1) - N(d_2)\big] = e^{-rT}F\big[N(\tfrac{\sigma\sqrt T}{2}) - N(-\tfrac{\sigma\sqrt T}{2})\big]\]</span>
+<p>For small  <span class="math-inline">\(x\)</span> ,  <span class="math-inline">\(N(x) - N(-x) = 2N(x) - 1 \approx 2\phi(0)x = \sqrt{2/\pi}\,x\)</span> . With
+ <span class="math-inline">\(x = \sigma\sqrt{T}/2\)</span> :</p>
+<span class="math-display">\[\text{Straddle} = 2C \approx 2e^{-rT}F\cdot\sqrt{\tfrac{2}{\pi}}\cdot\frac{\sigma\sqrt T}{2}
+= \sqrt{\tfrac{2}{\pi}}\,e^{-rT}F\,\sigma\sqrt{T} \approx 0.7979\,S\sigma\sqrt{T}\]</span>
+<p><strong>Check it against the exact number.</strong> At  <span class="math-inline">\(S=100\)</span> ,  <span class="math-inline">\(T=0.25\)</span> ,  <span class="math-inline">\(\sigma=25\%\)</span> ,  <span class="math-inline">\(r=4\%\)</span> : the
+approximation gives  <span class="math-inline">\(0.7979 \times 100 \times 0.25 \times 0.5 = 9.974\)</span>  and the exact
+Black–Scholes straddle is  <span class="math-inline">\(9.949\)</span>  — an error of 0.25%.</p>
+<p>Two uses. It converts an implied-vol quote into a cash price in your head, which is what &quot;the
+market is pricing a 5% move&quot; means. And inverted,  <span class="math-inline">\(\sigma \approx 1.25 \times
+\text{straddle}/(S\sqrt T)\)</span>  reads the implied move straight off a screen price.</p></div></details>
+<details class="kb-derivation"><summary>Why a covered call is a short put</summary><div class="kb-derivation-body"><p>Hold the stock and sell the call:  <span class="math-inline">\(\Pi = S_T - (S_T-K)^+ = \min(S_T, K) = K - (K-S_T)^+\)</span> .</p>
+<p>That is a cash amount  <span class="math-inline">\(K\)</span>  minus a put payoff — <strong>a short put plus a bond</strong>, exactly. Rearranged, it
+is <a class="kb-link" href="put-call-parity.html" data-concept="put-call-parity">parity</a> with the signs moved around, which is why the two positions have
+identical Greeks, identical P&amp;L and identical risk.</p>
+<p>The point is not the algebra, it is what the algebra rules out. &quot;Covered call writing is a
+conservative income strategy, whereas selling naked puts is speculative&quot; is a statement about two
+positions that are the same position. Any argument for one and against the other has to be about
+margin treatment, assignment mechanics or behaviour — never about risk.</p></div></details>
+<h2 id="assumptions-edge-cases" class="kb-h kb-h2"><a class="kb-anchor" href="#assumptions-edge-cases" aria-label="Link to this section">#</a>Assumptions &amp; Edge Cases</h2>
+<aside class="kb-callout kb-callout--assumption"><div class="kb-callout-title">Assumptions</div><div class="kb-callout-body"><p>Everything above assumes European exercise, a single financing rate, continuous strikes and
+frictionless trading. Each one bites somewhere real:</p>
+<ul class="kb-list"><li><strong>Discrete strikes</strong> turn the spanning integral into a sum. Replication error concentrates in the
+wings, exactly where  <span class="math-inline">\(g&#39;&#39;\)</span>  is often largest and liquidity is worst.</li>
+<li><strong>American exercise</strong> breaks the payoff identities into inequalities, and adds assignment risk on
+every short leg.</li>
+<li><strong>One rate</strong> — in practice you pay the borrow on short stock and receive less on cash, so every
+identity becomes a band whose width is a funding spread.</li>
+<li><strong>Frictionless</strong> is the assumption that fails first and hardest on multi-leg structures.</li></ul></div></aside>
+<aside class="kb-callout kb-callout--warning"><div class="kb-callout-title">Warning</div><div class="kb-callout-body"><p><strong>Transaction costs scale with legs, and the effect is not small.</strong> A four-leg iron condor crosses
+four bid-ask spreads to open and four to close. If each option is quoted 0.10 wide and you cross the
+full spread, that is 0.80 of round-trip cost on a structure that might collect 1.50 in premium —
+over half the expected gross P&amp;L, gone, before you have been right or wrong about anything.</p>
+<p>This is the single most common reason a backtest of a spread strategy does not survive contact with
+execution: the study priced every leg at mid. Two consequences worth stating in an interview: prefer
+structures with fewer legs when the view can be expressed either way, and price multi-leg structures
+as a package rather than leg by leg — which is what the exchange complex-order books exist for.</p></div></aside>
+<aside class="kb-callout kb-callout--pitfall"><div class="kb-callout-title">Common pitfall</div><div class="kb-callout-body"><p><strong>Pin risk.</strong> A short strike that finishes within pennies of spot at expiry leaves you not knowing
+whether you were assigned until after the close, so you go into the weekend with an unknown stock
+position and a delta of either 0 or ±100 per contract. It is a real operational risk, not a
+theoretical one, and it is why desks flatten near-the-money short strikes into expiry rather than
+holding them for the last few cents of premium.</p></div></aside>
+<h2 id="worked-example" class="kb-h kb-h2"><a class="kb-anchor" href="#worked-example" aria-label="Link to this section">#</a>Worked Example</h2>
+<p>Take  <span class="math-inline">\(S = 100\)</span> ,  <span class="math-inline">\(T = 0.25\)</span>  years,  <span class="math-inline">\(r = 4\%\)</span> ,  <span class="math-inline">\(\sigma = 25\%\)</span>  flat, and price the standard structures
+from Black–Scholes. Individual options first:</p>
+<div class="kb-table-wrap"><table class="kb-table"><thead><tr><th>Option</th><th>Price</th><th><span class="math-inline">\(\Delta\)</span></th><th><span class="math-inline">\(\Gamma\)</span></th><th>Vega (per pt)</th><th><span class="math-inline">\(\Theta\)</span> /day</th></tr></thead><tbody><tr><td>95 call</td><td>8.377</td><td>0.710</td><td>0.0274</td><td>0.171</td><td>−0.0303</td></tr>
+<tr><td>100 call</td><td>5.472</td><td>0.557</td><td>0.0316</td><td>0.197</td><td>−0.0325</td></tr>
+<tr><td>105 call</td><td>3.347</td><td>0.402</td><td>0.0310</td><td>0.193</td><td>−0.0305</td></tr>
+<tr><td>110 call</td><td>1.918</td><td>0.268</td><td>0.0263</td><td>0.165</td><td>−0.0253</td></tr>
+<tr><td>100 put</td><td>4.477</td><td>−0.443</td><td>0.0316</td><td>0.197</td><td>−0.0217</td></tr>
+<tr><td>95 put</td><td>2.432</td><td>−0.290</td><td>0.0274</td><td>0.171</td><td>−0.0200</td></tr></tbody></table></div>
+<p>Now build the structures by adding rows:</p>
+<div class="kb-table-wrap"><table class="kb-table"><thead><tr><th>Structure</th><th>Cost</th><th><span class="math-inline">\(\Delta\)</span></th><th><span class="math-inline">\(\Gamma\)</span></th><th>Vega</th><th><span class="math-inline">\(\Theta\)</span> /day</th></tr></thead><tbody><tr><td>100/110 call spread</td><td>3.554</td><td>+0.289</td><td>+0.0053</td><td>+0.033</td><td>−0.0073</td></tr>
+<tr><td>100 straddle</td><td>9.949</td><td>+0.113</td><td>+0.0632</td><td>+0.395</td><td>−0.0542</td></tr>
+<tr><td>95/105 strangle</td><td>5.779</td><td>+0.112</td><td>+0.0583</td><td>+0.365</td><td>−0.0505</td></tr>
+<tr><td>95/100/105 butterfly</td><td>0.780</td><td>−0.001</td><td><strong>−0.0048</strong></td><td>−0.030</td><td><strong>+0.0042</strong></td></tr></tbody></table></div>
+<p><strong>Read the table, not the names.</strong> Three things jump out that the strategy names actively hide:</p>
+<ol class="kb-list"><li>The <strong>call spread has almost no vega</strong> (+0.033 against +0.197 for the outright call). It is a
+ directional trade. If your thesis is &quot;vol is cheap&quot;, this instrument does not express it.</li>
+<li>The <strong>butterfly is short gamma and long theta</strong> at the money, despite being a debit structure
+ with a bounded loss. It wants nothing to happen.</li>
+<li>The <strong>straddle and strangle are nearly the same trade</strong> — 0.063 vs 0.058 gamma, 0.395 vs 0.365
+ vega — but the strangle costs 42% less. What you give up is where the gamma sits: the strangle&#39;s
+ is spread across two strikes and dies faster if the spot sits still between them.</li></ol>
+<p><strong>Now the butterfly as a probability statement.</strong> It costs 0.780 with a maximum payoff of 5.00 — a
+6.4:1 ratio that looks like a gift. It is not:</p>
+<span class="math-display">\[\mathbb{Q}(95 &lt; S_T &lt; 105) = 31.1\%\]</span>
+<p>and you only collect the full 5.00 if the stock finishes at exactly 100. Integrating the payoff
+against the risk-neutral density gives  <span class="math-inline">\(e^{-rT}\E_{\mathbb{Q}}[\text{payoff}] = 0.7797\)</span>  — <strong>the
+price, to four decimals.</strong> The 6.4:1 is precisely compensated by how rarely and how partially it
+pays.</p>
+<aside class="kb-callout kb-callout--insight"><div class="kb-callout-title">Insight</div><div class="kb-callout-body"><p>That last calculation is the whole discipline in one line. A payoff ratio is not edge. The
+risk-neutral density is exactly the weighting that makes every structure fair, so <strong>any argument
+that a structure is attractive must be an argument that the real-world density differs from the
+risk-neutral one</strong> — in the specific region that structure is exposed to.</p>
+<p>Which is a much harder claim than &quot;6.4:1&quot;, and a much more honest one.</p></div></aside>
+<div class="kb-module" data-module="black-scholes-lab" data-config="{&quot;K&quot;:100,&quot;T&quot;:0.25,&quot;sigma&quot;:0.25,&quot;r&quot;:0.04,&quot;view&quot;:&quot;gamma&quot;}"><div class="kb-module-shell"><div class="kb-module-loading">Loading interactive module &ldquo;black-scholes-lab&rdquo;&hellip;</div></div></div>
+<h2 id="why-it-matters-in-quant-finance" class="kb-h kb-h2"><a class="kb-anchor" href="#why-it-matters-in-quant-finance" aria-label="Link to this section">#</a>Why It Matters in Quant Finance</h2>
+<p><strong>The vanilla surface is a basis, not a menu.</strong> Carr–Madan says any European claim is a portfolio of
+listed options. So the strike axis is not a list of trades — it is a coordinate system for the
+risk-neutral distribution, and structures are the projections onto its components.</p>
+<p>That is why volatility surfaces are quoted the way they are. At each maturity a desk quotes three
+numbers — <strong>ATM volatility, the 25-delta risk reversal, and the 25-delta butterfly</strong> — because they
+are the level, slope and curvature of the smile, and the three structures that isolate them. A
+quoting convention is a statement about which degrees of freedom are worth trading separately.</p>
+<p>The same logic produces the VIX. Put  <span class="math-inline">\(g(S) = \log S\)</span>  into the spanning formula, so
+ <span class="math-inline">\(g&#39;&#39;(K) = -1/K^2\)</span> , and the log-contract is replicated by a  <span class="math-inline">\(1/K^2\)</span> -weighted strip of out-of-the-money
+options. The variance swap rate — and therefore the VIX — is a <strong>model-free</strong> functional of observed
+option prices. No Black–Scholes anywhere: just the identity, applied to a strip.</p>
+<aside class="kb-callout kb-callout--desk"><div class="kb-callout-title">On the desk</div><div class="kb-callout-body"><p><strong>What this buys you in research.</strong> Given a screen of option prices you can extract, with no model:</p>
+<ul class="kb-list"><li>the risk-neutral CDF (vertical spreads),</li>
+<li>the risk-neutral density (butterflies),</li>
+<li>the market&#39;s expected variance (the log-contract strip),</li>
+<li>the implied probability of any event you can write as a European payoff.</li></ul>
+<p>Every one of those is a <em>forecast the market is publishing</em>, and comparing it to the realised
+distribution is one of the oldest and most durable sources of research questions in the field — the
+variance risk premium is exactly the gap between the third bullet and what subsequently realises.</p></div></aside>
+<h2 id="trading-research-application" class="kb-h kb-h2"><a class="kb-anchor" href="#trading-research-application" aria-label="Link to this section">#</a>Trading &amp; Research Application</h2>
+<p><strong>Choosing the structure is choosing the risk premium you want to harvest.</strong> The main ones:</p>
+<div class="kb-table-wrap"><table class="kb-table"><thead><tr><th>View</th><th>Structure</th><th>What you are actually paid for</th></tr></thead><tbody><tr><td>Implied &gt; realised vol</td><td>short straddle, delta-hedged</td><td>variance risk premium</td></tr>
+<tr><td>Skew is too steep</td><td>risk reversal</td><td>the crash premium in index puts</td></tr>
+<tr><td>Vol of vol is overpriced</td><td>short butterfly / condor</td><td>curvature premium</td></tr>
+<tr><td>Term structure too steep</td><td>calendar</td><td>the slope of the vol curve</td></tr>
+<tr><td>Directional, capped</td><td>vertical spread</td><td>nothing — a pure view</td></tr></tbody></table></div>
+<p>Note the last row. <strong>A vertical spread has no risk premium attached to it.</strong> It is a directional bet
+that happens to be built from options, and it lives or dies on the accuracy of the view. That is a
+perfectly respectable thing to trade, but it should not be confused with a strategy that earns
+something structurally.</p>
+<aside class="kb-callout kb-callout--desk"><div class="kb-callout-title">On the desk</div><div class="kb-callout-body"><p><strong>Overwriting</strong> — systematically selling calls against a long equity book — is the most widely
+deployed vanilla structure in institutional asset management, and it is the covered-call identity at
+scale. It is short a put, so it is short the same crash risk the portfolio already has, and it
+converts a fraction of the equity risk premium into option premium. Whether it improves risk-adjusted
+returns is an empirical question about the variance risk premium net of costs, not a property of the
+structure. Reported <a class="kb-link" href="sharpe-ratio.html" data-concept="sharpe-ratio">Sharpe ratios</a> flatter it badly, because the return distribution
+it produces is exactly the negatively-skewed shape Sharpe cannot see.</p>
+<p><strong>Collars</strong> — long put, short call, against stock — are the same trade seen from the risk desk, and
+the reason they are quoted as a single package is that the skew makes the two legs price very
+differently. A &quot;zero-cost collar&quot; in an index sounds symmetric and is not: the put you buy is
+expensive and the call you sell is cheap, so the call strike ends up much closer to spot than the
+put. The asymmetry <em>is</em> the skew, and it is the first thing to check.</p></div></aside>
+<p><strong>In research</strong>, the practical uses are extraction and event pricing. Extraction: fit a smooth
+arbitrage-free smile, difference it twice, and you have a density to compare with realised outcomes.
+Event pricing: an earnings straddle divided by  <span class="math-inline">\(0.8S\sqrt{T}\)</span>  is the market&#39;s implied move, and the
+term structure around a known date decomposes into a diffusive part and an event part — which is a
+tradable quantity if you disagree with either.</p>
+<h2 id="common-mistakes" class="kb-h kb-h2"><a class="kb-anchor" href="#common-mistakes" aria-label="Link to this section">#</a>Common Mistakes</h2>
+<p><strong>Calling a spread &quot;lower risk&quot;.</strong> It is lower <em>cost</em> and lower <em>vega</em>. The maximum loss is still
+the entire debit, and the probability of losing it is higher than for the outright, because you also
+lose if the move goes past the short strike after passing through it.</p>
+<p><strong>Reading a win rate as an edge.</strong> Short-premium structures are engineered to win often. The payoff
+asymmetry produces the win rate mechanically, in a fair market and an unfair one alike.</p>
+<p><strong>Treating a butterfly as directionally neutral.</strong> It is a long position in the density at one
+point. Its delta is near zero <em>at the middle strike</em>, and nowhere else.</p>
+<p><strong>Pricing legs at mid.</strong> The most common way a spread backtest produces a result that does not
+survive execution. Costs scale with the number of legs.</p>
+<p><strong>Assuming the wings hedge you immediately.</strong> In a long butterfly or condor the wings cap the loss
+at expiry, but near the centre and away from expiry you are short gamma. The protection is a
+statement about the terminal payoff, not about the path.</p>
+<p><strong>Ignoring assignment and pin risk on American short legs.</strong> A structure that is neat on a payoff
+diagram can be an operational problem into expiry.</p>
+<p><strong>Forgetting that skew makes symmetric-looking structures asymmetric.</strong> Zero-cost collars, &quot;delta-
+neutral&quot; risk reversals and equidistant strangles are all quietly directional once the smile is not
+flat.</p>
+<h2 id="30-second-revision" class="kb-h kb-h2"><a class="kb-anchor" href="#30-second-revision" aria-label="Link to this section">#</a>30-Second Revision</h2>
+<ul class="kb-list"><li><strong>Choose the exposure, not the strategy.</strong> Direction → verticals. Magnitude → straddles/strangles.
+Which tail → risk reversals. Timing → calendars.</li>
+<li><strong>Verticals are first differences in strike</strong>; normalised by width they converge to a digital,
+ <span class="math-inline">\(e^{-rT}N(d_2)\)</span>  — the risk-neutral CDF.</li>
+<li><strong>Butterflies are second differences</strong>; normalised by  <span class="math-inline">\(h^2\)</span>  they <em>are</em> the discounted risk-neutral
+density. Hence: call prices must be convex in strike.</li>
+<li><strong>Carr–Madan:</strong> any European payoff = bonds + forward + a strip of vanillas weighted by  <span class="math-inline">\(g&#39;&#39;\)</span> .
+With  <span class="math-inline">\(g = \log S\)</span>  this gives the variance swap and the VIX, model-free.</li>
+<li><strong>ATM straddle  <span class="math-inline">\(\approx 0.8\,S\sigma\sqrt{T}\)</span> .</strong> Inverted, it reads implied vol off a price.</li>
+<li><strong>Covered call = short put + bond.</strong> Parity, not analogy.</li>
+<li>A long butterfly is <strong>short gamma, long theta</strong> at the centre; a call spread has <strong>almost no vega</strong>.
+Read the Greeks, not the name.</li>
+<li><strong>A payoff ratio is never edge.</strong> The risk-neutral density prices every structure fairly by
+construction; any claim of attractiveness is a claim that the real density differs <em>there</em>.</li></ul></div>
+    <section class="kb-section" id="key-formulas">
+        <h2 class="kb-h kb-h2"><a class="kb-anchor" href="#key-formulas" aria-label="Link to this section">#</a>Key Formulas</h2>
+        <div class="kb-formula-recap">
+          <a class="kb-formula-recap-item" href="#portfolio-of-vanillas">
+            <span class="kb-formula-recap-name">Portfolio of vanillas</span>
+            <span class="math-display">\[\Pi(S_T) = \sum_i w_i (S_T-K_i)^+ + \sum_j v_j (L_j-S_T)^+ + \alpha S_T + \beta\]</span>
+          </a>
+          <a class="kb-formula-recap-item" href="#vertical-spread-as-a-first-difference">
+            <span class="kb-formula-recap-name">Vertical spread as a first difference</span>
+            <span class="math-display">\[C(K_1) - C(K_2) \;\xrightarrow[\;K_2 \to K_1\;]{}\; -(K_2-K_1)\frac{\partial C}{\partial K}
+= (K_2-K_1)\,e^{-rT}\,\mathbb{Q}(S_T &gt; K_1)\]</span>
+          </a>
+          <a class="kb-formula-recap-item" href="#butterfly-as-a-second-difference-breeden-litzenberger">
+            <span class="kb-formula-recap-name">Butterfly as a second difference (Breeden-Litzenberger)</span>
+            <span class="math-display">\[C(K-h) - 2C(K) + C(K+h) \;\approx\; h^2\,\frac{\partial^2 C}{\partial K^2}
+= h^2\,e^{-rT} f_{\mathbb{Q}}(K)\]</span>
+          </a>
+          <a class="kb-formula-recap-item" href="#carr-madan-spanning-formula">
+            <span class="kb-formula-recap-name">Carr-Madan spanning formula</span>
+            <span class="math-display">\[g(S_T) = g(F) + g&#39;(F)(S_T-F) + \int_0^{F} g&#39;&#39;(K)(K-S_T)^+\d K + \int_{F}^{\infty} g&#39;&#39;(K)(S_T-K)^+\d K\]</span>
+          </a>
+          <a class="kb-formula-recap-item" href="#at-the-money-straddle-approximation">
+            <span class="kb-formula-recap-name">At-the-money straddle approximation</span>
+            <span class="math-display">\[\text{Straddle}_{\text{ATM}} \approx \sqrt{\tfrac{2}{\pi}}\,S\sigma\sqrt{T} \approx 0.8\,S\sigma\sqrt{T}\]</span>
+          </a></div>
+      </section>
+    <section class="kb-section" id="interview-questions">
+        <h2 class="kb-h kb-h2"><a class="kb-anchor" href="#interview-questions" aria-label="Link to this section">#</a>Interview Questions</h2>
+        <ol class="kb-questions">
+          <li class="kb-question" id="q-vanilla-option-strategies-q1" data-difficulty="intermediate">
+            <div class="kb-question-head">
+              <span class="kb-question-text">A candidate says a bull call spread is &quot;a long call with less risk&quot;. What is wrong with that description?</span>
+              <span class="kb-tagline">Intermediate · core · spreads · risk</span>
+            </div>
+            <details class="kb-hint"><summary>Hint</summary><div><p>Compare the two positions leg by leg, and ask what you gave up to get the discount.</p></div></details>
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>It is wrong about <em>what</em> was reduced. Buying the 100 call and selling the 110 call does not
+make the long call safer — <strong>you still lose the entire debit if the stock goes nowhere.</strong> What
+the short leg reduces is the <em>cost</em>, and it does that by selling away every payoff above 110.</p>
+<p>Concretely, at  <span class="math-inline">\(S=100\)</span> ,  <span class="math-inline">\(T=0.25\)</span> ,  <span class="math-inline">\(r=4\%\)</span> ,  <span class="math-inline">\(\sigma=25\%\)</span> :</p>
+<div class="kb-table-wrap"><table class="kb-table"><thead><tr><th></th><th>Long 100 call</th><th>100/110 call spread</th></tr></thead><tbody><tr><td>Cost</td><td>5.47</td><td><strong>3.55</strong></td></tr>
+<tr><td>Max loss</td><td>5.47</td><td>3.55</td></tr>
+<tr><td>Max profit</td><td>unbounded</td><td><strong>6.45</strong></td></tr>
+<tr><td>Vega</td><td>+0.197</td><td><strong>+0.033</strong></td></tr>
+<tr><td>Gamma</td><td>+0.032</td><td><strong>+0.005</strong></td></tr></tbody></table></div>
+<p>The honest description is that a spread is <strong>a different trade, not a cheaper one</strong>. Vega and
+gamma both collapse by 83.4% — the same figure, because at a single maturity
+ <span class="math-inline">\(\mathcal{V} = \sigma T S^2 \Gamma\)</span>  makes them proportional — so you have converted a
+volatility position into an almost-pure directional one with a capped target. If your view is
+&quot;up, but not past 110, and I do not want to be paid for volatility&quot;, the spread expresses it.
+If your view is &quot;this could really move&quot;, the spread is the wrong instrument and the discount
+is the price of being wrong about the tail.</p>
+<p><strong>The tell an interviewer listens for:</strong> does the candidate mention that max loss is unchanged
+as a fraction of premium paid, and that the reduction is in <em>Greeks</em>, not in <em>risk</em>?</p></div></details>
+          </li>
+          <li class="kb-question" id="q-vanilla-option-strategies-q2" data-difficulty="advanced">
+            <div class="kb-question-head">
+              <span class="kb-question-text">What does the price of a butterfly tell you about the market&#39;s risk-neutral distribution?</span>
+              <span class="kb-tagline">Advanced · core · butterfly · density · breeden-litzenberger</span>
+            </div>
+            <details class="kb-hint"><summary>Hint</summary><div><p>Write the butterfly as a finite difference in the strike.</p></div></details>
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>A butterfly is a <strong>second difference in strike</strong>, so its price is a discrete second derivative
+of the call price with respect to strike:</p>
+<span class="math-display">\[\text{Fly}(K,h) = C(K-h) - 2C(K) + C(K+h) \approx h^2\,\frac{\partial^2 C}{\partial K^2}
+= h^2 e^{-rT} f_{\mathbb{Q}}(K)\]</span>
+<p>That is <strong>Breeden–Litzenberger</strong>: the butterfly, normalised by  <span class="math-inline">\(h^2\)</span> , <em>is</em> the discounted
+risk-neutral density at the middle strike. A butterfly is not a directional trade with a good
+payoff ratio — it is a long position in the market&#39;s probability of finishing at one point.</p>
+<p>Numerically, with the same inputs as above, the exact BS value of
+ <span class="math-inline">\(e^{-rT}f_{\mathbb{Q}}(100)\)</span>  is  <span class="math-inline">\(0.031593\)</span> , and:</p>
+<div class="kb-table-wrap"><table class="kb-table"><thead><tr><th>Wing spacing  <span class="math-inline">\(h\)</span></th><th>Fly price</th><th>Fly /  <span class="math-inline">\(h^2\)</span></th><th>Error</th></tr></thead><tbody><tr><td>10</td><td>3.0038</td><td>0.030038</td><td>−4.9%</td></tr>
+<tr><td>5</td><td>0.7797</td><td>0.031188</td><td>−1.3%</td></tr>
+<tr><td>2.5</td><td>0.1968</td><td>0.031489</td><td>−0.3%</td></tr>
+<tr><td>1</td><td>0.0316</td><td>0.031583</td><td>−0.03%</td></tr></tbody></table></div>
+<p><strong>Why this matters more than it looks.</strong> It says option prices across strikes carry the whole
+distribution, not just its variance — which is why a desk quotes a smile rather than a number,
+and why &quot;the market&#39;s implied probability of X&quot; is a computation, not an opinion. It also
+gives you a hard no-arbitrage constraint: densities are non-negative, so <strong>every butterfly
+must be worth at least zero</strong>. A negative butterfly on your screen is either an arbitrage or,
+far more often, a broken quote.</p></div></details>
+          </li>
+          <li class="kb-question" id="q-vanilla-option-strategies-q3" data-difficulty="intermediate">
+            <div class="kb-question-head">
+              <span class="kb-question-text">You sell a 95/105 strangle and win on roughly 70% of trades. Is that a good strategy?</span>
+              <span class="kb-tagline">Intermediate · core · short-vol · expectation · risk</span>
+            </div>
+            <details class="kb-hint"><summary>Hint</summary><div><p>Win rate and expectation are different quantities. What is the payoff distribution shaped like?</p></div></details>
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>The win rate is not evidence of anything. <strong>A short strangle is engineered to win often and
+lose big</strong> — that is what selling the wings does to the shape of the payoff, and it is true of
+a profitable one and an unprofitable one alike.</p>
+<p>Under the same BS inputs, the 95/105 strangle collects 5.78 and
+ <span class="math-inline">\(\mathbb{Q}(95 &lt; S_T &lt; 105) = 31\%\)</span> , so you keep the full premium about a third of the time
+and something less than it far more often. In a risk-neutral world the expectation is exactly
+zero by construction; the high win rate comes entirely from the <em>asymmetry</em>, not from edge.</p>
+<p><strong>What would make it a good strategy</strong> is one thing only: that implied volatility is above
+what will be realised, by more than the transaction costs and the risk premium you are owed
+for holding a short-convexity position. That is a claim about  <span class="math-inline">\(\sigma_{\text{impl}}\)</span>  vs
+ <span class="math-inline">\(\sigma_{\text{real}}\)</span> , and it is testable. The win rate is not.</p>
+<p><strong>The trap in the question</strong> is the invitation to argue about the strategy. The right move is
+to reject the metric: ask for the P&amp;L distribution, the worst drawdown, and the realised-vs-
+implied spread over the sample. A strategy whose edge cannot be stated as a mispricing is a
+strategy whose edge has not been identified. See <a class="kb-link" href="kelly-criterion.html" data-concept="kelly-criterion">Kelly Criterion</a> for what repeated
+exposure to a left tail does to compounded wealth even when each bet has positive expectation.</p></div></details>
+          </li>
+          <li class="kb-question" id="q-vanilla-option-strategies-q4" data-difficulty="advanced">
+            <div class="kb-question-head">
+              <span class="kb-question-text">Why does a long butterfly have negative gamma at the middle strike, when it is described as a &quot;low-risk&quot; structure?</span>
+              <span class="kb-tagline">Advanced · butterfly · gamma · greeks</span>
+            </div>
+            
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>Because the middle strike is where you are <strong>short two options</strong> and the wings contribute
+little. With the 95/100/105 call fly at  <span class="math-inline">\(S=100\)</span> :</p>
+<span class="math-display">\[\Gamma_{\text{fly}} = \Gamma_{95} - 2\Gamma_{100} + \Gamma_{105}
+= 0.0274 - 2(0.0316) + 0.0310 = -0.0048\]</span>
+<p>Negative. And correspondingly  <span class="math-inline">\(\Theta_{\text{fly}} = +0.0042\)</span>  per day — the fly <em>collects</em>
+theta near the centre. That is the whole trade: <strong>you are paying a small debit for a position
+that wants the spot to sit exactly still</strong>, and it earns while it does.</p>
+<p>The &quot;low risk&quot; label refers only to the bounded max loss (the debit). The risk that matters is
+that it is short gamma exactly where the spot currently is, so a move in either direction
+hurts immediately — the position is at its most fragile at the moment you put it on. The
+convexity flips sign in the wings, which is what caps the loss, but you experience the short
+gamma first.</p>
+<p><strong>The general rule:</strong> in any structure, the sign of gamma at a point is set by the net option
+position <em>near that point</em>, not by the shape of the payoff far away. Reading the whole
+structure&#39;s Greeks at one spot and calling it &quot;the position&quot; is the mistake.</p></div></details>
+          </li>
+          <li class="kb-question" id="q-vanilla-option-strategies-q5" data-difficulty="advanced">
+            <div class="kb-question-head">
+              <span class="kb-question-text">Take a 100/110 call spread and shrink the width to zero, dividing by the width. What do you get?</span>
+              <span class="kb-tagline">Advanced · digital · spreads · limits · replication</span>
+            </div>
+            <details class="kb-hint"><summary>Hint</summary><div><p>This is a first difference in strike, not a second.</p></div></details>
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>A <strong>digital (binary) call</strong> — a claim paying $1 if  <span class="math-inline">\(S_T &gt; K\)</span> :</p>
+<span class="math-display">\[\lim_{h\to 0}\frac{C(K) - C(K+h)}{h} = -\frac{\partial C}{\partial K} = e^{-rT}\,
+\mathbb{Q}(S_T &gt; K) = e^{-rT}N(d_2)\]</span>
+<p>With the inputs above,  <span class="math-inline">\(e^{-rT}N(d_2) = 0.5019\)</span> , and the normalised spread converges to it:
+width 10 gives 0.3554, width 2 gives 0.4706, width 1 gives 0.4862, width 0.5 gives 0.4940.</p>
+<p><strong>Two things an interviewer wants out of this.</strong> First, that  <span class="math-inline">\(N(d_2)\)</span>  is the risk-neutral
+probability of finishing in the money — the  <span class="math-inline">\(N(d_1)\)</span>  in the <a class="kb-link" href="black-scholes-formula.html" data-concept="black-scholes-formula">Black–Scholes
+formula</a> is <em>not</em>, it is a delta. Second, that this is how digitals are actually risk-managed:
+nobody hedges the discontinuity, they trade a tight call spread instead, which over-hedges
+slightly and is finite everywhere. The convergence above is slow and one-sided, which is
+exactly why the <em>width</em> is a commercial decision rather than a modelling one.</p>
+<p>Note the pairing with the previous question: the <strong>first</strong> difference in strike gives the
+cumulative distribution, the <strong>second</strong> gives the density. Vertical spreads and butterflies
+are the market&#39;s difference operators.</p></div></details>
+          </li>
+          <li class="kb-question" id="q-vanilla-option-strategies-q6" data-difficulty="intermediate">
+            <div class="kb-question-head">
+              <span class="kb-question-text">What is a risk reversal, and what does its price tell you?</span>
+              <span class="kb-tagline">Intermediate · skew · risk-reversal · surface</span>
+            </div>
+            
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>Long an out-of-the-money call, short an out-of-the-money put (or the reverse), usually at
+symmetric deltas — the 25-delta risk reversal is the market standard. It is <strong>the cleanest
+traded expression of skew</strong>.</p>
+<p>Under a flat volatility, symmetric-delta calls and puts cost roughly the same, so the
+structure is near costless and is almost pure delta. Every real market prices it away from
+that, and the sign tells you which tail the market is paying up for:</p>
+<ul class="kb-list"><li><strong>Equity indices:</strong> puts are persistently richer. The risk reversal trades for a credit if
+you buy the call, and the 25-delta RR quoted in vol terms is negative — typically several
+volatility points. Crash-o-phobia plus the leverage effect.</li>
+<li><strong>FX:</strong> the sign flips with the pair and with the regime; the RR is quoted, tracked and
+traded as the skew instrument in its own right.</li>
+<li><strong>Commodities:</strong> frequently positive skew — the supply shock is to the upside.</li></ul>
+<p><strong>Why it earns its own quote.</strong> A surface has three degrees of freedom a desk cares about at
+each maturity: the level (ATM vol), the slope (risk reversal), and the curvature (butterfly).
+Those three structures span what you can bet on, which is why the market quotes <em>them</em> rather
+than individual strikes. Trading a single option mixes all three exposures together; trading
+the structure isolates one.</p></div></details>
+          </li>
+          <li class="kb-question" id="q-vanilla-option-strategies-q7" data-difficulty="advanced">
+            <div class="kb-question-head">
+              <span class="kb-question-text">A calendar spread is often called a theta trade. Why is that description incomplete?</span>
+              <span class="kb-tagline">Advanced · calendar · vega · term-structure</span>
+            </div>
+            
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>Because its dominant exposure is <strong>vega across the term structure</strong>, not theta.</p>
+<p>Sell the near-dated option, buy the far-dated one at the same strike. Theta scales roughly as
+ <span class="math-inline">\(1/\sqrt{T}\)</span>  and vega as  <span class="math-inline">\(\sqrt{T}\)</span> , so the short leg has the bigger theta and the long leg
+has the much bigger vega. You collect decay, yes — but you are <strong>long the far-dated
+volatility and short the near-dated one</strong>, which is a bet on the <em>slope</em> of the term
+structure.</p>
+<p>That is why calendars behave the way people find surprising. A parallel shift up in the
+surface makes money (you are net long vega). A near-dated vol spike — earnings, a data print,
+a scare — loses money even though &quot;nothing happened to the stock&quot;, because the leg you are
+short is the one that repriced.</p>
+<p><strong>The correct framing:</strong> a calendar is the term-structure analogue of a butterfly. The fly
+isolates curvature across <em>strike</em>; the calendar isolates slope across <em>time</em>. Anyone
+describing it as a theta trade is reading one Greek off a position with a bigger one.</p></div></details>
+          </li>
+          <li class="kb-question" id="q-vanilla-option-strategies-q8" data-difficulty="research">
+            <div class="kb-question-head">
+              <span class="kb-question-text">Show that any European payoff can be replicated with vanilla options, and explain why that matters.</span>
+              <span class="kb-tagline">Research · replication · carr-madan · spanning</span>
+            </div>
+            <details class="kb-hint"><summary>Hint</summary><div><p>Write the payoff as a second-order Taylor expansion with an exact integral remainder.</p></div></details>
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>For any twice-differentiable  <span class="math-inline">\(g\)</span>  and any reference level  <span class="math-inline">\(F\)</span> :</p>
+<span class="math-display">\[g(S_T) = g(F) + g&#39;(F)(S_T - F) + \int_0^{F} g&#39;&#39;(K)(K-S_T)^+ \,\d K
++ \int_{F}^{\infty} g&#39;&#39;(K)(S_T-K)^+ \,\d K\]</span>
+<p>This is the <strong>Carr–Madan spanning formula</strong>, and it is an algebraic identity, not an
+approximation — the integral remainder of a second-order Taylor expansion, written with the
+remainder in terms of hockey-stick functions. Reading it left to right: a constant (bonds), a
+linear term (a forward), and a continuum of vanillas weighted by the payoff&#39;s own second
+derivative.</p>
+<p>Taking risk-neutral expectations gives the price directly, with no model:</p>
+<span class="math-display">\[e^{-rT}\E_{\mathbb{Q}}[g(S_T)] = e^{-rT}g(F) + \int_0^F g&#39;&#39;(K)P(K)\,\d K
++ \int_F^\infty g&#39;&#39;(K)C(K)\,\d K\]</span>
+<p><strong>Why it matters.</strong> Three consequences, in ascending order of importance:</p>
+<ol class="kb-list"><li>Every structure on this page is a special case. A butterfly is $g&#39;&#39; = $ a spike; a vertical
+ spread is  <span class="math-inline">\(g&#39;&#39;\)</span>  = a pair of spikes; a straddle is  <span class="math-inline">\(g&#39;&#39;\)</span>  = a spike at the strike with a kink.</li>
+<li>It makes <strong>variance swaps replicable</strong>. Put  <span class="math-inline">\(g(S) = \log S\)</span> , so  <span class="math-inline">\(g&#39;&#39; = -1/K^2\)</span> , and you get
+ the log-contract weighting that underlies the VIX: a  <span class="math-inline">\(1/K^2\)</span> -weighted strip of
+ out-of-the-money options. That is why the VIX is computed from a strip of option prices
+ rather than from a model.</li>
+<li>It settles what &quot;the vanilla market&quot; is for. It is not a menu of trades — it is a <strong>basis</strong>.
+ The strike axis carries the whole risk-neutral distribution, and any European claim is a
+ portfolio of what is already listed.</li></ol>
+<p><strong>The caveats that make it a real answer.</strong> Strikes are discrete, so the integral becomes a
+sum and the replication is approximate at the wings; the tails are illiquid exactly where
+ <span class="math-inline">\(g&#39;&#39;\)</span>  may be largest; and  <span class="math-inline">\(g\)</span>  must be a function of  <span class="math-inline">\(S_T\)</span>  alone — anything path-dependent is
+outside the theorem entirely.</p></div></details>
+          </li></ol>
+      </section>
+
+    <section class="kb-section" id="connections">
+      <h2 class="kb-h kb-h2"><a class="kb-anchor" href="#connections" aria-label="Link to this section">#</a>Connections</h2>
+      <div class="kb-connections">
+        <section class="kb-relgroup"><h3>Prerequisites</h3><p class="kb-relnote">Understand these first.</p><ul class="kb-rellist"><li><a href="../concepts/option-greeks.html" class="kb-relitem">
+          <span class="kb-relitem-title">Option Greeks</span>
+          <span class="kb-relitem-meta">Options · Intermediate</span>
+          <span class="kb-relitem-sum">Delta, gamma, vega, theta and rho are the terms of one Taylor expansion, not five separate risk numbers — and the Black–Scholes equation is the identity that ties them together into a single statement about what a hedged position earns.</span>
+        </a></li><li><a href="../concepts/put-call-parity.html" class="kb-relitem">
+          <span class="kb-relitem-title">Put–Call Parity</span>
+          <span class="kb-relitem-meta">Options · Foundational</span>
+          <span class="kb-relitem-sum">A long call and a short put at the same strike are a forward — an identity that holds with no model, no volatility and no distributional assumption, and the first sanity check any option price must pass.</span>
+        </a></li></ul></section>
+        
+        <section class="kb-relgroup"><h3>Related</h3><ul class="kb-rellist"><li><a href="../concepts/black-scholes-formula.html" class="kb-relitem">
+          <span class="kb-relitem-title">Black–Scholes Formula</span>
+          <span class="kb-relitem-meta">Options · Advanced</span>
+          <span class="kb-relitem-sum">The closed-form price of a European call and put — two probability-weighted terms whose meaning is often garbled, a formula nobody believes literally, and the quoting language of the entire options market.</span>
+        </a></li><li><a href="../concepts/black-scholes-equation.html" class="kb-relitem">
+          <span class="kb-relitem-title">The Black–Scholes Equation</span>
+          <span class="kb-relitem-meta">Options · Advanced</span>
+          <span class="kb-relitem-sum">Hedge an option with the underlying, watch the randomness cancel, and impose that what is left must earn the risk-free rate — the derivation that turns a model of the stock into a price for anything written on it, and explains why the expected return never appears.</span>
+        </a></li><li><a href="../concepts/forwards-and-futures.html" class="kb-relitem">
+          <span class="kb-relitem-title">Forwards &amp; Futures</span>
+          <span class="kb-relitem-meta">Derivatives · Foundational</span>
+          <span class="kb-relitem-sum">The simplest derivative and the cleanest pricing argument in finance — a forward price is fixed entirely by the cost of carrying the asset, with no model, no volatility and no view on where the price is going.</span>
+        </a></li><li><a href="../concepts/sharpe-ratio.html" class="kb-relitem">
+          <span class="kb-relitem-title">Sharpe Ratio</span>
+          <span class="kb-relitem-meta">Portfolio Construction · Intermediate</span>
+          <span class="kb-relitem-sum">Excess return per unit of volatility — the industry&#39;s default measure of risk-adjusted performance, and an estimator noisy and gameable enough that knowing its failure modes matters more than knowing its formula.</span>
+        </a></li></ul></section>
+        
+      </div>
+      <figure class="kb-neighbourhood">
+        <canvas data-kb-minimap="vanilla-option-strategies" width="760" height="300" aria-label="Local knowledge graph"></canvas>
+        <figcaption>Two hops out from this concept.
+          <a class="kb-side-more" href="../graph.html?focus=vanilla-option-strategies">Open full graph →</a></figcaption>
+      </figure>
+      <div class="kb-references"><h3>References</h3><ul><li>Hull, *Options, Futures and Other Derivatives*, ch. 12</li><li>Natenberg, *Option Volatility and Pricing*, ch. 11–13</li><li>Breeden &amp; Litzenberger (1978), *Prices of State-Contingent Claims Implicit in Option Prices*</li><li>Carr &amp; Madan (2001), *Optimal Positioning in Derivative Securities*</li></ul></div>
+    </section>
+
+    <nav class="kb-prevnext" aria-label="Concept navigation">
+    <a class="kb-prevnext-item kb-prevnext-prev" href="../concepts/option-greeks.html" rel="prev">
+      <span class="kb-prevnext-label">← Previous</span><span>Option Greeks</span></a>
+    <a class="kb-prevnext-item kb-prevnext-up" href="../subjects/options.html">
+      <span class="kb-prevnext-label">Subject</span><span>Options</span></a>
+    <a class="kb-prevnext-item kb-prevnext-next" href="../concepts/black-scholes-formula.html" rel="next">
+      <span class="kb-prevnext-label">Next →</span><span>Black–Scholes Formula</span></a>
+  </nav>
+    <footer class="kb-source-note">
+      Source: <code>content/concepts/vanilla-option-strategies.md</code> · updated 2026-09-04
+    </footer>
+  </article>
+
+  <!-- The rail sits in the left column but comes last in the source: the
+       article is what a reader (or a screen reader) wants first, and the
+       links here are a way back into it rather than a way into the page. -->
+  <aside class="kb-rail">
+    <nav class="kb-toc kb-rail-group" aria-label="On this page"><h3>On this page</h3><ol><li><a href="#intuition">Intuition</a></li><li><a href="#mathematical-formulation">Mathematical Formulation</a></li><li><a href="#derivation">Derivation</a></li><li><a href="#assumptions-edge-cases">Assumptions &amp; Edge Cases</a></li><li><a href="#worked-example">Worked Example</a></li><li><a href="#why-it-matters-in-quant-finance">Why It Matters in Quant Finance</a></li><li><a href="#trading-research-application">Trading &amp; Research Application</a></li><li><a href="#common-mistakes">Common Mistakes</a></li><li><a href="#30-second-revision">30-Second Revision</a></li><li><a href="#key-formulas">Key Formulas</a></li><li><a href="#interview-questions">Interview Questions</a></li><li><a href="#connections">Connections</a></li></ol></nav>
+    <nav class="kb-rail-group" id="side-formulas" aria-label="Key formulas"><h3>Formulas</h3><ul><li><a href="#portfolio-of-vanillas">Portfolio of vanillas</a></li><li><a href="#vertical-spread-as-a-first-difference">Vertical spread as a first difference</a></li><li><a href="#butterfly-as-a-second-difference-breeden-litzenberger">Butterfly as a second difference (Breeden-Litzenberger)</a></li><li><a href="#carr-madan-spanning-formula">Carr-Madan spanning formula</a></li><li><a href="#at-the-money-straddle-approximation">At-the-money straddle approximation</a></li></ul></nav>
+  </aside>
+</main>
+<script src="../data/kb.data.js?v=532630a3"></script>
+<script src="../data/search.index.js?v=ca3e3b7a"></script>
+<script src="../assets/js/kb-core.js?v=a4c20d2d"></script>
+<script src="../assets/js/kb-ui.js?v=e9a49aaf"></script>
+<script src="../assets/vendor/katex/katex.min.js" defer></script>
+<script src="../assets/vendor/katex/auto-render.min.js" defer></script>
+<script src="../assets/js/math.js?v=44b57f03" defer></script>
+<script src="../assets/js/concept.js?v=c6248b59" defer></script>
+<script src="../assets/js/lib/plot.js?v=54c52379" defer></script>
+<script src="../assets/js/modules/black-scholes-lab.js?v=bfb65d10" defer></script>
+</body>
+</html>

@@ -1133,7 +1133,18 @@ select:hover, input:hover { border-color: var(--line-strong); }
   font-size: 0.88em; color: var(--accent-ink);
 }
 
-.kb-table-wrap { margin: 20px 0; overflow-x: auto; border: 1px solid var(--line); border-radius: var(--r); }
+/* `position: relative` is not decoration -- it is what makes the scroll
+   actually contain what it scrolls. KaTeX renders every expression twice: the
+   visible spans, and a hidden MathML copy for screen readers, marked
+   `position: absolute` with a 1px clipped box. An absolutely positioned element
+   is only clipped by an ancestor's overflow if that ancestor is in its
+   containing-block chain, and a static wrapper is not -- so inside a table wide
+   enough to scroll, the MathML escaped the wrapper entirely and sat at its
+   static position, hundreds of pixels to the right. The DOCUMENT then grew to
+   contain it: 35px of horizontal scroll on a 360px phone, caused by an element
+   nobody can see, on any page with maths in a wide table. Making the wrapper a
+   containing block puts the hidden copy back inside the box that clips it. */
+.kb-table-wrap { position: relative; margin: 20px 0; overflow-x: auto; border: 1px solid var(--line); border-radius: var(--r); }
 .kb-table { width: 100%; border-collapse: collapse; font-size: 13px; font-variant-numeric: tabular-nums; }
 .kb-table th {
   padding: 8px 12px; background: var(--bg-sunken); text-align: left;
@@ -1323,7 +1334,9 @@ select:hover, input:hover { border-color: var(--line-strong); }
    viewport at 390px and can be wider than a narrow desktop window too, so
    these scroll inside their own box at every width rather than taking the
    whole page sideways with them. */
-.math-display, .katex-display { overflow-x: auto; overflow-y: hidden; -webkit-overflow-scrolling: touch; }
+/* Same reason as .kb-table-wrap above: a scroll container holding KaTeX has
+   to be a containing block, or the hidden MathML escapes it. */
+.math-display, .katex-display { position: relative; overflow-x: auto; overflow-y: hidden; -webkit-overflow-scrolling: touch; }
 pre { overflow-x: auto; -webkit-overflow-scrolling: touch; }
 .kb-article table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
 

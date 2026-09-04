@@ -1,6 +1,6 @@
 {
-  "contentHash": "33ab44ad0ce6",
-  "contentUpdated": "2026-09-03",
+  "contentHash": "f37c44f3bb8a",
+  "contentUpdated": "2026-09-04",
   "version": 1,
   "vocab": {
     "difficulty": [
@@ -313,7 +313,7 @@
       "group": "markets",
       "order": 320,
       "path": "subjects/options.html",
-      "conceptCount": 4,
+      "conceptCount": 5,
       "interviewMax": 5
     },
     {
@@ -441,7 +441,8 @@
         "option-greeks",
         "put-call-parity",
         "sharpe-ratio",
-        "black-scholes-equation"
+        "black-scholes-equation",
+        "vanilla-option-strategies"
       ]
     },
     {
@@ -516,6 +517,7 @@
         "option-greeks",
         "put-call-parity",
         "black-scholes-equation",
+        "vanilla-option-strategies",
         "brownian-motion",
         "martingales"
       ]
@@ -585,6 +587,7 @@
         "option-greeks",
         "put-call-parity",
         "black-scholes-equation",
+        "vanilla-option-strategies",
         "brownian-motion",
         "forwards-and-futures",
         "martingales"
@@ -601,11 +604,11 @@
       "count": 7
     },
     {
-      "id": "no-arbitrage",
-      "count": 4
+      "id": "options",
+      "count": 5
     },
     {
-      "id": "options",
+      "id": "no-arbitrage",
       "count": 4
     },
     {
@@ -677,6 +680,10 @@
       "count": 2
     },
     {
+      "id": "volatility",
+      "count": 2
+    },
+    {
       "id": "allocation",
       "count": 1
     },
@@ -693,11 +700,27 @@
       "count": 1
     },
     {
+      "id": "butterfly",
+      "count": 1
+    },
+    {
+      "id": "calendar",
+      "count": 1
+    },
+    {
+      "id": "collar",
+      "count": 1
+    },
+    {
       "id": "compounding",
       "count": 1
     },
     {
       "id": "concentration",
+      "count": 1
+    },
+    {
+      "id": "condor",
       "count": 1
     },
     {
@@ -793,6 +816,10 @@
       "count": 1
     },
     {
+      "id": "payoff",
+      "count": 1
+    },
+    {
       "id": "pde",
       "count": 1
     },
@@ -813,6 +840,10 @@
       "count": 1
     },
     {
+      "id": "risk-reversal",
+      "count": 1
+    },
+    {
       "id": "sensitivity",
       "count": 1
     },
@@ -821,7 +852,31 @@
       "count": 1
     },
     {
+      "id": "skew",
+      "count": 1
+    },
+    {
       "id": "smile",
+      "count": 1
+    },
+    {
+      "id": "spreads",
+      "count": 1
+    },
+    {
+      "id": "static-replication",
+      "count": 1
+    },
+    {
+      "id": "straddle",
+      "count": 1
+    },
+    {
+      "id": "strangle",
+      "count": 1
+    },
+    {
+      "id": "strategies",
       "count": 1
     },
     {
@@ -842,10 +897,6 @@
     },
     {
       "id": "vega",
-      "count": 1
-    },
-    {
-      "id": "volatility",
       "count": 1
     },
     {
@@ -906,6 +957,11 @@
     },
     {
       "from": "black-scholes-equation",
+      "to": "vanilla-option-strategies",
+      "type": "related"
+    },
+    {
+      "from": "black-scholes-equation",
       "to": "black-scholes-formula",
       "type": "prerequisite"
     },
@@ -927,6 +983,11 @@
     {
       "from": "black-scholes-formula",
       "to": "put-call-parity",
+      "type": "related"
+    },
+    {
+      "from": "black-scholes-formula",
+      "to": "vanilla-option-strategies",
       "type": "related"
     },
     {
@@ -1050,6 +1111,11 @@
       "type": "related"
     },
     {
+      "from": "forwards-and-futures",
+      "to": "vanilla-option-strategies",
+      "type": "related"
+    },
+    {
       "from": "brownian-motion",
       "to": "itos-lemma",
       "type": "prerequisite"
@@ -1151,8 +1217,23 @@
     },
     {
       "from": "sharpe-ratio",
+      "to": "vanilla-option-strategies",
+      "type": "related"
+    },
+    {
+      "from": "sharpe-ratio",
       "to": "variance",
       "type": "related"
+    },
+    {
+      "from": "option-greeks",
+      "to": "vanilla-option-strategies",
+      "type": "prerequisite"
+    },
+    {
+      "from": "put-call-parity",
+      "to": "vanilla-option-strategies",
+      "type": "prerequisite"
     },
     {
       "from": "expectation",
@@ -1344,7 +1425,8 @@
         "put-call-parity",
         "black-scholes-formula",
         "itos-lemma",
-        "option-greeks"
+        "option-greeks",
+        "vanilla-option-strategies"
       ],
       "builtOn": [
         "black-scholes-formula"
@@ -1567,7 +1649,8 @@
         "option-greeks",
         "expectation",
         "black-scholes-equation",
-        "put-call-parity"
+        "put-call-parity",
+        "vanilla-option-strategies"
       ],
       "builtOn": [
         "option-greeks"
@@ -2739,7 +2822,8 @@
       "prerequisites": [],
       "related": [
         "expectation",
-        "put-call-parity"
+        "put-call-parity",
+        "vanilla-option-strategies"
       ],
       "builtOn": [
         "put-call-parity"
@@ -3710,7 +3794,9 @@
         "itos-lemma",
         "black-scholes-formula"
       ],
-      "builtOn": [],
+      "builtOn": [
+        "vanilla-option-strategies"
+      ],
       "tracks": [],
       "path": "concepts/option-greeks.html",
       "updated": "2026-09-03",
@@ -4160,7 +4246,8 @@
         "forwards-and-futures"
       ],
       "builtOn": [
-        "black-scholes-formula"
+        "black-scholes-formula",
+        "vanilla-option-strategies"
       ],
       "tracks": [],
       "path": "concepts/put-call-parity.html",
@@ -4385,6 +4472,7 @@
         "brownian-motion",
         "effective-number-of-bets",
         "kelly-criterion",
+        "vanilla-option-strategies",
         "variance"
       ],
       "builtOn": [],
@@ -4569,6 +4657,254 @@
           "subject": "portfolio-construction",
           "hasAnswer": true,
           "path": "concepts/sharpe-ratio.html#q-sharpe-ratio-q6"
+        }
+      ]
+    },
+    {
+      "id": "vanilla-option-strategies",
+      "title": "Vanilla Option Strategies",
+      "subject": "options",
+      "summary": "Spreads, straddles, butterflies and risk reversals are not a catalogue of trades to memorise — each one isolates a different feature of the risk-neutral distribution, and the structure you choose is the statement of which feature you think the market has priced wrong.",
+      "difficulty": "intermediate",
+      "interviewRelevance": 5,
+      "tags": [
+        "options",
+        "strategies",
+        "spreads",
+        "straddle",
+        "strangle",
+        "butterfly",
+        "condor",
+        "risk-reversal",
+        "collar",
+        "calendar",
+        "skew",
+        "volatility",
+        "payoff",
+        "static-replication"
+      ],
+      "prerequisites": [
+        "option-greeks",
+        "put-call-parity"
+      ],
+      "related": [
+        "black-scholes-formula",
+        "black-scholes-equation",
+        "forwards-and-futures",
+        "sharpe-ratio"
+      ],
+      "builtOn": [],
+      "tracks": [],
+      "path": "concepts/vanilla-option-strategies.html",
+      "updated": "2026-09-04",
+      "modules": [
+        "black-scholes-lab"
+      ],
+      "sections": [
+        {
+          "id": "intuition",
+          "label": "Intuition"
+        },
+        {
+          "id": "mathematical-formulation",
+          "label": "Mathematical Formulation"
+        },
+        {
+          "id": "derivation",
+          "label": "Derivation"
+        },
+        {
+          "id": "assumptions-edge-cases",
+          "label": "Assumptions & Edge Cases"
+        },
+        {
+          "id": "worked-example",
+          "label": "Worked Example"
+        },
+        {
+          "id": "why-it-matters-in-quant-finance",
+          "label": "Why It Matters in Quant Finance"
+        },
+        {
+          "id": "trading-research-application",
+          "label": "Trading & Research Application"
+        },
+        {
+          "id": "common-mistakes",
+          "label": "Common Mistakes"
+        },
+        {
+          "id": "30-second-revision",
+          "label": "30-Second Revision"
+        }
+      ],
+      "formulas": [
+        {
+          "id": "portfolio-of-vanillas",
+          "name": "Portfolio of vanillas",
+          "latex": "\\Pi(S_T) = \\sum_i w_i (S_T-K_i)^+ + \\sum_j v_j (L_j-S_T)^+ + \\alpha S_T + \\beta",
+          "usedIn": [
+            "Options",
+            "Structuring",
+            "Risk"
+          ]
+        },
+        {
+          "id": "vertical-spread-as-a-first-difference",
+          "name": "Vertical spread as a first difference",
+          "latex": "C(K_1) - C(K_2) \\;\\xrightarrow[\\;K_2 \\to K_1\\;]{}\\; -(K_2-K_1)\\frac{\\partial C}{\\partial K}\n= (K_2-K_1)\\,e^{-rT}\\,\\mathbb{Q}(S_T > K_1)",
+          "usedIn": [
+            "Options",
+            "Directional Trading",
+            "Digitals"
+          ]
+        },
+        {
+          "id": "butterfly-as-a-second-difference-breeden-litzenberger",
+          "name": "Butterfly as a second difference (Breeden-Litzenberger)",
+          "latex": "C(K-h) - 2C(K) + C(K+h) \\;\\approx\\; h^2\\,\\frac{\\partial^2 C}{\\partial K^2}\n= h^2\\,e^{-rT} f_{\\mathbb{Q}}(K)",
+          "usedIn": [
+            "Options",
+            "Volatility Surface",
+            "Density Estimation"
+          ]
+        },
+        {
+          "id": "carr-madan-spanning-formula",
+          "name": "Carr-Madan spanning formula",
+          "latex": "g(S_T) = g(F) + g'(F)(S_T-F) + \\int_0^{F} g''(K)(K-S_T)^+\\d K + \\int_{F}^{\\infty} g''(K)(S_T-K)^+\\d K",
+          "usedIn": [
+            "Variance Swaps",
+            "VIX",
+            "Exotic Replication"
+          ]
+        },
+        {
+          "id": "at-the-money-straddle-approximation",
+          "name": "At-the-money straddle approximation",
+          "latex": "\\text{Straddle}_{\\text{ATM}} \\approx \\sqrt{\\tfrac{2}{\\pi}}\\,S\\sigma\\sqrt{T} \\approx 0.8\\,S\\sigma\\sqrt{T}",
+          "usedIn": [
+            "Market Making",
+            "Quick Pricing",
+            "Mental Math"
+          ]
+        }
+      ],
+      "questions": [
+        {
+          "id": "vanilla-option-strategies-q1",
+          "question": "A candidate says a bull call spread is \"a long call with less risk\". What is wrong with that description?",
+          "difficulty": "intermediate",
+          "tags": [
+            "core",
+            "spreads",
+            "risk"
+          ],
+          "concept": "vanilla-option-strategies",
+          "subject": "options",
+          "hasAnswer": true,
+          "path": "concepts/vanilla-option-strategies.html#q-vanilla-option-strategies-q1"
+        },
+        {
+          "id": "vanilla-option-strategies-q2",
+          "question": "What does the price of a butterfly tell you about the market's risk-neutral distribution?",
+          "difficulty": "advanced",
+          "tags": [
+            "core",
+            "butterfly",
+            "density",
+            "breeden-litzenberger"
+          ],
+          "concept": "vanilla-option-strategies",
+          "subject": "options",
+          "hasAnswer": true,
+          "path": "concepts/vanilla-option-strategies.html#q-vanilla-option-strategies-q2"
+        },
+        {
+          "id": "vanilla-option-strategies-q3",
+          "question": "You sell a 95/105 strangle and win on roughly 70% of trades. Is that a good strategy?",
+          "difficulty": "intermediate",
+          "tags": [
+            "core",
+            "short-vol",
+            "expectation",
+            "risk"
+          ],
+          "concept": "vanilla-option-strategies",
+          "subject": "options",
+          "hasAnswer": true,
+          "path": "concepts/vanilla-option-strategies.html#q-vanilla-option-strategies-q3"
+        },
+        {
+          "id": "vanilla-option-strategies-q4",
+          "question": "Why does a long butterfly have negative gamma at the middle strike, when it is described as a \"low-risk\" structure?",
+          "difficulty": "advanced",
+          "tags": [
+            "butterfly",
+            "gamma",
+            "greeks"
+          ],
+          "concept": "vanilla-option-strategies",
+          "subject": "options",
+          "hasAnswer": true,
+          "path": "concepts/vanilla-option-strategies.html#q-vanilla-option-strategies-q4"
+        },
+        {
+          "id": "vanilla-option-strategies-q5",
+          "question": "Take a 100/110 call spread and shrink the width to zero, dividing by the width. What do you get?",
+          "difficulty": "advanced",
+          "tags": [
+            "digital",
+            "spreads",
+            "limits",
+            "replication"
+          ],
+          "concept": "vanilla-option-strategies",
+          "subject": "options",
+          "hasAnswer": true,
+          "path": "concepts/vanilla-option-strategies.html#q-vanilla-option-strategies-q5"
+        },
+        {
+          "id": "vanilla-option-strategies-q6",
+          "question": "What is a risk reversal, and what does its price tell you?",
+          "difficulty": "intermediate",
+          "tags": [
+            "skew",
+            "risk-reversal",
+            "surface"
+          ],
+          "concept": "vanilla-option-strategies",
+          "subject": "options",
+          "hasAnswer": true,
+          "path": "concepts/vanilla-option-strategies.html#q-vanilla-option-strategies-q6"
+        },
+        {
+          "id": "vanilla-option-strategies-q7",
+          "question": "A calendar spread is often called a theta trade. Why is that description incomplete?",
+          "difficulty": "advanced",
+          "tags": [
+            "calendar",
+            "vega",
+            "term-structure"
+          ],
+          "concept": "vanilla-option-strategies",
+          "subject": "options",
+          "hasAnswer": true,
+          "path": "concepts/vanilla-option-strategies.html#q-vanilla-option-strategies-q7"
+        },
+        {
+          "id": "vanilla-option-strategies-q8",
+          "question": "Show that any European payoff can be replicated with vanilla options, and explain why that matters.",
+          "difficulty": "research",
+          "tags": [
+            "replication",
+            "carr-madan",
+            "spanning"
+          ],
+          "concept": "vanilla-option-strategies",
+          "subject": "options",
+          "hasAnswer": true,
+          "path": "concepts/vanilla-option-strategies.html#q-vanilla-option-strategies-q8"
         }
       ]
     },
@@ -4758,9 +5094,9 @@
     }
   ],
   "stats": {
-    "concepts": 18,
+    "concepts": 19,
     "subjects": 24,
-    "formulas": 82,
-    "questions": 102
+    "formulas": 87,
+    "questions": 110
   }
 }
