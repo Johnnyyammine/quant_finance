@@ -43,8 +43,8 @@ Use `npm run check` to see what is orphaned, unsummarised, or missing questions.
 
 ### Small fixes that pay for themselves immediately
 
-- **Incremental build** — hash each concept file and skip unchanged ones. The build is ~100 ms for
-  twelve concepts and linear, so ~8 s at 1,000, which makes `npm run watch` unpleasant.
+- **Incremental build** — hash each concept file and skip unchanged ones. The build is ~190 ms for
+  eighteen concepts and linear, so ~10 s at 1,000, which makes `npm run watch` unpleasant.
 - **`npm run check --fix-links`** — list every dangling `[[link]]` with the `npm run new` command
   that would create it.
 

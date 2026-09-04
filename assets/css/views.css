@@ -546,7 +546,6 @@
 
 .kb-resultbar { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; }
 .kb-resultbar .kb-count { font-size: 12px; color: var(--ink-muted); font-variant-numeric: tabular-nums; }
-.kb-resultbar .kb-spacer { flex: 1; }
 
 .kb-table-concepts { width: 100%; border-collapse: collapse; font-size: 13px; }
 .kb-table-concepts th {

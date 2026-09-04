@@ -71,9 +71,12 @@ document, a block scalar losing its paragraph breaks, a link title never matchin
 The trade is deliberate: **more code we own, less code we depend on.** For a repository intended to
 be readable and buildable for years without maintenance, that is the right side of the trade.
 
-KaTeX is the one exception — 608 KB vendored into `assets/vendor/katex/`. Typesetting mathematics
-correctly is genuinely hard, and a CDN link would break the offline requirement. It is vendored, not
-depended on: there is no package manager involved at build or run time.
+KaTeX is the one exception — 550 KB vendored into `assets/vendor/katex/`, of which 302 KB is the
+JS and CSS a page actually loads and the rest is fonts the browser fetches only for the glyphs it
+needs. Typesetting mathematics correctly is genuinely hard, and a CDN link would break the offline
+requirement. It is vendored, not depended on: there is no package manager involved at build or run
+time. `page.shell()` ships it only to pages whose markup contains maths — in practice the concept
+pages — because it is a third of a page's weight and the other views render none.
 
 ---
 
@@ -134,7 +137,7 @@ prerequisites  ──▶ reverse edges (builtOn) ──▶ "Builds towards" sect
                ──▶ topological depth        ──▶ prev/next order within a subject
                ──▶ subject concept map layers
 
-:::formula     ──▶ formula index ──▶ search, sidebar, Key Formulas section
+:::formula     ──▶ formula index ──▶ search, page rail, Key Formulas section
 questions:     ──▶ question bank ──▶ interview drill, search
 [[wiki links]] ──▶ related edges ──▶ graph, Connections section
 ## headings    ──▶ table of contents, scroll-spy, heading search field
@@ -242,7 +245,7 @@ name *and* by the words inside the LaTeX, so `\text{Sharpe}` is findable), and i
 questions. Searching `sharpe` returns the concept, its five formulas and its six questions as
 separate, separately-navigable results.
 
-**Scale** — the index is ~163 KB for 12 concepts (~14 KB each), dominated by body text.
+**Scale** — the index is ~247 KB for 18 concepts (~14 KB each), dominated by body text.
 Extrapolating to 1,000 concepts gives roughly 14 MB, which loads from disk in well under a second and stays instant to
 query. If it ever becomes a problem, the fix is to cap indexed body length per document, or split
 the index into a hot part (titles, formulas, questions) and a lazily-loaded body index. Neither is
@@ -261,12 +264,16 @@ assets/js/kb-ui.js      window.KBUI         palette · shortcuts · theme · toa
         ↓
 per-view scripts        dashboard · library · graph · interview · concept · subject
 assets/js/lib/plot.js   window.KBPlot       canvas plotting + statistics (modules only)
-assets/js/math.js       window.KBMath       KaTeX bootstrap
+assets/js/math.js       window.KBMath       KaTeX bootstrap (pages with maths only)
 ```
 
 `kb-core.js` and `kb-ui.js` load on every page, including generated concept pages, which is why
 search and shortcuts work everywhere. Per-view scripts are added by the page template only where
-needed. `plot.js` ships only to concept pages that actually mount a module.
+needed. `plot.js` ships only to concept pages that actually mount a module, and KaTeX plus
+`math.js` only to pages whose markup contains maths — `shell({ math: true })`, which today means
+the concept pages. That is 302 KB the other 28 pages do not download; `npm test` checks the two
+halves agree in both directions, so a view that starts emitting LaTeX cannot silently ship without
+a renderer.
 
 ### Personal state
 
@@ -494,8 +501,8 @@ page loads slow: a lightweight index for navigation, a full record loaded per pa
 more. Unsupported YAML (anchors, aliases, multi-document) fails loudly rather than silently.
 `npm test` guards the behaviour that matters.
 
-**No incremental build.** Everything rebuilds every time. At ~100 ms for 12 concepts, extrapolating
-to ~8 s for 1,000 — annoying under `watch`. *Fix:* hash inputs and skip unchanged concepts; the
+**No incremental build.** Everything rebuilds every time. At ~190 ms for 18 concepts, extrapolating
+to ~10 s for 1,000 — annoying under `watch`. *Fix:* hash inputs and skip unchanged concepts; the
 write-if-changed logic already means unchanged output is free.
 
 **No full-text search across raw conversations.** By design — `raw/` is source material, not content.
@@ -505,7 +512,7 @@ write-if-changed logic already means unchanged output is free.
 ## 11. Testing
 
 ```bash
-npm test     # 43 tests, no framework, ~1 second
+npm test     # 57 tests, no framework, ~1 second
 ```
 
 Coverage is deliberately concentrated where a silent failure would corrupt content: the YAML subset
