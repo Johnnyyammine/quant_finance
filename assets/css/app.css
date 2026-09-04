@@ -193,6 +193,10 @@
      colour, the halo separates it from whatever it sits on. */
   --focus-halo: 0 0 0 4px rgba(198, 113, 57, 0.28);
   --select-bg: #ffe1d0;
+  /* The contact shadow under a bead on the hero dial. Warm, like every other
+     shadow on the cream, and its own token because the dial is the one place
+     a shadow lands on a raised surface rather than on the page. */
+  --orbit-contact: rgba(46, 43, 37, 0.28);
   /* The scrim behind the command palette. Warm and deep, so the page reads as
      dimmed paper rather than as a screen switched off behind a window. */
   --scrim: rgba(38, 30, 22, 0.5);
@@ -264,6 +268,7 @@ html[data-theme="dark"] {
 
   --focus-halo: 0 0 0 4px rgba(246, 160, 107, 0.26);
   --select-bg: rgba(246, 160, 107, 0.32);
+  --orbit-contact: rgba(0, 0, 0, 0.5);
   --scrim: rgba(10, 8, 6, 0.68);
 
   color-scheme: dark;

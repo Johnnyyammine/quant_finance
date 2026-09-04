@@ -148,23 +148,64 @@
 
 /* --------------------------------------------------------------- orbit ---- */
 
-/* The knowledge graph as an object rather than a diagram: concentric orbits
-   around a core that counts what is on them. It is drawn entirely in CSS --
-   an SVG or a canvas here would be a second rendering path to keep in step
-   with the palette, for a picture that is five circles and eight dots. */
+/* The knowledge graph as an instrument rather than a diagram: a graduated dial
+   with concepts orbiting a core that counts them. It is drawn entirely in CSS
+   -- an SVG or a canvas here would be a second rendering path to keep in step
+   with the palette, for a picture that is a few circles and eight beads. */
 .kb-orbit {
   position: relative; width: 100%; max-width: 480px; aspect-ratio: 1;
   justify-self: center;
+  /* The dial is fluid but its type was not, so on a phone a 46px numeral and a
+     tracked-out caption filled a 138px core edge to edge. Sizing them in cqw
+     ties the type to the dial's actual width instead of the viewport's -- and
+     where container queries are not understood the cqw declarations are simply
+     invalid, so the px values below them stand and nothing is worse than it
+     was. */
+  container-type: inline-size;
 }
-.kb-orbit-disc, .kb-orbit-ring, .kb-orbit-spin {
+.kb-orbit-disc, .kb-orbit-ring, .kb-orbit-spin, .kb-orbit-ticks {
   position: absolute; border-radius: var(--r-pill);
 }
-.kb-orbit-disc { inset: 6%; background: var(--bg-raised); box-shadow: var(--glow); }
-.kb-orbit-ring--1 { inset: 6%;  border: 1px solid var(--line); }
+
+/* The graduated bezel: sixty hairlines every six degrees, in a band outside
+   the dial face. The disc is painted over the middle of this element, so only
+   the ring of graduations outside it shows -- no mask is involved, and a
+   browser that cannot do conic gradients draws nothing here rather than a
+   pinwheel. The tick has to be a good deal stronger than the hairlines
+   elsewhere: at this radius 0.3deg is barely a pixel wide, and --line at 13%
+   ink over a pixel of antialiasing came out invisible. */
+.kb-orbit-ticks {
+  /* A 6px band, not a 13px one. The graduation has to be short and fine: give
+     it real depth and sixty of them read as gear teeth rather than as a scale,
+     which is the difference between an instrument and a clip-art cog. */
+  inset: 4.7%;
+  opacity: 0.7;
+  background: repeating-conic-gradient(
+    from 0deg, var(--line-strong) 0deg 0.4deg, transparent 0.4deg 6deg);
+}
+
+/* Not a flat fill. A very shallow radial, lit from the same upper-left the
+   rest of the page is lit from, is what stops a 440px circle reading as a
+   sheet of colour -- at this size a flat disc looks unfinished in a way a
+   34px button does not. */
+.kb-orbit-disc {
+  inset: 6%;
+  background: var(--bg-raised);
+  background:
+    radial-gradient(115% 115% at 32% 22%,
+      color-mix(in srgb, var(--bg-raised) 92%, #fff) 0%,
+      var(--bg-raised) 46%,
+      color-mix(in srgb, var(--bg-raised) 90%, var(--ink)) 100%);
+  box-shadow: var(--glow);
+}
+/* A hierarchy rather than three identical hairlines: the bezel edge reads, the
+   inner orbit is a step back, and the guide between them is barely there. All
+   three at --line made the dial look like a target. */
+.kb-orbit-ring--1 { inset: 6%;  border: 1px solid var(--line-strong); opacity: 0.5; }
 .kb-orbit-ring--2 { inset: 22%; border: 1px solid var(--line); }
 /* Between the two orbits, not under the core. At the 36% this started on it
    sat entirely beneath the 38% core and never rendered a pixel. */
-.kb-orbit-ring--3 { inset: 14%; border: 1px dashed var(--line); }
+.kb-orbit-ring--3 { inset: 14%; border: 1px dashed var(--line); opacity: 0.6; }
 
 /* Two layers turning against each other. The counter-rotation is what makes it
    read as a system rather than a spinner: at 72s and 48s the dots never hold a
@@ -174,40 +215,95 @@
 @keyframes kb-orbit { to { transform: rotate(360deg); } }
 
 /* A moving graphic on the first screen is exactly what this setting exists to
-   stop. The rings and dots stay -- only the rotation goes. */
+   stop. The rings and beads stay -- only the rotation goes. */
 @media (prefers-reduced-motion: reduce) {
   .kb-orbit-spin--out, .kb-orbit-spin--in { animation: none; }
 }
 
-/* Dots are positioned by percentage on the ring they belong to and pulled back
-   by half their own size, so one --x/--y pair places any diameter correctly. */
+/* Beads on a wire, not stickers on a page. Each carries a tight wash, a wider
+   diffuse glow and a contact shadow underneath -- the hard `0 0 0 6px` ring
+   they had before is one hard edge, which at this scale reads as clip art. */
 .kb-orbit-dot {
   position: absolute; left: var(--x); top: var(--y);
   width: var(--size); height: var(--size);
   margin: calc(var(--size) / -2) 0 0 calc(var(--size) / -2);
   border-radius: var(--r-pill);
 }
-.kb-orbit-dot--a { background: var(--accent);  box-shadow: 0 0 0 6px var(--accent-bg); }
-.kb-orbit-dot--b { background: var(--accent2); box-shadow: 0 0 0 5px var(--accent2-bg); }
-.kb-orbit-dot--c { background: var(--ink-faint); }
+.kb-orbit-dot--a {
+  background: var(--accent);
+  box-shadow: 0 0 0 4px var(--accent-bg), 0 0 16px 3px var(--accent-bg),
+    0 1px 3px var(--orbit-contact);
+}
+.kb-orbit-dot--b {
+  background: var(--accent2);
+  box-shadow: 0 0 0 4px var(--accent2-bg), 0 0 14px 3px var(--accent2-bg),
+    0 1px 3px var(--orbit-contact);
+}
+.kb-orbit-dot--c { background: var(--ink-faint); opacity: 0.75; }
 
+/* The core is positioned, not laid out in flow, and that is the whole point:
+   the numeral is pinned to the dial's exact centre and the caption hangs
+   beneath it, so the number sits where the eye expects a dial's value to sit
+   no matter how many lines the caption runs to.
+
+   It was a two-item grid with `place-items: center` before. Inside a
+   fixed-height box that gives two auto rows which each stretch to half the
+   height and then centre their own content -- so the numeral was centred in
+   the top half, 40px above the middle of the disc, with a 50px void beneath
+   it. It read as badly set because it was. */
 .kb-orbit-core {
   position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
   width: 38%; height: 38%; border-radius: var(--r-pill);
-  display: grid; place-items: center; text-align: center;
-  padding: 12px;
-  background: var(--accent-solid); color: var(--accent-on);
-  box-shadow: var(--shadow);
+  text-align: center;
+  background: var(--accent-solid);
+  /* Depth from a shadowed rim, not a lightened centre. A specular lift in the
+     middle looked right on its own and quietly broke the numbers: --accent-solid
+     is the value chosen to carry white text at 4.5:1, and mixing any white into
+     it drops the fill below that everywhere the light fell. Darkening outward
+     leaves the lightest point of the disc exactly at --accent-solid, so every
+     pixel under the text is at or better than the ratio that was signed off --
+     and a matte disc lit from above reads by its falloff anyway, not a
+     highlight. */
+  background:
+    radial-gradient(120% 120% at 30% 20%,
+      var(--accent-solid) 0%, var(--accent-solid) 45%,
+      color-mix(in srgb, var(--accent-solid) 86%, #000) 100%);
+  color: var(--accent-on);
+  /* A hairline of light along the top edge, the way a turned face catches it,
+     over a shadow that is wide and shallow rather than the page's default --
+     --shadow has a tight contact layer meant for a card sitting on the page,
+     and under a 180px disc that layer reads as a dark blob rather than lift. */
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.22),
+    0 10px 30px -8px var(--orbit-contact);
 }
 .kb-orbit-core b {
-  display: block;
-  font-family: var(--font-display); font-size: 34px; font-weight: 600; line-height: 1;
-  font-variant-numeric: tabular-nums;
+  position: absolute; top: 50%; left: 0; right: 0;
+  transform: translateY(-50%);
+  font-family: var(--font-display); font-weight: 600;
+  font-size: 40px;
+  /* 9.6cqw is 46px at the dial's full 480px width. Clamped so it stays a
+     display numeral on a phone rather than shrinking with the disc. */
+  font-size: clamp(34px, 9.6cqw, 46px);
+  line-height: 1; letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums lining-nums;
 }
+/* Positioned off the numeral's baseline rather than flowing after it, so it
+   can never push the number off centre. */
+/* One line, not two. "Concepts linked by prerequisite" needed two lines inside
+   a 182px disc, and with the numeral pinned to the exact centre that hung the
+   whole group low -- the value sat on the middle and the caption pulled the
+   composition down past it. One line counterweights the numeral instead of
+   outweighing it, and "linked" is the claim the picture is making: the count is
+   concepts carrying at least one prerequisite edge. */
 .kb-orbit-core small {
-  display: block; margin-top: 6px;
-  font-size: 11.5px; font-weight: 700; line-height: 1.35;
-  letter-spacing: 0.04em; text-transform: uppercase; opacity: 0.88;
+  position: absolute; left: 6%; right: 6%; top: 63%;
+  font-size: 9px; font-weight: 600; line-height: 1.45;
+  font-size: clamp(8px, 1.98cqw, 9.5px);
+  letter-spacing: 0.14em; text-transform: uppercase;
+  /* Full strength. The caption is quiet because it is small, light and widely
+     tracked -- not because it is faded. At 0.78 the white blended toward the
+     terracotta under it and the pair fell to 3.2:1, which is not a caption
+     being subtle, it is a caption being hard to read. */
 }
 
 /* -------------------------------------------------------- section heads --- */
