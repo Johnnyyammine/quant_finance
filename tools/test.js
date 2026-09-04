@@ -812,6 +812,33 @@ test('build: no generated page leaks unrendered maths', () => {
   assert.deepStrictEqual(offenders, [], 'raw $...$ reached the page:\n  ' + offenders.join('\n  '));
 });
 
+test('build: every mounted module registers under the name the page asks for', () => {
+  // The build already warns when a `:::module foo` has no assets/js/modules/foo.js.
+  // It cannot see the other half: a file that exists but calls
+  // KB.modules.register('bar'). Then the script loads, registers nothing the page
+  // is waiting for, and the reader is left staring at "Loading interactive
+  // module..." forever -- no console error, no build warning, no failing page.
+  const fs = require('fs');
+  const root = path.join(__dirname, '..');
+  const { payload } = require('./build').build();
+
+  const mounted = new Set();
+  payload.concepts.forEach((c) => (c.modules || []).forEach((m) => mounted.add(m)));
+  assert.ok(mounted.size > 3, 'expected the corpus to mount several modules');
+
+  const offenders = [];
+  mounted.forEach((name) => {
+    const rel = path.join('assets', 'js', 'modules', name + '.js');
+    const abs = path.join(root, rel);
+    if (!fs.existsSync(abs)) { offenders.push(name + ' -> no ' + rel); return; }
+    const src = fs.readFileSync(abs, 'utf8');
+    if (!src.includes("KB.modules.register('" + name + "'")) {
+      offenders.push(name + ' -> ' + rel + ' does not register under that name');
+    }
+  });
+  assert.deepStrictEqual(offenders, [], 'modules that would never mount:\n  ' + offenders.join('\n  '));
+});
+
 test('build: the build is deterministic', () => {
   // Generated output is committed, and CI fails if it drifts from content/.
   // A wall-clock timestamp in the payload would make every build differ and
