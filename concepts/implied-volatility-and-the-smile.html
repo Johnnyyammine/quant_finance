@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en" data-page="concept">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Implied Volatility &amp; the Volatility Smile · Quant Knowledge Base</title>
+<meta name="description" content="Implied volatility is not a forecast but a change of units — the number that makes Black–Scholes reproduce a price — and because it varies by strike and maturity, the resulting smile is the market&#39;s direct statement of the risk-neutral distribution it is actually using.">
+<link rel="icon" href="../assets/icons/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/vendor/katex/katex.min.css">
+<link rel="stylesheet" href="../assets/css/app.css?v=23b7d03b">
+<link rel="stylesheet" href="../assets/css/views.css?v=c187c4d6">
+
+</head>
+<body class="kb-body kb-body--concept">
+<header class="kb-topbar">
+  <a class="kb-brand" href="../index.html" title="Home (H)">
+    <span class="kb-brand-mark">QF</span><span class="kb-brand-text">Quant Knowledge Base</span>
+  </a>
+  <nav class="kb-toplinks" aria-label="Sections">
+    <a href="../index.html" data-nav="home">Dashboard</a>
+    <a href="../graph.html" data-nav="graph">Graph</a>
+    <a href="../interview.html" data-nav="interview">Interview</a>
+    <a href="../library.html" data-nav="library">Library</a>
+  </nav>
+  <nav class="kb-crumbs" aria-label="Breadcrumb"><ol><li><a href="../subjects/options.html">Options</a></li><li class="kb-crumb-sep" aria-hidden="true">/</li><li><span aria-current="page">Implied Volatility &amp; the Volatility Smile</span></li></ol></nav>
+  <div class="kb-topbar-actions">
+    <button class="kb-searchbtn" type="button" data-kb-open-search>
+      <svg class="kb-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+      <span>Search concepts and subjects</span><kbd>/</kbd>
+    </button>
+    <button class="kb-iconbtn" type="button" data-kb-theme title="Toggle theme (T)" aria-label="Toggle theme"></button>
+    <button class="kb-iconbtn" type="button" data-kb-help title="Keyboard shortcuts (?)" aria-label="Keyboard shortcuts">?</button>
+  </div>
+</header>
+<main class="kb-main kb-main--concept" data-concept-id="implied-volatility-and-the-smile">
+  <article class="kb-article">
+    <header class="kb-concept-head">
+      <div class="kb-concept-eyebrow">
+        <a class="kb-subject-chip" href="../subjects/options.html" style="--subject-color:#ae6332">
+          <span class="kb-subject-mark">G</span>Options</a>
+        <span class="kb-pill kb-pill--intermediate">Intermediate</span>
+      </div>
+      <h1 class="kb-concept-title">Implied Volatility &amp; the Volatility Smile</h1>
+      <section class="kb-glance" aria-label="At a glance">
+      <p class="kb-glance-lead">Implied volatility is not a forecast but a change of units — the number that makes Black–Scholes reproduce a price — and because it varies by strike and maturity, the resulting smile is the market&#39;s direct statement of the risk-neutral distribution it is actually using.</p>
+      <a class="kb-glance-formula" href="#implied-volatility">
+        <span class="math-display">\[\sigma_{\text{impl}}(K,T): \quad \text{BS}\big(S,K,T,r,\sigma_{\text{impl}}\big) = C_{\text{mkt}}(K,T)\]</span>
+        <span class="kb-glance-formula-name">Implied volatility</span>
+      </a>
+      <ul class="kb-glance-points"><li><strong>Implied vol is the unique  <span class="math-inline">\(\sigma\)</span>  that reproduces a market price.</strong> Unique because vega  <span class="math-inline">\(&gt;0\)</span> 
+makes  <span class="math-inline">\(C(\sigma)\)</span>  strictly increasing from  <span class="math-inline">\((S-Ke^{-rT})^+\)</span>  to  <span class="math-inline">\(S\)</span> . It is a <em>quoting convention</em> —
+&quot;the wrong number in the wrong formula to get the right price.&quot;</li><li><strong>The smile is the density.</strong>  <span class="math-inline">\(f_\Q(K)=e^{rT}\partial^2C/\partial K^2\)</span> , so a non-flat smile is a
+non-lognormal distribution — nothing more mysterious, and nothing less quantitative.</li><li><strong>Work in  <span class="math-inline">\(k=\ln(K/F)\)</span>  and  <span class="math-inline">\(w=\sigma^2T\)</span> .</strong> No butterfly arbitrage  <span class="math-inline">\(\Leftrightarrow\)</span>   <span class="math-inline">\(C\)</span>  convex in
+ <span class="math-inline">\(K\)</span>   <span class="math-inline">\(\Leftrightarrow\)</span>  Gatheral&#39;s  <span class="math-inline">\(g(k)\ge0\)</span> . No calendar arbitrage  <span class="math-inline">\(\Leftrightarrow\)</span>   <span class="math-inline">\(w\)</span> 
+non-decreasing in  <span class="math-inline">\(T\)</span> . Wings bounded by Lee:  <span class="math-inline">\(w(k)/|k|\le2\)</span> .</li></ul>
+      <a class="kb-glance-more" href="#30-second-revision">Full revision →</a>
+    </section>
+      <div class="kb-concept-controls">
+        <button class="kb-btn kb-btn--ghost" type="button" data-kb-bookmark="implied-volatility-and-the-smile">☆ Bookmark</button>
+        <button class="kb-btn kb-btn--ghost" type="button" data-kb-flashcards>Revision card</button>
+        <a class="kb-btn kb-btn--ghost" href="../graph.html?focus=implied-volatility-and-the-smile">Show in graph</a>
+      </div>
+      <ul class="kb-taglist"><li><a class="kb-tag" href="../library.html?tag=options">#options</a></li><li><a class="kb-tag" href="../library.html?tag=implied-volatility">#implied-volatility</a></li><li><a class="kb-tag" href="../library.html?tag=volatility-smile">#volatility-smile</a></li><li><a class="kb-tag" href="../library.html?tag=skew">#skew</a></li><li><a class="kb-tag" href="../library.html?tag=volatility-surface">#volatility-surface</a></li><li><a class="kb-tag" href="../library.html?tag=term-structure">#term-structure</a></li><li><a class="kb-tag" href="../library.html?tag=risk-reversal">#risk-reversal</a></li><li><a class="kb-tag" href="../library.html?tag=butterfly">#butterfly</a></li><li><a class="kb-tag" href="../library.html?tag=sticky-strike">#sticky-strike</a></li><li><a class="kb-tag" href="../library.html?tag=sticky-delta">#sticky-delta</a></li><li><a class="kb-tag" href="../library.html?tag=no-arbitrage">#no-arbitrage</a></li><li><a class="kb-tag" href="../library.html?tag=local-volatility">#local-volatility</a></li><li><a class="kb-tag" href="../library.html?tag=stochastic-volatility">#stochastic-volatility</a></li><li><a class="kb-tag" href="../library.html?tag=svi">#svi</a></li><li><a class="kb-tag" href="../library.html?tag=vega">#vega</a></li><li><a class="kb-tag" href="../library.html?tag=breeden-litzenberger">#breeden-litzenberger</a></li></ul>
+    </header>
+
+    <div class="kb-content"><h2 id="intuition" class="kb-h kb-h2"><a class="kb-anchor" href="#intuition" aria-label="Link to this section">#</a>Intuition</h2>
+<p>Black–Scholes has one free parameter you cannot observe:  <span class="math-inline">\(\sigma\)</span> . Turn the formula around and it
+becomes a machine for measuring that parameter. Take a market price, ask what  <span class="math-inline">\(\sigma\)</span>  would have
+produced it, and you have the <strong>implied volatility</strong> of that option.</p>
+<p>Do this for every listed strike at one expiry and something awkward happens. The model says you
+should get the same number every time —  <span class="math-inline">\(\sigma\)</span>  is a constant in the model, a property of the
+stock, not of the contract. Instead you get a curve: low strikes imply high volatility, high strikes
+imply low volatility, and the shape is stable enough that desks quote it, trade it and give its
+parts names. That curve is the <strong>volatility smile</strong>, or on equity indices, where it slopes
+persistently downward, the <strong>skew</strong>.</p>
+<p>The temptation is to read the smile as a flaw. It is the opposite. Prices are the primitive; implied
+volatility is a <em>quoting convention</em> applied to them, in the same sense that a bond&#39;s yield is a
+quoting convention applied to its price. Nobody thinks a yield curve means the bond formula is
+broken. The smile is what happens when you apply a lognormal ruler to a distribution that is not
+lognormal: the ruler has to bend, and the way it bends tells you exactly how the real distribution
+differs.</p>
+<aside class="kb-callout kb-callout--insight"><div class="kb-callout-title">Insight</div><div class="kb-callout-body"><p>Rebonato&#39;s definition is the one to carry into an interview: implied volatility is <strong>&quot;the wrong
+number in the wrong formula to get the right price.&quot;</strong> Every property of the smile follows from
+taking that seriously. It is not an estimate, it is not a forecast, and it is not evidence against
+the market. It is a change of units — and because the units are strike-dependent, the <em>pattern</em> of
+the units is data about the risk-neutral density.</p></div></aside>
+<p>And that density is recoverable. <a class="kb-link" href="vanilla-option-strategies.html" data-concept="vanilla-option-strategies">Breeden–Litzenberger</a> says a butterfly
+is the second difference of call prices in strike, and therefore <em>is</em> the discounted risk-neutral
+density. So the smile is not a vague qualitative statement that &quot;tails are fat&quot; — it is a complete,
+quantitative description of the distribution the market is using to price. The rest of this page is
+about reading it.</p>
+<h2 id="mathematical-formulation" class="kb-h kb-h2"><a class="kb-anchor" href="#mathematical-formulation" aria-label="Link to this section">#</a>Mathematical Formulation</h2>
+<p>Start with the definition, which is an inverse problem with a guaranteed answer.</p>
+<figure class="kb-formula" id="implied-volatility" data-formula="implied-volatility"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">Implied volatility</span><button class="kb-formula-copy" type="button" data-latex="\sigma_{\text{impl}}(K,T): \quad \text{BS}\big(S,K,T,r,\sigma_{\text{impl}}\big) = C_{\text{mkt}}(K,T)" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[\sigma_{\text{impl}}(K,T): \quad \text{BS}\big(S,K,T,r,\sigma_{\text{impl}}\big) = C_{\text{mkt}}(K,T)\]</span> </div><p class="kb-formula-note">Well-posed because vega is strictly positive: the map from sigma to price is strictly increasing from the arbitrage bound to S, so any arbitrage-free price has exactly one implied vol.</p><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">Options</span><span class="kb-chip">Market Making</span><span class="kb-chip">Risk</span></footer></figure>
+<p>The right coordinates are not  <span class="math-inline">\((K,T)\)</span> . Strikes are not comparable across underlyings or across
+maturities, and  <span class="math-inline">\(\sigma\)</span>  is not the quantity no-arbitrage constrains. Use <strong>log-moneyness</strong> and
+<strong>total implied variance</strong>:</p>
+<figure class="kb-formula" id="total-variance-in-log-moneyness" data-formula="total-variance-in-log-moneyness"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">Total variance in log-moneyness</span><button class="kb-formula-copy" type="button" data-latex="k = \ln\!\frac{K}{F}, \qquad F = Se^{(r-q)T}, \qquad w(k,T) = \sigma_{\text{impl}}^2(k,T)\,T" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[k = \ln\!\frac{K}{F}, \qquad F = Se^{(r-q)T}, \qquad w(k,T) = \sigma_{\text{impl}}^2(k,T)\,T\]</span> </div><p class="kb-formula-note">w is what must be monotone in T for no calendar arbitrage - not sigma. An inverted term structure in sigma is normal; an inverted one in w is an arbitrage.</p><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">Surface Fitting</span><span class="kb-chip">Calendar Spreads</span><span class="kb-chip">Research</span></footer></figure>
+<p>The smile is a statement about the density, and the link is exact. Differentiating the call price
+twice in strike, with  <span class="math-inline">\(\sigma_{\text{impl}}\)</span>  now a function of  <span class="math-inline">\(K\)</span> , gives the market&#39;s implied
+distribution:</p>
+<figure class="kb-formula" id="the-smile-is-the-density" data-formula="the-smile-is-the-density"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">The smile IS the density</span><button class="kb-formula-copy" type="button" data-latex="f_{\Q}(K) = e^{rT}\frac{\partial^2 C}{\partial K^2} \;\ge\; 0,
+\qquad C(K) = \text{BS}\big(K, \sigma_{\text{impl}}(K)\big)" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[f_{\Q}(K) = e^{rT}\frac{\partial^2 C}{\partial K^2} \;\ge\; 0,
+\qquad C(K) = \text{BS}\big(K, \sigma_{\text{impl}}(K)\big)\]</span> </div><p class="kb-formula-note">Convexity of C in K is equivalent to non-negativity of the density. This is the butterfly no-arbitrage condition, and it is the constraint that stops the smile from being any shape you like.</p><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">Density Estimation</span><span class="kb-chip">Exotics</span><span class="kb-chip">VIX</span></footer></figure>
+<p>Desks do not transmit a curve. They transmit three numbers per maturity — level, slope, curvature —
+and rebuild the curve from them:</p>
+<figure class="kb-formula" id="atm-risk-reversal-butterfly" data-formula="atm-risk-reversal-butterfly"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">ATM, risk reversal, butterfly</span><button class="kb-formula-copy" type="button" data-latex="\text{RR}_{25} = \sigma_{25c} - \sigma_{25p},
+\qquad \text{BF}_{25} = \tfrac{1}{2}\big(\sigma_{25c} + \sigma_{25p}\big) - \sigma_{\text{ATM}}" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[\text{RR}_{25} = \sigma_{25c} - \sigma_{25p},
+\qquad \text{BF}_{25} = \tfrac{1}{2}\big(\sigma_{25c} + \sigma_{25p}\big) - \sigma_{\text{ATM}}\]</span> </div><p class="kb-formula-note">The first three terms of the smile&#39;s expansion. Delta-based strikes rather than fixed strikes, so the quotes stay comparable as spot moves.</p><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">FX Options</span><span class="kb-chip">Quoting</span><span class="kb-chip">Skew Trading</span></footer></figure>
+<p>Finally, the result that turns a static surface into a dynamic model. Dupire showed that for any
+arbitrage-free surface there is exactly <strong>one</strong> diffusion consistent with it:</p>
+<figure class="kb-formula" id="dupire-local-volatility" data-formula="dupire-local-volatility"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">Dupire local volatility</span><button class="kb-formula-copy" type="button" data-latex="\sigma_{\text{loc}}^2(K,T) = \frac{\dfrac{\partial C}{\partial T} + (r-q)K\dfrac{\partial C}{\partial K} + qC}{\tfrac{1}{2}K^2\dfrac{\partial^2 C}{\partial K^2}}" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[\sigma_{\text{loc}}^2(K,T) = \frac{\dfrac{\partial C}{\partial T} + (r-q)K\dfrac{\partial C}{\partial K} + qC}{\tfrac{1}{2}K^2\dfrac{\partial^2 C}{\partial K^2}}\]</span> </div><p class="kb-formula-note">Unique: one surface, one local-vol diffusion. The numerator is a calendar spread and the denominator a butterfly, so local vol is a ratio of two things you can trade.</p><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">Exotics Pricing</span><span class="kb-chip">Model Calibration</span></footer></figure>
+<p>Local volatility is not the same object as implied volatility:  <span class="math-inline">\(\sigma_{\text{loc}}(K,T)\)</span>  is the
+instantaneous volatility <em>if</em> spot is at  <span class="math-inline">\(K\)</span>  at time  <span class="math-inline">\(T\)</span> , whereas  <span class="math-inline">\(\sigma_{\text{impl}}(K,T)\)</span>  is an
+average over all paths to that point. The rule of thumb — Derman&#39;s — is that local volatility moves
+about <strong>twice as fast</strong> in strike as implied volatility does.</p>
+<h2 id="derivation" class="kb-h kb-h2"><a class="kb-anchor" href="#derivation" aria-label="Link to this section">#</a>Derivation</h2>
+<details class="kb-derivation"><summary>Why implied volatility exists and is unique</summary><div class="kb-derivation-body"><p>Fix  <span class="math-inline">\(S, K, T, r\)</span>  and treat the Black–Scholes call price as a function of  <span class="math-inline">\(\sigma\)</span>  alone. Vega is</p>
+<span class="math-display">\[\mathcal{V} = \frac{\partial C}{\partial \sigma} = S\phi(d_1)\sqrt{T} &gt; 0
+\quad\text{for all } \sigma &gt; 0,\ T &gt; 0.\]</span>
+<p>Strictly positive, with no dependence on the sign of anything — so  <span class="math-inline">\(C(\sigma)\)</span>  is <strong>strictly
+increasing</strong>. Now take the two limits:</p>
+<span class="math-display">\[\lim_{\sigma \to 0^+} C = \big(S - Ke^{-rT}\big)^+ , \qquad \lim_{\sigma \to \infty} C = S.\]</span>
+<p>Those are exactly the no-arbitrage bounds on a European call. A strictly increasing continuous
+function mapping  <span class="math-inline">\((0,\infty)\)</span>  onto  <span class="math-inline">\(\big((S-Ke^{-rT})^+,\, S\big)\)</span>  has a unique inverse on that
+interval, so:</p>
+<ul class="kb-list"><li>any price <strong>strictly inside</strong> the bounds has exactly one implied volatility;</li>
+<li>a price <strong>on or outside</strong> them has none, and that is a data problem, not a market with an
+interesting distribution. It is the usual outcome for deep in-the-money quotes marked at a stale
+mid.</li></ul>
+<p>Two practical consequences. Newton&#39;s method converges fast because  <span class="math-inline">\(\mathcal{V}\)</span>  is available in
+closed form, but vega  <span class="math-inline">\(\to 0\)</span>  in both wings, so the inversion is <strong>ill-conditioned exactly where the
+smile is steepest</strong> — a one-tick price change in a far strike can move its implied vol by a point.
+That is why desks fit surfaces to prices weighted by vega, not to implied vols equally.</p></div></details>
+<details class="kb-derivation"><summary>From the smile to the digital: where the extra value comes from</summary><div class="kb-derivation-body"><p>A digital call paying  <span class="math-inline">\(\1\{S_T &gt; K\}\)</span>  is the limit of a tight call spread, so its value is
+ <span class="math-inline">\(-\partial C/\partial K\)</span> . Under Black–Scholes with a <em>flat</em> vol that derivative is  <span class="math-inline">\(e^{-rT}N(d_2)\)</span> .
+With a smile,  <span class="math-inline">\(C\)</span>  depends on  <span class="math-inline">\(K\)</span>  twice — directly, and through  <span class="math-inline">\(\sigma_{\text{impl}}(K)\)</span>  — so the
+chain rule adds a term:</p>
+<span class="math-display">\[\text{Digital}(K) = -\frac{\d C}{\d K}
+= -\frac{\partial C}{\partial K}\bigg|_{\sigma} - \frac{\partial C}{\partial \sigma}\frac{\partial \sigma_{\text{impl}}}{\partial K}
+= e^{-rT}N(d_2) - \mathcal{V}\,\frac{\partial \sigma_{\text{impl}}}{\partial K}\]</span>
+<p>On an equity skew  <span class="math-inline">\(\partial\sigma_{\text{impl}}/\partial K &lt; 0\)</span> , so the correction is positive: <strong>a
+digital call is worth more than the Black–Scholes formula says.</strong> The economics are visible in the
+replication. To be long the digital you buy the  <span class="math-inline">\(K\)</span>  call and sell the  <span class="math-inline">\(K+h\)</span>  call; with a downward
+sloping smile the call you sell carries a <em>lower</em> vol than the one you buy, so the spread costs less
+than a flat-vol calculation suggests and the digital it converges to is worth more.</p>
+<p>The same chain rule, differentiated once more, is what turns  <span class="math-inline">\(\partial^2C/\partial K^2 \ge 0\)</span>  into a
+condition on the smile&#39;s slope and curvature rather than on prices — and that is the constraint
+Gatheral&#39;s  <span class="math-inline">\(g(k) \ge 0\)</span>  expresses in total-variance coordinates.</p></div></details>
+<details class="kb-derivation"><summary>Why the smile breaks your delta</summary><div class="kb-derivation-body"><p>The Black–Scholes delta is a partial derivative taken at constant  <span class="math-inline">\(\sigma\)</span> . What you actually own is
+a position whose implied vol moves when spot moves, and you have vega, so the <em>total</em> derivative is</p>
+<span class="math-display">\[\Delta_{\text{total}} = \frac{\d C}{\d S} = \frac{\partial C}{\partial S}
++ \frac{\partial C}{\partial \sigma}\frac{\partial \sigma_{\text{impl}}}{\partial S}
+= \Delta_{\text{BS}} + \mathcal{V}\,\frac{\partial \sigma_{\text{impl}}}{\partial S}.\]</span>
+<p>The second term needs a <em>regime</em> — an assumption about how the surface moves — and there are two
+canonical ones:</p>
+<p><strong>Sticky strike.</strong> Each fixed strike keeps its vol:  <span class="math-inline">\(\partial\sigma_{\text{impl}}/\partial S = 0\)</span>  and
+ <span class="math-inline">\(\Delta_{\text{total}} = \Delta_{\text{BS}}\)</span> . Quiet, range-bound markets behave roughly this way, and
+it is the implicit assumption in any risk system that reports a single BS delta.</p>
+<p><strong>Sticky delta (sticky moneyness).</strong> The smile is a fixed function of  <span class="math-inline">\(k = \ln(K/F)\)</span>  and translates
+with spot. Then  <span class="math-inline">\(\sigma_{\text{impl}}(K,S) = \varsigma\big(\ln(K/F(S))\big)\)</span>  and</p>
+<span class="math-display">\[\frac{\partial \sigma_{\text{impl}}}{\partial S} = -\frac{1}{S}\,\frac{\partial \varsigma}{\partial k}.\]</span>
+<p>On an equity skew  <span class="math-inline">\(\partial\varsigma/\partial k &lt; 0\)</span> , so this is <strong>positive</strong>, and the smile-adjusted
+delta of a long call is <em>larger</em> than the Black–Scholes delta. Note that local volatility implies a
+third regime — and an aggressive one: it makes the smile move <em>down</em> as spot rises, roughly twice as
+fast as the surface&#39;s own slope, which is why pure local-vol models are known to misprice forward
+volatility and forward-starting products.</p></div></details>
+<h2 id="assumptions-edge-cases" class="kb-h kb-h2"><a class="kb-anchor" href="#assumptions-edge-cases" aria-label="Link to this section">#</a>Assumptions &amp; Edge Cases</h2>
+<aside class="kb-callout kb-callout--assumption"><div class="kb-callout-title">Assumptions</div><div class="kb-callout-body"><ul class="kb-list"><li><strong>The price must be arbitrage-free.</strong> Outside  <span class="math-inline">\(\big((S-Ke^{-rT})^+, S\big)\)</span>  no implied volatility
+exists. Deep ITM quotes and stale marks fail this routinely; a surface builder must reject them
+rather than solve harder.</li>
+<li><strong>European exercise, known carry.</strong> The inversion assumes the Black–Scholes payoff. American
+options need an American inverter, and the whole surface is conditional on your dividend and
+borrow assumptions — the &quot;smile&quot; of a hard-to-borrow single name is largely a borrow-rate curve in
+disguise.</li>
+<li><strong>One vol per strike, not per option type.</strong> <a class="kb-link" href="put-call-parity.html" data-concept="put-call-parity">Put–Call Parity</a> forces the call and the put at a
+strike to share an implied volatility. If yours differ, you have a data problem — wrong forward,
+wrong dividend, wrong borrow — not a trading opportunity.</li>
+<li><strong>The wings are extrapolation.</strong> Strikes are listed on a discrete grid, so the density is only
+recovered where options trade. Everything beyond the last strike is a modelling choice, and
+Lee&#39;s moment formula is the one hard constraint on it:  <span class="math-inline">\(w(k)/|k| \le 2\)</span>  as  <span class="math-inline">\(|k|\to\infty\)</span> .</li></ul></div></aside>
+<aside class="kb-callout kb-callout--warning"><div class="kb-callout-title">Warning</div><div class="kb-callout-body"><p><strong>The smile is a band, not a curve.</strong> Every point on it is a mid between a bid and an ask that can be
+one or two vol points wide in the wings. Fitting a smooth curve through mids and then computing
+second derivatives amplifies that noise into a density — which is why an unconstrained fit so often
+produces a wobbly, locally negative &quot;density&quot; that reflects only the bid-ask spread. Fit with
+no-arbitrage constraints imposed, not checked afterwards.</p></div></aside>
+<aside class="kb-callout kb-callout--pitfall"><div class="kb-callout-title">Common pitfall</div><div class="kb-callout-body"><p><strong>Interpolation creates arbitrage that was never in the data.</strong> Linear interpolation in  <span class="math-inline">\(\sigma\)</span> 
+versus in  <span class="math-inline">\(w = \sigma^2T\)</span>  versus in <em>price</em> give different answers, and only some preserve
+convexity. The safe recipe: interpolate in total variance, in log-moneyness, with a parameterisation
+whose no-arbitrage conditions you can state — which is exactly why SVI became standard.</p></div></aside>
+<h2 id="worked-example" class="kb-h kb-h2"><a class="kb-anchor" href="#worked-example" aria-label="Link to this section">#</a>Worked Example</h2>
+<p>Take  <span class="math-inline">\(S = 100\)</span> ,  <span class="math-inline">\(T = 0.25\)</span> ,  <span class="math-inline">\(r = 4\%\)</span> ,  <span class="math-inline">\(q = 0\)</span> , so the forward is  <span class="math-inline">\(F = 100e^{0.01} = 101.005\)</span> . Fit
+a raw <strong>SVI</strong> slice — total variance as a hyperbola in log-moneyness, so the wings are linear and
+Lee&#39;s bound is respected by construction:</p>
+<span class="math-display">\[w(k) = a + b\Big(\rho k + \sqrt{k^2 + \varsigma^2}\Big)\]</span>
+<p>Rather than quote  <span class="math-inline">\((a,b,\rho,\varsigma)\)</span> , pin the slice with the three numbers a desk would actually
+say: <strong>ATM volatility  <span class="math-inline">\(25\%\)</span> , ATM skew  <span class="math-inline">\(\partial\sigma/\partial k = -0.32\)</span> , convexity
+ <span class="math-inline">\(\partial^2\sigma/\partial k^2 = 3.2\)</span> .</strong> Those fix  <span class="math-inline">\(w(0)\)</span> ,  <span class="math-inline">\(w&#39;(0)\)</span>  and  <span class="math-inline">\(w&#39;&#39;(0)\)</span> , and SVI turns them
+into  <span class="math-inline">\(a = -0.002423\)</span> ,  <span class="math-inline">\(b = 0.09024\)</span> ,  <span class="math-inline">\(\rho = -0.443\)</span>  with wing width  <span class="math-inline">\(\varsigma = 0.20\)</span> . Gatheral&#39;s
+condition gives  <span class="math-inline">\(\min_k g(k) = 0.22 &gt; 0\)</span> , so the slice is free of butterfly arbitrage. It is also
+the slice the module below opens on, so every number here can be dragged.</p>
+<p>Read the smile off it, and price each strike <strong>at its own volatility</strong>:</p>
+<div class="kb-table-wrap"><table class="kb-table"><thead><tr><th>Strike</th><th><span class="math-inline">\(k = \ln(K/F)\)</span></th><th><span class="math-inline">\(\sigma_{\text{impl}}\)</span></th><th>Call (smile)</th><th>Call (flat 25%)</th><th>Put (smile)</th></tr></thead><tbody><tr><td>85</td><td>−0.173</td><td><strong>33.65%</strong></td><td>17.068</td><td>16.284</td><td>1.223</td></tr>
+<tr><td>90</td><td>−0.115</td><td><strong>30.35%</strong></td><td>12.738</td><td>12.030</td><td>1.843</td></tr>
+<tr><td>95</td><td>−0.061</td><td><strong>27.50%</strong></td><td>8.810</td><td>8.377</td><td>2.864</td></tr>
+<tr><td>100</td><td>−0.010</td><td><strong>25.34%</strong></td><td>5.538</td><td>5.472</td><td>4.543</td></tr>
+<tr><td>105</td><td>0.039</td><td><strong>24.01%</strong></td><td>3.155</td><td>3.347</td><td>7.111</td></tr>
+<tr><td>110</td><td>0.085</td><td><strong>23.48%</strong></td><td>1.672</td><td>1.918</td><td>10.577</td></tr>
+<tr><td>115</td><td>0.130</td><td><strong>23.58%</strong></td><td>0.861</td><td>1.032</td><td>14.717</td></tr></tbody></table></div>
+<p>Note the turn at the top: the minimum sits at  <span class="math-inline">\(K = 111.5\)</span>  and the curve rises again above it. This is a
+<em>smile</em> with a strong downward tilt, not a monotone line, which is what makes &quot;skew&quot; and
+&quot;convexity&quot; separate quotes. A strike  <span class="math-inline">\(10\%\)</span>  below the forward carries <strong>4.79 more vol points</strong>
+than the money. In desk terms:  <span class="math-inline">\(\text{ATM} = 25.00\%\)</span> ,  <span class="math-inline">\(\text{RR}_{25} = -5.31\)</span>  points (the
+25-delta put at  <span class="math-inline">\(K = 92.61\)</span>  implies  <span class="math-inline">\(28.79\%\)</span>  against the 25-delta call at  <span class="math-inline">\(K = 110.08\)</span>  implying
+ <span class="math-inline">\(23.48\%\)</span> ), and  <span class="math-inline">\(\text{BF}_{25} = +1.13\)</span>  points.</p>
+<p><strong>Now extract the density.</strong> Take butterflies with  <span class="math-inline">\(h = 5\)</span>  and normalise by  <span class="math-inline">\(h^2\)</span> :</p>
+<div class="kb-table-wrap"><table class="kb-table"><thead><tr><th>Middle strike</th><th>Fly (smile)</th><th>Fly (flat)</th><th><span class="math-inline">\(f_\Q\)</span>  (smile)</th><th><span class="math-inline">\(f_\Q\)</span>  (flat)</th><th>Ratio</th></tr></thead><tbody><tr><td>90</td><td>0.401</td><td>0.601</td><td>0.0162</td><td>0.0243</td><td><strong>0.67×</strong></td></tr>
+<tr><td>95</td><td>0.658</td><td>0.748</td><td>0.0266</td><td>0.0302</td><td>0.88×</td></tr>
+<tr><td>100</td><td>0.888</td><td>0.780</td><td>0.0359</td><td>0.0315</td><td>1.14×</td></tr>
+<tr><td>105</td><td>0.899</td><td>0.696</td><td>0.0363</td><td>0.0281</td><td><strong>1.29×</strong></td></tr>
+<tr><td>110</td><td>0.673</td><td>0.543</td><td>0.0272</td><td>0.0219</td><td>1.24×</td></tr></tbody></table></div>
+<p>Two densities, same mean ( <span class="math-inline">\(101.005\)</span>  — both are martingale measures, so this is a check, not a
+result), completely different shape:</p>
+<div class="kb-table-wrap"><table class="kb-table"><thead><tr><th></th><th>Smile</th><th>Lognormal</th></tr></thead><tbody><tr><td>Std. deviation</td><td>14.11</td><td>12.68</td></tr>
+<tr><td>Skewness</td><td><strong>−0.742</strong></td><td>+0.378</td></tr>
+<tr><td>Excess kurtosis</td><td><strong>+3.83</strong></td><td>+0.26</td></tr></tbody></table></div>
+<aside class="kb-callout kb-callout--insight"><div class="kb-callout-title">Insight</div><div class="kb-callout-body"><p><strong>The smile turned a right-skewed distribution into a left-skewed one.</strong> A lognormal is always
+positively skewed — that is what exponentiating a normal does. The market&#39;s density has skewness
+ <span class="math-inline">\(-0.74\)</span> . No amount of choosing a different constant  <span class="math-inline">\(\sigma\)</span>  could have produced that: the level of
+volatility is one number and the <em>shape</em> is a separate object, which is precisely why one implied
+vol per strike is needed to describe it.</p></div></aside>
+<p>Where the mass actually went is more interesting than the summary statistics:</p>
+<div class="kb-table-wrap"><table class="kb-table"><thead><tr><th></th><th><span class="math-inline">\(\Q(S_T &lt; 70)\)</span></th><th><span class="math-inline">\(\Q(S_T&lt;80)\)</span></th><th><span class="math-inline">\(\Q(S_T&lt;90)\)</span></th><th><span class="math-inline">\(\Q(S_T&gt;110)\)</span></th></tr></thead><tbody><tr><td>Smile</td><td><strong>3.01%</strong></td><td>6.37%</td><td>15.84%</td><td>22.19%</td></tr>
+<tr><td>Lognormal</td><td><strong>0.20%</strong></td><td>3.57%</td><td>19.48%</td><td>22.81%</td></tr></tbody></table></div>
+<p>The smile makes a  <span class="math-inline">\(30\%\)</span>  crash in three months <strong>fifteen times more likely</strong> than lognormal does —
+while making a mild  <span class="math-inline">\(10\%\)</span>  decline <em>less</em> likely. It does not shift the distribution left; it moves
+probability out of the near-left shoulder and into the far tail. In prices that is the difference
+between a put worth  <span class="math-inline">\(0.134\)</span>  and one worth  <span class="math-inline">\(0.830\)</span> :</p>
+<div class="kb-table-wrap"><table class="kb-table"><thead><tr><th>Option</th><th>Flat 25%</th><th>Smile</th><th>Ratio</th></tr></thead><tbody><tr><td>80 put</td><td>0.134</td><td>0.830</td><td><strong>6.2×</strong></td></tr>
+<tr><td>85 put</td><td>0.439</td><td>1.223</td><td>2.8×</td></tr>
+<tr><td>90 put</td><td>1.135</td><td>1.843</td><td>1.6×</td></tr>
+<tr><td>110 call</td><td>1.918</td><td>1.672</td><td>0.87×</td></tr></tbody></table></div>
+<aside class="kb-callout kb-callout--warning"><div class="kb-callout-title">Warning</div><div class="kb-callout-body"><p><strong>A six-fold pricing error is what &quot;just use a flat vol&quot; costs in the wings.</strong> And it is not
+conservative in either direction: the same flat vol that underprices the 80 put by  <span class="math-inline">\(6.2\times\)</span> 
+overprices the 110 call by  <span class="math-inline">\(15\%\)</span> . Anyone quoting wings off an ATM number is not making a small
+approximation — they are quoting a different distribution.</p></div></aside>
+<p>Finally, the smile is constrained. Holding the ATM level and convexity fixed and steepening the
+skew, Gatheral&#39;s  <span class="math-inline">\(g(k)\)</span>  first goes negative at  <span class="math-inline">\(\partial\sigma/\partial k = -1.16\)</span> , about <strong>3.6
+times</strong> the slope fitted above. Past that the implied density is negative somewhere and some
+butterfly is worth less than zero. The smile can be steep, but not arbitrarily steep, and the bound
+is a computation rather than a taste — drag the skew slider below  <span class="math-inline">\(-1.16\)</span>  and the module says so.</p>
+<div class="kb-module" data-module="volatility-smile" data-config="{&quot;sigma&quot;:0.25,&quot;skew&quot;:-0.32,&quot;convexity&quot;:3.2,&quot;T&quot;:0.25,&quot;view&quot;:&quot;smile&quot;}"><div class="kb-module-shell"><div class="kb-module-loading">Loading interactive module &ldquo;volatility-smile&rdquo;&hellip;</div></div></div>
+<h2 id="why-it-matters-in-quant-finance" class="kb-h kb-h2"><a class="kb-anchor" href="#why-it-matters-in-quant-finance" aria-label="Link to this section">#</a>Why It Matters in Quant Finance</h2>
+<p><strong>Everything in derivatives is quoted, marked and risk-managed in volatility.</strong> A trade is agreed in
+vol and converted to a price at the point of execution; a book is marked to a surface, not to a list
+of prices; P&amp;L is attributed to moves in the <em>surface</em>, decomposed into level, skew and term
+structure. If you cannot read a smile you cannot read a derivatives desk&#39;s risk report.</p>
+<p><strong>Vega is not one number.</strong> <a class="kb-link" href="option-greeks.html" data-concept="option-greeks">Vega</a> as a single figure assumes the whole surface moves
+in parallel, which it never does. Real risk is bucketed by strike and maturity, and the two
+first-order shape risks have their own names and their own hedges: risk reversal risk (skew) and
+butterfly risk (convexity). A book can be vega-flat and lose badly on a day the skew steepens.</p>
+<p><strong>Exotics are priced from the density, not from a vol.</strong> Anything whose payoff is discontinuous or
+path-dependent — digitals, barriers, autocallables, cliquets — depends on the shape of the
+distribution and not merely on its width. The digital calculation above is the smallest possible
+example, and it is already a  <span class="math-inline">\(14\%\)</span>  error.</p>
+<p><strong>Model-free measurement.</strong> Because the smile is the density, quantities that look model-dependent
+are not. The VIX is a weighted integral of out-of-the-money option prices across the whole strip —
+the <a class="kb-link" href="vanilla-option-strategies.html" data-concept="vanilla-option-strategies">Carr–Madan</a> spanning formula applied to  <span class="math-inline">\(g(S) = \log S\)</span>  — which is
+why it is a <em>measurement</em> of 30-day risk-neutral variance rather than an output of some model.</p>
+<p><strong>The variance risk premium.</strong> Averaged over long samples, index implied volatility exceeds
+subsequently realised volatility, and the gap is largest in the downside wing. That is a risk
+premium paid for insurance, and it is the reason systematic short-volatility strategies show
+attractive Sharpe ratios and occasional catastrophic drawdowns — a payoff shape that
+<a class="kb-link" href="kelly-criterion.html" data-concept="kelly-criterion">Kelly Criterion</a> treats very differently from its mean.</p>
+<h2 id="trading-research-application" class="kb-h kb-h2"><a class="kb-anchor" href="#trading-research-application" aria-label="Link to this section">#</a>Trading &amp; Research Application</h2>
+<aside class="kb-callout kb-callout--desk"><div class="kb-callout-title">On the desk</div><div class="kb-callout-body"><p><strong>Market making.</strong> You quote in vol and hedge in delta, so the surface <em>is</em> your inventory. Three
+things follow. You hedge with a smile-adjusted delta, not the Black–Scholes one — the 12% hedge
+error computed above is a daily P&amp;L leak if you do not. You warehouse skew and convexity risk
+deliberately, because you cannot avoid them, and you know your RR and BF exposures as precisely as
+your vega. And you police your own quotes: every butterfly non-negative, every calendar monotone in
+total variance, checked continuously rather than at end of day, because a crossed slice is an
+invitation for someone to lift you.</p></div></aside>
+<aside class="kb-callout kb-callout--desk"><div class="kb-callout-title">On the desk</div><div class="kb-callout-body"><p><strong>Research.</strong> The surface is a rich, high-frequency, forward-looking feature set that most equity
+signals ignore: the skew&#39;s steepness, the term structure&#39;s slope, the spread between implied and
+recently realised volatility, and the changes in each. It is also a <em>prediction</em> — the whole
+risk-neutral density is there, so a strategy can be tested against what the market had priced rather
+than against a naive baseline.</p>
+<p>The discipline it demands is unusual, though. Fit arbitrage-free by construction rather than checking
+after the fact; use point-in-time surfaces, since a surface rebuilt today from today&#39;s dividend and
+borrow curves is a look-ahead bias with extra steps; and remember that the risk-neutral density is
+not the real-world one. The gap between them <em>is</em> the risk premium, so a &quot;signal&quot; that the market
+underprices crashes may be nothing more than a rediscovery of the fact that insurance costs money.</p></div></aside>
+<h2 id="implementation-notes" class="kb-h kb-h2"><a class="kb-anchor" href="#implementation-notes" aria-label="Link to this section">#</a>Implementation Notes</h2>
+<figure class="kb-code" data-lang="python"><pre><code class="language-python">import numpy as np
+from scipy.stats import norm
+from scipy.optimize import brentq
+
+def bs_call(S, K, T, r, sigma):
+    d1 = (np.log(S / K) + (r + 0.5 * sigma**2) * T) / (sigma * np.sqrt(T))
+    return S * norm.cdf(d1) - K * np.exp(-r * T) * norm.cdf(d1 - sigma * np.sqrt(T))
+
+def implied_vol(price, S, K, T, r):
+    &quot;&quot;&quot;Brent on the bracketed root. Newton is faster but vega -&gt; 0 in the wings,
+    which is exactly where you most need the answer not to diverge.&quot;&quot;&quot;
+    lo, hi = max(S - K * np.exp(-r * T), 0.0), S
+    if not lo &lt; price &lt; hi:                 # outside the no-arbitrage bounds
+        return np.nan                       # no sigma exists: reject the quote
+    return brentq(lambda s: bs_call(S, K, T, r, s) - price, 1e-6, 5.0, xtol=1e-10)
+
+def svi_total_variance(k, a, b, rho, m, sigma):
+    return a + b * (rho * (k - m) + np.sqrt((k - m) ** 2 + sigma**2))
+
+def gatheral_g(k, w, dw, d2w):
+    &quot;&quot;&quot;&gt;= 0 everywhere &lt;=&gt; no butterfly arbitrage (implied density non-negative).&quot;&quot;&quot;
+    return (1 - k * dw / (2 * w)) ** 2 - (dw**2 / 4) * (1 / w + 0.25) + d2w / 2</code></pre></figure>
+<p>Three things that matter more than the algorithm. <strong>Weight by vega</strong> when fitting: an equal-weighted
+fit in implied-vol space chases noise in the wings, where a tick of price is a point of vol.
+<strong>Impose no-arbitrage during calibration</strong>, not after — a constrained fit that is slightly worse in
+sample is worth far more than an unconstrained one you have to repair. And <strong>fit in  <span class="math-inline">\((k, w)\)</span> </strong>, never
+in  <span class="math-inline">\((K, \sigma)\)</span> : the coordinates are what make the constraints expressible.</p>
+<h2 id="common-mistakes" class="kb-h kb-h2"><a class="kb-anchor" href="#common-mistakes" aria-label="Link to this section">#</a>Common Mistakes</h2>
+<p><strong>Calling implied vol a forecast.</strong> It is a price in different units. The comparison of implied to
+realised is a <em>trade</em>, and the historical gap between them is a risk premium, not a market error.</p>
+<p><strong>Using the Black–Scholes delta on a skewed surface.</strong> The vega-times-smile-slope term is missing,
+and on a 95-strike call in the example above it is worth 8.4 shares per 100 options.</p>
+<p><strong>Plugging the right implied vol into the wrong formula.</strong> Correct for a vanilla at that strike;
+wrong for anything whose payoff depends on the density — digitals, barriers, and every exotic.</p>
+<p><strong>Comparing volatilities across maturities.</strong> Only total variance  <span class="math-inline">\(w = \sigma^2 T\)</span>  is constrained to
+be monotone. An inverted  <span class="math-inline">\(\sigma\)</span>  term structure is an ordinary event, not a signal.</p>
+<p><strong>Interpolating in the wrong coordinates.</strong> Linear-in-strike, linear-in- <span class="math-inline">\(\sigma\)</span>  fits create
+butterfly arbitrage from clean data. Interpolate in log-moneyness and total variance.</p>
+<p><strong>Treating a call/put implied-vol difference as information.</strong> <a class="kb-link" href="put-call-parity.html" data-concept="put-call-parity">Put–Call Parity</a> forbids it; the
+difference is measuring your forward, dividend or borrow assumption.</p>
+<p><strong>Extrapolating a parabola into the wings.</strong> Quadratic total variance violates Lee&#39;s bound
+ <span class="math-inline">\(w(k)/|k|\le 2\)</span>  and will price the far tail at an implied vol of several hundred percent.</p>
+<p><strong>Confusing local and implied volatility.</strong>  <span class="math-inline">\(\sigma_{\text{loc}}(K,T)\)</span>  is instantaneous and
+conditional;  <span class="math-inline">\(\sigma_{\text{impl}}(K,T)\)</span>  is a path average. The local surface is roughly twice as
+steep in strike.</p>
+<h2 id="30-second-revision" class="kb-h kb-h2"><a class="kb-anchor" href="#30-second-revision" aria-label="Link to this section">#</a>30-Second Revision</h2>
+<ul class="kb-list"><li><strong>Implied vol is the unique  <span class="math-inline">\(\sigma\)</span>  that reproduces a market price.</strong> Unique because vega  <span class="math-inline">\(&gt;0\)</span> 
+makes  <span class="math-inline">\(C(\sigma)\)</span>  strictly increasing from  <span class="math-inline">\((S-Ke^{-rT})^+\)</span>  to  <span class="math-inline">\(S\)</span> . It is a <em>quoting convention</em> —
+&quot;the wrong number in the wrong formula to get the right price.&quot;</li>
+<li><strong>The smile is the density.</strong>  <span class="math-inline">\(f_\Q(K)=e^{rT}\partial^2C/\partial K^2\)</span> , so a non-flat smile is a
+non-lognormal distribution — nothing more mysterious, and nothing less quantitative.</li>
+<li><strong>Work in  <span class="math-inline">\(k=\ln(K/F)\)</span>  and  <span class="math-inline">\(w=\sigma^2T\)</span> .</strong> No butterfly arbitrage  <span class="math-inline">\(\Leftrightarrow\)</span>   <span class="math-inline">\(C\)</span>  convex in
+ <span class="math-inline">\(K\)</span>   <span class="math-inline">\(\Leftrightarrow\)</span>  Gatheral&#39;s  <span class="math-inline">\(g(k)\ge0\)</span> . No calendar arbitrage  <span class="math-inline">\(\Leftrightarrow\)</span>   <span class="math-inline">\(w\)</span> 
+non-decreasing in  <span class="math-inline">\(T\)</span> . Wings bounded by Lee:  <span class="math-inline">\(w(k)/|k|\le2\)</span> .</li>
+<li><strong>Level, slope, curvature = ATM,  <span class="math-inline">\(\text{RR}_{25}\)</span> ,  <span class="math-inline">\(\text{BF}_{25}\)</span> .</strong> A delta-hedged risk reversal
+is a bet on skew; a butterfly, on convexity.</li>
+<li><strong>Smile delta  <span class="math-inline">\(= \Delta_{\text{BS}} + \mathcal{V}\,\partial\sigma/\partial S\)</span> .</strong> Sticky strike sets
+the second term to zero; sticky delta makes it positive for a call on an equity skew.</li>
+<li><strong>Digital  <span class="math-inline">\(= e^{-rT}N(d_2) - \mathcal{V}\,\partial\sigma/\partial K\)</span> .</strong> The skew term was a 14%
+correction in the example. Right vol, wrong formula, wrong price.</li>
+<li><strong>Equity slopes down, FX smiles symmetrically</strong>, and skew decays with maturity roughly like
+ <span class="math-inline">\(T^{-1/2}\)</span>  — too slowly for a pure diffusion, which is the empirical case for jumps or rough
+volatility.</li>
+<li><strong>Dupire:</strong> one arbitrage-free surface, one local-vol diffusion. Local vol is roughly twice as
+steep in strike as implied vol.</li></ul></div>
+    <section class="kb-section" id="key-formulas">
+        <h2 class="kb-h kb-h2"><a class="kb-anchor" href="#key-formulas" aria-label="Link to this section">#</a>Key Formulas</h2>
+        <div class="kb-formula-recap">
+          <a class="kb-formula-recap-item" href="#implied-volatility">
+            <span class="kb-formula-recap-name">Implied volatility</span>
+            <span class="math-display">\[\sigma_{\text{impl}}(K,T): \quad \text{BS}\big(S,K,T,r,\sigma_{\text{impl}}\big) = C_{\text{mkt}}(K,T)\]</span>
+          </a>
+          <a class="kb-formula-recap-item" href="#total-variance-in-log-moneyness">
+            <span class="kb-formula-recap-name">Total variance in log-moneyness</span>
+            <span class="math-display">\[k = \ln\!\frac{K}{F}, \qquad F = Se^{(r-q)T}, \qquad w(k,T) = \sigma_{\text{impl}}^2(k,T)\,T\]</span>
+          </a>
+          <a class="kb-formula-recap-item" href="#the-smile-is-the-density">
+            <span class="kb-formula-recap-name">The smile IS the density</span>
+            <span class="math-display">\[f_{\Q}(K) = e^{rT}\frac{\partial^2 C}{\partial K^2} \;\ge\; 0,
+\qquad C(K) = \text{BS}\big(K, \sigma_{\text{impl}}(K)\big)\]</span>
+          </a>
+          <a class="kb-formula-recap-item" href="#atm-risk-reversal-butterfly">
+            <span class="kb-formula-recap-name">ATM, risk reversal, butterfly</span>
+            <span class="math-display">\[\text{RR}_{25} = \sigma_{25c} - \sigma_{25p},
+\qquad \text{BF}_{25} = \tfrac{1}{2}\big(\sigma_{25c} + \sigma_{25p}\big) - \sigma_{\text{ATM}}\]</span>
+          </a>
+          <a class="kb-formula-recap-item" href="#dupire-local-volatility">
+            <span class="kb-formula-recap-name">Dupire local volatility</span>
+            <span class="math-display">\[\sigma_{\text{loc}}^2(K,T) = \frac{\dfrac{\partial C}{\partial T} + (r-q)K\dfrac{\partial C}{\partial K} + qC}{\tfrac{1}{2}K^2\dfrac{\partial^2 C}{\partial K^2}}\]</span>
+          </a></div>
+      </section>
+    <section class="kb-section" id="interview-questions">
+        <h2 class="kb-h kb-h2"><a class="kb-anchor" href="#interview-questions" aria-label="Link to this section">#</a>Interview Questions</h2>
+        <ol class="kb-questions">
+          <li class="kb-question" id="q-implied-volatility-and-the-smile-q1" data-difficulty="foundational">
+            <div class="kb-question-head">
+              <span class="kb-question-text">Implied volatility is often described as &quot;the market&#39;s forecast of volatility&quot;. What is wrong with that, and what is it really?</span>
+              <span class="kb-tagline">Foundational · core · definition · quoting</span>
+            </div>
+            <details class="kb-hint"><summary>Hint</summary><div><p>Ask what would have to be true of the model for the description to hold.</p></div></details>
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p><strong>It is a change of units, not a forecast.</strong> Implied vol is defined as the unique  <span class="math-inline">\(\sigma\)</span> 
+solving  <span class="math-inline">\(\text{BS}(S,K,T,r,\sigma) = C_{\text{mkt}}\)</span> . It is a <em>quoting convention</em> in exactly
+the sense that a bond&#39;s yield is: an invertible map from a price to a more comparable number.
+Rebonato&#39;s line is the one to remember — it is <strong>&quot;the wrong number in the wrong formula to get
+the right price.&quot;</strong></p>
+<p>Three things follow immediately, and each is a follow-up an interviewer may ask:</p>
+<ol class="kb-list"><li><strong>It would only be a forecast if Black–Scholes were true.</strong> Under the model  <span class="math-inline">\(\sigma\)</span>  is a
+ constant, so every strike would imply the same number. They do not, which is proof that the
+ map from price to  <span class="math-inline">\(\sigma\)</span>  is absorbing everything the model omits — fat tails, skewness,
+ jumps, stochastic volatility — into one strike-dependent parameter.</li>
+<li><strong>It is still perfectly well defined.</strong> Vega is strictly positive, so  <span class="math-inline">\(\sigma \mapsto C\)</span>  is
+ strictly increasing from the arbitrage lower bound to  <span class="math-inline">\(S\)</span> : any arbitrage-free price has one
+ and only one implied vol. Nothing about the smile threatens that.</li>
+<li><strong>It is not even the risk-neutral expectation of realised vol.</strong> Under a stochastic-vol
+ model the ATM implied variance is roughly  <span class="math-inline">\(\E_{\Q}[\bar{\sigma}^2]\)</span> , and  <span class="math-inline">\(\sqrt{\cdot}\)</span>  is
+ concave, so Jensen alone puts implied <em>below</em> the root-mean-square — before you add the
+ variance risk premium, which historically pushes implied <em>above</em> subsequent realised by a
+ couple of points on index options.</li></ol>
+<p><strong>The honest one-liner:</strong> implied vol is a price. Comparing it to realised vol is a trade
+idea, not a definition.</p></div></details>
+          </li>
+          <li class="kb-question" id="q-implied-volatility-and-the-smile-q2" data-difficulty="intermediate">
+            <div class="kb-question-head">
+              <span class="kb-question-text">Why does a three-month equity index smile slope downwards, while three-month FX is roughly symmetric?</span>
+              <span class="kb-tagline">Intermediate · core · skew · economics · cross-asset</span>
+            </div>
+            <details class="kb-hint"><summary>Hint</summary><div><p>What does a crash look like in each market, and who is structurally on which side?</p></div></details>
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>Because the two markets have different tails and different flow, and the smile shows both.</p>
+<p><strong>Equity indices have a one-sided tail.</strong> Crashes are fast and correlated; rallies are slow and
+dispersing. There is also a leverage effect — as equity value falls, the same debt is a larger
+fraction of the firm, so volatility rises — which makes the <em>return</em> distribution genuinely
+left-skewed rather than merely perceived that way. On top of the physics sits the flow:
+institutions are structurally long equities and buy downside puts, while overwriters sell
+upside calls. Both push the same way, and the result is a <strong>skew</strong> (or &quot;smirk&quot;): a downward
+slope, not a symmetric smile.</p>
+<p><strong>FX has a two-sided tail.</strong>  <span class="math-inline">\(\text{EUR/USD}\)</span>  falling <em>is</em>  <span class="math-inline">\(\text{USD/EUR}\)</span>  rising, and the
+option that is a call in one currency is a put in the other. There is no economic reason for
+the distribution to be asymmetric unless the market has a directional view — so the baseline
+is a symmetric <strong>smile</strong>, quoted as an ATM level plus a butterfly, and the asymmetry is quoted
+separately as a risk reversal that is usually small and mean-reverting. Pegged and managed
+currencies break this and show violent one-sided skew, which is the informative case.</p>
+<p><strong>Single-stock equity</strong> sits in between and is often flatter than the index: a single name has
+idiosyncratic upside (takeover) that the index does not, and index skew is partly a
+<em>correlation</em> phenomenon — in a crash everything moves together, so the index tail is fatter
+than the average of its members&#39; tails.</p>
+<p><strong>The point the question is testing:</strong> the smile is not a modelling artefact you could fit
+away. It is data about the distribution, and its shape is different in different markets for
+reasons you should be able to name.</p></div></details>
+          </li>
+          <li class="kb-question" id="q-implied-volatility-and-the-smile-q3" data-difficulty="intermediate">
+            <div class="kb-question-head">
+              <span class="kb-question-text">Two calls on the same underlying with the same expiry trade at different implied vols. Is that an arbitrage?</span>
+              <span class="kb-tagline">Intermediate · core · no-arbitrage · misconception</span>
+            </div>
+            
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p><strong>No — and the fact that it is not is the whole subject.</strong> Different implied vols at different
+strikes says only that the market&#39;s distribution is not lognormal. Nothing forbids that.</p>
+<p>What <em>is</em> forbidden are conditions on <strong>prices</strong>, and they translate into conditions on the
+smile rather than the other way round. In strike, at a fixed maturity:</p>
+<ul class="kb-list"><li><span class="math-inline">\(C(K)\)</span>  must be <strong>non-increasing</strong>:  <span class="math-inline">\(-1 \le \partial C/\partial K \le 0\)</span> , or the vertical
+spread is free money.</li>
+<li><span class="math-inline">\(C(K)\)</span>  must be <strong>convex</strong>:  <span class="math-inline">\(\partial^2 C/\partial K^2 \ge 0\)</span> . This is the <em>butterfly</em>
+condition, and by <a class="kb-link" href="vanilla-option-strategies.html" data-concept="vanilla-option-strategies">Breeden–Litzenberger</a> it is exactly the
+statement that the implied density is non-negative.</li></ul>
+<p>In maturity, at fixed log-moneyness  <span class="math-inline">\(k\)</span> , <strong>total implied variance  <span class="math-inline">\(w(k,T) = \sigma^2 T\)</span>  must be
+non-decreasing in  <span class="math-inline">\(T\)</span> </strong> — otherwise a calendar spread is free money. Note the coordinates: it
+is  <span class="math-inline">\(\sigma^2T\)</span>  that must rise, not  <span class="math-inline">\(\sigma\)</span> , so an inverted term structure is perfectly
+normal.</p>
+<p><strong>The right answer to give:</strong> two vols differing is information; two <em>prices</em> violating
+convexity is an arbitrage. And in practice, a butterfly that prices negative on your screen is
+almost never an arbitrage — it is a stale quote, a wide market marked at mid, or an option
+whose bid-ask straddles the boundary. See <a class="kb-link" href="put-call-parity.html" data-concept="put-call-parity">Put–Call Parity</a> for the one case where a
+genuine relation is being violated and it <em>does</em> usually mean bad data: a call and a put at
+the same strike must share one implied vol.</p></div></details>
+          </li>
+          <li class="kb-question" id="q-implied-volatility-and-the-smile-q4" data-difficulty="advanced">
+            <div class="kb-question-head">
+              <span class="kb-question-text">You are long a 100-strike call and hedged with the Black–Scholes delta. The smile is downward sloping. Are you actually delta neutral?</span>
+              <span class="kb-tagline">Advanced · core · delta · sticky-delta · hedging</span>
+            </div>
+            <details class="kb-hint"><summary>Hint</summary><div><p>The Black–Scholes delta holds sigma fixed. Does the market hold it fixed when spot moves?</p></div></details>
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p><strong>Almost certainly not.</strong> The Black–Scholes delta is a partial derivative at <em>constant</em>
+ <span class="math-inline">\(\sigma\)</span> . But when spot moves, the option&#39;s implied vol usually moves too, and you own vega, so
+the total derivative has a second term:</p>
+<span class="math-display">\[\Delta_{\text{total}} = \frac{\partial C}{\partial S}
++ \frac{\partial C}{\partial \sigma}\,\frac{\partial \sigma_{\text{impl}}}{\partial S}
+= \Delta_{\text{BS}} + \mathcal{V}\,\frac{\partial \sigma_{\text{impl}}}{\partial S}\]</span>
+<p>Which regime you assume decides the second term:</p>
+<ul class="kb-list"><li><strong>Sticky strike</strong> — each strike keeps its own vol as spot moves. Then
+ <span class="math-inline">\(\partial\sigma/\partial S = 0\)</span>  and the BS delta is right. This is roughly what quiet,
+range-bound markets do.</li>
+<li><strong>Sticky delta (sticky moneyness)</strong> — the smile is a fixed function of  <span class="math-inline">\(k = \ln(K/F)\)</span>  and
+rides along with spot. Then  <span class="math-inline">\(\partial\sigma/\partial S = -(\partial\sigma/\partial k)/S\)</span> , and
+since  <span class="math-inline">\(\partial \sigma/\partial k &lt; 0\)</span>  on an equity skew, the correction is <strong>positive</strong> for
+a long call. This is closer to what trending markets do.</li></ul>
+<p><strong>The magnitude is not academic.</strong> On the example surface on this page, the 95-strike call has
+ <span class="math-inline">\(\Delta_{\text{BS}} = 0.697\)</span> , vega  <span class="math-inline">\(17.47\)</span> , and  <span class="math-inline">\(\partial\sigma/\partial k = -0.483\)</span>  at that
+strike. Sticky-delta gives  <span class="math-inline">\(\partial \sigma/\partial S = +0.00483\)</span> , so</p>
+<span class="math-display">\[\Delta_{\text{smile}} = 0.697 + 17.47 \times 0.00483 = 0.781\]</span>
+<p>That is <strong>8.4 more shares per 100 options</strong>, a 12% error in the hedge, from a term that is not
+in the formula. On a book with a large downside strike position it is the difference between a
+flat P&amp;L and a bad day.</p>
+<p><strong>What a good candidate adds:</strong> the two regimes are the extremes, real markets are somewhere
+between and move between them, and this is precisely why desks quote and risk-manage in
+ <span class="math-inline">\((k, T)\)</span>  coordinates rather than  <span class="math-inline">\((K, T)\)</span> .</p></div></details>
+          </li>
+          <li class="kb-question" id="q-implied-volatility-and-the-smile-q5" data-difficulty="intermediate">
+            <div class="kb-question-head">
+              <span class="kb-question-text">What does a 25-delta risk reversal actually give you exposure to, once you delta hedge it?</span>
+              <span class="kb-tagline">Intermediate · risk-reversal · skew · greeks · quoting</span>
+            </div>
+            
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p><strong>Skew</strong> — the <em>slope</em> of the smile — and not direction.</p>
+<p>Long the 25-delta call, short the 25-delta put, delta hedged, you are long vega at a high
+strike and short vega at a low strike in roughly equal amounts. Net vega is near zero; what is
+left is a position that makes money if the call&#39;s vol rises relative to the put&#39;s, which is
+exactly  <span class="math-inline">\(\sigma_{25c} - \sigma_{25p}\)</span>  becoming less negative. That difference is what the
+market quotes as the risk reversal:</p>
+<span class="math-display">\[\text{RR}_{25} = \sigma_{25c} - \sigma_{25p}, \qquad
+\text{BF}_{25} = \tfrac{1}{2}(\sigma_{25c} + \sigma_{25p}) - \sigma_{\text{ATM}}\]</span>
+<p>On the surface used on this page,  <span class="math-inline">\(\text{RR}_{25} = -5.31\)</span>  vol points and
+ <span class="math-inline">\(\text{BF}_{25} = +1.13\)</span>  vol points. Together with the ATM level those three numbers are how a
+desk transmits an entire smile: <strong>level, slope, curvature</strong> — the first three terms of the
+smile&#39;s expansion, and the reason FX is quoted as ATM/RR/BF rather than as a list of strikes.</p>
+<p><strong>The traps.</strong> (i) A risk reversal is only skew-neutral-of-direction <em>after</em> hedging; unhedged
+it is a large delta and interviewers ask this to see whether you say so. (ii) The hedge itself
+depends on the smile — see the delta question above — so a &quot;zero-cost, delta-neutral&quot; risk
+reversal is quietly directional under sticky-delta. (iii) The two legs have different gammas,
+so the position is not path-neutral even when it starts vega-neutral.</p></div></details>
+          </li>
+          <li class="kb-question" id="q-implied-volatility-and-the-smile-q6" data-difficulty="advanced">
+            <div class="kb-question-head">
+              <span class="kb-question-text">How does the price of a 100-strike digital call change when you move from a flat vol to a downward-sloping smile?</span>
+              <span class="kb-tagline">Advanced · digital · skew · replication · pricing</span>
+            </div>
+            <details class="kb-hint"><summary>Hint</summary><div><p>A digital is the limit of a call spread. Differentiate the call price in K, remembering sigma depends on K.</p></div></details>
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p><strong>It goes up, and the reason is a term Black–Scholes does not have.</strong> A digital is the limit
+of a tight call spread, so it is  <span class="math-inline">\(-\partial C/\partial K\)</span>  — but now  <span class="math-inline">\(C\)</span>  depends on  <span class="math-inline">\(K\)</span>  both
+directly and through  <span class="math-inline">\(\sigma_{\text{impl}}(K)\)</span> :</p>
+<span class="math-display">\[\text{Digital}(K) = -\frac{\partial C}{\partial K}
+= \underbrace{e^{-rT}N(d_2)}_{\text{Black--Scholes}}
+\;-\; \underbrace{\mathcal{V}\,\frac{\partial \sigma_{\text{impl}}}{\partial K}}_{\text{skew term}}\]</span>
+<p>On an equity skew  <span class="math-inline">\(\partial\sigma/\partial K &lt; 0\)</span> , so the skew term is <strong>positive</strong> and the
+digital is worth more than the formula says. With the example surface at  <span class="math-inline">\(K=100\)</span> :</p>
+<div class="kb-table-wrap"><table class="kb-table"><thead><tr><th></th><th>value</th></tr></thead><tbody><tr><td><span class="math-inline">\(e^{-rT}N(d_2)\)</span>  at that strike&#39;s vol</td><td>0.5012</td></tr>
+<tr><td>skew term  <span class="math-inline">\(-\mathcal{V}\,\partial\sigma/\partial K\)</span></td><td><strong>+0.0694</strong></td></tr>
+<tr><td>true digital  <span class="math-inline">\(-\partial C/\partial K\)</span></td><td><strong>0.5705</strong></td></tr></tbody></table></div>
+<p><strong>A 14% pricing error</strong> from using the right vol in the wrong formula. This is the single most
+common way a candidate who &quot;knows Black–Scholes&quot; gets an exotic wrong: plugging the correct
+implied volatility into a closed form does <em>not</em> price anything whose payoff depends on the
+density rather than on one option&#39;s value. Digitals, barriers and anything with a
+discontinuous payoff must be priced from the smile, or replicated with a finite call spread
+and the residual quoted as a risk.</p>
+<p>The counterpart result is on <a class="kb-link" href="vanilla-option-strategies.html" data-concept="vanilla-option-strategies">Vanilla Option Strategies</a>: a call spread is a first difference
+in strike, a butterfly a second. Here the first difference is being taken <em>along the smile</em>,
+and that is where the extra value comes from.</p></div></details>
+          </li>
+          <li class="kb-question" id="q-implied-volatility-and-the-smile-q7" data-difficulty="advanced">
+            <div class="kb-question-head">
+              <span class="kb-question-text">The equity index smile flattens as maturity increases. Why, and how fast?</span>
+              <span class="kb-tagline">Advanced · term-structure · skew · research · rough-volatility</span>
+            </div>
+            
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p><strong>Why: averaging.</strong> A long-dated option&#39;s return is a sum of many short-dated returns. Even
+strongly skewed and fat-tailed daily returns aggregate towards normality when they are close
+to independent, so the terminal distribution at two years is far closer to lognormal than the
+distribution at two weeks. Whatever generates the skew — jumps, leverage, spot-vol correlation
+— its effect on the <em>terminal</em> distribution dilutes with horizon.</p>
+<p><strong>How fast: slower than a diffusion can explain, and that is the interesting part.</strong> Write the
+ATM skew  <span class="math-inline">\(\psi(T) = |\partial \sigma_{\text{impl}}/\partial k|\)</span>  at  <span class="math-inline">\(k=0\)</span> .</p>
+<ul class="kb-list"><li><strong>Empirically</strong>, index  <span class="math-inline">\(\psi(T)\)</span>  follows a power law close to  <span class="math-inline">\(T^{-1/2}\)</span> , and it stays steep
+at very short maturities.</li>
+<li><strong>A stochastic-volatility diffusion</strong> such as Heston cannot do that. As  <span class="math-inline">\(T \to 0\)</span>  its ATM
+skew tends to a <em>finite</em> constant, and it decays like  <span class="math-inline">\(1/T\)</span>  at the long end. To fit short-
+dated skew you are forced into implausible parameters — a vol-of-vol that then ruins the
+long end.</li>
+<li><strong>Adding jumps</strong> fixes the short end: a jump gives an  <span class="math-inline">\(O(1)\)</span>  chance of a large move over any
+horizon, so the skew survives  <span class="math-inline">\(T \to 0\)</span> .</li>
+<li><strong>Rough volatility</strong> — modelling log-variance as fractional Brownian motion with Hurst
+parameter  <span class="math-inline">\(H \approx 0.1\)</span>  — produces  <span class="math-inline">\(\psi(T) \propto T^{H - 1/2} \approx T^{-0.4}\)</span>  across
+the whole surface with one parameter, which is why the model gained ground fast after
+Gatheral, Jaisson &amp; Rosenbaum (2018).</li></ul>
+<p><strong>What this is really testing:</strong> whether you know that the term structure of skew is a *model
+selection* device, not a curve-fitting nuisance. A candidate who can say &quot;the short end rules
+out pure diffusions&quot; is telling the interviewer they have thought about what the surface is
+evidence <em>for</em>.</p></div></details>
+          </li>
+          <li class="kb-question" id="q-implied-volatility-and-the-smile-q8" data-difficulty="advanced">
+            <div class="kb-question-head">
+              <span class="kb-question-text">Your quant hands you a fitted surface and every butterfly on it prices positive. Is the surface arbitrage-free?</span>
+              <span class="kb-tagline">Advanced · no-arbitrage · calibration · svi · practical</span>
+            </div>
+            <details class="kb-hint"><summary>Hint</summary><div><p>Butterflies are one direction. What is the other?</p></div></details>
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p><strong>Not necessarily — you have checked one of two conditions.</strong> A static-arbitrage-free surface
+needs both:</p>
+<ol class="kb-list"><li><strong>No butterfly arbitrage</strong> at each maturity: the implied density is non-negative, i.e.
+  <span class="math-inline">\(\partial^2C/\partial K^2 \ge 0\)</span> . In total-variance coordinates this is Gatheral&#39;s condition
+  <span class="math-inline">\(g(k) \ge 0\)</span>  with
+  <span class="math-inline">\(g(k) = \left(1 - \frac{k w&#39;}{2w}\right)^{2} - \frac{(w&#39;)^{2}}{4}\left(\frac{1}{w} + \frac14\right) + \frac{w&#39;&#39;}{2}\)</span> .</li>
+<li><strong>No calendar arbitrage</strong> across maturities:  <span class="math-inline">\(\partial w(k,T)/\partial T \ge 0\)</span>  at every
+ fixed  <span class="math-inline">\(k\)</span> . Slices must not cross in total variance.</li></ol>
+<p>Positive butterflies at each expiry say nothing about (2), and a surface interpolated
+<em>maturity by maturity</em> — the normal way to build one — violates it easily, especially around
+dividend and earnings dates where the raw quotes are lumpy.</p>
+<p><strong>Two practical points worth making unprompted.</strong> First, the failure mode is usually
+<em>interpolation</em>, not data: fitting in  <span class="math-inline">\(\sigma\)</span>  rather than in  <span class="math-inline">\(w\)</span> , or interpolating in  <span class="math-inline">\(K\)</span> 
+rather than in  <span class="math-inline">\(k\)</span> , can create arbitrage that was not in any quote. Second, the reason SVI is
+standard is precisely that its no-arbitrage conditions are known in closed form — Gatheral &amp;
+Jacquier give parameter constraints under which a whole SVI surface is provably free of both —
+so you can guarantee the property rather than test for it after the fact.</p>
+<p>And the wings are a modelling choice, not data: beyond the last listed strike you are
+extrapolating. Lee&#39;s moment formula bounds how fast you may:  <span class="math-inline">\(w(k)/|k| \le 2\)</span>  as
+ <span class="math-inline">\(|k| \to \infty\)</span> , so total variance may grow at most linearly in log-moneyness. A quadratic
+fit extended into the wings breaks that immediately, which is why nobody ships one.</p></div></details>
+          </li></ol>
+      </section>
+
+    <section class="kb-section" id="connections">
+      <h2 class="kb-h kb-h2"><a class="kb-anchor" href="#connections" aria-label="Link to this section">#</a>Connections</h2>
+      <div class="kb-connections">
+        <section class="kb-relgroup"><h3>Prerequisites</h3><p class="kb-relnote">Understand these first.</p><ul class="kb-rellist"><li><a href="../concepts/black-scholes-formula.html" class="kb-relitem">
+          <span class="kb-relitem-title">Black–Scholes Formula</span>
+          <span class="kb-relitem-meta">Options · Advanced</span>
+          <span class="kb-relitem-sum">The closed-form price of a European call and put — two probability-weighted terms whose meaning is often garbled, a formula nobody believes literally, and the quoting language of the entire options market.</span>
+        </a></li><li><a href="../concepts/option-greeks.html" class="kb-relitem">
+          <span class="kb-relitem-title">Option Greeks</span>
+          <span class="kb-relitem-meta">Options · Intermediate</span>
+          <span class="kb-relitem-sum">Delta, gamma, vega, theta and rho are the terms of one Taylor expansion, not five separate risk numbers — and the Black–Scholes equation is the identity that ties them together into a single statement about what a hedged position earns.</span>
+        </a></li></ul></section>
+        
+        <section class="kb-relgroup"><h3>Related</h3><ul class="kb-rellist"><li><a href="../concepts/vanilla-option-strategies.html" class="kb-relitem">
+          <span class="kb-relitem-title">Vanilla Option Strategies</span>
+          <span class="kb-relitem-meta">Options · Intermediate</span>
+          <span class="kb-relitem-sum">Spreads, straddles, butterflies and risk reversals are not a catalogue of trades to memorise — each one isolates a different feature of the risk-neutral distribution, and the structure you choose is the statement of which feature you think the market has priced wrong.</span>
+        </a></li><li><a href="../concepts/put-call-parity.html" class="kb-relitem">
+          <span class="kb-relitem-title">Put–Call Parity</span>
+          <span class="kb-relitem-meta">Options · Foundational</span>
+          <span class="kb-relitem-sum">A long call and a short put at the same strike are a forward — an identity that holds with no model, no volatility and no distributional assumption, and the first sanity check any option price must pass.</span>
+        </a></li><li><a href="../concepts/black-scholes-equation.html" class="kb-relitem">
+          <span class="kb-relitem-title">The Black–Scholes Equation</span>
+          <span class="kb-relitem-meta">Options · Advanced</span>
+          <span class="kb-relitem-sum">Hedge an option with the underlying, watch the randomness cancel, and impose that what is left must earn the risk-free rate — the derivation that turns a model of the stock into a price for anything written on it, and explains why the expected return never appears.</span>
+        </a></li><li><a href="../concepts/brownian-motion.html" class="kb-relitem">
+          <span class="kb-relitem-title">Brownian Motion</span>
+          <span class="kb-relitem-meta">Stochastic Processes · Advanced</span>
+          <span class="kb-relitem-sum">The continuous-time limit of a random walk — Gaussian, independent increments scaling with √t, nowhere differentiable, and the driving noise underneath essentially every continuous-time model in finance.</span>
+        </a></li><li><a href="../concepts/kelly-criterion.html" class="kb-relitem">
+          <span class="kb-relitem-title">Kelly Criterion</span>
+          <span class="kb-relitem-meta">Portfolio Construction · Intermediate</span>
+          <span class="kb-relitem-sum">The bet size that maximises the long-run growth rate of wealth — obtained by maximising expected log wealth rather than expected wealth, because capital compounds multiplicatively.</span>
+        </a></li></ul></section>
+        
+      </div>
+      <figure class="kb-neighbourhood">
+        <canvas data-kb-minimap="implied-volatility-and-the-smile" width="760" height="300" aria-label="Local knowledge graph"></canvas>
+        <figcaption>Two hops out from this concept.
+          <a class="kb-side-more" href="../graph.html?focus=implied-volatility-and-the-smile">Open full graph →</a></figcaption>
+      </figure>
+      <div class="kb-references"><h3>References</h3><ul><li>Gatheral, *The Volatility Surface: A Practitioner&#39;s Guide*, ch. 1–4</li><li>Hull, *Options, Futures and Other Derivatives*, ch. 20</li><li>Dupire (1994), *Pricing with a Smile*, Risk 7(1)</li><li>Lee (2004), *The Moment Formula for Implied Volatility at Extreme Strikes*</li><li>Gatheral &amp; Jacquier (2014), *Arbitrage-free SVI Volatility Surfaces*</li><li>Gatheral, Jaisson &amp; Rosenbaum (2018), *Volatility is Rough*</li></ul></div>
+    </section>
+
+    <nav class="kb-prevnext" aria-label="Concept navigation">
+    <a class="kb-prevnext-item kb-prevnext-prev" href="../concepts/option-greeks.html" rel="prev">
+      <span class="kb-prevnext-label">← Previous</span><span>Option Greeks</span></a>
+    <a class="kb-prevnext-item kb-prevnext-up" href="../subjects/options.html">
+      <span class="kb-prevnext-label">Subject</span><span>Options</span></a>
+    <a class="kb-prevnext-item kb-prevnext-next" href="../concepts/vanilla-option-strategies.html" rel="next">
+      <span class="kb-prevnext-label">Next →</span><span>Vanilla Option Strategies</span></a>
+  </nav>
+    <footer class="kb-source-note">
+      Source: <code>content/concepts/implied-volatility-and-the-smile.md</code> · updated 2026-09-04
+    </footer>
+  </article>
+
+  <!-- The rail sits in the left column but comes last in the source: the
+       article is what a reader (or a screen reader) wants first, and the
+       links here are a way back into it rather than a way into the page. -->
+  <aside class="kb-rail">
+    <nav class="kb-toc kb-rail-group" aria-label="On this page"><h3>On this page</h3><ol><li><a href="#intuition">Intuition</a></li><li><a href="#mathematical-formulation">Mathematical Formulation</a></li><li><a href="#derivation">Derivation</a></li><li><a href="#assumptions-edge-cases">Assumptions &amp; Edge Cases</a></li><li><a href="#worked-example">Worked Example</a></li><li><a href="#why-it-matters-in-quant-finance">Why It Matters in Quant Finance</a></li><li><a href="#trading-research-application">Trading &amp; Research Application</a></li><li><a href="#implementation-notes">Implementation Notes</a></li><li><a href="#common-mistakes">Common Mistakes</a></li><li><a href="#30-second-revision">30-Second Revision</a></li><li><a href="#key-formulas">Key Formulas</a></li><li><a href="#interview-questions">Interview Questions</a></li><li><a href="#connections">Connections</a></li></ol></nav>
+    <nav class="kb-rail-group" id="side-formulas" aria-label="Key formulas"><h3>Formulas</h3><ul><li><a href="#implied-volatility">Implied volatility</a></li><li><a href="#total-variance-in-log-moneyness">Total variance in log-moneyness</a></li><li><a href="#the-smile-is-the-density">The smile IS the density</a></li><li><a href="#atm-risk-reversal-butterfly">ATM, risk reversal, butterfly</a></li><li><a href="#dupire-local-volatility">Dupire local volatility</a></li></ul></nav>
+  </aside>
+</main>
+<script src="../data/kb.data.js?v=7e5c5288"></script>
+<script src="../data/search.index.js?v=40fa666d"></script>
+<script src="../assets/js/kb-core.js?v=a4c20d2d"></script>
+<script src="../assets/js/kb-ui.js?v=e9a49aaf"></script>
+<script src="../assets/vendor/katex/katex.min.js" defer></script>
+<script src="../assets/vendor/katex/auto-render.min.js" defer></script>
+<script src="../assets/js/math.js?v=44b57f03" defer></script>
+<script src="../assets/js/concept.js?v=c6248b59" defer></script>
+<script src="../assets/js/lib/plot.js?v=54c52379" defer></script>
+<script src="../assets/js/modules/volatility-smile.js?v=efa63f17" defer></script>
+</body>
+</html>

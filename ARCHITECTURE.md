@@ -245,7 +245,7 @@ name *and* by the words inside the LaTeX, so `\text{Sharpe}` is findable), and i
 questions. Searching `sharpe` returns the concept, its five formulas and its six questions as
 separate, separately-navigable results.
 
-**Scale** — the index is ~247 KB for 18 concepts (~14 KB each), dominated by body text.
+**Scale** — the index is ~292 KB for 20 concepts (~15 KB each), dominated by body text.
 Extrapolating to 1,000 concepts gives roughly 14 MB, which loads from disk in well under a second and stays instant to
 query. If it ever becomes a problem, the fix is to cap indexed body length per document, or split
 the index into a hot part (titles, formulas, questions) and a lazily-loaded body index. Neither is
@@ -501,7 +501,7 @@ page loads slow: a lightweight index for navigation, a full record loaded per pa
 more. Unsupported YAML (anchors, aliases, multi-document) fails loudly rather than silently.
 `npm test` guards the behaviour that matters.
 
-**No incremental build.** Everything rebuilds every time. At ~190 ms for 18 concepts, extrapolating
+**No incremental build.** Everything rebuilds every time. At ~170 ms for 20 concepts, extrapolating
 to ~10 s for 1,000 — annoying under `watch`. *Fix:* hash inputs and skip unchanged concepts; the
 write-if-changed logic already means unchanged output is free.
 
@@ -512,7 +512,7 @@ write-if-changed logic already means unchanged output is free.
 ## 11. Testing
 
 ```bash
-npm test     # 57 tests, no framework, ~1 second
+npm test     # 58 tests, no framework, ~1 second
 ```
 
 Coverage is deliberately concentrated where a silent failure would corrupt content: the YAML subset

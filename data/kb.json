@@ -1,5 +1,5 @@
 {
-  "contentHash": "f37c44f3bb8a",
+  "contentHash": "172cd5921b1e",
   "contentUpdated": "2026-09-04",
   "version": 1,
   "vocab": {
@@ -313,7 +313,7 @@
       "group": "markets",
       "order": 320,
       "path": "subjects/options.html",
-      "conceptCount": 5,
+      "conceptCount": 6,
       "interviewMax": 5
     },
     {
@@ -438,6 +438,7 @@
         "conditional-probability",
         "effective-number-of-bets",
         "expectation",
+        "implied-volatility-and-the-smile",
         "option-greeks",
         "put-call-parity",
         "sharpe-ratio",
@@ -513,6 +514,7 @@
         "conditional-probability",
         "effective-number-of-bets",
         "expectation",
+        "implied-volatility-and-the-smile",
         "itos-lemma",
         "option-greeks",
         "put-call-parity",
@@ -583,6 +585,7 @@
       "order": 80,
       "conceptIds": [
         "black-scholes-formula",
+        "implied-volatility-and-the-smile",
         "itos-lemma",
         "option-greeks",
         "put-call-parity",
@@ -605,11 +608,11 @@
     },
     {
       "id": "options",
-      "count": 5
+      "count": 6
     },
     {
       "id": "no-arbitrage",
-      "count": 4
+      "count": 5
     },
     {
       "id": "diversification",
@@ -644,6 +647,10 @@
       "count": 2
     },
     {
+      "id": "butterfly",
+      "count": 2
+    },
+    {
       "id": "conditioning",
       "count": 2
     },
@@ -664,6 +671,10 @@
       "count": 2
     },
     {
+      "id": "implied-volatility",
+      "count": 2
+    },
+    {
       "id": "linear-algebra",
       "count": 2
     },
@@ -677,6 +688,18 @@
     },
     {
       "id": "quadratic-variation",
+      "count": 2
+    },
+    {
+      "id": "risk-reversal",
+      "count": 2
+    },
+    {
+      "id": "skew",
+      "count": 2
+    },
+    {
+      "id": "vega",
       "count": 2
     },
     {
@@ -700,7 +723,7 @@
       "count": 1
     },
     {
-      "id": "butterfly",
+      "id": "breeden-litzenberger",
       "count": 1
     },
     {
@@ -776,10 +799,6 @@
       "count": 1
     },
     {
-      "id": "implied-volatility",
-      "count": 1
-    },
-    {
       "id": "inference",
       "count": 1
     },
@@ -797,6 +816,10 @@
     },
     {
       "id": "linearity",
+      "count": 1
+    },
+    {
+      "id": "local-volatility",
       "count": 1
     },
     {
@@ -840,19 +863,11 @@
       "count": 1
     },
     {
-      "id": "risk-reversal",
-      "count": 1
-    },
-    {
       "id": "sensitivity",
       "count": 1
     },
     {
       "id": "sizing",
-      "count": 1
-    },
-    {
-      "id": "skew",
       "count": 1
     },
     {
@@ -865,6 +880,18 @@
     },
     {
       "id": "static-replication",
+      "count": 1
+    },
+    {
+      "id": "sticky-delta",
+      "count": 1
+    },
+    {
+      "id": "sticky-strike",
+      "count": 1
+    },
+    {
+      "id": "stochastic-volatility",
       "count": 1
     },
     {
@@ -884,7 +911,15 @@
       "count": 1
     },
     {
+      "id": "svi",
+      "count": 1
+    },
+    {
       "id": "synthetic",
+      "count": 1
+    },
+    {
+      "id": "term-structure",
       "count": 1
     },
     {
@@ -896,7 +931,11 @@
       "count": 1
     },
     {
-      "id": "vega",
+      "id": "volatility-smile",
+      "count": 1
+    },
+    {
+      "id": "volatility-surface",
       "count": 1
     },
     {
@@ -943,6 +982,11 @@
     {
       "from": "black-scholes-equation",
       "to": "black-scholes-formula",
+      "type": "related"
+    },
+    {
+      "from": "black-scholes-equation",
+      "to": "implied-volatility-and-the-smile",
       "type": "related"
     },
     {
@@ -1003,6 +1047,11 @@
     {
       "from": "brownian-motion",
       "to": "expectation",
+      "type": "related"
+    },
+    {
+      "from": "brownian-motion",
+      "to": "implied-volatility-and-the-smile",
       "type": "related"
     },
     {
@@ -1113,6 +1162,31 @@
     {
       "from": "forwards-and-futures",
       "to": "vanilla-option-strategies",
+      "type": "related"
+    },
+    {
+      "from": "black-scholes-formula",
+      "to": "implied-volatility-and-the-smile",
+      "type": "prerequisite"
+    },
+    {
+      "from": "option-greeks",
+      "to": "implied-volatility-and-the-smile",
+      "type": "prerequisite"
+    },
+    {
+      "from": "implied-volatility-and-the-smile",
+      "to": "vanilla-option-strategies",
+      "type": "related"
+    },
+    {
+      "from": "implied-volatility-and-the-smile",
+      "to": "put-call-parity",
+      "type": "related"
+    },
+    {
+      "from": "implied-volatility-and-the-smile",
+      "to": "kelly-criterion",
       "type": "related"
     },
     {
@@ -1424,6 +1498,7 @@
         "martingales",
         "put-call-parity",
         "black-scholes-formula",
+        "implied-volatility-and-the-smile",
         "itos-lemma",
         "option-greeks",
         "vanilla-option-strategies"
@@ -1653,6 +1728,7 @@
         "vanilla-option-strategies"
       ],
       "builtOn": [
+        "implied-volatility-and-the-smile",
         "option-greeks"
       ],
       "tracks": [],
@@ -1883,6 +1959,7 @@
       ],
       "related": [
         "expectation",
+        "implied-volatility-and-the-smile",
         "kelly-criterion",
         "martingales",
         "sharpe-ratio"
@@ -3010,6 +3087,263 @@
       ]
     },
     {
+      "id": "implied-volatility-and-the-smile",
+      "title": "Implied Volatility & the Volatility Smile",
+      "subject": "options",
+      "summary": "Implied volatility is not a forecast but a change of units — the number that makes Black–Scholes reproduce a price — and because it varies by strike and maturity, the resulting smile is the market's direct statement of the risk-neutral distribution it is actually using.",
+      "difficulty": "intermediate",
+      "interviewRelevance": 5,
+      "tags": [
+        "options",
+        "implied-volatility",
+        "volatility-smile",
+        "skew",
+        "volatility-surface",
+        "term-structure",
+        "risk-reversal",
+        "butterfly",
+        "sticky-strike",
+        "sticky-delta",
+        "no-arbitrage",
+        "local-volatility",
+        "stochastic-volatility",
+        "svi",
+        "vega",
+        "breeden-litzenberger"
+      ],
+      "prerequisites": [
+        "black-scholes-formula",
+        "option-greeks"
+      ],
+      "related": [
+        "vanilla-option-strategies",
+        "put-call-parity",
+        "black-scholes-equation",
+        "brownian-motion",
+        "kelly-criterion"
+      ],
+      "builtOn": [],
+      "tracks": [],
+      "path": "concepts/implied-volatility-and-the-smile.html",
+      "updated": "2026-09-04",
+      "modules": [
+        "volatility-smile"
+      ],
+      "sections": [
+        {
+          "id": "intuition",
+          "label": "Intuition"
+        },
+        {
+          "id": "mathematical-formulation",
+          "label": "Mathematical Formulation"
+        },
+        {
+          "id": "derivation",
+          "label": "Derivation"
+        },
+        {
+          "id": "assumptions-edge-cases",
+          "label": "Assumptions & Edge Cases"
+        },
+        {
+          "id": "worked-example",
+          "label": "Worked Example"
+        },
+        {
+          "id": "why-it-matters-in-quant-finance",
+          "label": "Why It Matters in Quant Finance"
+        },
+        {
+          "id": "trading-research-application",
+          "label": "Trading & Research Application"
+        },
+        {
+          "id": "implementation-notes",
+          "label": "Implementation Notes"
+        },
+        {
+          "id": "common-mistakes",
+          "label": "Common Mistakes"
+        },
+        {
+          "id": "30-second-revision",
+          "label": "30-Second Revision"
+        }
+      ],
+      "formulas": [
+        {
+          "id": "implied-volatility",
+          "name": "Implied volatility",
+          "latex": "\\sigma_{\\text{impl}}(K,T): \\quad \\text{BS}\\big(S,K,T,r,\\sigma_{\\text{impl}}\\big) = C_{\\text{mkt}}(K,T)",
+          "usedIn": [
+            "Options",
+            "Market Making",
+            "Risk"
+          ]
+        },
+        {
+          "id": "total-variance-in-log-moneyness",
+          "name": "Total variance in log-moneyness",
+          "latex": "k = \\ln\\!\\frac{K}{F}, \\qquad F = Se^{(r-q)T}, \\qquad w(k,T) = \\sigma_{\\text{impl}}^2(k,T)\\,T",
+          "usedIn": [
+            "Surface Fitting",
+            "Calendar Spreads",
+            "Research"
+          ]
+        },
+        {
+          "id": "the-smile-is-the-density",
+          "name": "The smile IS the density",
+          "latex": "f_{\\Q}(K) = e^{rT}\\frac{\\partial^2 C}{\\partial K^2} \\;\\ge\\; 0,\n\\qquad C(K) = \\text{BS}\\big(K, \\sigma_{\\text{impl}}(K)\\big)",
+          "usedIn": [
+            "Density Estimation",
+            "Exotics",
+            "VIX"
+          ]
+        },
+        {
+          "id": "atm-risk-reversal-butterfly",
+          "name": "ATM, risk reversal, butterfly",
+          "latex": "\\text{RR}_{25} = \\sigma_{25c} - \\sigma_{25p},\n\\qquad \\text{BF}_{25} = \\tfrac{1}{2}\\big(\\sigma_{25c} + \\sigma_{25p}\\big) - \\sigma_{\\text{ATM}}",
+          "usedIn": [
+            "FX Options",
+            "Quoting",
+            "Skew Trading"
+          ]
+        },
+        {
+          "id": "dupire-local-volatility",
+          "name": "Dupire local volatility",
+          "latex": "\\sigma_{\\text{loc}}^2(K,T) = \\frac{\\dfrac{\\partial C}{\\partial T} + (r-q)K\\dfrac{\\partial C}{\\partial K} + qC}{\\tfrac{1}{2}K^2\\dfrac{\\partial^2 C}{\\partial K^2}}",
+          "usedIn": [
+            "Exotics Pricing",
+            "Model Calibration"
+          ]
+        }
+      ],
+      "questions": [
+        {
+          "id": "implied-volatility-and-the-smile-q1",
+          "question": "Implied volatility is often described as \"the market's forecast of volatility\". What is wrong with that, and what is it really?",
+          "difficulty": "foundational",
+          "tags": [
+            "core",
+            "definition",
+            "quoting"
+          ],
+          "concept": "implied-volatility-and-the-smile",
+          "subject": "options",
+          "hasAnswer": true,
+          "path": "concepts/implied-volatility-and-the-smile.html#q-implied-volatility-and-the-smile-q1"
+        },
+        {
+          "id": "implied-volatility-and-the-smile-q2",
+          "question": "Why does a three-month equity index smile slope downwards, while three-month FX is roughly symmetric?",
+          "difficulty": "intermediate",
+          "tags": [
+            "core",
+            "skew",
+            "economics",
+            "cross-asset"
+          ],
+          "concept": "implied-volatility-and-the-smile",
+          "subject": "options",
+          "hasAnswer": true,
+          "path": "concepts/implied-volatility-and-the-smile.html#q-implied-volatility-and-the-smile-q2"
+        },
+        {
+          "id": "implied-volatility-and-the-smile-q3",
+          "question": "Two calls on the same underlying with the same expiry trade at different implied vols. Is that an arbitrage?",
+          "difficulty": "intermediate",
+          "tags": [
+            "core",
+            "no-arbitrage",
+            "misconception"
+          ],
+          "concept": "implied-volatility-and-the-smile",
+          "subject": "options",
+          "hasAnswer": true,
+          "path": "concepts/implied-volatility-and-the-smile.html#q-implied-volatility-and-the-smile-q3"
+        },
+        {
+          "id": "implied-volatility-and-the-smile-q4",
+          "question": "You are long a 100-strike call and hedged with the Black–Scholes delta. The smile is downward sloping. Are you actually delta neutral?",
+          "difficulty": "advanced",
+          "tags": [
+            "core",
+            "delta",
+            "sticky-delta",
+            "hedging"
+          ],
+          "concept": "implied-volatility-and-the-smile",
+          "subject": "options",
+          "hasAnswer": true,
+          "path": "concepts/implied-volatility-and-the-smile.html#q-implied-volatility-and-the-smile-q4"
+        },
+        {
+          "id": "implied-volatility-and-the-smile-q5",
+          "question": "What does a 25-delta risk reversal actually give you exposure to, once you delta hedge it?",
+          "difficulty": "intermediate",
+          "tags": [
+            "risk-reversal",
+            "skew",
+            "greeks",
+            "quoting"
+          ],
+          "concept": "implied-volatility-and-the-smile",
+          "subject": "options",
+          "hasAnswer": true,
+          "path": "concepts/implied-volatility-and-the-smile.html#q-implied-volatility-and-the-smile-q5"
+        },
+        {
+          "id": "implied-volatility-and-the-smile-q6",
+          "question": "How does the price of a 100-strike digital call change when you move from a flat vol to a downward-sloping smile?",
+          "difficulty": "advanced",
+          "tags": [
+            "digital",
+            "skew",
+            "replication",
+            "pricing"
+          ],
+          "concept": "implied-volatility-and-the-smile",
+          "subject": "options",
+          "hasAnswer": true,
+          "path": "concepts/implied-volatility-and-the-smile.html#q-implied-volatility-and-the-smile-q6"
+        },
+        {
+          "id": "implied-volatility-and-the-smile-q7",
+          "question": "The equity index smile flattens as maturity increases. Why, and how fast?",
+          "difficulty": "advanced",
+          "tags": [
+            "term-structure",
+            "skew",
+            "research",
+            "rough-volatility"
+          ],
+          "concept": "implied-volatility-and-the-smile",
+          "subject": "options",
+          "hasAnswer": true,
+          "path": "concepts/implied-volatility-and-the-smile.html#q-implied-volatility-and-the-smile-q7"
+        },
+        {
+          "id": "implied-volatility-and-the-smile-q8",
+          "question": "Your quant hands you a fitted surface and every butterfly on it prices positive. Is the surface arbitrage-free?",
+          "difficulty": "advanced",
+          "tags": [
+            "no-arbitrage",
+            "calibration",
+            "svi",
+            "practical"
+          ],
+          "concept": "implied-volatility-and-the-smile",
+          "subject": "options",
+          "hasAnswer": true,
+          "path": "concepts/implied-volatility-and-the-smile.html#q-implied-volatility-and-the-smile-q8"
+        }
+      ]
+    },
+    {
       "id": "itos-lemma",
       "title": "Itô's Lemma",
       "subject": "stochastic-processes",
@@ -3234,6 +3568,7 @@
         "brownian-motion",
         "covariance-and-correlation",
         "effective-number-of-bets",
+        "implied-volatility-and-the-smile",
         "itos-lemma"
       ],
       "builtOn": [],
@@ -3795,6 +4130,7 @@
         "black-scholes-formula"
       ],
       "builtOn": [
+        "implied-volatility-and-the-smile",
         "vanilla-option-strategies"
       ],
       "tracks": [],
@@ -4243,7 +4579,8 @@
         "black-scholes-formula",
         "option-greeks",
         "black-scholes-equation",
-        "forwards-and-futures"
+        "forwards-and-futures",
+        "implied-volatility-and-the-smile"
       ],
       "builtOn": [
         "black-scholes-formula",
@@ -4691,7 +5028,8 @@
         "black-scholes-formula",
         "black-scholes-equation",
         "forwards-and-futures",
-        "sharpe-ratio"
+        "sharpe-ratio",
+        "implied-volatility-and-the-smile"
       ],
       "builtOn": [],
       "tracks": [],
@@ -5094,9 +5432,9 @@
     }
   ],
   "stats": {
-    "concepts": 19,
+    "concepts": 20,
     "subjects": 24,
-    "formulas": 87,
-    "questions": 110
+    "formulas": 92,
+    "questions": 118
   }
 }

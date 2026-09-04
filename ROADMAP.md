@@ -11,7 +11,7 @@ extension point, or a contained change to one module. That was the point of the 
 
 ### Content
 
-The system is proven; the corpus is not. Eighteen concepts exist to demonstrate that navigation,
+The system is proven; the corpus is not. Twenty concepts exist to demonstrate that navigation,
 search, the graph, prerequisites, interview mode and modules work end to end. Sixteen subjects are
 still empty.
 
@@ -28,7 +28,7 @@ each new page has somewhere to attach in the graph:
 4. **Stochastic Processes** — Markov chains, Ornstein–Uhlenbeck, Girsanov, SDE solution methods.
    Itô's Lemma is written; Brownian Motion and Martingales point at the rest.
 5. **Derivatives & Options** — the European vanilla chain is written (forwards, parity, the
-   Black–Scholes equation and formula, the Greeks). Next: implied volatility surfaces and the smile,
+   Black–Scholes equation and formula, the Greeks, vanilla structures and the smile). Next:
    American exercise and binomial trees, then exotics — digitals, barriers, Asians — and variance
    swaps. Each has somewhere to attach now.
 6. **Time Series** — stationarity, ARMA, GARCH, cointegration, unit roots.
@@ -43,8 +43,8 @@ Use `npm run check` to see what is orphaned, unsummarised, or missing questions.
 
 ### Small fixes that pay for themselves immediately
 
-- **Incremental build** — hash each concept file and skip unchanged ones. The build is ~190 ms for
-  eighteen concepts and linear, so ~10 s at 1,000, which makes `npm run watch` unpleasant.
+- **Incremental build** — hash each concept file and skip unchanged ones. The build is ~170 ms for
+  twenty concepts and linear, so ~9 s at 1,000, which makes `npm run watch` unpleasant.
 - **`npm run check --fix-links`** — list every dangling `[[link]]` with the `npm run new` command
   that would create it.
 

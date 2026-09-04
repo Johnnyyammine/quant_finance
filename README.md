@@ -32,7 +32,7 @@ KaTeX is vendored so mathematics renders offline.
 | `npm run watch` | Rebuild as you edit `content/` |
 | `npm run new -- "Title" -s subject` | Scaffold a concept from the template |
 | `npm run check` | Health report: coverage, gaps, orphans |
-| `npm test` | 57 self-tests over the parser, model and build |
+| `npm test` | 58 self-tests over the parser, model and build |
 | `npm run serve` | Optional local HTTP server (not needed for normal use) |
 
 ## Adding a concept
@@ -160,7 +160,7 @@ your phone and laptop keep separate bookmarks and anyone opening your link start
 
 ## Current content
 
-**19 worked concepts** across 8 of the 24 declared subjects — deliberately few. The point of this
+**20 worked concepts** across 8 of the 24 declared subjects — deliberately few. The point of this
 milestone is the system, not the corpus; these exist to prove navigation, search, the graph,
 prerequisites, interview mode, formulas and interactive modules all work end to end.
 
@@ -170,15 +170,16 @@ Statistics              Variance · Covariance & Correlation · Linear Regressio
 Linear Algebra          PCA & Eigenportfolios
 Stochastic Processes    Martingales · Brownian Motion · Itô's Lemma
 Options                 Put–Call Parity · Black–Scholes Equation · Black–Scholes Formula ·
-                        Option Greeks · Vanilla Option Strategies
+                        Option Greeks · Vanilla Option Strategies ·
+                        Implied Volatility & the Smile
 Derivatives             Forwards & Futures
 Portfolio Construction  Sharpe Ratio · Kelly Criterion
 Risk Management         Effective Number of Bets
 ```
 
 They form real prerequisite chains (Expectation → Variance → Covariance → Linear Regression;
-Expectation → Martingales → Brownian Motion → Itô's Lemma → Black–Scholes) and carry 87 indexed
-formulas, 110 interview questions and 6 interactive modules. See **[ROADMAP.md](ROADMAP.md)** for
+Expectation → Martingales → Brownian Motion → Itô's Lemma → Black–Scholes) and carry 92 indexed
+formulas, 118 interview questions and 7 interactive modules. See **[ROADMAP.md](ROADMAP.md)** for
 what comes next.
 
 ## Documentation
