@@ -332,8 +332,11 @@ Kelly — and therefore, by construction, a worse long-run outcome than a smalle
 import numpy as np
 
 def kelly_discrete(p: float, b: float) -> float:
-    """Edge over odds. Negative means the other side of the bet, or no bet."""
-    return max(0.0, (p * b - (1 - p)) / b)
+    """Edge over odds. Returns the raw fraction, sign included: negative means
+    the edge is on the other side, and clamping it to zero here would hide that
+    from the caller. Clamp at the point of use, where you know whether the
+    other side is actually tradable."""
+    return (p * b - (1 - p)) / b
 
 def kelly_continuous(mu: float, sigma: float, fraction: float = 0.25) -> float:
     """Fractional Kelly for continuous returns. `fraction` defaults to a quarter:

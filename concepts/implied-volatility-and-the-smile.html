@@ -405,10 +405,13 @@ the right price.&quot;</strong></p>
  strictly increasing from the arbitrage lower bound to  <span class="math-inline">\(S\)</span> : any arbitrage-free price has one
  and only one implied vol. Nothing about the smile threatens that.</li>
 <li><strong>It is not even the risk-neutral expectation of realised vol.</strong> Under a stochastic-vol
- model the ATM implied variance is roughly  <span class="math-inline">\(\E_{\Q}[\bar{\sigma}^2]\)</span> , and  <span class="math-inline">\(\sqrt{\cdot}\)</span>  is
- concave, so Jensen alone puts implied <em>below</em> the root-mean-square — before you add the
- variance risk premium, which historically pushes implied <em>above</em> subsequent realised by a
- couple of points on index options.</li></ol>
+ model the ATM implied <em>variance</em> is roughly  <span class="math-inline">\(\E_{\Q}[\bar\sigma^2]\)</span> , so the ATM implied
+ <em>vol</em> is roughly  <span class="math-inline">\(\sqrt{\E_{\Q}[\bar\sigma^2]}\)</span>  — the root-mean-square of realised vol,
+ not its mean. Since  <span class="math-inline">\(\sqrt{\cdot}\)</span>  is concave, Jensen gives
+  <span class="math-inline">\(\sqrt{\E_{\Q}[\bar\sigma^2]} \ge \E_{\Q}[\bar\sigma]\)</span> , so implied sits <em>above</em> the
+ risk-neutral expected realised vol purely from the convexity of the map, before you add
+ the variance risk premium — which historically pushes it further above subsequent realised
+ by a couple of points on index options.</li></ol>
 <p><strong>The honest one-liner:</strong> implied vol is a price. Comparing it to realised vol is a trade
 idea, not a definition.</p></div></details>
           </li>
@@ -673,8 +676,8 @@ fit extended into the wings breaks that immediately, which is why nobody ships o
     <nav class="kb-rail-group" id="side-formulas" aria-label="Key formulas"><h3>Formulas</h3><ul><li><a href="#implied-volatility">Implied volatility</a></li><li><a href="#total-variance-in-log-moneyness">Total variance in log-moneyness</a></li><li><a href="#the-smile-is-the-density">The smile IS the density</a></li><li><a href="#atm-risk-reversal-butterfly">ATM, risk reversal, butterfly</a></li><li><a href="#dupire-local-volatility">Dupire local volatility</a></li></ul></nav>
   </aside>
 </main>
-<script src="../data/kb.data.js?v=7e5c5288"></script>
-<script src="../data/search.index.js?v=40fa666d"></script>
+<script src="../data/kb.data.js?v=3b90365c"></script>
+<script src="../data/search.index.js?v=46b79618"></script>
 <script src="../assets/js/kb-core.js?v=a4c20d2d"></script>
 <script src="../assets/js/kb-ui.js?v=e9a49aaf"></script>
 <script src="../assets/vendor/katex/katex.min.js" defer></script>

@@ -123,9 +123,9 @@ questions:
       $$\E[\max] \approx \sigma_{SR}\left[(1-\gamma)\Phi^{-1}\!\left(1 - \tfrac1N\right) +
       \gamma\,\Phi^{-1}\!\left(1 - \tfrac{1}{Ne}\right)\right]$$
 
-      ($\gamma \approx 0.577$, Euler–Mascheroni). With $N=500$ and $\sigma_{SR}=0.7$ this is roughly
-      $0.7 \times 3.2 \approx 2.2$ — so **a best-of-500 Sharpe of 2.5 is barely distinguishable from
-      pure noise.**
+      ($\gamma \approx 0.577$, Euler–Mascheroni). With $N=500$ the bracket is $3.05$, so with
+      $\sigma_{SR}=0.7$ the expected best-of-500 is $0.7 \times 3.05 \approx 2.1$ — **a best-of-500
+      Sharpe of 2.5 is barely distinguishable from pure noise.**
 
       Bailey and López de Prado's *deflated Sharpe ratio* formalises this: report the probability
       that the observed Sharpe exceeds what the search itself would have produced. In practice:

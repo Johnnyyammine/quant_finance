@@ -58,8 +58,8 @@ questions:
       Prices multiply, so $\E[S_2] = 100 \cdot \E[R]^2$ with $\E[R] = \tfrac12(1.1) + \tfrac12(0.9) = 1.0$,
       giving $\E[S_2] = 100$. Yet the *median* path is down: up-then-down gives $100 \times 1.1 \times 0.9 = 99$.
 
-      In logs, $\E[\ln R] = \tfrac12\ln 1.1 + \tfrac12 \ln 0.9 = -0.00501$, so
-      $\E[\ln S_2] = \ln 100 - 0.01 < \ln 100$. This gap is Jensen's inequality and it is
+      In logs, $\E[\ln R] = \tfrac12\ln 1.1 + \tfrac12 \ln 0.9 = -0.005025$, so
+      $\E[\ln S_2] = \ln 100 - 0.01005 < \ln 100$. This gap is Jensen's inequality and it is
       the entire content of *volatility drag*: arithmetic mean return exceeds geometric mean return
       by roughly $\sigma^2/2$.
 ---

@@ -45,10 +45,13 @@ questions:
          strictly increasing from the arbitrage lower bound to $S$: any arbitrage-free price has one
          and only one implied vol. Nothing about the smile threatens that.
       3. **It is not even the risk-neutral expectation of realised vol.** Under a stochastic-vol
-         model the ATM implied variance is roughly $\E_{\Q}[\bar{\sigma}^2]$, and $\sqrt{\cdot}$ is
-         concave, so Jensen alone puts implied *below* the root-mean-square — before you add the
-         variance risk premium, which historically pushes implied *above* subsequent realised by a
-         couple of points on index options.
+         model the ATM implied *variance* is roughly $\E_{\Q}[\bar\sigma^2]$, so the ATM implied
+         *vol* is roughly $\sqrt{\E_{\Q}[\bar\sigma^2]}$ — the root-mean-square of realised vol,
+         not its mean. Since $\sqrt{\cdot}$ is concave, Jensen gives
+         $\sqrt{\E_{\Q}[\bar\sigma^2]} \ge \E_{\Q}[\bar\sigma]$, so implied sits *above* the
+         risk-neutral expected realised vol purely from the convexity of the map, before you add
+         the variance risk premium — which historically pushes it further above subsequent realised
+         by a couple of points on index options.
 
       **The honest one-liner:** implied vol is a price. Comparing it to realised vol is a trade
       idea, not a definition.
