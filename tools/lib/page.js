@@ -51,7 +51,15 @@ const attr = escapeHtml;
 const DIFF_LABEL = new Map(DIFFICULTY.map((d) => [d.id, d.label]));
 
 /**
- * @param {object} o { base, title, description, bodyClass, head, body, scripts, page }
+ * @param {object} o { base, title, description, bodyClass, head, body, scripts, page, math }
+ *
+ * `math` ships the vendored KaTeX. It is opt-in because KaTeX is 302 KB of CSS
+ * and JS -- more than a third of a page's weight -- and only the concept pages
+ * put a \(...\) on the page for it to find. The dashboard, library, graph,
+ * interview mode and every subject index carry no maths at all: formula LaTeX
+ * lives in the payload but nothing outside concept.js renders it. A page that
+ * starts rendering maths asks for it here, and the test suite checks the two
+ * halves agree.
  */
 function shell(o) {
   const b = o.base;
@@ -63,8 +71,7 @@ function shell(o) {
 <title>${attr(o.title)}</title>
 <meta name="description" content="${attr(o.description || '')}">
 <link rel="icon" href="${b}assets/icons/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="${b}assets/vendor/katex/katex.min.css">
-<link rel="stylesheet" href="${b}${versioned('assets/css/app.css')}">
+${o.math ? `<link rel="stylesheet" href="${b}assets/vendor/katex/katex.min.css">\n` : ''}<link rel="stylesheet" href="${b}${versioned('assets/css/app.css')}">
 <link rel="stylesheet" href="${b}${versioned('assets/css/views.css')}">
 ${o.head || ''}
 </head>
@@ -74,10 +81,9 @@ ${o.body}
 <script src="${b}${versioned('data/search.index.js')}"></script>
 <script src="${b}${versioned('assets/js/kb-core.js')}"></script>
 <script src="${b}${versioned('assets/js/kb-ui.js')}"></script>
-<script src="${b}assets/vendor/katex/katex.min.js" defer></script>
+${o.math ? `<script src="${b}assets/vendor/katex/katex.min.js" defer></script>
 <script src="${b}assets/vendor/katex/auto-render.min.js" defer></script>
-<script src="${b}${versioned('assets/js/math.js')}" defer></script>
-${(o.scripts || []).map((s) => `<script src="${b}${versioned(s)}" defer></script>`).join('\n')}
+<script src="${b}${versioned('assets/js/math.js')}" defer></script>\n` : ''}${(o.scripts || []).map((s) => `<script src="${b}${versioned(s)}" defer></script>`).join('\n')}
 </body>
 </html>
 `;
@@ -317,6 +323,7 @@ function conceptPage(c, ctx) {
     description: c.summary,
     bodyClass: 'kb-body kb-body--concept',
     body,
+    math: true,
     scripts: ['assets/js/concept.js', ...ctx.moduleScripts],
   });
 }

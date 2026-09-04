@@ -90,7 +90,7 @@ questions:                            # the interview bank lives HERE
 | `prerequisites: [brownian-motion]` | "Builds towards: Itô's Lemma" on the Brownian Motion page, and a directed graph edge |
 | `related: [martingales]` | The relation appears on **both** pages |
 | `[[some-concept]]` in prose | A link, a graph edge, and a related-concept entry |
-| `:::formula` blocks | The Key Formulas section, the sidebar list, and formula search |
+| `:::formula` blocks | The Key Formulas section, the page rail, and formula search |
 | `questions:` | Interview mode's drill, the question search index, and the page's Q&A section |
 | `## Headings` | The table of contents and the scroll-spy |
 | Nothing | Prev/next navigation, ordered by prerequisite depth then difficulty |

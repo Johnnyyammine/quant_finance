@@ -350,7 +350,7 @@ p { text-wrap: pretty; }
 .kb-facet-count, .kb-subject-card-count, .kb-control-value, kbd, code {
   font-variant-numeric: tabular-nums slashed-zero;
 }
-code, kbd, pre, .kb-mono {
+code, kbd, pre {
   font-family: var(--font-mono);
   font-variant-numeric: tabular-nums slashed-zero;
 }
@@ -714,16 +714,6 @@ select:hover, input:hover { border-color: var(--line-strong); }
    roughly where it has always been while the leftward shift still happens. */
 .kb-main--concept > .kb-article { grid-column: 2; grid-row: 1; max-width: 960px; }
 
-/* A page cached before the rail existed still has the old shape: a subject
-   tree in column 1 and the page links in an aside called `.kb-sidebar`. That
-   HTML sits in a reader's cache for as long as their browser decides, and
-   nothing deployed later can reach into it -- except this stylesheet, which
-   the stale page refetches by its unversioned URL. So the old markup is given
-   the new layout rather than left to auto-flow into a shape that reads as a
-   broken site. Safe to delete once no reader can still be holding a page from
-   before the rail landed. */
-.kb-main--concept > .kb-nav { display: none; }
-.kb-main--concept > .kb-sidebar { grid-column: 1; grid-row: 1; }
 .kb-main--subject > .kb-nav { grid-column: 1; }
 .kb-main--subject > .kb-subject-wrap { grid-column: 2; }
 
@@ -742,7 +732,6 @@ select:hover, input:hover { border-color: var(--line-strong); }
   .kb-main--concept, .kb-main--subject { grid-template-columns: minmax(0, 1fr); }
   .kb-main--concept > .kb-article { grid-column: 1; grid-row: 1; }
   .kb-main--concept > .kb-rail    { grid-column: 1; grid-row: 2; }
-  .kb-main--concept > .kb-sidebar { grid-column: 1; grid-row: 2; }
   .kb-main--subject > .kb-nav,
   .kb-main--subject > .kb-subject-wrap { grid-column: 1; }
   .kb-nav { display: none; }
@@ -999,7 +988,6 @@ select:hover, input:hover { border-color: var(--line-strong); }
   margin: 40px 0 14px; padding-bottom: 7px; font-size: 13px;
   text-transform: uppercase; color: var(--ink-muted); border-bottom: 1px solid var(--line); }
 .kb-h3 { margin: 28px 0 10px; font-size: 16.5px; }
-.kb-h4 { margin: 22px 0 8px; font-size: 14px; color: var(--ink); }
 .kb-anchor {
   position: absolute; left: -18px; top: 0;
   color: var(--ink-faint); opacity: 0; font-weight: 400; text-decoration: none;
@@ -1243,47 +1231,27 @@ select:hover, input:hover { border-color: var(--line-strong); }
    furniture competing with the article, which is the one thing on the page
    worth looking at. What is left is a hairline the links hang off, and the
    active one lights that hairline up. */
-.kb-rail,
-.kb-main--concept > .kb-sidebar {
+.kb-rail {
   position: sticky; top: calc(var(--topbar-h) + 22px); align-self: start;
   max-height: calc(100vh - var(--topbar-h) - 44px); overflow-y: auto;
   display: grid; gap: 20px; align-content: start;
 }
-.kb-rail::-webkit-scrollbar,
-.kb-main--concept > .kb-sidebar::-webkit-scrollbar { width: 6px; }
-.kb-rail::-webkit-scrollbar-thumb,
-.kb-main--concept > .kb-sidebar::-webkit-scrollbar-thumb { background: var(--line-strong); border-radius: 3px; }
+.kb-rail::-webkit-scrollbar { width: 6px; }
+.kb-rail::-webkit-scrollbar-thumb { background: var(--line-strong); border-radius: 3px; }
 
-.kb-rail h3,
-.kb-main--concept > .kb-sidebar h3 {
+.kb-rail h3 {
   margin: 0 0 7px; font-size: 9.5px; letter-spacing: 0.13em;
   text-transform: uppercase; color: var(--ink-faint); font-weight: 600;
 }
-.kb-rail ol, .kb-rail ul,
-.kb-main--concept > .kb-sidebar ol,
-.kb-main--concept > .kb-sidebar ul { list-style: none; margin: 0; padding: 0; }
-.kb-rail li a,
-.kb-main--concept > .kb-sidebar li a {
+.kb-rail ol, .kb-rail ul { list-style: none; margin: 0; padding: 0; }
+.kb-rail li a {
   display: block; padding: 4px 0 4px 12px;
   border-left: 1px solid var(--line);
   font-size: 12px; line-height: 1.4; color: var(--ink-muted);
   transition: color 90ms ease, border-color 90ms ease;
 }
-.kb-rail li a:hover,
-.kb-main--concept > .kb-sidebar li a:hover { color: var(--ink); border-left-color: var(--line-strong); text-decoration: none; }
-.kb-rail li a.is-active,
-.kb-main--concept > .kb-sidebar li a.is-active { color: var(--accent-ink); border-left-color: var(--accent); }
-
-/* Same shim: strip the old aside's card chrome and drop what the rail
-   deliberately does not carry, so a stale page reads like the current one. */
-.kb-main--concept > .kb-sidebar .kb-side-card { padding: 0; background: none; box-shadow: none; }
-.kb-main--concept > .kb-sidebar .kb-side-minimap { display: none; }
-/* The metadata card whole, heading included -- hiding just the <dl> left its
-   title behind. `:has()` is what makes "the card containing this" selectable;
-   a browser too old for it shows one stray label on a stale page, which is an
-   acceptable floor for a shim. */
-.kb-main--concept > .kb-sidebar .kb-side-card:has(.kb-meta) { display: none; }
-.kb-main--concept > .kb-sidebar .kb-meta { display: none; }
+.kb-rail li a:hover { color: var(--ink); border-left-color: var(--line-strong); text-decoration: none; }
+.kb-rail li a.is-active { color: var(--accent-ink); border-left-color: var(--accent); }
 
 /* The neighbourhood map, in Connections -- the section it illustrates. */
 .kb-neighbourhood { margin: 22px 0 0; padding: 0; }
@@ -1449,16 +1417,15 @@ pre { overflow-x: auto; -webkit-overflow-scrolling: touch; }
 
   /* -- controls ----------------------------------------------------------
      A finger is about 9mm across. Anything you are meant to tap gets 40px. */
-  .kb-btn, .kb-select, select, .kb-facet-opt, .kb-tag { min-height: 40px; }
-  .kb-btn, .kb-select, select { padding: 0 14px; }
+  .kb-btn, select, .kb-facet-opt, .kb-tag { min-height: 40px; }
+  .kb-btn, select { padding: 0 14px; }
   .kb-facet-opt { padding: 8px 10px; font-size: 13.5px; }
   .kb-tag { padding: 8px 11px; }
 
   /* Interactive module sliders: the native thumb is too small to drag. */
   .kb-controls { grid-template-columns: 1fr; gap: 12px; }
   .kb-controls input[type="range"] { height: 40px; }
-  .kb-rail li a,
-  .kb-main--concept > .kb-sidebar li a { padding: 9px 0 9px 12px; }
+  .kb-rail li a { padding: 9px 0 9px 12px; }
   .kb-formula-copy { min-height: 36px; padding: 0 12px; }
   .kb-subject-chip { min-height: 36px; }
   .kb-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }

@@ -505,6 +505,55 @@ test('build: every maths expression renders with the macros the site declares', 
     'maths that KaTeX cannot render, and which the page shows in error colour');
 });
 
+test('build: KaTeX ships to exactly the pages that render maths', () => {
+  // KaTeX is 302 KB of CSS and JS -- more than a third of what a page loads --
+  // and for most of the site it renders nothing, because only concept pages put
+  // \\(...\\) in their markup. Shipping it everywhere was invisible: the pages
+  // worked, they were just three times heavier than they needed to be.
+  //
+  // Both directions matter, and the second is the one that bites. Dropping the
+  // tags is easy; the failure mode is a page that LATER starts emitting maths
+  // and silently shows raw \\(\\sigma\\) to the reader, because nothing on it
+  // can render. So the rule is symmetric: maths in the markup <=> KaTeX in the
+  // page, checked over every committed page rather than a sample.
+  const fs = require('fs');
+  const root = path.join(__dirname, '..');
+
+  const pages = [];
+  for (const dir of ['.', 'concepts', 'subjects']) {
+    const full = path.join(root, dir);
+    if (!fs.existsSync(full)) continue;
+    for (const f of fs.readdirSync(full).filter((x) => x.endsWith('.html'))) {
+      pages.push(dir === '.' ? f : `${dir}/${f}`);
+    }
+  }
+  assert.ok(pages.length > 40, `expected the whole site, found ${pages.length} pages`);
+
+  const missing = [], wasted = [];
+  for (const rel of pages) {
+    const html = fs.readFileSync(path.join(root, rel), 'utf8');
+    // What math.js is configured to look for, and nothing else. A page may well
+    // mention the word "katex" in prose without needing the library.
+    const hasMaths = /\\\(|\\\[/.test(html);
+    const hasKatex = html.includes('vendor/katex/katex.min.js');
+    const hasRunner = html.includes('assets/js/math.js');
+    if (hasMaths && !(hasKatex && hasRunner)) missing.push(rel);
+    if (!hasMaths && (hasKatex || hasRunner)) wasted.push(rel);
+  }
+
+  assert.deepStrictEqual(missing, [],
+    'pages containing maths that ship no renderer -- the reader sees raw LaTeX');
+  assert.deepStrictEqual(wasted, [],
+    'pages shipping 302 KB of KaTeX with no maths on them');
+
+  // Guard the premise. If the corpus ever stopped carrying maths this test
+  // would pass by vacuum, having checked nothing.
+  const withMaths = pages.filter((rel) =>
+    /\\\(|\\\[/.test(fs.readFileSync(path.join(root, rel), 'utf8')));
+  assert.ok(withMaths.length > 5 && withMaths.length < pages.length,
+    `expected some pages with maths and some without, got ${withMaths.length}/${pages.length}`);
+});
+
 test('build: local assets are cache-busted, vendored ones are not', () => {
   // The failure this catches is silent and looks like a broken site: a browser
   // holding an old app.css pairs it with freshly deployed HTML, and the layout
