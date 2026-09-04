@@ -146,8 +146,8 @@ it. You collect  <span class="math-inline">\(4050 - 4030 = 20\)</span>  points a
 <tr><td>Financing spread over risk-free (30bp)</td><td><span class="math-inline">\(-3.0\)</span></td></tr>
 <tr><td>Dividend forecast error ( <span class="math-inline">\(\pm10\%\)</span>  of 20pt)</td><td><span class="math-inline">\(\pm2.0\)</span></td></tr>
 <tr><td>Margin funding on the short future</td><td><span class="math-inline">\(-1.5\)</span></td></tr>
-<tr><td><strong>Net</strong></td><td><span class="math-inline">\(\approx +4\)</span>  to  <span class="math-inline">\(+8\)</span></td></tr></tbody></table></div>
-<p><strong>A 20-point mispricing is a 5-point trade.</strong> That ratio is typical, and it is the entire reason
+<tr><td><strong>Net</strong></td><td><span class="math-inline">\(\mathbf{+5.5}\)</span>  <strong>to</strong>  <span class="math-inline">\(\mathbf{+9.5}\)</span> ,  <span class="math-inline">\(\pm 2\)</span></td></tr></tbody></table></div>
+<p><strong>A 20-point mispricing is a 5-to-9-point trade.</strong> That ratio is typical, and it is the entire reason
 index-arbitrage is a business for whoever has the cheapest balance sheet rather than the best model.
 Note also that the dividend forecast error is the <em>only</em> line that is not contractual — which makes
 dividend risk, not basis risk, the thing that actually loses money on this desk.</p>
@@ -309,8 +309,10 @@ an upward-sloping curve tells you about carry, not about direction.</p></div></d
 <p>Holding the share now earns the dividends; holding the forward does not. The replication buys
  <span class="math-inline">\(e^{-qT}\)</span>  shares rather than one, since reinvested dividends grow the holding to exactly one
 share by  <span class="math-inline">\(T\)</span> .</p>
-<p><strong>What breaks if you ignore it:</strong> you overprice the forward by  <span class="math-inline">\(S_0(1 - e^{-qT})\)</span> , roughly the
-present value of the dividends. On an index at  <span class="math-inline">\(q = 2\%\)</span>  over one year that is a 2% error —
+<p><strong>What breaks if you ignore it:</strong> you overprice the forward by
+ <span class="math-inline">\(S_0e^{rT}\big(1 - e^{-qT}\big)\)</span>  — the <em>future</em> value of the dividends you forgot to subtract,
+whose present value is  <span class="math-inline">\(S_0(1-e^{-qT})\)</span> . Relative to the correct forward that is
+ <span class="math-inline">\(e^{qT}-1\)</span> , so on an index at  <span class="math-inline">\(q = 2\%\)</span>  over one year it is a 2% error —
 vastly larger than any bid-ask spread, and it flows straight into every option priced off that
 forward. Index futures fair value, dividend-risk on a delta-one desk and the early-exercise
 boundary of an American call are all this one term.</p></div></details>
@@ -422,8 +424,8 @@ did not need and pays theta for the privilege.</p></div></details>
     <nav class="kb-rail-group" id="side-formulas" aria-label="Key formulas"><h3>Formulas</h3><ul><li><a href="#forward-price-no-income">Forward price, no income</a></li><li><a href="#cost-of-carry-general">Cost of carry, general</a></li><li><a href="#covered-interest-parity">Covered interest parity</a></li><li><a href="#value-of-an-existing-forward">Value of an existing forward</a></li><li><a href="#forward-as-a-risk-neutral-expectation">Forward as a risk-neutral expectation</a></li></ul></nav>
   </aside>
 </main>
-<script src="../data/kb.data.js?v=7e5c5288"></script>
-<script src="../data/search.index.js?v=40fa666d"></script>
+<script src="../data/kb.data.js?v=3b90365c"></script>
+<script src="../data/search.index.js?v=46b79618"></script>
 <script src="../assets/js/kb-core.js?v=a4c20d2d"></script>
 <script src="../assets/js/kb-ui.js?v=e9a49aaf"></script>
 <script src="../assets/vendor/katex/katex.min.js" defer></script>

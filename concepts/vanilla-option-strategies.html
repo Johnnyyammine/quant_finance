@@ -133,9 +133,13 @@ of static no-arbitrage conditions along a single expiry, and it is what a surfac
 <p><strong>Check it against the exact number.</strong> At  <span class="math-inline">\(S=100\)</span> ,  <span class="math-inline">\(T=0.25\)</span> ,  <span class="math-inline">\(\sigma=25\%\)</span> ,  <span class="math-inline">\(r=4\%\)</span> : the
 approximation gives  <span class="math-inline">\(0.7979 \times 100 \times 0.25 \times 0.5 = 9.974\)</span>  and the exact
 Black–Scholes straddle is  <span class="math-inline">\(9.949\)</span>  — an error of 0.25%.</p>
-<p>Two uses. It converts an implied-vol quote into a cash price in your head, which is what &quot;the
-market is pricing a 5% move&quot; means. And inverted,  <span class="math-inline">\(\sigma \approx 1.25 \times
-\text{straddle}/(S\sqrt T)\)</span>  reads the implied move straight off a screen price.</p></div></details>
+<p>Two uses. It converts an implied-vol quote into a cash price in your head. And it inverts two
+ways, which are worth keeping apart because they are quoted in different units:</p>
+<span class="math-display">\[\sigma \approx 1.25\,\frac{\text{straddle}}{S\sqrt T} \quad (\text{implied \textit{volatility}, annualised}),
+\qquad
+\sigma\sqrt T \approx 1.25\,\frac{\text{straddle}}{S} \quad (\text{the implied \textit{move}, over the option&#39;s life})\]</span>
+<p>The second is what &quot;the market is pricing a 5% move into earnings&quot; means — a fraction of spot, with
+no  <span class="math-inline">\(\sqrt T\)</span>  in it.</p></div></details>
 <details class="kb-derivation"><summary>Why a covered call is a short put</summary><div class="kb-derivation-body"><p>Hold the stock and sell the call:  <span class="math-inline">\(\Pi = S_T - (S_T-K)^+ = \min(S_T, K) = K - (K-S_T)^+\)</span> .</p>
 <p>That is a cash amount  <span class="math-inline">\(K\)</span>  minus a put payoff — <strong>a short put plus a bond</strong>, exactly. Rearranged, it
 is <a class="kb-link" href="put-call-parity.html" data-concept="put-call-parity">parity</a> with the signs moved around, which is why the two positions have
@@ -170,17 +174,20 @@ holding them for the last few cents of premium.</p></div></aside>
 <h2 id="worked-example" class="kb-h kb-h2"><a class="kb-anchor" href="#worked-example" aria-label="Link to this section">#</a>Worked Example</h2>
 <p>Take  <span class="math-inline">\(S = 100\)</span> ,  <span class="math-inline">\(T = 0.25\)</span>  years,  <span class="math-inline">\(r = 4\%\)</span> ,  <span class="math-inline">\(\sigma = 25\%\)</span>  flat, and price the standard structures
 from Black–Scholes. Individual options first:</p>
-<div class="kb-table-wrap"><table class="kb-table"><thead><tr><th>Option</th><th>Price</th><th><span class="math-inline">\(\Delta\)</span></th><th><span class="math-inline">\(\Gamma\)</span></th><th>Vega (per pt)</th><th><span class="math-inline">\(\Theta\)</span> /day</th></tr></thead><tbody><tr><td>95 call</td><td>8.377</td><td>0.710</td><td>0.0274</td><td>0.171</td><td>−0.0303</td></tr>
-<tr><td>100 call</td><td>5.472</td><td>0.557</td><td>0.0316</td><td>0.197</td><td>−0.0325</td></tr>
-<tr><td>105 call</td><td>3.347</td><td>0.402</td><td>0.0310</td><td>0.193</td><td>−0.0305</td></tr>
-<tr><td>110 call</td><td>1.918</td><td>0.268</td><td>0.0263</td><td>0.165</td><td>−0.0253</td></tr>
-<tr><td>100 put</td><td>4.477</td><td>−0.443</td><td>0.0316</td><td>0.197</td><td>−0.0217</td></tr>
-<tr><td>95 put</td><td>2.432</td><td>−0.290</td><td>0.0274</td><td>0.171</td><td>−0.0200</td></tr></tbody></table></div>
+<div class="kb-table-wrap"><table class="kb-table"><thead><tr><th>Option</th><th>Price</th><th><span class="math-inline">\(\Delta\)</span></th><th><span class="math-inline">\(\Gamma\)</span></th><th>Vega (per pt)</th><th><span class="math-inline">\(\Theta\)</span> /day</th></tr></thead><tbody><tr><td>95 call</td><td>8.377</td><td>0.710</td><td>0.0274</td><td>0.171</td><td>−0.0439</td></tr>
+<tr><td>100 call</td><td>5.472</td><td>0.557</td><td>0.0316</td><td>0.197</td><td>−0.0471</td></tr>
+<tr><td>105 call</td><td>3.347</td><td>0.402</td><td>0.0310</td><td>0.193</td><td>−0.0442</td></tr>
+<tr><td>110 call</td><td>1.918</td><td>0.268</td><td>0.0263</td><td>0.165</td><td>−0.0366</td></tr>
+<tr><td>100 put</td><td>4.477</td><td>−0.443</td><td>0.0316</td><td>0.197</td><td>−0.0314</td></tr>
+<tr><td>95 put</td><td>2.432</td><td>−0.290</td><td>0.0274</td><td>0.171</td><td>−0.0290</td></tr></tbody></table></div>
+<p>Theta is per <strong>trading</strong> day, on 252 of them — the same convention as <a class="kb-link" href="option-greeks.html" data-concept="option-greeks">Option Greeks</a>, and the one
+that makes a theta directly comparable to the break-even move  <span class="math-inline">\(\sigma S\sqrt{\d t}\)</span> . A 365-day
+theta for the same position is 31% smaller and cannot be set against a gamma computed here.</p>
 <p>Now build the structures by adding rows:</p>
-<div class="kb-table-wrap"><table class="kb-table"><thead><tr><th>Structure</th><th>Cost</th><th><span class="math-inline">\(\Delta\)</span></th><th><span class="math-inline">\(\Gamma\)</span></th><th>Vega</th><th><span class="math-inline">\(\Theta\)</span> /day</th></tr></thead><tbody><tr><td>100/110 call spread</td><td>3.554</td><td>+0.289</td><td>+0.0053</td><td>+0.033</td><td>−0.0073</td></tr>
-<tr><td>100 straddle</td><td>9.949</td><td>+0.113</td><td>+0.0632</td><td>+0.395</td><td>−0.0542</td></tr>
-<tr><td>95/105 strangle</td><td>5.779</td><td>+0.112</td><td>+0.0583</td><td>+0.365</td><td>−0.0505</td></tr>
-<tr><td>95/100/105 butterfly</td><td>0.780</td><td>−0.001</td><td><strong>−0.0048</strong></td><td>−0.030</td><td><strong>+0.0042</strong></td></tr></tbody></table></div>
+<div class="kb-table-wrap"><table class="kb-table"><thead><tr><th>Structure</th><th>Cost</th><th><span class="math-inline">\(\Delta\)</span></th><th><span class="math-inline">\(\Gamma\)</span></th><th>Vega</th><th><span class="math-inline">\(\Theta\)</span> /day</th></tr></thead><tbody><tr><td>100/110 call spread</td><td>3.554</td><td>+0.289</td><td>+0.0053</td><td>+0.033</td><td>−0.0105</td></tr>
+<tr><td>100 straddle</td><td>9.949</td><td>+0.113</td><td>+0.0632</td><td>+0.395</td><td>−0.0786</td></tr>
+<tr><td>95/105 strangle</td><td>5.779</td><td>+0.112</td><td>+0.0583</td><td>+0.365</td><td>−0.0732</td></tr>
+<tr><td>95/100/105 butterfly</td><td>0.780</td><td>−0.001</td><td><strong>−0.0048</strong></td><td>−0.030</td><td><strong>+0.0062</strong></td></tr></tbody></table></div>
 <p><strong>Read the table, not the names.</strong> Three things jump out that the strategy names actively hide:</p>
 <ol class="kb-list"><li>The <strong>call spread has almost no vega</strong> (+0.033 against +0.197 for the outright call). It is a
  directional trade. If your thesis is &quot;vol is cheap&quot;, this instrument does not express it.</li>
@@ -247,9 +254,10 @@ expensive and the call you sell is cheap, so the call strike ends up much closer
 put. The asymmetry <em>is</em> the skew, and it is the first thing to check.</p></div></aside>
 <p><strong>In research</strong>, the practical uses are extraction and event pricing. Extraction: fit a smooth
 arbitrage-free smile, difference it twice, and you have a density to compare with realised outcomes.
-Event pricing: an earnings straddle divided by  <span class="math-inline">\(0.8S\sqrt{T}\)</span>  is the market&#39;s implied move, and the
-term structure around a known date decomposes into a diffusive part and an event part — which is a
-tradable quantity if you disagree with either.</p>
+Event pricing: an earnings straddle divided by  <span class="math-inline">\(0.8S\)</span>  is the market&#39;s implied move for that event
+(divide by  <span class="math-inline">\(0.8S\sqrt T\)</span>  instead and you get the annualised implied vol), and the term structure
+around a known date decomposes into a diffusive part and an event part — which is a tradable
+quantity if you disagree with either.</p>
 <h2 id="common-mistakes" class="kb-h kb-h2"><a class="kb-anchor" href="#common-mistakes" aria-label="Link to this section">#</a>Common Mistakes</h2>
 <p><strong>Calling a spread &quot;lower risk&quot;.</strong> It is lower <em>cost</em> and lower <em>vega</em>. The maximum loss is still
 the entire debit, and the probability of losing it is higher than for the outright, because you also
@@ -396,9 +404,13 @@ exposure to a left tail does to compounded wealth even when each bet has positiv
 little. With the 95/100/105 call fly at  <span class="math-inline">\(S=100\)</span> :</p>
 <span class="math-display">\[\Gamma_{\text{fly}} = \Gamma_{95} - 2\Gamma_{100} + \Gamma_{105}
 = 0.0274 - 2(0.0316) + 0.0310 = -0.0048\]</span>
-<p>Negative. And correspondingly  <span class="math-inline">\(\Theta_{\text{fly}} = +0.0042\)</span>  per day — the fly <em>collects</em>
-theta near the centre. That is the whole trade: <strong>you are paying a small debit for a position
-that wants the spot to sit exactly still</strong>, and it earns while it does.</p>
+<p>Negative. And correspondingly  <span class="math-inline">\(\Theta_{\text{fly}} = +0.0062\)</span>  per trading day — the fly
+<em>collects</em> theta near the centre. Check it against the pricing equation: a delta-hedged
+position has  <span class="math-inline">\(\Theta \approx -\tfrac12\sigma^2S^2\Gamma\)</span> , which here is
+ <span class="math-inline">\(-\tfrac12(0.0625)(10{,}000)(-0.0048)/252 = +0.0060\)</span>  a day. The two agree — and they only
+agree on a 252-day theta, which is why the convention has to be stated rather than assumed.</p>
+<p>That is the whole trade: <strong>you are paying a small debit for a position that wants the spot to
+sit exactly still</strong>, and it earns while it does.</p>
 <p>The &quot;low risk&quot; label refers only to the bounded max loss (the debit). The risk that matters is
 that it is short gamma exactly where the spot currently is, so a move in either direction
 hurts immediately — the position is at its most fragile at the moment you put it on. The
@@ -572,8 +584,8 @@ outside the theorem entirely.</p></div></details>
     <nav class="kb-rail-group" id="side-formulas" aria-label="Key formulas"><h3>Formulas</h3><ul><li><a href="#portfolio-of-vanillas">Portfolio of vanillas</a></li><li><a href="#vertical-spread-as-a-first-difference">Vertical spread as a first difference</a></li><li><a href="#butterfly-as-a-second-difference-breeden-litzenberger">Butterfly as a second difference (Breeden-Litzenberger)</a></li><li><a href="#carr-madan-spanning-formula">Carr-Madan spanning formula</a></li><li><a href="#at-the-money-straddle-approximation">At-the-money straddle approximation</a></li></ul></nav>
   </aside>
 </main>
-<script src="../data/kb.data.js?v=7e5c5288"></script>
-<script src="../data/search.index.js?v=40fa666d"></script>
+<script src="../data/kb.data.js?v=3b90365c"></script>
+<script src="../data/search.index.js?v=46b79618"></script>
 <script src="../assets/js/kb-core.js?v=a4c20d2d"></script>
 <script src="../assets/js/kb-ui.js?v=e9a49aaf"></script>
 <script src="../assets/vendor/katex/katex.min.js" defer></script>

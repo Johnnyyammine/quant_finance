@@ -114,9 +114,14 @@ questions:
       $$\Gamma_{\text{fly}} = \Gamma_{95} - 2\Gamma_{100} + \Gamma_{105}
       = 0.0274 - 2(0.0316) + 0.0310 = -0.0048$$
 
-      Negative. And correspondingly $\Theta_{\text{fly}} = +0.0042$ per day — the fly *collects*
-      theta near the centre. That is the whole trade: **you are paying a small debit for a position
-      that wants the spot to sit exactly still**, and it earns while it does.
+      Negative. And correspondingly $\Theta_{\text{fly}} = +0.0062$ per trading day — the fly
+      *collects* theta near the centre. Check it against the pricing equation: a delta-hedged
+      position has $\Theta \approx -\tfrac12\sigma^2S^2\Gamma$, which here is
+      $-\tfrac12(0.0625)(10{,}000)(-0.0048)/252 = +0.0060$ a day. The two agree — and they only
+      agree on a 252-day theta, which is why the convention has to be stated rather than assumed.
+
+      That is the whole trade: **you are paying a small debit for a position that wants the spot to
+      sit exactly still**, and it earns while it does.
 
       The "low risk" label refers only to the bounded max loss (the debit). The risk that matters is
       that it is short gamma exactly where the spot currently is, so a move in either direction
@@ -353,9 +358,15 @@ $$\text{Straddle} = 2C \approx 2e^{-rT}F\cdot\sqrt{\tfrac{2}{\pi}}\cdot\frac{\si
 approximation gives $0.7979 \times 100 \times 0.25 \times 0.5 = 9.974$ and the exact
 Black–Scholes straddle is $9.949$ — an error of 0.25%.
 
-Two uses. It converts an implied-vol quote into a cash price in your head, which is what "the
-market is pricing a 5% move" means. And inverted, $\sigma \approx 1.25 \times
-\text{straddle}/(S\sqrt T)$ reads the implied move straight off a screen price.
+Two uses. It converts an implied-vol quote into a cash price in your head. And it inverts two
+ways, which are worth keeping apart because they are quoted in different units:
+
+$$\sigma \approx 1.25\,\frac{\text{straddle}}{S\sqrt T} \quad (\text{implied \textit{volatility}, annualised}),
+\qquad
+\sigma\sqrt T \approx 1.25\,\frac{\text{straddle}}{S} \quad (\text{the implied \textit{move}, over the option's life})$$
+
+The second is what "the market is pricing a 5% move into earnings" means — a fraction of spot, with
+no $\sqrt T$ in it.
 :::
 
 :::derivation Why a covered call is a short put
@@ -413,21 +424,25 @@ from Black–Scholes. Individual options first:
 
 | Option | Price | $\Delta$ | $\Gamma$ | Vega (per pt) | $\Theta$/day |
 |---|---|---|---|---|---|
-| 95 call | 8.377 | 0.710 | 0.0274 | 0.171 | −0.0303 |
-| 100 call | 5.472 | 0.557 | 0.0316 | 0.197 | −0.0325 |
-| 105 call | 3.347 | 0.402 | 0.0310 | 0.193 | −0.0305 |
-| 110 call | 1.918 | 0.268 | 0.0263 | 0.165 | −0.0253 |
-| 100 put | 4.477 | −0.443 | 0.0316 | 0.197 | −0.0217 |
-| 95 put | 2.432 | −0.290 | 0.0274 | 0.171 | −0.0200 |
+| 95 call | 8.377 | 0.710 | 0.0274 | 0.171 | −0.0439 |
+| 100 call | 5.472 | 0.557 | 0.0316 | 0.197 | −0.0471 |
+| 105 call | 3.347 | 0.402 | 0.0310 | 0.193 | −0.0442 |
+| 110 call | 1.918 | 0.268 | 0.0263 | 0.165 | −0.0366 |
+| 100 put | 4.477 | −0.443 | 0.0316 | 0.197 | −0.0314 |
+| 95 put | 2.432 | −0.290 | 0.0274 | 0.171 | −0.0290 |
+
+Theta is per **trading** day, on 252 of them — the same convention as [[option-greeks]], and the one
+that makes a theta directly comparable to the break-even move $\sigma S\sqrt{\d t}$. A 365-day
+theta for the same position is 31% smaller and cannot be set against a gamma computed here.
 
 Now build the structures by adding rows:
 
 | Structure | Cost | $\Delta$ | $\Gamma$ | Vega | $\Theta$/day |
 |---|---|---|---|---|---|
-| 100/110 call spread | 3.554 | +0.289 | +0.0053 | +0.033 | −0.0073 |
-| 100 straddle | 9.949 | +0.113 | +0.0632 | +0.395 | −0.0542 |
-| 95/105 strangle | 5.779 | +0.112 | +0.0583 | +0.365 | −0.0505 |
-| 95/100/105 butterfly | 0.780 | −0.001 | **−0.0048** | −0.030 | **+0.0042** |
+| 100/110 call spread | 3.554 | +0.289 | +0.0053 | +0.033 | −0.0105 |
+| 100 straddle | 9.949 | +0.113 | +0.0632 | +0.395 | −0.0786 |
+| 95/105 strangle | 5.779 | +0.112 | +0.0583 | +0.365 | −0.0732 |
+| 95/100/105 butterfly | 0.780 | −0.001 | **−0.0048** | −0.030 | **+0.0062** |
 
 **Read the table, not the names.** Three things jump out that the strategy names actively hide:
 
@@ -526,9 +541,10 @@ put. The asymmetry *is* the skew, and it is the first thing to check.
 
 **In research**, the practical uses are extraction and event pricing. Extraction: fit a smooth
 arbitrage-free smile, difference it twice, and you have a density to compare with realised outcomes.
-Event pricing: an earnings straddle divided by $0.8S\sqrt{T}$ is the market's implied move, and the
-term structure around a known date decomposes into a diffusive part and an event part — which is a
-tradable quantity if you disagree with either.
+Event pricing: an earnings straddle divided by $0.8S$ is the market's implied move for that event
+(divide by $0.8S\sqrt T$ instead and you get the annualised implied vol), and the term structure
+around a known date decomposes into a diffusive part and an event part — which is a tradable
+quantity if you disagree with either.
 
 ## Common Mistakes
 

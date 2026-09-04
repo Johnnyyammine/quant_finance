@@ -89,7 +89,7 @@ questions:
 
       Here $N = 100$, $T \approx 504$, so $q \approx 0.198$, $\sqrt q \approx 0.445$, and the noise
       band is $[0.308,\ 2.09]$. An eigenvalue explaining 40% of a 100-asset correlation matrix is
-      $\lambda_1 = 40$ — twenty times the upper edge. That is unambiguously a real common factor,
+      $\lambda_1 = 40$ — nineteen times the upper edge. That is unambiguously a real common factor,
       almost certainly the market.
 
       The useful direction is the other one: **most of the spectrum is inside the band and is

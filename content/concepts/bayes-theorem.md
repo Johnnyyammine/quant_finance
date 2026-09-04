@@ -61,11 +61,22 @@ questions:
       Posterior odds $= (1/9)\times 10 = 10/9$, so $\P(\text{real}) \approx 53\%$ — **a coin flip**,
       from what looked like an outstanding backtest.
 
-      Now the killer follow-up: if you tested 100 variants and reported the best, the relevant
-      likelihood is $\P(\max \text{Sharpe} \ge 2 \mid \text{all worthless}) \approx 1 - 0.95^{100}
-      \approx 99.4\%$, so the likelihood ratio collapses to $0.5/0.994 \approx 0.5$ and the
-      posterior odds fall to $1:18$ — **about 5%**. This is why the number of trials is the single
-      most important thing to disclose in a research meeting, and why deflated Sharpe ratios exist.
+      Now the killer follow-up: if you tested 100 variants and reported the best, the evidence is
+      no longer "this strategy scored 2" but "the best of 100 scored 2" — and **both** sides of the
+      likelihood ratio have to be recomputed for that event, which is the step almost everyone
+      skips:
+
+      $$\P(\max \ge 2 \mid \text{all worthless}) = 1 - 0.95^{100} = 0.994, \qquad
+      \P(\max \ge 2 \mid \text{one is real}) = 1 - 0.5\,(0.95^{99}) = 0.997$$
+
+      $$\text{LR} = \frac{0.997}{0.994} = 1.003$$
+
+      The likelihood ratio is **one**. Posterior odds $=(1/9)\times1.003$, so the posterior is
+      $10\%$ — exactly the prior you started with. Searching 100 variants did not weaken the
+      evidence; it **destroyed** it, because a worthless search produces a Sharpe of 2 essentially
+      as often as a search containing something real does. This is why the number of trials is the
+      single most important thing to disclose in a research meeting, and why deflated Sharpe ratios
+      exist.
 ---
 
 ## Intuition

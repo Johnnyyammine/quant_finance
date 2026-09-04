@@ -62,8 +62,10 @@ questions:
       $e^{-qT}$ shares rather than one, since reinvested dividends grow the holding to exactly one
       share by $T$.
 
-      **What breaks if you ignore it:** you overprice the forward by $S_0(1 - e^{-qT})$, roughly the
-      present value of the dividends. On an index at $q = 2\%$ over one year that is a 2% error —
+      **What breaks if you ignore it:** you overprice the forward by
+      $S_0e^{rT}\big(1 - e^{-qT}\big)$ — the *future* value of the dividends you forgot to subtract,
+      whose present value is $S_0(1-e^{-qT})$. Relative to the correct forward that is
+      $e^{qT}-1$, so on an index at $q = 2\%$ over one year it is a 2% error —
       vastly larger than any bid-ask spread, and it flows straight into every option priced off that
       forward. Index futures fair value, dividend-risk on a delta-one desk and the early-exercise
       boundary of an American call are all this one term.
@@ -273,9 +275,9 @@ Before sizing it, price the frictions honestly:
 | Financing spread over risk-free (30bp) | $-3.0$ |
 | Dividend forecast error ($\pm10\%$ of 20pt) | $\pm2.0$ |
 | Margin funding on the short future | $-1.5$ |
-| **Net** | $\approx +4$ to $+8$ |
+| **Net** | $\mathbf{+5.5}$ **to** $\mathbf{+9.5}$, $\pm 2$ |
 
-**A 20-point mispricing is a 5-point trade.** That ratio is typical, and it is the entire reason
+**A 20-point mispricing is a 5-to-9-point trade.** That ratio is typical, and it is the entire reason
 index-arbitrage is a business for whoever has the cheapest balance sheet rather than the best model.
 Note also that the dividend forecast error is the *only* line that is not contractual — which makes
 dividend risk, not basis risk, the thing that actually loses money on this desk.

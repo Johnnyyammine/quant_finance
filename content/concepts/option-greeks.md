@@ -188,7 +188,7 @@ The Greeks are not free to take any values. Theta is pinned by gamma. Long conve
 rent, and the equation says exactly how much.
 
 :::module black-scholes-lab
-{"height": 300, "view": "price", "S": 100, "K": 100, "T": 0.25, "sigma": 0.25, "r": 0.04}
+{"height": 300, "view": "price", "K": 100, "T": 0.25, "sigma": 0.25, "r": 0.04}
 :::
 
 ## Mathematical Formulation
@@ -475,19 +475,24 @@ def greeks(S, K, r, sigma, T, q=0.0, call=True):
             'vanna': -disc_q * pdf * d2 / sigma / 100.0,        # per vol point
             'volga': vega * d1 * d2 / sigma / 100.0**2}         # per vol point^2
 
-def attribute_pnl(g0, S0, S1, sigma0, sigma1, dt):
+def attribute_pnl(g0, S0, S1, sigma0, sigma1, dt, actual_pnl):
     """Explain a day's P&L with the Taylor expansion, and return the residual.
 
-    The residual is the point of the function, not a byproduct. A residual that
-    is small and stationary means the model is describing the book; one that
-    grows means something unmodelled -- a dividend, a borrow, skew moving
+    The residual is the point of the function, not a byproduct, which is why
+    `actual_pnl` is a required argument rather than an optional one: components
+    that sum to something plausible tell you nothing on their own. A residual
+    that is small and stationary means the model is describing the book; one
+    that grows means something unmodelled -- a dividend, a borrow, skew moving
     non-parallel, or a second-order Greek you are not carrying."""
     dS, dsig = S1 - S0, (sigma1 - sigma0) * 100.0
-    return {'delta': g0['delta'] * dS,
-            'gamma': 0.5 * g0['gamma'] * dS**2,
-            'vega': g0['vega'] * dsig,
-            'theta': g0['theta'] * dt * 252.0,
-            'vanna': g0['vanna'] * dS * dsig}
+    parts = {'delta': g0['delta'] * dS,
+             'gamma': 0.5 * g0['gamma'] * dS**2,
+             'vega': g0['vega'] * dsig,
+             'theta': g0['theta'] * dt * 252.0,
+             'vanna': g0['vanna'] * dS * dsig}
+    parts['explained'] = sum(parts.values())
+    parts['residual'] = actual_pnl - parts['explained']
+    return parts
 
 # Consistency checks worth asserting:
 #   gamma and vega identical for call and put at the same strike

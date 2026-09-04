@@ -177,8 +177,11 @@ Kelly — and therefore, by construction, a worse long-run outcome than a smalle
 <figure class="kb-code" data-lang="python"><pre><code class="language-python">import numpy as np
 
 def kelly_discrete(p: float, b: float) -&gt; float:
-    &quot;&quot;&quot;Edge over odds. Negative means the other side of the bet, or no bet.&quot;&quot;&quot;
-    return max(0.0, (p * b - (1 - p)) / b)
+    &quot;&quot;&quot;Edge over odds. Returns the raw fraction, sign included: negative means
+    the edge is on the other side, and clamping it to zero here would hide that
+    from the caller. Clamp at the point of use, where you know whether the
+    other side is actually tradable.&quot;&quot;&quot;
+    return (p * b - (1 - p)) / b
 
 def kelly_continuous(mu: float, sigma: float, fraction: float = 0.25) -&gt; float:
     &quot;&quot;&quot;Fractional Kelly for continuous returns. `fraction` defaults to a quarter:
@@ -422,8 +425,8 @@ expensive mistake — it is over-betting by exactly the amount the correlation i
     <nav class="kb-rail-group" id="side-formulas" aria-label="Key formulas"><h3>Formulas</h3><ul><li><a href="#kelly-fraction-discrete-bet">Kelly fraction (discrete bet)</a></li><li><a href="#kelly-fraction-continuous">Kelly fraction (continuous)</a></li><li><a href="#optimal-growth-rate">Optimal growth rate</a></li><li><a href="#multivariate-kelly">Multivariate Kelly</a></li><li><a href="#growth-at-a-fraction-of-kelly">Growth at a fraction of Kelly</a></li></ul></nav>
   </aside>
 </main>
-<script src="../data/kb.data.js?v=7e5c5288"></script>
-<script src="../data/search.index.js?v=40fa666d"></script>
+<script src="../data/kb.data.js?v=3b90365c"></script>
+<script src="../data/search.index.js?v=46b79618"></script>
 <script src="../assets/js/kb-core.js?v=a4c20d2d"></script>
 <script src="../assets/js/kb-ui.js?v=e9a49aaf"></script>
 <script src="../assets/vendor/katex/katex.min.js" defer></script>
