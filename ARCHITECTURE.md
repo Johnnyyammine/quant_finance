@@ -442,11 +442,28 @@ frame budget, while a canvas redraw is one pass.
 **Simulation** — a compact force-directed layout: inverse-square repulsion with a distance cutoff,
 spring attraction along edges (prerequisites pull harder and shorter than related links), a weak
 hierarchy term pushing prerequisites above their dependants, and weak centring so disconnected
-islands stay on screen. Alpha decays geometrically, and the view auto-fits once the layout cools.
+islands stay on screen. Alpha decays geometrically until the layout is cold.
+
+**The simulation runs before the first paint, not on screen.** The layout starts from random
+positions at an arbitrary zoom, so animating it means showing a scramble and then jumping to the
+fitted zoom once it cools — about a second and a half of drifting dots followed by a single-frame
+change in scale, which reads as the page glitching rather than as physics. `settle()` runs the
+decay to completion up front and fits the view, so the graph is simply there, laid out and framed,
+on the frame it appears. It is bounded by wall clock (200 ms) rather than by iteration count; if a
+corpus is large enough to exhaust that, the render loop takes over and re-fits *every* frame while
+the layout is still moving, which tracks it smoothly instead of snapping to it at the end.
+
+**The render loop parks.** Nothing moves once alpha is cold, so `tick()` stops requesting frames and
+anything that changes what is on screen — a pan, a zoom, a hover crossing into a different node, a
+theme change — calls `wake()`. The graph page used to repaint sixty times a second forever, drawing
+an identical picture for as long as the tab was open. This is also why the palette is resolved once
+per frame into a cached object: every colour is a CSS custom property, and reading them per node per
+link per frame made `getComputedStyle`, not the physics, the most expensive thing in the paint.
 
 Repulsion is `O(n²)`. At ~1,500 nodes that is roughly 1M pair tests per frame — acceptable but near
 the limit. Beyond that, the change is a Barnes–Hut quadtree in `step()`, which is self-contained;
-nothing else in the file would need to move.
+nothing else in the file would need to move. The pre-paint settle hits the same wall sooner, since
+it runs a few hundred steps at once rather than one per frame.
 
 **Encoding** — node colour is subject and radius grows with degree and interview relevance, so the
 picture reads as "which areas, and which concepts hold the structure together". Nodes were once
@@ -512,7 +529,7 @@ write-if-changed logic already means unchanged output is free.
 ## 11. Testing
 
 ```bash
-npm test     # 58 tests, no framework, ~1 second
+npm test     # 59 tests, no framework, ~1 second
 ```
 
 Coverage is deliberately concentrated where a silent failure would corrupt content: the YAML subset

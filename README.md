@@ -32,7 +32,7 @@ KaTeX is vendored so mathematics renders offline.
 | `npm run watch` | Rebuild as you edit `content/` |
 | `npm run new -- "Title" -s subject` | Scaffold a concept from the template |
 | `npm run check` | Health report: coverage, gaps, orphans |
-| `npm test` | 58 self-tests over the parser, model and build |
+| `npm test` | 59 self-tests over the parser, model and build |
 | `npm run serve` | Optional local HTTP server (not needed for normal use) |
 
 ## Adding a concept
