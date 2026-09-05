@@ -33,10 +33,16 @@
     var prev = byId;
     nodes = visible.map(function (c) {
       var old = prev[c.id];
+      // The focused concept starts at the centre so its neighbourhood settles
+      // around it rather than around wherever the random seed dropped it. This
+      // has to happen here, not after rebuild(), because the layout is settled
+      // before the first paint and would otherwise be settled about the wrong
+      // point.
+      var mid = c.id === opts.focus;
       return {
         id: c.id, c: c,
-        x: old ? old.x : (Math.random() - 0.5) * 500,
-        y: old ? old.y : (Math.random() - 0.5) * 500,
+        x: old ? old.x : mid ? 0 : (Math.random() - 0.5) * 500,
+        y: old ? old.y : mid ? 0 : (Math.random() - 0.5) * 500,
         vx: 0, vy: 0, deg: 0,
       };
     });
@@ -57,6 +63,8 @@
     alpha = 1;
     fitPending = true;
     UI.$('[data-kb-graph-count]').textContent = nodes.length + ' nodes · ' + links.length + ' edges';
+    settle();
+    wake();
   }
 
   /* ---------------------------------------------------------- simulation -- */
@@ -116,6 +124,21 @@
     return (v && v.trim()) || fallback;
   }
 
+  /* Every colour here is a CSS custom property, so each read is a
+     getComputedStyle call. Reading them per node per link per frame made the
+     palette, not the maths, the most expensive thing in the paint. Resolve the
+     whole set once per frame instead -- still live, since it is re-read every
+     frame, so the theme toggle is picked up on the next draw. */
+  var theme = {};
+  function readTheme() {
+    theme.bg = css('--bg', '#08090c');
+    theme.bgRaised = css('--bg-raised', '#101217');
+    theme.accent = css('--accent', '#4d7cff');
+    theme.ink = css('--ink', '#d8dbe2');
+    theme.inkStrong = css('--ink-strong', '#f6f7f9');
+    theme.font = css('--font-ui', 'system-ui, sans-serif');
+  }
+
   /* ---------------------------------------------------------------- paint --
 
      Everything below is drawn in world coordinates inside a translate+scale,
@@ -133,7 +156,7 @@
 
   function nodeColour(n) {
     var subject = KB.subject(n.c.subject) || {};
-    return subject.color || css('--accent', '#4d7cff');
+    return subject.color || theme.accent;
   }
 
   /** Quadratic control point: bow the edge sideways so parallel links separate
@@ -153,6 +176,7 @@
   }
 
   function draw() {
+    readTheme();
     var dpr = global.devicePixelRatio || 1;
     var w = wrap.clientWidth, h = wrap.clientHeight;
     if (canvas.width !== w * dpr || canvas.height !== h * dpr) {
@@ -165,8 +189,8 @@
     // canvas a middle and keeps the corners from reading as dead space.
     var vg = ctx.createRadialGradient(w / 2 + view.x, h / 2 + view.y, 0,
                                       w / 2 + view.x, h / 2 + view.y, Math.max(w, h) * 0.62);
-    vg.addColorStop(0, css('--bg-raised', '#101217'));
-    vg.addColorStop(1, css('--bg', '#08090c'));
+    vg.addColorStop(0, theme.bgRaised);
+    vg.addColorStop(1, theme.bg);
     ctx.globalAlpha = 0.55;
     ctx.fillStyle = vg;
     ctx.fillRect(0, 0, w, h);
@@ -187,7 +211,7 @@
       });
     }
 
-    var accent = css('--accent', '#4d7cff');
+    var accent = theme.accent;
     var inv = 1 / view.k;
 
     /* ------------------------------------------------------------- edges -- */
@@ -269,7 +293,7 @@
       // through the node as a cross.
       if (!dim) {
         ctx.globalAlpha = 1;
-        ctx.fillStyle = css('--bg', '#08090c');
+        ctx.fillStyle = theme.bg;
         ctx.beginPath();
         ctx.arc(n.x, n.y, r, 0, Math.PI * 2);
         ctx.fill();
@@ -306,15 +330,15 @@
     ctx.textAlign = 'center';
     ctx.textBaseline = 'top';
     ctx.lineJoin = 'round';
-    var uiFont = css('--font-ui', 'system-ui, sans-serif');
+    var uiFont = theme.font;
     labelled.forEach(function (item) {
       var size = (item.active ? 12.5 : 11.5) * inv;
       ctx.font = (item.active ? '600 ' : '') + size.toFixed(2) + 'px ' + uiFont;
       var y = item.n.y + item.r + 7 * inv;
-      ctx.strokeStyle = css('--bg', '#08090c');
+      ctx.strokeStyle = theme.bg;
       ctx.lineWidth = 3.5 * inv;
       ctx.strokeText(item.n.c.title, item.n.x, y);
-      ctx.fillStyle = item.active ? css('--ink-strong', '#f6f7f9') : css('--ink', '#d8dbe2');
+      ctx.fillStyle = item.active ? theme.inkStrong : theme.ink;
       ctx.fillText(item.n.c.title, item.n.x, y);
     });
 
@@ -354,12 +378,58 @@
   }
 
   var fitPending = true;
+
+  // The layout is "settled" here, and "cold" -- no longer worth drawing -- at
+  // COLD. Between the two the graph only relaxes; before COOL it is a scramble.
+  var COOL = 0.25, COLD = 0.005;
+
+  /* Run the simulation before the first paint.
+
+     The layout starts from random positions at an arbitrary zoom, so the old
+     code showed that scramble for the ~90 frames it took alpha to reach COOL
+     and only then fitted the view -- a second and a half of drifting dots
+     followed by a single-frame jump in zoom, which is what read as the page
+     glitching. Settling first means the graph is simply there, laid out and
+     framed, on the frame it appears.
+
+     It runs all the way to COLD, not merely to COOL, so the graph is final when
+     it appears rather than creeping for the four seconds the tail of the decay
+     takes. Bounded by wall clock rather than by iterations because the
+     repulsion pass is O(n^2): at twenty concepts the whole settle is a
+     millisecond, and at a corpus large enough to blow the budget the loop below
+     takes over and tracks the layout instead of snapping to it. */
+  var SETTLE_MS = 200;
+  function settle() {
+    var deadline = Date.now() + SETTLE_MS;
+    while (alpha >= COLD) {
+      step();
+      if (Date.now() > deadline) break;
+    }
+    fitView();
+    if (alpha < COOL) fitPending = false;
+  }
+
   function tick() {
     step();
-    // Fit once the simulation has cooled, then leave the user's view alone.
-    if (fitPending && alpha < 0.25) { fitView(); fitPending = false; }
+    // Only reachable when settle() ran out of budget. Re-frame every frame
+    // while the layout is still moving: tracking it is smooth, snapping to it
+    // once at the end is the jump we just removed.
+    if (fitPending) {
+      fitView();
+      if (alpha < COOL) fitPending = false;
+    }
     draw();
+    // Nothing moves once the simulation is cold, and the old loop went on
+    // repainting sixty times a second regardless -- a static picture, redrawn
+    // forever, for as long as the tab was open. Park instead; anything that
+    // changes what is on screen calls wake().
+    if (alpha < COLD && !dragNode) { raf = null; return; }
     raf = requestAnimationFrame(tick);
+  }
+
+  /** Draw at least one more frame, and keep drawing while the layout moves. */
+  function wake() {
+    if (raf == null) raf = requestAnimationFrame(tick);
   }
 
   /* ------------------------------------------------------------ pointers -- */
@@ -411,6 +481,7 @@
       view.y = my - (my - view.y) * (k / view.k);
       view.k = k;
       UI.$('[data-kb-graph-zoom]').textContent = 'zoom ' + view.k.toFixed(2) + '×';
+      wake();
     }
 
     canvas.addEventListener('pointerdown', function (e) {
@@ -433,6 +504,7 @@
       if (node) { dragNode = node; alpha = Math.max(alpha, 0.35); }
       else { panning = true; canvas.classList.add('is-dragging'); }
       last = { x: e.clientX, y: e.clientY };
+      wake();
     });
 
     global.addEventListener('pointermove', function (e) {
@@ -451,6 +523,7 @@
         var p = toWorld(e.clientX, e.clientY);
         dragNode.x = p.x; dragNode.y = p.y;
         moved += 1;
+        wake();
         return;
       }
       if (panning && last) {
@@ -458,6 +531,7 @@
         view.y += e.clientY - last.y;
         last = { x: e.clientX, y: e.clientY };
         moved += 1;
+        wake();
         return;
       }
       // Hover is a mouse idea. A finger has no hover state, and showing a
@@ -476,6 +550,7 @@
       else if (panning && moved < 3 && e.target === canvas) select(null);
       dragNode = null; panning = false; last = null;
       canvas.classList.remove('is-dragging');
+      wake();
     }
     global.addEventListener('pointerup', release);
     global.addEventListener('pointercancel', release);
@@ -492,7 +567,9 @@
   }
 
   function setHover(n, cx, cy) {
-    hover = n;
+    // Repaint only when the highlighted node actually changes -- moving the
+    // pointer across one node just moves a DOM tooltip, which costs no frame.
+    if (n !== hover) { hover = n; wake(); }
     if (!n) { tooltip.removeAttribute('data-show'); canvas.style.cursor = 'grab'; return; }
     canvas.style.cursor = 'pointer';
     var r = wrap.getBoundingClientRect();
@@ -507,6 +584,7 @@
 
   function select(n) {
     selected = n;
+    wake();
     var host = UI.$('[data-kb-graph-detail]');
     if (!n) {
       host.innerHTML = '<p class="kb-empty">Click a node to inspect it. Double-click to open the concept.</p>';
@@ -570,10 +648,15 @@
         rebuild();
       });
     });
-    UI.$('[data-kb-graph-labels]').addEventListener('change', function (e) { opts.label = e.target.value; });
+    UI.$('[data-kb-graph-labels]').addEventListener('change', function (e) {
+      opts.label = e.target.value;
+      wake();
+    });
     UI.$('[data-kb-graph-reset]').addEventListener('click', function () {
       alpha = 1;
       fitPending = true;
+      settle();
+      wake();
     });
 
     document.addEventListener('click', function (e) {
@@ -596,10 +679,18 @@
     bindPointer();
     rebuild();
     select(opts.focus ? byId[opts.focus] : null);
-    if (opts.focus && byId[opts.focus]) { byId[opts.focus].x = 0; byId[opts.focus].y = 0; }
-    tick();
-    KB.on(function (t) { if (t === 'status') alpha = Math.max(alpha, 0.02); });
-    global.addEventListener('resize', function () { alpha = Math.max(alpha, 0.05); fitPending = true; });
+    wake();
+
+    // 'status' is not an event this app emits -- every other canvas listens for
+    // 'theme'. The dead listener went unnoticed because the loop never stopped,
+    // so one of its sixty frames a second repainted in the new palette anyway.
+    // Now that the loop parks, the repaint has to be asked for.
+    KB.on(function (t) { if (t === 'theme') wake(); });
+    global.addEventListener('resize', function () {
+      alpha = Math.max(alpha, 0.05);
+      fitPending = true;
+      wake();
+    });
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);

@@ -839,6 +839,52 @@ test('build: every mounted module registers under the name the page asks for', (
   assert.deepStrictEqual(offenders, [], 'modules that would never mount:\n  ' + offenders.join('\n  '));
 });
 
+test('js: every KB.on listener waits for an event something actually emits', () => {
+  // graph.js listened for 'status'. Nothing has ever emitted 'status' -- every
+  // other canvas in the codebase listens for 'theme'. The dead listener had no
+  // symptom for as long as the graph's render loop never stopped: one of its
+  // sixty frames a second repainted in the new palette anyway. The moment that
+  // loop learned to park when the layout is still, the theme toggle stopped
+  // repainting the graph. A listener wired to a name nobody sends is a bug
+  // whether or not something else happens to be covering for it.
+  const fs = require('fs');
+  const dir = path.join(__dirname, '..', 'assets', 'js');
+  const core = fs.readFileSync(path.join(dir, 'kb-core.js'), 'utf8');
+  const emitted = new Set();
+  core.replace(/\bemit\('([^']+)'/g, (_, name) => emitted.add(name));
+  assert.ok(emitted.size >= 4, 'expected kb-core to emit several event types, saw ' + emitted.size);
+
+  const files = fs.readdirSync(dir).filter((f) => f.endsWith('.js')).map((f) => ['assets/js/' + f, path.join(dir, f)])
+    .concat(fs.readdirSync(path.join(dir, 'modules')).filter((f) => f.endsWith('.js'))
+      .map((f) => ['assets/js/modules/' + f, path.join(dir, 'modules', f)]));
+
+  const offenders = [];
+  let listeners = 0;
+  files.forEach(([rel, abs]) => {
+    const src = fs.readFileSync(abs, 'utf8');
+    const open = /KB\.on\(function \((\w+)[^)]*\)\s*\{/g;
+    let m;
+    while ((m = open.exec(src))) {
+      // Walk to the matching brace so a multi-line callback is read whole.
+      let i = open.lastIndex, depth = 1;
+      while (i < src.length && depth > 0) {
+        if (src[i] === '{') depth += 1;
+        else if (src[i] === '}') depth -= 1;
+        i += 1;
+      }
+      const body = src.slice(open.lastIndex, i - 1);
+      const cmp = new RegExp('\\b' + m[1] + "\\s*[!=]==\\s*'([^']+)'", 'g');
+      let c;
+      while ((c = cmp.exec(body))) {
+        listeners += 1;
+        if (!emitted.has(c[1])) offenders.push(rel + ": listens for '" + c[1] + "', which nothing emits");
+      }
+    }
+  });
+  assert.ok(listeners >= 4, 'expected to find several event-name comparisons, found ' + listeners);
+  assert.deepStrictEqual(offenders, [], 'listeners that can never fire:\n  ' + offenders.join('\n  '));
+});
+
 test('build: the build is deterministic', () => {
   // Generated output is committed, and CI fails if it drifts from content/.
   // A wall-clock timestamp in the payload would make every build differ and
