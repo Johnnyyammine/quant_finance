@@ -396,6 +396,34 @@ at 300, and the `@font-face` range says so rather than claiming 200.
 The home page fetches three of the five files: `unicode-range` and the lazy
 italics mean a landing visitor never pays for a face nothing on screen uses.
 
+### The reading rail
+
+Every sentence on a concept page starts on the same vertical line, whether it is
+a paragraph, a heading, a callout, a derivation, the at-a-glance summary or a
+table's first column.
+
+Boxes carry their own padding, so their text used to sit inside the line the
+prose around them followed — +14px in a derivation, +16 in the summary, +18 in a
+formula head, +22 in a callout, +13 in a table cell. Five left edges for what is
+all body text, and reading down the page the eye caught every one of them.
+
+The fix is that each box hangs outward by exactly the padding it carries. Its
+panel starts at `rail − var(--bleed)`, its text lands on the rail, and the page
+has two vertical lines rather than six: one the panels share, one the prose
+shares. **The bleed and the box padding are the same number** — that is the
+whole invariant, and changing one without the other silently moves the text off
+the rail.
+
+`--bleed` is 18px, and 0 below 900px where the article loses its side column and
+the page gutter is the only room left. The concept grid's gap at ≤1180px is 30px
+rather than 22 for the same reason: below that width the rail's links fill their
+track exactly, so the gap is the entire clearance a hanging callout has.
+
+The bleed is scoped to direct children of `.kb-content`. A box nested inside
+another padded box has to keep its padding and stay inside its parent, not hang
+through its edge — the same reason the table rule has always been scoped that
+way.
+
 ### Colour
 
 Light is the base theme and lives on bare `:root`; dark is the override under
@@ -529,7 +557,7 @@ write-if-changed logic already means unchanged output is free.
 ## 11. Testing
 
 ```bash
-npm test     # 59 tests, no framework, ~1 second
+npm test     # 60 tests, no framework, ~1 second
 ```
 
 Coverage is deliberately concentrated where a silent failure would corrupt content: the YAML subset

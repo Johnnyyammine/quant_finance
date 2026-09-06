@@ -925,6 +925,56 @@ test('build: the prerequisite graph is acyclic', () => {
   prereqs.forEach((_, id) => visit(id, []));
 });
 
+test('css: every bled block selector names the element the renderer emits', () => {
+  // `.kb-content > table` sat in the stylesheet long after the renderer started
+  // wrapping tables for horizontal scroll. It matched nothing, so tables were
+  // the one block that quietly stopped sharing the panel edge with everything
+  // around them. The selector read as correct; only the DOM disagreed.
+  //
+  // The rules under `.kb-content >` hang a block out into the page gutter so
+  // its text lands on the reading rail, which only works on the OUTERMOST
+  // element of the block -- exactly the thing this checks.
+  const fs = require('fs');
+  const css = fs.readFileSync(path.join(__dirname, '..', 'assets', 'css', 'app.css'), 'utf8');
+
+  // Read the selector list off the rule that actually applies the bleed, not
+  // off every mention of `.kb-content > .x` in the file. Those are not the same
+  // set, and the difference is the whole bug: a stale selector in the bleed
+  // rule stays invisible while the class it dropped is still named by some
+  // other rule nearby.
+  const rule = /([^{}]+)\{[^{}]*margin-inline:\s*calc\(-1 \* var\(--bleed\)\)[^{}]*\}/.exec(css);
+  assert.ok(rule, 'no rule applies margin-inline: calc(-1 * var(--bleed))');
+  const targeted = new Set([...rule[1].matchAll(/\.kb-content > \.([\w-]+)/g)].map((m) => m[1]));
+  assert.ok(targeted.size >= 4, 'expected several bled block rules, found ' + targeted.size);
+
+  const blocks = {
+    'a callout': ':::insight\nbody text here\n:::',
+    'a derivation': ':::derivation Proof\nbody text here\n:::',
+    'a formula': ':::formula {name="F"}\nx = 1\n:::',
+    'a module': ':::module random-walk\n{}\n:::',
+    'a table': '| a | b |\n|---|---|\n| 1 | 2 |',
+  };
+
+  const emitted = new Set();
+  const unmatched = [];
+  Object.entries(blocks).forEach(([label, src]) => {
+    const html = md.render(src, {}).html.trim();
+    const m = /^<([a-z]+)[^>]*\bclass="([^"]+)"/.exec(html);
+    assert.ok(m, label + ' no longer renders as an element carrying a class');
+    const classes = m[2].split(/\s+/);
+    classes.forEach((c) => emitted.add(c));
+    if (!classes.some((c) => targeted.has(c))) {
+      unmatched.push(label + ' renders <' + m[1] + ' class="' + m[2] + '">, which no `.kb-content > .x` rule matches');
+    }
+  });
+  assert.deepStrictEqual(unmatched, [], 'blocks the stylesheet cannot reach:\n  ' + unmatched.join('\n  '));
+
+  // And the reverse: a rule aimed at a class no block puts on the outside. Add
+  // the block to `blocks` above when this fires on a genuinely new one.
+  const orphans = [...targeted].filter((c) => !emitted.has(c));
+  assert.deepStrictEqual(orphans, [], 'rules targeting a class no block renders at top level: ' + orphans.join(', '));
+});
+
 test('css: no rule is qualified on the theme that has no attribute', () => {
   // Light is the base theme and sets no attribute on <html>, so a selector
   // written `html[data-theme="light"] .thing` matches nobody on a first visit
