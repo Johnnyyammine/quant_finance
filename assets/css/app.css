@@ -681,9 +681,8 @@ select:hover, input:hover { border-color: var(--line-strong); }
   grid-template-columns: 176px minmax(0, 1fr);
   gap: 32px;
   /* Wide enough that tables, code and the interactive modules get real room.
-     The reading measure is not enforced by starving the column -- it is set on
-     the prose elements themselves, so text stays comfortable while anything
-     wider than a sentence can use the whole width. */
+     The column is the measure: prose and panels share one width, so nothing
+     stops short of the block above it. */
   /* The shared column, like every other view. It ran to 1400 when the topbar
      was full-bleed chrome and nothing had to line up with anything; now the
      bar's own row is this width, so a wider main puts the rail 100px left of
@@ -872,22 +871,24 @@ select:hover, input:hover { border-color: var(--line-strong); }
   padding-left: max(12px, calc(var(--bleed) - 1px));
 }
 
-/* The measure lives on the prose, not on the column. Past roughly 75
-   characters the eye starts losing its place on the line return -- but that
-   argument is about sentences, not about a table, a chart or a block of code,
-   which are read by scanning and only suffer from being cramped. */
-/* One measure, shared, in absolute units. `ch` is the natural unit for a
-   reading measure but it is relative to each element's own font-size, so the
-   summary at 15.5px and the body at 15px came out 23px apart on the same
-   `ch` count. Ragged text hid that; justification turns every block's right
-   edge into a hard line, and two hard lines 23px apart read as a mistake.
-   46rem is the 78ch the body already had. */
-:root { --measure: 46rem; }
+/* Prose runs the full column rather than stopping at a reading measure.
 
-.kb-content > p,
-.kb-content > ul,
-.kb-content > ol,
-.kb-content > blockquote { max-width: var(--measure); }
+   There used to be a 46rem cap here, which put body paragraphs at 736px while
+   every panel beside them -- callout, formula card, derivation, table -- ran
+   the column's full 960. The panels won that argument by accident: the cap was
+   written as `.kb-content > p`, and a paragraph inside a callout is not a
+   direct child, so callout text was never capped. The result was a 224px band
+   of empty page down the right of every paragraph with a full-width panel
+   directly above and below it, which reads as a layout fault rather than as
+   generous margins.
+
+   The cost is real and worth stating: at 960px this is about 120 characters a
+   line, against the 45-75 the typographic argument asks for. Justification and
+   hyphenation are what make it survivable -- a long line has more word spaces
+   to absorb the stretch, so the rivers that plague a justified short measure
+   do not appear. If it ever needs winding back, the fix is to cap the PANELS
+   at the measure too rather than to restore the cap here on its own; capping
+   only the prose is what produced the band. */
 
 /* Prose is justified: both edges flush, so the column reads as a block rather
    than a ragged shape. Hyphenation is not optional alongside it -- justifying
@@ -961,7 +962,6 @@ select:hover, input:hover { border-color: var(--line-strong); }
      clamps to nothing, and the summary's first line sits against the rule. */
   padding: 2px 0 2px max(12px, calc(var(--bleed) - 2px));
   border-left: 2px solid var(--accent);
-  max-width: calc(var(--measure) + var(--bleed));
 }
 .kb-glance-lead {
   margin: 0; font-size: 15.5px; line-height: 1.6; color: var(--ink);
