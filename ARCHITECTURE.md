@@ -424,6 +424,20 @@ another padded box has to keep its padding and stay inside its parent, not hang
 through its edge — the same reason the table rule has always been scoped that
 way.
 
+The right edge is the same story. Prose used to stop at a 46rem reading measure
+while every panel beside it ran the column's full 960px, which left a 224px band
+of empty page down the right of each paragraph with a full-width panel above and
+below it. The panels won that argument by accident: the cap was written as
+`.kb-content > p`, and a paragraph inside a callout is not a direct child, so
+callout text was never capped in the first place. Prose now runs the column too.
+
+The cost is real and worth knowing: that is about 120 characters a line against
+the 45–75 the typographic argument asks for. Justification and hyphenation are
+what make it survivable — a long line has more word spaces to absorb the
+stretch, so the rivers that plague a justified *short* measure do not appear. If
+it ever needs winding back, cap the panels at the measure as well; capping only
+the prose is what produced the band.
+
 ### Colour
 
 Light is the base theme and lives on bare `:root`; dark is the override under
