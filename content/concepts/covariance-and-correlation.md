@@ -7,7 +7,7 @@ difficulty: foundational
 interview_relevance: 5
 tags: [statistics, dependence, risk, diversification, linear-algebra]
 prerequisites: [variance, expectation]
-related: [linear-regression, sharpe-ratio]
+related: [linear-regression, sharpe-ratio, matrix-algebra]
 aliases: [rho, correlation matrix, covariance matrix, dependence]
 updated: 2026-01-14
 questions:

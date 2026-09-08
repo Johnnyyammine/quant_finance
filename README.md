@@ -160,14 +160,14 @@ your phone and laptop keep separate bookmarks and anyone opening your link start
 
 ## Current content
 
-**20 worked concepts** across 8 of the 24 declared subjects — deliberately few. The point of this
+**21 worked concepts** across 8 of the 24 declared subjects — deliberately few. The point of this
 milestone is the system, not the corpus; these exist to prove navigation, search, the graph,
 prerequisites, interview mode, formulas and interactive modules all work end to end.
 
 ```
 Probability             Expectation · Conditional Probability · Bayes' Theorem
 Statistics              Variance · Covariance & Correlation · Linear Regression
-Linear Algebra          PCA & Eigenportfolios
+Linear Algebra          Matrix Algebra · PCA & Eigenportfolios
 Stochastic Processes    Martingales · Brownian Motion · Itô's Lemma
 Options                 Put–Call Parity · Black–Scholes Equation · Black–Scholes Formula ·
                         Option Greeks · Vanilla Option Strategies ·
@@ -178,8 +178,9 @@ Risk Management         Effective Number of Bets
 ```
 
 They form real prerequisite chains (Expectation → Variance → Covariance → Linear Regression;
-Expectation → Martingales → Brownian Motion → Itô's Lemma → Black–Scholes) and carry 92 indexed
-formulas, 118 interview questions and 7 interactive modules. See **[ROADMAP.md](ROADMAP.md)** for
+Matrix Algebra → PCA & Eigenportfolios;
+Expectation → Martingales → Brownian Motion → Itô's Lemma → Black–Scholes) and carry 102 indexed
+formulas, 126 interview questions and 7 interactive modules. See **[ROADMAP.md](ROADMAP.md)** for
 what comes next.
 
 ## Documentation

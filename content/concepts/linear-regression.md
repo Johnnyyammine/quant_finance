@@ -7,7 +7,7 @@ difficulty: intermediate
 interview_relevance: 5
 tags: [statistics, econometrics, ols, factor-models, estimation]
 prerequisites: [covariance-and-correlation, variance]
-related: [expectation, sharpe-ratio]
+related: [expectation, sharpe-ratio, matrix-algebra]
 aliases: [OLS, least squares, beta, regression]
 updated: 2026-01-14
 references:

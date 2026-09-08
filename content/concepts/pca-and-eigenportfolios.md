@@ -6,7 +6,7 @@ summary: The spectral decomposition rewrites a correlated universe as a set of u
 difficulty: intermediate
 interview_relevance: 5
 tags: [linear-algebra, pca, eigenvalues, factor-models, risk, dimensionality-reduction, diversification]
-prerequisites: [covariance-and-correlation]
+prerequisites: [covariance-and-correlation, matrix-algebra]
 related: [linear-regression, effective-number-of-bets]
 aliases: [PCA, principal component analysis, eigendecomposition, spectral decomposition, eigenportfolio, principal portfolios, eigenvalue decomposition, factor rotation]
 updated: 2026-09-02
