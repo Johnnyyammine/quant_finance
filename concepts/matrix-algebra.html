@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en" data-page="concept">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Matrix Algebra · Quant Knowledge Base</title>
+<meta name="description" content="A matrix is a linear map, and every identity worth memorising is a fact about composing maps — the reversal rule, the quadratic form, the spectral decomposition and the two gradients that turn portfolio construction into one line of algebra.">
+<link rel="icon" href="../assets/icons/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/vendor/katex/katex.min.css">
+<link rel="stylesheet" href="../assets/css/app.css?v=a0ec8221">
+<link rel="stylesheet" href="../assets/css/views.css?v=c187c4d6">
+
+</head>
+<body class="kb-body kb-body--concept">
+<header class="kb-topbar">
+  <a class="kb-brand" href="../index.html" title="Home (H)">
+    <span class="kb-brand-mark">QF</span><span class="kb-brand-text">Quant Knowledge Base</span>
+  </a>
+  <nav class="kb-toplinks" aria-label="Sections">
+    <a href="../index.html" data-nav="home">Dashboard</a>
+    <a href="../graph.html" data-nav="graph">Graph</a>
+    <a href="../interview.html" data-nav="interview">Interview</a>
+    <a href="../library.html" data-nav="library">Library</a>
+  </nav>
+  <nav class="kb-crumbs" aria-label="Breadcrumb"><ol><li><a href="../subjects/linear-algebra.html">Linear Algebra</a></li><li class="kb-crumb-sep" aria-hidden="true">/</li><li><span aria-current="page">Matrix Algebra</span></li></ol></nav>
+  <div class="kb-topbar-actions">
+    <button class="kb-searchbtn" type="button" data-kb-open-search>
+      <svg class="kb-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+      <span>Search concepts and subjects</span><kbd>/</kbd>
+    </button>
+    <button class="kb-iconbtn" type="button" data-kb-theme title="Toggle theme (T)" aria-label="Toggle theme"></button>
+    <button class="kb-iconbtn" type="button" data-kb-help title="Keyboard shortcuts (?)" aria-label="Keyboard shortcuts">?</button>
+  </div>
+</header>
+<main class="kb-main kb-main--concept" data-concept-id="matrix-algebra">
+  <article class="kb-article">
+    <header class="kb-concept-head">
+      <div class="kb-concept-eyebrow">
+        <a class="kb-subject-chip" href="../subjects/linear-algebra.html" style="--subject-color:#7a5c9e">
+          <span class="kb-subject-mark">A</span>Linear Algebra</a>
+        <span class="kb-pill kb-pill--foundational">Foundational</span>
+      </div>
+      <h1 class="kb-concept-title">Matrix Algebra</h1>
+      <section class="kb-glance" aria-label="At a glance">
+      <p class="kb-glance-lead">A matrix is a linear map, and every identity worth memorising is a fact about composing maps — the reversal rule, the quadratic form, the spectral decomposition and the two gradients that turn portfolio construction into one line of algebra.</p>
+      <a class="kb-glance-formula" href="#matrix-product">
+        <span class="math-display">\[(AB)_{ij} = \sum_{k=1}^{n} A_{ik}B_{kj}, \qquad
+\underbrace{A}_{m \times n}\underbrace{B}_{n \times p} = \underbrace{AB}_{m \times p}\]</span>
+        <span class="kb-glance-formula-name">Matrix product</span>
+      </a>
+      <ul class="kb-glance-points"><li>A matrix is a linear map.  <span class="math-inline">\(AB\)</span>  means &quot; <span class="math-inline">\(B\)</span>  then  <span class="math-inline">\(A\)</span> &quot; — hence  <span class="math-inline">\((AB)^{-1}=B^{-1}A^{-1}\)</span>  and
+ <span class="math-inline">\((AB)^\top = B^\top A^\top\)</span> .</li><li><span class="math-inline">\(\sigma_p^2 = \mathbf w^\top\Sigma\mathbf w \ge 0\)</span>  for every  <span class="math-inline">\(\mathbf w\)</span>  <strong>is</strong> the definition of
+PSD. It is a statement about portfolios, not a technicality.</li><li><span class="math-inline">\(\nabla(\mathbf a^\top\mathbf w) = \mathbf a\)</span>  and  <span class="math-inline">\(\nabla(\mathbf w^\top\Sigma\mathbf w) = 2\Sigma\mathbf w\)</span> .
+Those two give  <span class="math-inline">\(\mathbf w_{\text{mv}} = \Sigma^{-1}\1/(\1^\top\Sigma^{-1}\1)\)</span>  in three lines.</li></ul>
+      <a class="kb-glance-more" href="#30-second-revision">Full revision →</a>
+    </section>
+      <div class="kb-concept-controls">
+        <button class="kb-btn kb-btn--ghost" type="button" data-kb-bookmark="matrix-algebra">☆ Bookmark</button>
+        <button class="kb-btn kb-btn--ghost" type="button" data-kb-flashcards>Revision card</button>
+        <a class="kb-btn kb-btn--ghost" href="../graph.html?focus=matrix-algebra">Show in graph</a>
+      </div>
+      <ul class="kb-taglist"><li><a class="kb-tag" href="../library.html?tag=linear-algebra">#linear-algebra</a></li><li><a class="kb-tag" href="../library.html?tag=matrices">#matrices</a></li><li><a class="kb-tag" href="../library.html?tag=quadratic-form">#quadratic-form</a></li><li><a class="kb-tag" href="../library.html?tag=eigenvalues">#eigenvalues</a></li><li><a class="kb-tag" href="../library.html?tag=cholesky">#cholesky</a></li><li><a class="kb-tag" href="../library.html?tag=matrix-calculus">#matrix-calculus</a></li><li><a class="kb-tag" href="../library.html?tag=inverse">#inverse</a></li><li><a class="kb-tag" href="../library.html?tag=determinant">#determinant</a></li><li><a class="kb-tag" href="../library.html?tag=psd">#psd</a></li><li><a class="kb-tag" href="../library.html?tag=conditioning">#conditioning</a></li><li><a class="kb-tag" href="../library.html?tag=woodbury">#woodbury</a></li><li><a class="kb-tag" href="../library.html?tag=ols">#ols</a></li></ul>
+    </header>
+
+    <div class="kb-content"><h2 id="intuition" class="kb-h kb-h2"><a class="kb-anchor" href="#intuition" aria-label="Link to this section">#</a>Intuition</h2>
+<p>A matrix is not a grid of numbers. It is a <strong>linear map</strong> — a rule that takes a vector and returns a
+vector, subject to one condition: it must respect addition and scaling. Once you hold that picture,
+every identity worth memorising stops being a formula and becomes an obvious fact about composing
+functions.</p>
+<ul class="kb-list"><li><strong>Multiplication is composition.</strong>  <span class="math-inline">\(AB\)</span>  means &quot;apply  <span class="math-inline">\(B\)</span> , then apply  <span class="math-inline">\(A\)</span> &quot;, which is why it reads
+right to left and why it does not commute.</li>
+<li><strong>The inverse is undoing.</strong> It exists only when the map loses nothing, which is the same as saying
+no direction gets flattened to zero.</li>
+<li><strong>The determinant is the volume scale factor.</strong> Zero determinant means the map squashed space into
+a lower dimension, which is exactly when the inverse fails to exist.</li>
+<li><strong>Eigenvectors are the directions the map leaves alone</strong> apart from stretching, and eigenvalues are
+how much stretch.</li></ul>
+<p>In quant work you meet essentially three matrices, and it is worth knowing which one you are holding:</p>
+<div class="kb-table-wrap"><table class="kb-table"><thead><tr><th>What it is</th><th>Shape</th><th>Key property</th></tr></thead><tbody><tr><td>A <strong>covariance matrix</strong>  <span class="math-inline">\(\Sigma\)</span></td><td><span class="math-inline">\(N \times N\)</span></td><td>symmetric, positive semi-definite</td></tr>
+<tr><td>A <strong>design matrix</strong>  <span class="math-inline">\(X\)</span>  of data</td><td><span class="math-inline">\(T \times k\)</span></td><td>tall and thin;  <span class="math-inline">\(T\)</span>  observations,  <span class="math-inline">\(k\)</span>  features</td></tr>
+<tr><td>A <strong>transformation of weights</strong></td><td>whatever composes</td><td>usually not symmetric</td></tr></tbody></table></div>
+<aside class="kb-callout kb-callout--insight"><div class="kb-callout-title">Insight</div><div class="kb-callout-body"><p>Almost every matrix in finance is symmetric positive semi-definite, and that is a much stronger
+condition than it looks. It buys you real eigenvalues, an orthonormal eigenbasis, a Cholesky
+factorisation, and a guarantee that quadratic forms are non-negative. When an algorithm has a
+special case for symmetric matrices —  <code>eigh</code>  over  <code>eig</code> , Cholesky over LU — the special case is the
+one you want, and it is faster.</p></div></aside>
+<h2 id="mathematical-formulation" class="kb-h kb-h2"><a class="kb-anchor" href="#mathematical-formulation" aria-label="Link to this section">#</a>Mathematical Formulation</h2>
+<p>The product, and the shape rule that governs everything:</p>
+<figure class="kb-formula" id="matrix-product" data-formula="matrix-product"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">Matrix product</span><button class="kb-formula-copy" type="button" data-latex="(AB)_{ij} = \sum_{k=1}^{n} A_{ik}B_{kj}, \qquad
+\underbrace{A}_{m \times n}\underbrace{B}_{n \times p} = \underbrace{AB}_{m \times p}" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[(AB)_{ij} = \sum_{k=1}^{n} A_{ik}B_{kj}, \qquad
+\underbrace{A}_{m \times n}\underbrace{B}_{n \times p} = \underbrace{AB}_{m \times p}\]</span> </div><p class="kb-formula-note">Inner dimensions must agree; the outer dimensions survive.</p><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">Everywhere</span></footer></figure>
+<p>The reversal rules. These are the identities that come up on a whiteboard more than any others:</p>
+<figure class="kb-formula" id="reversal-rules" data-formula="reversal-rules"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">Reversal rules</span><button class="kb-formula-copy" type="button" data-latex="(AB)^\top = B^\top A^\top, \qquad (AB)^{-1} = B^{-1}A^{-1}, \qquad (A^\top)^{-1} = (A^{-1})^\top" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[(AB)^\top = B^\top A^\top, \qquad (AB)^{-1} = B^{-1}A^{-1}, \qquad (A^\top)^{-1} = (A^{-1})^\top\]</span> </div><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">Derivations</span><span class="kb-chip">Hedging</span><span class="kb-chip">Regression</span></footer></figure>
+<p>The quadratic form — one line of algebra that carries the whole of portfolio risk:</p>
+<figure class="kb-formula" id="quadratic-form-and-portfolio-variance" data-formula="quadratic-form-and-portfolio-variance"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">Quadratic form and portfolio variance</span><button class="kb-formula-copy" type="button" data-latex="\sigma_p^2 = \mathbf w^\top \Sigma\, \mathbf w = \sum_i \sum_j w_i \Sigma_{ij} w_j
+\;\ge\; 0 \quad \text{for all } \mathbf w \iff \Sigma \succeq 0" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[\sigma_p^2 = \mathbf w^\top \Sigma\, \mathbf w = \sum_i \sum_j w_i \Sigma_{ij} w_j
+\;\ge\; 0 \quad \text{for all } \mathbf w \iff \Sigma \succeq 0\]</span> </div><p class="kb-formula-note">Positive semi-definiteness is the statement that no portfolio has negative variance.</p><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">Risk Management</span><span class="kb-chip">Portfolio Construction</span></footer></figure>
+<p>The  <span class="math-inline">\(2\times2\)</span>  inverse, because you will be asked to do one without a computer:</p>
+<figure class="kb-formula" id="inverse-and-determinant-of-a-2x2" data-formula="inverse-and-determinant-of-a-2x2"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">Inverse and determinant of a 2x2</span><button class="kb-formula-copy" type="button" data-latex="\begin{pmatrix} a &amp; b \\ c &amp; d \end{pmatrix}^{-1}
+= \frac{1}{ad-bc}\begin{pmatrix} d &amp; -b \\ -c &amp; a \end{pmatrix},
+\qquad \det = ad - bc" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[\begin{pmatrix} a &amp; b \\ c &amp; d \end{pmatrix}^{-1}
+= \frac{1}{ad-bc}\begin{pmatrix} d &amp; -b \\ -c &amp; a \end{pmatrix},
+\qquad \det = ad - bc\]</span> </div><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">Mental Math</span><span class="kb-chip">Interviews</span></footer></figure>
+<p>Trace and determinant tie back to the eigenvalues, which makes both of them cheap sanity checks:</p>
+<figure class="kb-formula" id="trace-and-determinant-from-the-spectrum" data-formula="trace-and-determinant-from-the-spectrum"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">Trace and determinant from the spectrum</span><button class="kb-formula-copy" type="button" data-latex="\operatorname{tr}(A) = \sum_i A_{ii} = \sum_i \lambda_i, \qquad
+\det(A) = \prod_i \lambda_i, \qquad \operatorname{tr}(AB) = \operatorname{tr}(BA)" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[\operatorname{tr}(A) = \sum_i A_{ii} = \sum_i \lambda_i, \qquad
+\det(A) = \prod_i \lambda_i, \qquad \operatorname{tr}(AB) = \operatorname{tr}(BA)\]</span> </div><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">Diagnostics</span><span class="kb-chip">PCA</span></footer></figure>
+<p>For symmetric matrices the spectral theorem is the structural result everything else leans on:</p>
+<figure class="kb-formula" id="spectral-decomposition" data-formula="spectral-decomposition"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">Spectral decomposition</span><button class="kb-formula-copy" type="button" data-latex="\Sigma = Q\Lambda Q^\top, \qquad Q^\top Q = I, \qquad
+\Lambda = \operatorname{diag}(\lambda_1,\dots,\lambda_N)" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[\Sigma = Q\Lambda Q^\top, \qquad Q^\top Q = I, \qquad
+\Lambda = \operatorname{diag}(\lambda_1,\dots,\lambda_N)\]</span> </div><p class="kb-formula-note">Q is orthogonal, so its inverse is its transpose — the cheapest inverse there is.</p><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">PCA</span><span class="kb-chip">Risk Models</span><span class="kb-chip">Simulation</span></footer></figure>
+<p>The Cholesky factorisation — the square root you use to simulate correlated returns:</p>
+<figure class="kb-formula" id="cholesky-factorisation" data-formula="cholesky-factorisation"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">Cholesky factorisation</span><button class="kb-formula-copy" type="button" data-latex="\Sigma = LL^\top, \qquad
+\mathbf r = L\mathbf z \;\text{ with }\; \mathbf z \sim N(0, I)
+\;\Longrightarrow\; \Cov(\mathbf r) = \Sigma" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[\Sigma = LL^\top, \qquad
+\mathbf r = L\mathbf z \;\text{ with }\; \mathbf z \sim N(0, I)
+\;\Longrightarrow\; \Cov(\mathbf r) = \Sigma\]</span> </div><p class="kb-formula-note">Exists and is unique exactly when the matrix is positive definite, so it doubles as a PSD test.</p><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">Monte Carlo</span><span class="kb-chip">Simulation</span><span class="kb-chip">Risk</span></footer></figure>
+<p>Least squares in matrix form — one expression that contains all of regression:</p>
+<figure class="kb-formula" id="normal-equations" data-formula="normal-equations"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">Normal equations</span><button class="kb-formula-copy" type="button" data-latex="\hat{\boldsymbol\beta} = (X^\top X)^{-1}X^\top \mathbf y, \qquad
+X \in \R^{T\times k},\; X^\top X \in \R^{k\times k}" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[\hat{\boldsymbol\beta} = (X^\top X)^{-1}X^\top \mathbf y, \qquad
+X \in \R^{T\times k},\; X^\top X \in \R^{k\times k}\]</span> </div><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">Regression</span><span class="kb-chip">Factor Models</span><span class="kb-chip">Hedging</span></footer></figure>
+<p>Sherman–Morrison, for a diagonal matrix plus a rank-one update — which is what a one-factor risk
+model is:</p>
+<figure class="kb-formula" id="sherman-morrison" data-formula="sherman-morrison"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">Sherman-Morrison</span><button class="kb-formula-copy" type="button" data-latex="(D + \sigma^2\mathbf u\mathbf u^\top)^{-1}
+= D^{-1} - \frac{\sigma^2\,D^{-1}\mathbf u\mathbf u^\top D^{-1}}{1 + \sigma^2\,\mathbf u^\top D^{-1}\mathbf u}" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[(D + \sigma^2\mathbf u\mathbf u^\top)^{-1}
+= D^{-1} - \frac{\sigma^2\,D^{-1}\mathbf u\mathbf u^\top D^{-1}}{1 + \sigma^2\,\mathbf u^\top D^{-1}\mathbf u}\]</span> </div><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">Factor Models</span><span class="kb-chip">Kalman Filters</span><span class="kb-chip">Fast Optimisation</span></footer></figure>
+<p>And the two gradients that turn mean-variance optimisation into a one-line solve:</p>
+<figure class="kb-formula" id="the-two-gradients-you-need" data-formula="the-two-gradients-you-need"><figcaption class="kb-formula-head"><span class="kb-formula-tag">Key formula</span><span class="kb-formula-name">The two gradients you need</span><button class="kb-formula-copy" type="button" data-latex="\frac{\partial}{\partial \mathbf w}\big(\mathbf a^\top\mathbf w\big) = \mathbf a,
+\qquad
+\frac{\partial}{\partial \mathbf w}\big(\mathbf w^\top\Sigma\mathbf w\big) = 2\Sigma\mathbf w" title="Copy LaTeX">copy</button></figcaption><div class="kb-formula-body"> <span class="math-display">\[\frac{\partial}{\partial \mathbf w}\big(\mathbf a^\top\mathbf w\big) = \mathbf a,
+\qquad
+\frac{\partial}{\partial \mathbf w}\big(\mathbf w^\top\Sigma\mathbf w\big) = 2\Sigma\mathbf w\]</span> </div><p class="kb-formula-note">The 2 comes from w appearing in both slots of the quadratic form. It is the matrix version of d(x^2)/dx = 2x.</p><footer class="kb-formula-foot"><span>Used in</span><span class="kb-chip">Optimization</span><span class="kb-chip">Portfolio Construction</span></footer></figure>
+<h2 id="derivation" class="kb-h kb-h2"><a class="kb-anchor" href="#derivation" aria-label="Link to this section">#</a>Derivation</h2>
+<details class="kb-derivation"><summary>Why the order reverses</summary><div class="kb-derivation-body"><p>Take the transpose first, in indices. By definition  <span class="math-inline">\((M^\top)_{ij} = M_{ji}\)</span> , so</p>
+<span class="math-display">\[\big((AB)^\top\big)_{ij} = (AB)_{ji} = \sum_k A_{jk}B_{ki}
+ = \sum_k (B^\top)_{ik}(A^\top)_{kj} = (B^\top A^\top)_{ij}\]</span>
+<p>The sum over  <span class="math-inline">\(k\)</span>  never moved; all that happened is that the two factors had to swap places for the
+inner indices to meet.</p>
+<p>The inverse is even shorter — you simply check the candidate:</p>
+<span class="math-display">\[(AB)(B^{-1}A^{-1}) = A(BB^{-1})A^{-1} = AIA^{-1} = I\]</span>
+<p>and inverses are unique, so  <span class="math-inline">\(B^{-1}A^{-1}\)</span>  <em>is</em>  <span class="math-inline">\((AB)^{-1}\)</span> .</p>
+<p>The reason to remember, rather than the proof:  <span class="math-inline">\(AB\)</span>  does  <span class="math-inline">\(B\)</span>  first. Undoing a sequence means undoing
+the last step first. Shoes and socks.</p></div></details>
+<details class="kb-derivation"><summary>The quadratic-form gradient, and the minimum-variance portfolio</summary><div class="kb-derivation-body"><p>Write the quadratic form out and differentiate with respect to one component:</p>
+<span class="math-display">\[f(\mathbf w) = \sum_i\sum_j w_i\Sigma_{ij}w_j,
+\qquad
+\frac{\partial f}{\partial w_k} = \underbrace{\sum_j \Sigma_{kj}w_j}_{i=k \text{ terms}}
+ + \underbrace{\sum_i w_i\Sigma_{ik}}_{j=k \text{ terms}}\]</span>
+<p> <span class="math-inline">\(\mathbf w\)</span>  appears in both slots, so each contributes once. Stacking the components gives
+ <span class="math-inline">\((\Sigma + \Sigma^\top)\mathbf w\)</span> , and symmetry collapses it to  <span class="math-inline">\(2\Sigma\mathbf w\)</span> .</p>
+<p>Now put it to work. Minimise variance subject to the weights summing to one:</p>
+<span class="math-display">\[\mathcal L = \mathbf w^\top\Sigma\mathbf w - \gamma(\1^\top\mathbf w - 1),
+\qquad
+\nabla_{\mathbf w}\mathcal L = 2\Sigma\mathbf w - \gamma\1 = 0\]</span>
+<p>So  <span class="math-inline">\(\mathbf w = \tfrac{\gamma}{2}\Sigma^{-1}\1\)</span> . The constraint fixes the scale — the whole vector
+must sum to one — which gives</p>
+<span class="math-display">\[\boxed{\;\mathbf w_{\text{mv}} = \frac{\Sigma^{-1}\1}{\1^\top\Sigma^{-1}\1}\;}
+\qquad\text{and}\qquad
+\sigma_{\text{mv}}^2 = \frac{1}{\1^\top\Sigma^{-1}\1}\]</span>
+<p>Notice that the factor of 2 vanished into  <span class="math-inline">\(\gamma\)</span> . That is why dropping it early is a mistake you
+can make and still get the right weights — right up until you need the multiplier itself, which in
+the mean-variance problem is the risk-aversion parameter.</p>
+<p>One more line, and a result worth carrying:  <span class="math-inline">\(\Sigma\mathbf w_{\text{mv}} = \sigma^2_{\text{mv}}\1\)</span> ,
+a constant vector. Every asset has the same marginal contribution to risk at the minimum. That is
+the defining property of the minimum-variance portfolio, and it is why an asset can hold a large
+weight there without being a large share of the risk.</p></div></details>
+<details class="kb-derivation"><summary>Sherman-Morrison, by checking rather than by guessing</summary><div class="kb-derivation-body"><p>The honest derivation of a rank-one inverse update is to multiply the claim out. Write
+ <span class="math-inline">\(\Sigma = D + \sigma^2\mathbf u\mathbf u^\top\)</span>  and let  <span class="math-inline">\(\alpha = 1 + \sigma^2\mathbf u^\top D^{-1}\mathbf u\)</span> ,
+a scalar. The claim is that the inverse is
+ <span class="math-inline">\(D^{-1} - \sigma^2 D^{-1}\mathbf u\mathbf u^\top D^{-1}/\alpha\)</span> . Multiply:</p>
+<span class="math-display">\[(D + \sigma^2\mathbf u\mathbf u^\top)\left(D^{-1} - \frac{\sigma^2 D^{-1}\mathbf u\mathbf u^\top D^{-1}}{\alpha}\right)\]</span>
+<span class="math-display">\[= I - \frac{\sigma^2\mathbf u\mathbf u^\top D^{-1}}{\alpha}
+  + \sigma^2\mathbf u\mathbf u^\top D^{-1}
+  - \frac{\sigma^4\,\mathbf u\,(\mathbf u^\top D^{-1}\mathbf u)\,\mathbf u^\top D^{-1}}{\alpha}\]</span>
+<p>The middle term of the bracket,  <span class="math-inline">\(\mathbf u^\top D^{-1}\mathbf u\)</span> , is a <strong>scalar</strong>, so it slides out
+of the product. Collect the three terms that carry  <span class="math-inline">\(\mathbf u\mathbf u^\top D^{-1}\)</span> :</p>
+<span class="math-display">\[\sigma^2\mathbf u\mathbf u^\top D^{-1}\left(1 - \frac{1}{\alpha} - \frac{\sigma^2\mathbf u^\top D^{-1}\mathbf u}{\alpha}\right)
+= \sigma^2\mathbf u\mathbf u^\top D^{-1}\cdot\frac{\alpha - 1 - \sigma^2\mathbf u^\top D^{-1}\mathbf u}{\alpha} = 0\]</span>
+<p>by the definition of  <span class="math-inline">\(\alpha\)</span> . What remains is  <span class="math-inline">\(I\)</span> .</p>
+<p>The general statement is the Woodbury identity: for  <span class="math-inline">\(K\)</span>  factors,  <span class="math-inline">\(\Sigma = D + B\Omega B^\top\)</span>  with
+ <span class="math-inline">\(B \in \R^{N\times K}\)</span> , the only matrix you ever invert is  <span class="math-inline">\(K\times K\)</span> . A 2,000-name universe with
+ten factors needs one  <span class="math-inline">\(10\times10\)</span>  inverse.</p></div></details>
+<h2 id="assumptions-edge-cases" class="kb-h kb-h2"><a class="kb-anchor" href="#assumptions-edge-cases" aria-label="Link to this section">#</a>Assumptions &amp; Edge Cases</h2>
+<aside class="kb-callout kb-callout--assumption"><div class="kb-callout-title">Assumptions</div><div class="kb-callout-body"><ul class="kb-list"><li><strong>Shapes before anything else.</strong>  <span class="math-inline">\(AB\)</span>  requires  <span class="math-inline">\(A\)</span> &#39;s columns to match  <span class="math-inline">\(B\)</span> &#39;s rows. Most &quot;the maths
+is wrong&quot; bugs are a transpose in the wrong place, and the shapes would have caught them.</li>
+<li><strong>Non-commutativity is the default.</strong>  <span class="math-inline">\(AB \ne BA\)</span>  unless the two share an eigenbasis. Diagonal
+matrices commute with each other, which is why intuition built on scalars survives longer than it
+should.</li>
+<li><strong>Invertibility is not typical.</strong> A square matrix is invertible only when no direction is
+flattened — equivalently  <span class="math-inline">\(\det \ne 0\)</span> , all eigenvalues non-zero, full rank. A sample covariance
+from  <span class="math-inline">\(T \le N\)</span>  observations fails this <strong>always</strong>, not occasionally.</li>
+<li><strong>PSD is not the same as PD.</strong> Positive *semi*-definite allows zero eigenvalues, so  <span class="math-inline">\(\Sigma\)</span>  can be
+a genuine covariance matrix and still have no inverse. Cholesky needs strictly positive definite.</li>
+<li><strong>Near-singular is worse than singular</strong>, because it does not raise. The condition number
+ <span class="math-inline">\(\kappa = \lambda_{\max}/\lambda_{\min}\)</span>  tells you roughly how many digits you lose: at
+ <span class="math-inline">\(\kappa = 10^{12}\)</span> , double precision has about four left.</li></ul></div></aside>
+<aside class="kb-callout kb-callout--pitfall"><div class="kb-callout-title">Common pitfall</div><div class="kb-callout-body"><p>A correlation matrix is not just any symmetric matrix with ones on the diagonal — it must also be
+PSD, and that constraint couples the entries. Three correlations that are each perfectly reasonable
+in isolation can be jointly impossible. Overriding one cell of an estimated matrix &quot;because we know
+these two are more correlated than that&quot; is the standard way to produce a matrix that no data could
+have generated.</p></div></aside>
+<h2 id="worked-example" class="kb-h kb-h2"><a class="kb-anchor" href="#worked-example" aria-label="Link to this section">#</a>Worked Example</h2>
+<p>Three assets — call them Equity, Credit and Rates — with annualised volatilities
+ <span class="math-inline">\(\boldsymbol\sigma = (20\%,\,15\%,\,10\%)\)</span>  and correlations  <span class="math-inline">\(\rho_{12}=0.60\)</span> ,  <span class="math-inline">\(\rho_{13}=-0.20\)</span> ,
+ <span class="math-inline">\(\rho_{23}=0.10\)</span> .</p>
+<p><strong>Build  <span class="math-inline">\(\Sigma\)</span> .</strong> The construction is  <span class="math-inline">\(\Sigma = \operatorname{diag}(\boldsymbol\sigma)\,\mathbf P\,\operatorname{diag}(\boldsymbol\sigma)\)</span> ,
+which is exactly  <span class="math-inline">\(\Sigma_{ij} = \sigma_i\rho_{ij}\sigma_j\)</span> :</p>
+<div class="kb-table-wrap"><table class="kb-table"><thead><tr><th><span class="math-inline">\(\Sigma\)</span></th><th>Equity</th><th>Credit</th><th>Rates</th></tr></thead><tbody><tr><td><strong>Equity</strong></td><td>0.0400</td><td>0.0180</td><td>−0.0040</td></tr>
+<tr><td><strong>Credit</strong></td><td>0.0180</td><td>0.0225</td><td>0.0015</td></tr>
+<tr><td><strong>Rates</strong></td><td>−0.0040</td><td>0.0015</td><td>0.0100</td></tr></tbody></table></div>
+<p><strong>The quadratic form does the diversification.</strong> Equal weights,  <span class="math-inline">\(\mathbf w = (\tfrac13,\tfrac13,\tfrac13)\)</span> :</p>
+<span class="math-display">\[\sigma_p^2 = \mathbf w^\top\Sigma\mathbf w = \frac{1}{9}\sum_{i,j}\Sigma_{ij} = \frac{0.1035}{9} = 0.0115
+\;\Longrightarrow\; \sigma_p = 10.72\%\]</span>
+<p>against a weighted-average volatility of  <span class="math-inline">\(15.00\%\)</span> . The whole of the diversification benefit is the
+off-diagonal terms of one quadratic form.</p>
+<p><strong>Minimum variance.</strong> Solving  <span class="math-inline">\(\Sigma\mathbf w \propto \1\)</span>  and normalising:</p>
+<span class="math-display">\[\mathbf w_{\text{mv}} = (19.69\%,\; 8.45\%,\; 71.85\%), \qquad
+\sigma_{\text{mv}} = 8.08\%\]</span>
+<p>Check the property from the derivation:  <span class="math-inline">\(\Sigma\mathbf w_{\text{mv}} = (0.006524,\,0.006524,\,0.006524)\)</span> 
+— constant, as promised, and equal to  <span class="math-inline">\(\sigma^2_{\text{mv}}\)</span> . Rates takes 72% of the capital but,
+because marginal risk is equalised, exactly 72% of the risk too.</p>
+<p><strong>The spectrum.</strong> Eigenvalues  <span class="math-inline">\(\lambda = (0.051428,\; 0.013994,\; 0.007078)\)</span> :</p>
+<div class="kb-table-wrap"><table class="kb-table"><thead><tr><th>Check</th><th>Value</th><th>Against</th></tr></thead><tbody><tr><td><span class="math-inline">\(\sum\lambda_i\)</span></td><td>0.072500</td><td><span class="math-inline">\(\operatorname{tr}\Sigma = 0.04+0.0225+0.01 = 0.0725\)</span></td></tr>
+<tr><td><span class="math-inline">\(\prod\lambda_i\)</span></td><td><span class="math-inline">\(5.094\times10^{-6}\)</span></td><td><span class="math-inline">\(\det\Sigma = 5.094\times10^{-6}\)</span></td></tr>
+<tr><td><span class="math-inline">\(\lambda_{\max}/\lambda_{\min}\)</span></td><td>7.27</td><td>condition number — comfortably small</td></tr></tbody></table></div>
+<p>The variance shares are 70.9%, 19.3% and 9.8%, which is where <a class="kb-link" href="pca-and-eigenportfolios.html" data-concept="pca-and-eigenportfolios">PCA &amp; Eigenportfolios</a> starts.</p>
+<p><strong>The square root.</strong> The Cholesky factor comes out unusually clean, so you can check it by hand:</p>
+<span class="math-display">\[L = \begin{pmatrix} 0.20 &amp; 0 &amp; 0 \\ 0.09 &amp; 0.12 &amp; 0 \\ -0.02 &amp; 0.0275 &amp; 0.094041 \end{pmatrix},
+\qquad LL^\top = \Sigma\]</span>
+<p>Read the first column: it is the first row of  <span class="math-inline">\(\Sigma\)</span>  divided by  <span class="math-inline">\(\sigma_1\)</span> . Read  <span class="math-inline">\(L_{33}\)</span> : it is
+ <span class="math-inline">\(\sqrt{0.01 - (-0.02)^2 - 0.0275^2} = 0.094041\)</span> , the volatility of Rates <em>after</em> removing everything
+the first two assets explain. Every Cholesky entry is a residual volatility, which is why
+ <span class="math-inline">\(\mathbf r = L\mathbf z\)</span>  produces correlated returns from independent shocks.</p>
+<p><strong>Now break it.</strong> Suppose a portfolio manager insists Equity and Credit are more correlated than the
+data says, and overrides  <span class="math-inline">\(\rho_{12} = 0.60 \to 0.99\)</span> , leaving the others alone. For a  <span class="math-inline">\(3\times3\)</span> 
+correlation matrix,</p>
+<span class="math-display">\[\det\mathbf P = 1 + 2\rho_{12}\rho_{13}\rho_{23} - \rho_{12}^2 - \rho_{13}^2 - \rho_{23}^2
+= 0.95 - 0.04\,\rho_{12} - \rho_{12}^2\]</span>
+<p>At  <span class="math-inline">\(\rho_{12} = 0.60\)</span>  that is  <span class="math-inline">\(+0.566\)</span> . At  <span class="math-inline">\(\rho_{12}=0.99\)</span>  it is  <span class="math-inline">\(-0.0697\)</span>  — <strong>negative</strong>, so the
+matrix is not PSD and the smallest eigenvalue is  <span class="math-inline">\(-0.0336\)</span> . There is a portfolio with negative
+variance in there, and an optimiser will find it.</p>
+<p>Setting the determinant to zero gives the exact boundary: with the other two correlations fixed,
+ <span class="math-inline">\(\rho_{12}\)</span>  can be at most</p>
+<span class="math-display">\[\rho_{12}^\star = \frac{-0.04+\sqrt{0.04^2+4(0.95)}}{2} = 0.9549\]</span>
+<p>Not 1. The other two correlations have already spent some of the budget. This is the single most
+useful thing the determinant does for you in practice.</p>
+<h2 id="why-it-matters-in-quant-finance" class="kb-h kb-h2"><a class="kb-anchor" href="#why-it-matters-in-quant-finance" aria-label="Link to this section">#</a>Why It Matters in Quant Finance</h2>
+<p>Matrix algebra is the notation quant finance is written in, and the reason is compression: the
+quadratic form  <span class="math-inline">\(\mathbf w^\top\Sigma\mathbf w\)</span>  is a sum over  <span class="math-inline">\(N^2\)</span>  pairs, and for a 500-name book
+that is 125,250 covariance terms standing behind five characters.</p>
+<p>But the deeper reason is that <strong>the structure of the matrix is the structure of the problem</strong>. When
+ <span class="math-inline">\(\Sigma\)</span>  is near-singular, that is not a numerical annoyance — it is the data telling you two of your
+assets are the same trade. When an eigenvalue is tiny, there is a portfolio the model believes is
+almost riskless, and the model is usually wrong. When the determinant is negative, someone has
+supplied correlations that no world can produce. Every one of those is a modelling insight arriving
+disguised as a linear-algebra fact.</p>
+<h2 id="trading-research-application" class="kb-h kb-h2"><a class="kb-anchor" href="#trading-research-application" aria-label="Link to this section">#</a>Trading &amp; Research Application</h2>
+<ul class="kb-list"><li><strong>Risk decomposition.</strong> Marginal contribution to risk is  <span class="math-inline">\(\partial\sigma_p/\partial\mathbf w = \Sigma\mathbf w/\sigma_p\)</span> 
+— the quadratic-form gradient divided by volatility. Every risk report you have ever read is that
+vector.</li>
+<li><strong>Hedging.</strong> The minimum-variance hedge ratio is the OLS solution
+ <span class="math-inline">\(\hat{\boldsymbol\beta} = (X^\top X)^{-1}X^\top\mathbf y\)</span> , whether  <span class="math-inline">\(X\)</span>  is one futures contract or
+forty tenor buckets. See <a class="kb-link" href="linear-regression.html" data-concept="linear-regression">Linear Regression</a>.</li>
+<li><strong>Factor models.</strong>  <span class="math-inline">\(\Sigma = B\Omega B^\top + D\)</span>  replaces  <span class="math-inline">\(N(N+1)/2\)</span>  free parameters with  <span class="math-inline">\(NK + K(K+1)/2 + N\)</span> ,
+which is what makes the matrix both estimable and invertible. Woodbury then makes it fast.</li>
+<li><strong>Simulation.</strong> Correlated scenarios are  <span class="math-inline">\(L\mathbf z\)</span>  with  <span class="math-inline">\(L\)</span>  the Cholesky factor, which is how
+every Monte Carlo VaR engine generates its paths.</li>
+<li><strong>Portfolio construction.</strong> Mean-variance, risk parity and Black–Litterman are all a solve against
+ <span class="math-inline">\(\Sigma\)</span>  with different right-hand sides. See <a class="kb-link" href="effective-number-of-bets.html" data-concept="effective-number-of-bets">Effective Number of Bets</a> for what the eigenvalues
+say about whether the diversification is real.</li></ul>
+<h2 id="implementation-notes" class="kb-h kb-h2"><a class="kb-anchor" href="#implementation-notes" aria-label="Link to this section">#</a>Implementation Notes</h2>
+<figure class="kb-code" data-lang="python"><pre><code class="language-python">import numpy as np
+from scipy.linalg import cho_factor, cho_solve
+
+
+def min_variance_weights(cov):
+    &quot;&quot;&quot;Long/short minimum-variance weights.
+
+    Cholesky rather than `inv`: about twice the speed of a general solve, and it
+    raises on a non-positive-definite matrix instead of returning weights built
+    from a negative variance. That failure is the useful part -- a covariance
+    matrix that will not factorise is telling you something about your data.
+    &quot;&quot;&quot;
+    cov = np.asarray(cov, dtype=float)
+    n = cov.shape[0]
+    if not np.allclose(cov, cov.T, atol=1e-12):
+        raise ValueError(&quot;covariance matrix is not symmetric&quot;)
+
+    c, low = cho_factor(cov)                 # raises LinAlgError if not PD
+    z = cho_solve((c, low), np.ones(n))      # never form the inverse
+    return z / z.sum()
+
+
+def is_psd(matrix, tol=1e-10):
+    &quot;&quot;&quot;Report the smallest eigenvalue alongside the verdict.
+
+    `eigvalsh` rather than `eigvals`: the symmetric routine returns sorted real
+    eigenvalues, is about twice as fast, and does not hand back complex dtypes
+    with 1e-17 imaginary parts that then have to be explained to someone.
+    &quot;&quot;&quot;
+    smallest = float(np.linalg.eigvalsh(matrix).min())
+    return smallest &gt;= -tol, smallest</code></pre></figure>
+<p>Beyond that:</p>
+<ul class="kb-list"><li><strong> <code>solve</code> , never  <code>inv</code> .</strong> Roughly a third of the cost and better conditioned. If you catch yourself
+writing  <code>inv(A) @ b</code> , write  <code>solve(A, b)</code> .</li>
+<li><strong> <code>eigh</code> , never  <code>eig</code> , on anything symmetric.</strong> Sorted real eigenvalues, orthogonal eigenvectors to
+machine precision, about twice the speed.</li>
+<li><strong>Check the condition number before trusting a solve.</strong>  <code>np.linalg.cond</code>  is cheap next to the
+consequences; above  <span class="math-inline">\(10^{10}\)</span>  on a covariance matrix, treat the answer as decoration.</li>
+<li><strong>Rank is capped at  <span class="math-inline">\(\min(N, T-1)\)</span> .</strong> Measured on random data:  <span class="math-inline">\(N=100\)</span>  from  <span class="math-inline">\(T=100\)</span>  days gives rank
+99, not 100 — the demeaning costs the last one.  <span class="math-inline">\(N=100\)</span>  from  <span class="math-inline">\(T=60\)</span>  gives rank 59.</li>
+<li><strong>Watch the memory layout at scale.</strong> NumPy is row-major; BLAS underneath is column-major. For
+ <span class="math-inline">\(N\)</span>  in the thousands,  <code>A @ B</code>  on the wrong layout can cost several times what it needs to.</li></ul>
+<h2 id="common-mistakes" class="kb-h kb-h2"><a class="kb-anchor" href="#common-mistakes" aria-label="Link to this section">#</a>Common Mistakes</h2>
+<ul class="kb-list"><li><strong>Reversing a product without reversing the order.</strong>  <span class="math-inline">\((AB)^\top = B^\top A^\top\)</span> , not
+ <span class="math-inline">\(A^\top B^\top\)</span>  — which is usually not even a legal shape, so the error announces itself. The
+inverse case is more dangerous because square matrices make the illegal version legal.</li>
+<li><strong>Losing the factor of 2</strong> in  <span class="math-inline">\(\nabla(\mathbf w^\top\Sigma\mathbf w) = 2\Sigma\mathbf w\)</span> . It
+cancels in the minimum-variance weights, so the mistake survives until it reaches the risk-aversion
+parameter and silently doubles it.</li>
+<li><strong>Collapsing  <span class="math-inline">\(\operatorname{diag}(\boldsymbol\sigma)\mathbf P\operatorname{diag}(\boldsymbol\sigma)\)</span> 
+to  <span class="math-inline">\(\operatorname{diag}(\boldsymbol\sigma)^2\mathbf P\)</span> .</strong> The left factor scales rows, the right
+scales columns. Only the two together give  <span class="math-inline">\(\sigma_i\rho_{ij}\sigma_j\)</span> .</li>
+<li><strong>Calling  <code>inv</code>  on a sample covariance with  <span class="math-inline">\(T \lesssim N\)</span> .</strong> It is singular by construction. You
+will get an answer, it will be enormous, and it will be noise.</li>
+<li><strong>Treating a correlation matrix as freely editable.</strong> Overriding one cell breaks PSD. Repair the
+whole matrix — eigendecompose, floor the eigenvalues, rebuild — or do not touch it.</li>
+<li><strong>Reading a small determinant as &quot;nearly singular&quot; without scaling.</strong> Determinants scale as the
+ <span class="math-inline">\(N\)</span> -th power, so  <span class="math-inline">\(\det\Sigma = 5\times10^{-6}\)</span>  above sounds alarming and is perfectly healthy. The
+condition number, 7.27, is the number that actually answers the question.</li></ul>
+<h2 id="30-second-revision" class="kb-h kb-h2"><a class="kb-anchor" href="#30-second-revision" aria-label="Link to this section">#</a>30-Second Revision</h2>
+<ul class="kb-list"><li>A matrix is a linear map.  <span class="math-inline">\(AB\)</span>  means &quot; <span class="math-inline">\(B\)</span>  then  <span class="math-inline">\(A\)</span> &quot; — hence  <span class="math-inline">\((AB)^{-1}=B^{-1}A^{-1}\)</span>  and
+ <span class="math-inline">\((AB)^\top = B^\top A^\top\)</span> .</li>
+<li><span class="math-inline">\(\sigma_p^2 = \mathbf w^\top\Sigma\mathbf w \ge 0\)</span>  for every  <span class="math-inline">\(\mathbf w\)</span>  <strong>is</strong> the definition of
+PSD. It is a statement about portfolios, not a technicality.</li>
+<li><span class="math-inline">\(\nabla(\mathbf a^\top\mathbf w) = \mathbf a\)</span>  and  <span class="math-inline">\(\nabla(\mathbf w^\top\Sigma\mathbf w) = 2\Sigma\mathbf w\)</span> .
+Those two give  <span class="math-inline">\(\mathbf w_{\text{mv}} = \Sigma^{-1}\1/(\1^\top\Sigma^{-1}\1)\)</span>  in three lines.</li>
+<li><span class="math-inline">\(\operatorname{tr} = \sum\lambda_i\)</span> ,  <span class="math-inline">\(\det = \prod\lambda_i\)</span> . Both are free sanity checks on an
+eigendecomposition.</li>
+<li>Symmetric  <span class="math-inline">\(\Rightarrow\)</span>   <span class="math-inline">\(\Sigma = Q\Lambda Q^\top\)</span>  with  <span class="math-inline">\(Q^\top Q = I\)</span> ; positive definite
+ <span class="math-inline">\(\Rightarrow\)</span>   <span class="math-inline">\(\Sigma = LL^\top\)</span> , and  <span class="math-inline">\(L\mathbf z\)</span>  simulates correlated returns.</li>
+<li>Rank of a sample covariance  <span class="math-inline">\(\le \min(N, T-1)\)</span> .  <span class="math-inline">\(T \le N\)</span>  means singular, always.</li>
+<li><code>solve</code>  not  <code>inv</code> ;  <code>eigh</code>  not  <code>eig</code> ; check  <span class="math-inline">\(\kappa = \lambda_{\max}/\lambda_{\min}\)</span>  before you trust
+anything.</li>
+<li>Diagonal plus rank one inverts in  <span class="math-inline">\(O(N)\)</span>  by Sherman–Morrison — measured at ~180x faster than a
+general solve at  <span class="math-inline">\(N=1{,}000\)</span> , ~4{,}900x at  <span class="math-inline">\(N=4{,}000\)</span> .</li></ul></div>
+    <section class="kb-section" id="key-formulas">
+        <h2 class="kb-h kb-h2"><a class="kb-anchor" href="#key-formulas" aria-label="Link to this section">#</a>Key Formulas</h2>
+        <div class="kb-formula-recap">
+          <a class="kb-formula-recap-item" href="#matrix-product">
+            <span class="kb-formula-recap-name">Matrix product</span>
+            <span class="math-display">\[(AB)_{ij} = \sum_{k=1}^{n} A_{ik}B_{kj}, \qquad
+\underbrace{A}_{m \times n}\underbrace{B}_{n \times p} = \underbrace{AB}_{m \times p}\]</span>
+          </a>
+          <a class="kb-formula-recap-item" href="#reversal-rules">
+            <span class="kb-formula-recap-name">Reversal rules</span>
+            <span class="math-display">\[(AB)^\top = B^\top A^\top, \qquad (AB)^{-1} = B^{-1}A^{-1}, \qquad (A^\top)^{-1} = (A^{-1})^\top\]</span>
+          </a>
+          <a class="kb-formula-recap-item" href="#quadratic-form-and-portfolio-variance">
+            <span class="kb-formula-recap-name">Quadratic form and portfolio variance</span>
+            <span class="math-display">\[\sigma_p^2 = \mathbf w^\top \Sigma\, \mathbf w = \sum_i \sum_j w_i \Sigma_{ij} w_j
+\;\ge\; 0 \quad \text{for all } \mathbf w \iff \Sigma \succeq 0\]</span>
+          </a>
+          <a class="kb-formula-recap-item" href="#inverse-and-determinant-of-a-2x2">
+            <span class="kb-formula-recap-name">Inverse and determinant of a 2x2</span>
+            <span class="math-display">\[\begin{pmatrix} a &amp; b \\ c &amp; d \end{pmatrix}^{-1}
+= \frac{1}{ad-bc}\begin{pmatrix} d &amp; -b \\ -c &amp; a \end{pmatrix},
+\qquad \det = ad - bc\]</span>
+          </a>
+          <a class="kb-formula-recap-item" href="#trace-and-determinant-from-the-spectrum">
+            <span class="kb-formula-recap-name">Trace and determinant from the spectrum</span>
+            <span class="math-display">\[\operatorname{tr}(A) = \sum_i A_{ii} = \sum_i \lambda_i, \qquad
+\det(A) = \prod_i \lambda_i, \qquad \operatorname{tr}(AB) = \operatorname{tr}(BA)\]</span>
+          </a>
+          <a class="kb-formula-recap-item" href="#spectral-decomposition">
+            <span class="kb-formula-recap-name">Spectral decomposition</span>
+            <span class="math-display">\[\Sigma = Q\Lambda Q^\top, \qquad Q^\top Q = I, \qquad
+\Lambda = \operatorname{diag}(\lambda_1,\dots,\lambda_N)\]</span>
+          </a>
+          <a class="kb-formula-recap-item" href="#cholesky-factorisation">
+            <span class="kb-formula-recap-name">Cholesky factorisation</span>
+            <span class="math-display">\[\Sigma = LL^\top, \qquad
+\mathbf r = L\mathbf z \;\text{ with }\; \mathbf z \sim N(0, I)
+\;\Longrightarrow\; \Cov(\mathbf r) = \Sigma\]</span>
+          </a>
+          <a class="kb-formula-recap-item" href="#normal-equations">
+            <span class="kb-formula-recap-name">Normal equations</span>
+            <span class="math-display">\[\hat{\boldsymbol\beta} = (X^\top X)^{-1}X^\top \mathbf y, \qquad
+X \in \R^{T\times k},\; X^\top X \in \R^{k\times k}\]</span>
+          </a>
+          <a class="kb-formula-recap-item" href="#sherman-morrison">
+            <span class="kb-formula-recap-name">Sherman-Morrison</span>
+            <span class="math-display">\[(D + \sigma^2\mathbf u\mathbf u^\top)^{-1}
+= D^{-1} - \frac{\sigma^2\,D^{-1}\mathbf u\mathbf u^\top D^{-1}}{1 + \sigma^2\,\mathbf u^\top D^{-1}\mathbf u}\]</span>
+          </a>
+          <a class="kb-formula-recap-item" href="#the-two-gradients-you-need">
+            <span class="kb-formula-recap-name">The two gradients you need</span>
+            <span class="math-display">\[\frac{\partial}{\partial \mathbf w}\big(\mathbf a^\top\mathbf w\big) = \mathbf a,
+\qquad
+\frac{\partial}{\partial \mathbf w}\big(\mathbf w^\top\Sigma\mathbf w\big) = 2\Sigma\mathbf w\]</span>
+          </a></div>
+      </section>
+    <section class="kb-section" id="interview-questions">
+        <h2 class="kb-h kb-h2"><a class="kb-anchor" href="#interview-questions" aria-label="Link to this section">#</a>Interview Questions</h2>
+        <ol class="kb-questions">
+          <li class="kb-question" id="q-matrix-algebra-q1" data-difficulty="foundational">
+            <div class="kb-question-head">
+              <span class="kb-question-text">Why is  <span class="math-inline">\(\Sigma\)</span>  required to be positive semi-definite, and what breaks if it is not?</span>
+              <span class="kb-tagline">Foundational · psd · risk · classic</span>
+            </div>
+            <details class="kb-hint"><summary>Hint</summary><div><p>What does  <span class="math-inline">\(\mathbf w^\top \Sigma \mathbf w\)</span>  mean?</p></div></details>
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>Because  <span class="math-inline">\(\mathbf w^\top \Sigma \mathbf w\)</span>  <strong>is</strong> the variance of the portfolio with weights
+ <span class="math-inline">\(\mathbf w\)</span> , and a variance cannot be negative. PSD is not a technical nicety bolted on
+afterwards — it is the same statement as &quot;every portfolio you can build from these assets has
+non-negative variance&quot;.</p>
+<p>If  <span class="math-inline">\(\Sigma\)</span>  is not PSD there exists a  <span class="math-inline">\(\mathbf w\)</span>  with  <span class="math-inline">\(\mathbf w^\top\Sigma\mathbf w &lt; 0\)</span> , and
+an optimiser will find it, because it is being asked to minimise exactly that number. The
+symptoms are recognisable: an unconstrained minimum-variance solve returns enormous offsetting
+long/short positions, reports a negative or absurdly small variance, and the &quot;risk-free
+arbitrage&quot; it claims to have found evaporates the moment you trade it.</p>
+<p>A true covariance matrix computed from a single consistent data set is always PSD. Matrices go
+non-PSD when they are <strong>assembled</strong> rather than measured: correlations pasted in by hand from
+different sources, blocks estimated over different windows, a matrix repaired one cell at a
+time, or expert overrides applied to a few entries. The worked example on this page shows the
+failure exactly — three individually plausible correlations that no three assets can
+simultaneously have.</p>
+<p>The fix is to project back onto the PSD cone: eigendecompose, floor the negative eigenvalues at
+zero (or at a small positive number), rebuild, and renormalise the diagonal back to ones if it
+is a correlation matrix. Higham&#39;s nearest-correlation-matrix algorithm does this properly.</p></div></details>
+          </li>
+          <li class="kb-question" id="q-matrix-algebra-q2" data-difficulty="intermediate">
+            <div class="kb-question-head">
+              <span class="kb-question-text">You need  <span class="math-inline">\(\Sigma^{-1}\mathbf 1\)</span>  for a minimum-variance portfolio. Do you call  <code>inv</code> ?</span>
+              <span class="kb-tagline">Intermediate · numerics · implementation · classic</span>
+            </div>
+            
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>No — you call  <code>solve</code> .  <code>np.linalg.solve(Sigma, ones)</code>  computes the same vector, and:</p>
+<ul class="kb-list"><li>It is cheaper. Forming  <span class="math-inline">\(\Sigma^{-1}\)</span>  costs roughly three times what one solve costs, and you
+then still have to do the matrix-vector multiply.</li>
+<li>It is more accurate. The explicit inverse rounds every one of the  <span class="math-inline">\(N^2\)</span>  entries, then the
+multiply rounds again; a solve factorises once and back-substitutes.</li>
+<li>It fails loudly. A singular matrix raises  <code>LinAlgError</code>  from  <code>solve</code> , where  <code>inv</code>  will
+happily return  <span class="math-inline">\(10^{16}\)</span> -sized garbage that flows straight into your weights.</li></ul>
+<p>For a covariance matrix specifically, use the Cholesky factorisation —
+ <code>scipy.linalg.cho_factor</code>  /  <code>cho_solve</code>  — which is about twice as fast again and <em>only</em>
+succeeds on a positive-definite matrix, so it doubles as a PSD check you get for free.</p>
+<p>The honest caveat: on a well-conditioned  <span class="math-inline">\(3\times3\)</span>  the difference between  <code>inv</code>  and  <code>solve</code>  is
+around  <span class="math-inline">\(10^{-16}\)</span>  and nobody will ever notice. The habit matters because the matrices that
+actually reach production are  <span class="math-inline">\(N=500\)</span>  estimated from  <span class="math-inline">\(T=250\)</span>  days, where the condition number
+is  <span class="math-inline">\(10^{17}\)</span>  and the difference is the entire answer.</p></div></details>
+          </li>
+          <li class="kb-question" id="q-matrix-algebra-q3" data-difficulty="intermediate">
+            <div class="kb-question-head">
+              <span class="kb-question-text">What is the rank of a sample covariance matrix built from  <span class="math-inline">\(T\)</span>  observations of  <span class="math-inline">\(N\)</span>  assets?</span>
+              <span class="kb-tagline">Intermediate · estimation · rank · classic · risk</span>
+            </div>
+            <details class="kb-hint"><summary>Hint</summary><div><p>Count the independent directions the data can possibly span. Do not forget the demeaning.</p></div></details>
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>At most  <span class="math-inline">\(\min(N,\,T-1)\)</span> . The  <span class="math-inline">\(-1\)</span>  is the demeaning: subtracting the sample mean costs one
+degree of freedom, so  <span class="math-inline">\(T\)</span>  observations span a space of dimension at most  <span class="math-inline">\(T-1\)</span> .</p>
+<p>So with  <span class="math-inline">\(N = 100\)</span>  assets and  <span class="math-inline">\(T = 100\)</span>  days you do <strong>not</strong> get a full-rank matrix — you get
+rank 99, a singular matrix, and an inverse that does not exist. With  <span class="math-inline">\(T = 60\)</span>  you get rank 59:
+forty-one directions in which the data claims a portfolio has <em>exactly zero</em> risk.</p>
+<p>This is the single most important practical fact about covariance estimation, and it is pure
+linear algebra rather than statistics. An optimiser handed such a matrix will pour capital into
+those apparently risk-free directions. In one run of this on random data, the unconstrained
+minimum-variance solution reported an in-sample volatility of 0.2% at 1.7x gross — a number
+that is not small, it is fictional.</p>
+<p>The responses are all ways of restoring rank: shrinkage towards a structured target
+(Ledoit–Wolf), a factor model that replaces  <span class="math-inline">\(N(N+1)/2\)</span>  free parameters with  <span class="math-inline">\(N\)</span>  betas plus
+idiosyncratic variances, random-matrix filtering of the noise eigenvalues, or simply requiring
+ <span class="math-inline">\(T \gg N\)</span> .</p></div></details>
+          </li>
+          <li class="kb-question" id="q-matrix-algebra-q4" data-difficulty="foundational">
+            <div class="kb-question-head">
+              <span class="kb-question-text">Multiply out  <span class="math-inline">\((AB)^{-1}\)</span>  and  <span class="math-inline">\((AB)^\top\)</span> . Why does the order reverse?</span>
+              <span class="kb-tagline">Foundational · identities · classic</span>
+            </div>
+            
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p> <span class="math-inline">\((AB)^{-1} = B^{-1}A^{-1}\)</span>  and  <span class="math-inline">\((AB)^\top = B^\top A^\top\)</span> .</p>
+<p>The inverse case is a one-line check:  <span class="math-inline">\((AB)(B^{-1}A^{-1}) = A(BB^{-1})A^{-1} = AA^{-1} = I\)</span> .</p>
+<p>But the <em>reason</em> is worth saying out loud, because it is what makes the rule impossible to
+forget:  <span class="math-inline">\(AB\)</span>  means &quot;do  <span class="math-inline">\(B\)</span> , then do  <span class="math-inline">\(A\)</span> &quot;. To undo it you must undo the last thing first — take
+off your shoes before your socks. Every reversal identity in linear algebra is that same
+sentence.</p>
+<p>The trap in an interview is the follow-up: <strong>does  <span class="math-inline">\((AB)^{-1} = A^{-1}B^{-1}\)</span>  ever hold?</strong> Yes,
+exactly when  <span class="math-inline">\(A\)</span>  and  <span class="math-inline">\(B\)</span>  commute. So it holds for diagonal matrices, for powers of one matrix,
+and for a matrix with the identity — which is precisely why it looks true in every small
+example someone tries in their head.</p></div></details>
+          </li>
+          <li class="kb-question" id="q-matrix-algebra-q5" data-difficulty="intermediate">
+            <div class="kb-question-head">
+              <span class="kb-question-text">Derive the gradient of  <span class="math-inline">\(\mathbf w^\top \Sigma \mathbf w\)</span>  with respect to  <span class="math-inline">\(\mathbf w\)</span> .</span>
+              <span class="kb-tagline">Intermediate · matrix-calculus · optimization · portfolio-construction</span>
+            </div>
+            
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p> <span class="math-inline">\(\nabla_{\mathbf w}\,\mathbf w^\top\Sigma\mathbf w = (\Sigma + \Sigma^\top)\mathbf w = 2\Sigma\mathbf w\)</span> ,
+the last step using the symmetry of  <span class="math-inline">\(\Sigma\)</span> .</p>
+<p>Write it in indices to be sure:  <span class="math-inline">\(f = \sum_i\sum_j w_i \Sigma_{ij} w_j\)</span> . Differentiate with
+respect to  <span class="math-inline">\(w_k\)</span>  — the variable appears in both slots, so you get two families of terms:</p>
+<span class="math-display">\[\frac{\partial f}{\partial w_k} = \sum_j \Sigma_{kj}w_j + \sum_i w_i\Sigma_{ik}
+  = (\Sigma\mathbf w)_k + (\Sigma^\top\mathbf w)_k\]</span>
+<p><strong>The factor of 2 is the whole point of the question.</strong> It is the matrix version of
+ <span class="math-inline">\(\frac{\d}{\d x}x^2 = 2x\)</span> , and dropping it is the most common slip in a whiteboard derivation
+of the efficient frontier. It cancels out of the minimum-variance weights — the Lagrange
+multiplier absorbs it — which is exactly why people get away with the error long enough to
+believe it.</p>
+<p>The companion identity is  <span class="math-inline">\(\nabla_{\mathbf w}(\mathbf a^\top \mathbf w) = \mathbf a\)</span> . Those two
+are the entire toolkit for mean-variance optimisation.</p></div></details>
+          </li>
+          <li class="kb-question" id="q-matrix-algebra-q6" data-difficulty="advanced">
+            <div class="kb-question-head">
+              <span class="kb-question-text"> <span class="math-inline">\(\Sigma = \beta\beta^\top\sigma_m^2 + D\)</span>  for 2,000 stocks. How do you get  <span class="math-inline">\(\Sigma^{-1}\mathbf b\)</span> ?</span>
+              <span class="kb-tagline">Advanced · woodbury · factor-models · numerics · performance</span>
+            </div>
+            <details class="kb-hint"><summary>Hint</summary><div><p>You are being asked to invert a diagonal matrix plus a rank-one update.</p></div></details>
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>Sherman–Morrison. Never form the  <span class="math-inline">\(2000\times2000\)</span>  matrix at all:</p>
+<span class="math-display">\[(D + \sigma_m^2\beta\beta^\top)^{-1} =
+  D^{-1} - \frac{\sigma_m^2\,D^{-1}\beta\beta^\top D^{-1}}{1 + \sigma_m^2\,\beta^\top D^{-1}\beta}\]</span>
+<p> <span class="math-inline">\(D\)</span>  is diagonal, so  <span class="math-inline">\(D^{-1}\)</span>  is  <span class="math-inline">\(N\)</span>  divisions. Everything else is dot products. The whole solve
+is  <span class="math-inline">\(O(N)\)</span>  instead of  <span class="math-inline">\(O(N^3)\)</span> , and it needs  <span class="math-inline">\(O(N)\)</span>  memory rather than  <span class="math-inline">\(O(N^2)\)</span> .</p>
+<p>Measured on this exact structure: at  <span class="math-inline">\(N = 1{,}000\)</span>  it is about 180x faster than
+ <code>np.linalg.solve</code> , at  <span class="math-inline">\(N = 4{,}000\)</span>  about 4,900x, and the two answers agree to  <span class="math-inline">\(10^{-12}\)</span> .</p>
+<p>The general case is the Woodbury identity, for  <span class="math-inline">\(K\)</span>  factors instead of one: the only matrix you
+ever invert is  <span class="math-inline">\(K\times K\)</span> . This is why factor risk models are not merely a statistical device
+for beating the  <span class="math-inline">\(T &lt; N\)</span>  problem — they are also what makes the optimisation tractable at
+universe scale.</p>
+<p><strong>The follow-up:</strong> what if  <span class="math-inline">\(1 + \sigma_m^2\beta^\top D^{-1}\beta\)</span>  is near zero? Then  <span class="math-inline">\(\Sigma\)</span>  is
+near-singular and the formula amplifies error — but notice that the denominator is a sum of
+positive terms whenever  <span class="math-inline">\(D\)</span>  is a positive diagonal, so for a covariance matrix of this form it
+is safely bounded away from zero. The formula is dangerous in general and safe here, and
+knowing which is the point.</p></div></details>
+          </li>
+          <li class="kb-question" id="q-matrix-algebra-q7" data-difficulty="intermediate">
+            <div class="kb-question-head">
+              <span class="kb-question-text">What does the determinant of a correlation matrix tell you?</span>
+              <span class="kb-tagline">Intermediate · determinant · psd · risk · interpretation</span>
+            </div>
+            
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>It measures how much independent information the assets carry.  <span class="math-inline">\(\det \mathbf P = 1\)</span>  means
+perfectly uncorrelated;  <span class="math-inline">\(\det \mathbf P = 0\)</span>  means at least one asset is an exact linear
+combination of the others; and  <span class="math-inline">\(\det \mathbf P &lt; 0\)</span>  for a symmetric unit-diagonal matrix means
+the numbers you were given are <strong>not correlations at all</strong>, because no set of random variables
+can produce them.</p>
+<p>Geometrically the determinant is the squared volume of the parallelepiped spanned by the
+standardised return vectors. Redundant assets flatten that solid towards zero volume.</p>
+<p>For three assets there is a closed form worth remembering:</p>
+<span class="math-display">\[\det \mathbf P = 1 + 2\rho_{12}\rho_{13}\rho_{23} - \rho_{12}^2 - \rho_{13}^2 - \rho_{23}^2\]</span>
+<p>Set it to zero and you get the exact boundary of the admissible region. With
+ <span class="math-inline">\(\rho_{13} = -0.2\)</span>  and  <span class="math-inline">\(\rho_{23} = 0.1\)</span>  fixed,  <span class="math-inline">\(\rho_{12}\)</span>  can be no larger than
+ <span class="math-inline">\(0.9549\)</span>  — the worked example on this page walks through what happens at  <span class="math-inline">\(0.99\)</span> .</p></div></details>
+          </li>
+          <li class="kb-question" id="q-matrix-algebra-q8" data-difficulty="foundational">
+            <div class="kb-question-head">
+              <span class="kb-question-text">Give a  <span class="math-inline">\(2\times2\)</span>  example where  <span class="math-inline">\(AB \ne BA\)</span> , then say when matrices do commute.</span>
+              <span class="kb-tagline">Foundational · identities · classic</span>
+            </div>
+            
+            <details class="kb-answer"><summary>Answer</summary><div class="kb-answer-body"><p>The smallest honest pair is the two elementary shears:</p>
+<span class="math-display">\[A=\begin{pmatrix}1&amp;1\\0&amp;1\end{pmatrix},\quad B=\begin{pmatrix}1&amp;0\\1&amp;1\end{pmatrix},\quad
+  AB=\begin{pmatrix}2&amp;1\\1&amp;1\end{pmatrix},\quad BA=\begin{pmatrix}1&amp;1\\1&amp;2\end{pmatrix}\]</span>
+<p>Composition of maps is order-dependent in the same way rotating then translating differs from
+translating then rotating.</p>
+<p>Matrices commute when they share a common eigenbasis — which covers the cases that come up in
+practice: diagonal matrices, powers and polynomials of a single matrix, a matrix with the
+identity or with any scalar multiple of it, and two symmetric matrices that are simultaneously
+diagonalisable.</p>
+<p>Where it bites:  <span class="math-inline">\(\operatorname{diag}(\boldsymbol\sigma)\mathbf P\operatorname{diag}(\boldsymbol\sigma)\)</span> 
+is the covariance matrix, and you cannot collect the two diagonal factors into
+ <span class="math-inline">\(\operatorname{diag}(\boldsymbol\sigma)^2 \mathbf P\)</span> . One scales the rows, the other scales the
+columns, and  <span class="math-inline">\(\Sigma_{ij} = \sigma_i\rho_{ij}\sigma_j\)</span>  needs both.</p></div></details>
+          </li></ol>
+      </section>
+
+    <section class="kb-section" id="connections">
+      <h2 class="kb-h kb-h2"><a class="kb-anchor" href="#connections" aria-label="Link to this section">#</a>Connections</h2>
+      <div class="kb-connections">
+        
+        <section class="kb-relgroup"><h3>Builds towards</h3><p class="kb-relnote">Concepts that depend on this one.</p><ul class="kb-rellist"><li><a href="../concepts/pca-and-eigenportfolios.html" class="kb-relitem">
+          <span class="kb-relitem-title">PCA &amp; Eigenportfolios</span>
+          <span class="kb-relitem-meta">Linear Algebra · Intermediate</span>
+          <span class="kb-relitem-sum">The spectral decomposition rewrites a correlated universe as a set of uncorrelated principal portfolios — the eigenvectors are the independent directions of risk and the eigenvalues are how much risk lives in each.</span>
+        </a></li></ul></section>
+        <section class="kb-relgroup"><h3>Related</h3><ul class="kb-rellist"><li><a href="../concepts/covariance-and-correlation.html" class="kb-relitem">
+          <span class="kb-relitem-title">Covariance &amp; Correlation</span>
+          <span class="kb-relitem-meta">Statistics · Foundational</span>
+          <span class="kb-relitem-sum">Covariance measures how two variables move together in raw units; correlation normalises it to [-1, 1] — together they determine whether combining two positions reduces risk or concentrates it.</span>
+        </a></li><li><a href="../concepts/pca-and-eigenportfolios.html" class="kb-relitem">
+          <span class="kb-relitem-title">PCA &amp; Eigenportfolios</span>
+          <span class="kb-relitem-meta">Linear Algebra · Intermediate</span>
+          <span class="kb-relitem-sum">The spectral decomposition rewrites a correlated universe as a set of uncorrelated principal portfolios — the eigenvectors are the independent directions of risk and the eigenvalues are how much risk lives in each.</span>
+        </a></li><li><a href="../concepts/linear-regression.html" class="kb-relitem">
+          <span class="kb-relitem-title">Linear Regression</span>
+          <span class="kb-relitem-meta">Statistics · Intermediate</span>
+          <span class="kb-relitem-sum">The projection of a target onto the span of its predictors — the estimator behind every beta, factor loading and hedge ratio in finance, and the one whose assumptions market data violates most reliably.</span>
+        </a></li><li><a href="../concepts/variance.html" class="kb-relitem">
+          <span class="kb-relitem-title">Variance</span>
+          <span class="kb-relitem-meta">Statistics · Foundational</span>
+          <span class="kb-relitem-sum">The expected squared deviation from the mean — the second moment that turns a return forecast into a position size, and the quantity that does not add when you combine assets.</span>
+        </a></li><li><a href="../concepts/effective-number-of-bets.html" class="kb-relitem">
+          <span class="kb-relitem-title">Effective Number of Bets</span>
+          <span class="kb-relitem-meta">Risk Management · Intermediate</span>
+          <span class="kb-relitem-sum">Diversification is not the number of assets you hold but the number of independent risks you actually bear — measured by the effective dimension of the covariance spectrum and by the entropy of a portfolio&#39;s risk contributions across uncorrelated directions.</span>
+        </a></li></ul></section>
+        
+      </div>
+      <figure class="kb-neighbourhood">
+        <canvas data-kb-minimap="matrix-algebra" width="760" height="300" aria-label="Local knowledge graph"></canvas>
+        <figcaption>Two hops out from this concept.
+          <a class="kb-side-more" href="../graph.html?focus=matrix-algebra">Open full graph →</a></figcaption>
+      </figure>
+      <div class="kb-references"><h3>References</h3><ul><li>Strang, *Introduction to Linear Algebra*, ch. 1-6</li><li>Petersen &amp; Pedersen, *The Matrix Cookbook* (2012) — the identity reference</li><li>Golub &amp; Van Loan, *Matrix Computations*, 4th ed. — conditioning and factorisations</li><li>Trefethen &amp; Bau, *Numerical Linear Algebra* — why you solve rather than invert</li></ul></div>
+    </section>
+
+    <nav class="kb-prevnext" aria-label="Concept navigation">
+    <span></span>
+    <a class="kb-prevnext-item kb-prevnext-up" href="../subjects/linear-algebra.html">
+      <span class="kb-prevnext-label">Subject</span><span>Linear Algebra</span></a>
+    <a class="kb-prevnext-item kb-prevnext-next" href="../concepts/pca-and-eigenportfolios.html" rel="next">
+      <span class="kb-prevnext-label">Next →</span><span>PCA &amp; Eigenportfolios</span></a>
+  </nav>
+    <footer class="kb-source-note">
+      Source: <code>content/concepts/matrix-algebra.md</code> · updated 2026-09-07
+    </footer>
+  </article>
+
+  <!-- The rail sits in the left column but comes last in the source: the
+       article is what a reader (or a screen reader) wants first, and the
+       links here are a way back into it rather than a way into the page. -->
+  <aside class="kb-rail">
+    <nav class="kb-toc kb-rail-group" aria-label="On this page"><h3>On this page</h3><ol><li><a href="#intuition">Intuition</a></li><li><a href="#mathematical-formulation">Mathematical Formulation</a></li><li><a href="#derivation">Derivation</a></li><li><a href="#assumptions-edge-cases">Assumptions &amp; Edge Cases</a></li><li><a href="#worked-example">Worked Example</a></li><li><a href="#why-it-matters-in-quant-finance">Why It Matters in Quant Finance</a></li><li><a href="#trading-research-application">Trading &amp; Research Application</a></li><li><a href="#implementation-notes">Implementation Notes</a></li><li><a href="#common-mistakes">Common Mistakes</a></li><li><a href="#30-second-revision">30-Second Revision</a></li><li><a href="#key-formulas">Key Formulas</a></li><li><a href="#interview-questions">Interview Questions</a></li><li><a href="#connections">Connections</a></li></ol></nav>
+    <nav class="kb-rail-group" id="side-formulas" aria-label="Key formulas"><h3>Formulas</h3><ul><li><a href="#matrix-product">Matrix product</a></li><li><a href="#reversal-rules">Reversal rules</a></li><li><a href="#quadratic-form-and-portfolio-variance">Quadratic form and portfolio variance</a></li><li><a href="#inverse-and-determinant-of-a-2x2">Inverse and determinant of a 2x2</a></li><li><a href="#trace-and-determinant-from-the-spectrum">Trace and determinant from the spectrum</a></li><li><a href="#spectral-decomposition">Spectral decomposition</a></li><li><a href="#cholesky-factorisation">Cholesky factorisation</a></li><li><a href="#normal-equations">Normal equations</a></li><li><a href="#sherman-morrison">Sherman-Morrison</a></li><li><a href="#the-two-gradients-you-need">The two gradients you need</a></li></ul></nav>
+  </aside>
+</main>
+<script src="../data/kb.data.js?v=0590fc75"></script>
+<script src="../data/search.index.js?v=3759c0c2"></script>
+<script src="../assets/js/kb-core.js?v=a4c20d2d"></script>
+<script src="../assets/js/kb-ui.js?v=e9a49aaf"></script>
+<script src="../assets/vendor/katex/katex.min.js" defer></script>
+<script src="../assets/vendor/katex/auto-render.min.js" defer></script>
+<script src="../assets/js/math.js?v=44b57f03" defer></script>
+<script src="../assets/js/concept.js?v=c6248b59" defer></script>
+</body>
+</html>

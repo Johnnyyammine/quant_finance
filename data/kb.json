@@ -1,6 +1,6 @@
 {
-  "contentHash": "6c283e25b67c",
-  "contentUpdated": "2026-09-04",
+  "contentHash": "bb3299d07ef6",
+  "contentUpdated": "2026-09-07",
   "version": 1,
   "vocab": {
     "difficulty": [
@@ -105,7 +105,7 @@
       "group": "mathematics",
       "order": 30,
       "path": "subjects/linear-algebra.html",
-      "conceptCount": 1,
+      "conceptCount": 2,
       "interviewMax": 5
     },
     {
@@ -409,6 +409,7 @@
         "expectation",
         "itos-lemma",
         "linear-regression",
+        "matrix-algebra",
         "pca-and-eigenportfolios",
         "sharpe-ratio",
         "variance",
@@ -462,6 +463,7 @@
       "minRelevance": 2,
       "order": 30,
       "conceptIds": [
+        "matrix-algebra",
         "pca-and-eigenportfolios",
         "forwards-and-futures"
       ]
@@ -615,7 +617,15 @@
       "count": 5
     },
     {
+      "id": "conditioning",
+      "count": 3
+    },
+    {
       "id": "diversification",
+      "count": 3
+    },
+    {
+      "id": "eigenvalues",
       "count": 3
     },
     {
@@ -624,6 +634,10 @@
     },
     {
       "id": "gamma",
+      "count": 3
+    },
+    {
+      "id": "linear-algebra",
       "count": 3
     },
     {
@@ -651,15 +665,7 @@
       "count": 2
     },
     {
-      "id": "conditioning",
-      "count": 2
-    },
-    {
       "id": "diffusion",
-      "count": 2
-    },
-    {
-      "id": "eigenvalues",
       "count": 2
     },
     {
@@ -675,11 +681,11 @@
       "count": 2
     },
     {
-      "id": "linear-algebra",
+      "id": "moments",
       "count": 2
     },
     {
-      "id": "moments",
+      "id": "ols",
       "count": 2
     },
     {
@@ -731,6 +737,10 @@
       "count": 1
     },
     {
+      "id": "cholesky",
+      "count": 1
+    },
+    {
       "id": "collar",
       "count": 1
     },
@@ -771,6 +781,10 @@
       "count": 1
     },
     {
+      "id": "determinant",
+      "count": 1
+    },
+    {
       "id": "dimensionality-reduction",
       "count": 1
     },
@@ -807,6 +821,10 @@
       "count": 1
     },
     {
+      "id": "inverse",
+      "count": 1
+    },
+    {
       "id": "ito",
       "count": 1
     },
@@ -827,11 +845,15 @@
       "count": 1
     },
     {
-      "id": "moneyness",
+      "id": "matrices",
       "count": 1
     },
     {
-      "id": "ols",
+      "id": "matrix-calculus",
+      "count": 1
+    },
+    {
+      "id": "moneyness",
       "count": 1
     },
     {
@@ -856,6 +878,14 @@
     },
     {
       "id": "portfolio-construction",
+      "count": 1
+    },
+    {
+      "id": "psd",
+      "count": 1
+    },
+    {
+      "id": "quadratic-form",
       "count": 1
     },
     {
@@ -940,6 +970,10 @@
     },
     {
       "id": "wiener-process",
+      "count": 1
+    },
+    {
+      "id": "woodbury",
       "count": 1
     }
   ],
@@ -1106,6 +1140,11 @@
     },
     {
       "from": "covariance-and-correlation",
+      "to": "matrix-algebra",
+      "type": "related"
+    },
+    {
+      "from": "covariance-and-correlation",
       "to": "kelly-criterion",
       "type": "related"
     },
@@ -1132,6 +1171,11 @@
     {
       "from": "effective-number-of-bets",
       "to": "kelly-criterion",
+      "type": "related"
+    },
+    {
+      "from": "effective-number-of-bets",
+      "to": "matrix-algebra",
       "type": "related"
     },
     {
@@ -1246,6 +1290,11 @@
     },
     {
       "from": "linear-regression",
+      "to": "matrix-algebra",
+      "type": "related"
+    },
+    {
+      "from": "linear-regression",
       "to": "pca-and-eigenportfolios",
       "type": "related"
     },
@@ -1260,6 +1309,16 @@
       "type": "prerequisite"
     },
     {
+      "from": "matrix-algebra",
+      "to": "pca-and-eigenportfolios",
+      "type": "related"
+    },
+    {
+      "from": "matrix-algebra",
+      "to": "variance",
+      "type": "related"
+    },
+    {
       "from": "black-scholes-formula",
       "to": "option-greeks",
       "type": "prerequisite"
@@ -1271,6 +1330,11 @@
     },
     {
       "from": "covariance-and-correlation",
+      "to": "pca-and-eigenportfolios",
+      "type": "prerequisite"
+    },
+    {
+      "from": "matrix-algebra",
       "to": "pca-and-eigenportfolios",
       "type": "prerequisite"
     },
@@ -2308,6 +2372,7 @@
       "related": [
         "linear-regression",
         "sharpe-ratio",
+        "matrix-algebra",
         "kelly-criterion",
         "variance"
       ],
@@ -2497,6 +2562,7 @@
       "related": [
         "sharpe-ratio",
         "kelly-criterion",
+        "matrix-algebra",
         "pca-and-eigenportfolios"
       ],
       "builtOn": [],
@@ -3771,6 +3837,7 @@
       "related": [
         "expectation",
         "sharpe-ratio",
+        "matrix-algebra",
         "bayes-theorem",
         "conditional-probability",
         "covariance-and-correlation",
@@ -4103,6 +4170,296 @@
       ]
     },
     {
+      "id": "matrix-algebra",
+      "title": "Matrix Algebra",
+      "subject": "linear-algebra",
+      "summary": "A matrix is a linear map, and every identity worth memorising is a fact about composing maps — the reversal rule, the quadratic form, the spectral decomposition and the two gradients that turn portfolio construction into one line of algebra.",
+      "difficulty": "foundational",
+      "interviewRelevance": 5,
+      "tags": [
+        "linear-algebra",
+        "matrices",
+        "quadratic-form",
+        "eigenvalues",
+        "cholesky",
+        "matrix-calculus",
+        "inverse",
+        "determinant",
+        "psd",
+        "conditioning",
+        "woodbury",
+        "ols"
+      ],
+      "prerequisites": [],
+      "related": [
+        "covariance-and-correlation",
+        "pca-and-eigenportfolios",
+        "linear-regression",
+        "variance",
+        "effective-number-of-bets"
+      ],
+      "builtOn": [
+        "pca-and-eigenportfolios"
+      ],
+      "tracks": [],
+      "path": "concepts/matrix-algebra.html",
+      "updated": "2026-09-07",
+      "modules": [],
+      "sections": [
+        {
+          "id": "intuition",
+          "label": "Intuition"
+        },
+        {
+          "id": "mathematical-formulation",
+          "label": "Mathematical Formulation"
+        },
+        {
+          "id": "derivation",
+          "label": "Derivation"
+        },
+        {
+          "id": "assumptions-edge-cases",
+          "label": "Assumptions & Edge Cases"
+        },
+        {
+          "id": "worked-example",
+          "label": "Worked Example"
+        },
+        {
+          "id": "why-it-matters-in-quant-finance",
+          "label": "Why It Matters in Quant Finance"
+        },
+        {
+          "id": "trading-research-application",
+          "label": "Trading & Research Application"
+        },
+        {
+          "id": "implementation-notes",
+          "label": "Implementation Notes"
+        },
+        {
+          "id": "common-mistakes",
+          "label": "Common Mistakes"
+        },
+        {
+          "id": "30-second-revision",
+          "label": "30-Second Revision"
+        }
+      ],
+      "formulas": [
+        {
+          "id": "matrix-product",
+          "name": "Matrix product",
+          "latex": "(AB)_{ij} = \\sum_{k=1}^{n} A_{ik}B_{kj}, \\qquad\n\\underbrace{A}_{m \\times n}\\underbrace{B}_{n \\times p} = \\underbrace{AB}_{m \\times p}",
+          "usedIn": [
+            "Everywhere"
+          ]
+        },
+        {
+          "id": "reversal-rules",
+          "name": "Reversal rules",
+          "latex": "(AB)^\\top = B^\\top A^\\top, \\qquad (AB)^{-1} = B^{-1}A^{-1}, \\qquad (A^\\top)^{-1} = (A^{-1})^\\top",
+          "usedIn": [
+            "Derivations",
+            "Hedging",
+            "Regression"
+          ]
+        },
+        {
+          "id": "quadratic-form-and-portfolio-variance",
+          "name": "Quadratic form and portfolio variance",
+          "latex": "\\sigma_p^2 = \\mathbf w^\\top \\Sigma\\, \\mathbf w = \\sum_i \\sum_j w_i \\Sigma_{ij} w_j\n\\;\\ge\\; 0 \\quad \\text{for all } \\mathbf w \\iff \\Sigma \\succeq 0",
+          "usedIn": [
+            "Risk Management",
+            "Portfolio Construction"
+          ]
+        },
+        {
+          "id": "inverse-and-determinant-of-a-2x2",
+          "name": "Inverse and determinant of a 2x2",
+          "latex": "\\begin{pmatrix} a & b \\\\ c & d \\end{pmatrix}^{-1}\n= \\frac{1}{ad-bc}\\begin{pmatrix} d & -b \\\\ -c & a \\end{pmatrix},\n\\qquad \\det = ad - bc",
+          "usedIn": [
+            "Mental Math",
+            "Interviews"
+          ]
+        },
+        {
+          "id": "trace-and-determinant-from-the-spectrum",
+          "name": "Trace and determinant from the spectrum",
+          "latex": "\\operatorname{tr}(A) = \\sum_i A_{ii} = \\sum_i \\lambda_i, \\qquad\n\\det(A) = \\prod_i \\lambda_i, \\qquad \\operatorname{tr}(AB) = \\operatorname{tr}(BA)",
+          "usedIn": [
+            "Diagnostics",
+            "PCA"
+          ]
+        },
+        {
+          "id": "spectral-decomposition",
+          "name": "Spectral decomposition",
+          "latex": "\\Sigma = Q\\Lambda Q^\\top, \\qquad Q^\\top Q = I, \\qquad\n\\Lambda = \\operatorname{diag}(\\lambda_1,\\dots,\\lambda_N)",
+          "usedIn": [
+            "PCA",
+            "Risk Models",
+            "Simulation"
+          ]
+        },
+        {
+          "id": "cholesky-factorisation",
+          "name": "Cholesky factorisation",
+          "latex": "\\Sigma = LL^\\top, \\qquad\n\\mathbf r = L\\mathbf z \\;\\text{ with }\\; \\mathbf z \\sim N(0, I)\n\\;\\Longrightarrow\\; \\Cov(\\mathbf r) = \\Sigma",
+          "usedIn": [
+            "Monte Carlo",
+            "Simulation",
+            "Risk"
+          ]
+        },
+        {
+          "id": "normal-equations",
+          "name": "Normal equations",
+          "latex": "\\hat{\\boldsymbol\\beta} = (X^\\top X)^{-1}X^\\top \\mathbf y, \\qquad\nX \\in \\R^{T\\times k},\\; X^\\top X \\in \\R^{k\\times k}",
+          "usedIn": [
+            "Regression",
+            "Factor Models",
+            "Hedging"
+          ]
+        },
+        {
+          "id": "sherman-morrison",
+          "name": "Sherman-Morrison",
+          "latex": "(D + \\sigma^2\\mathbf u\\mathbf u^\\top)^{-1}\n= D^{-1} - \\frac{\\sigma^2\\,D^{-1}\\mathbf u\\mathbf u^\\top D^{-1}}{1 + \\sigma^2\\,\\mathbf u^\\top D^{-1}\\mathbf u}",
+          "usedIn": [
+            "Factor Models",
+            "Kalman Filters",
+            "Fast Optimisation"
+          ]
+        },
+        {
+          "id": "the-two-gradients-you-need",
+          "name": "The two gradients you need",
+          "latex": "\\frac{\\partial}{\\partial \\mathbf w}\\big(\\mathbf a^\\top\\mathbf w\\big) = \\mathbf a,\n\\qquad\n\\frac{\\partial}{\\partial \\mathbf w}\\big(\\mathbf w^\\top\\Sigma\\mathbf w\\big) = 2\\Sigma\\mathbf w",
+          "usedIn": [
+            "Optimization",
+            "Portfolio Construction"
+          ]
+        }
+      ],
+      "questions": [
+        {
+          "id": "matrix-algebra-q1",
+          "question": "Why is $\\Sigma$ required to be positive semi-definite, and what breaks if it is not?",
+          "difficulty": "foundational",
+          "tags": [
+            "psd",
+            "risk",
+            "classic"
+          ],
+          "concept": "matrix-algebra",
+          "subject": "linear-algebra",
+          "hasAnswer": true,
+          "path": "concepts/matrix-algebra.html#q-matrix-algebra-q1"
+        },
+        {
+          "id": "matrix-algebra-q2",
+          "question": "You need $\\Sigma^{-1}\\mathbf 1$ for a minimum-variance portfolio. Do you call `inv`?",
+          "difficulty": "intermediate",
+          "tags": [
+            "numerics",
+            "implementation",
+            "classic"
+          ],
+          "concept": "matrix-algebra",
+          "subject": "linear-algebra",
+          "hasAnswer": true,
+          "path": "concepts/matrix-algebra.html#q-matrix-algebra-q2"
+        },
+        {
+          "id": "matrix-algebra-q3",
+          "question": "What is the rank of a sample covariance matrix built from $T$ observations of $N$ assets?",
+          "difficulty": "intermediate",
+          "tags": [
+            "estimation",
+            "rank",
+            "classic",
+            "risk"
+          ],
+          "concept": "matrix-algebra",
+          "subject": "linear-algebra",
+          "hasAnswer": true,
+          "path": "concepts/matrix-algebra.html#q-matrix-algebra-q3"
+        },
+        {
+          "id": "matrix-algebra-q4",
+          "question": "Multiply out $(AB)^{-1}$ and $(AB)^\\top$. Why does the order reverse?",
+          "difficulty": "foundational",
+          "tags": [
+            "identities",
+            "classic"
+          ],
+          "concept": "matrix-algebra",
+          "subject": "linear-algebra",
+          "hasAnswer": true,
+          "path": "concepts/matrix-algebra.html#q-matrix-algebra-q4"
+        },
+        {
+          "id": "matrix-algebra-q5",
+          "question": "Derive the gradient of $\\mathbf w^\\top \\Sigma \\mathbf w$ with respect to $\\mathbf w$.",
+          "difficulty": "intermediate",
+          "tags": [
+            "matrix-calculus",
+            "optimization",
+            "portfolio-construction"
+          ],
+          "concept": "matrix-algebra",
+          "subject": "linear-algebra",
+          "hasAnswer": true,
+          "path": "concepts/matrix-algebra.html#q-matrix-algebra-q5"
+        },
+        {
+          "id": "matrix-algebra-q6",
+          "question": "$\\Sigma = \\beta\\beta^\\top\\sigma_m^2 + D$ for 2,000 stocks. How do you get $\\Sigma^{-1}\\mathbf b$?",
+          "difficulty": "advanced",
+          "tags": [
+            "woodbury",
+            "factor-models",
+            "numerics",
+            "performance"
+          ],
+          "concept": "matrix-algebra",
+          "subject": "linear-algebra",
+          "hasAnswer": true,
+          "path": "concepts/matrix-algebra.html#q-matrix-algebra-q6"
+        },
+        {
+          "id": "matrix-algebra-q7",
+          "question": "What does the determinant of a correlation matrix tell you?",
+          "difficulty": "intermediate",
+          "tags": [
+            "determinant",
+            "psd",
+            "risk",
+            "interpretation"
+          ],
+          "concept": "matrix-algebra",
+          "subject": "linear-algebra",
+          "hasAnswer": true,
+          "path": "concepts/matrix-algebra.html#q-matrix-algebra-q7"
+        },
+        {
+          "id": "matrix-algebra-q8",
+          "question": "Give a $2\\times2$ example where $AB \\ne BA$, then say when matrices do commute.",
+          "difficulty": "foundational",
+          "tags": [
+            "identities",
+            "classic"
+          ],
+          "concept": "matrix-algebra",
+          "subject": "linear-algebra",
+          "hasAnswer": true,
+          "path": "concepts/matrix-algebra.html#q-matrix-algebra-q8"
+        }
+      ]
+    },
+    {
       "id": "option-greeks",
       "title": "Option Greeks",
       "subject": "options",
@@ -4375,11 +4732,13 @@
         "diversification"
       ],
       "prerequisites": [
-        "covariance-and-correlation"
+        "covariance-and-correlation",
+        "matrix-algebra"
       ],
       "related": [
         "linear-regression",
-        "effective-number-of-bets"
+        "effective-number-of-bets",
+        "matrix-algebra"
       ],
       "builtOn": [
         "effective-number-of-bets"
@@ -5267,7 +5626,8 @@
         "covariance-and-correlation",
         "sharpe-ratio",
         "expectation",
-        "itos-lemma"
+        "itos-lemma",
+        "matrix-algebra"
       ],
       "builtOn": [
         "brownian-motion",
@@ -5432,9 +5792,9 @@
     }
   ],
   "stats": {
-    "concepts": 20,
+    "concepts": 21,
     "subjects": 24,
-    "formulas": 92,
-    "questions": 118
+    "formulas": 102,
+    "questions": 126
   }
 }
